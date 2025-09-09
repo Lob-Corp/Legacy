@@ -24,7 +24,8 @@ class ConsanguinityRate():
 
     def __eq__(self, other: object) -> bool:
         if not isinstance(other, ConsanguinityRate):
-            raise TypeError("Can only compare ConsanguinityRate with ConsanguinityRate")
+            raise TypeError(
+                "Can only compare ConsanguinityRate with ConsanguinityRate")
         return self.__fix_value == other.__fix_value
 
     def __ne__(self, value: object) -> bool:
@@ -32,12 +33,14 @@ class ConsanguinityRate():
 
     def __gt__(self, other: object) -> bool:
         if not isinstance(other, ConsanguinityRate):
-            raise TypeError("Can only compare ConsanguinityRate with ConsanguinityRate")
+            raise TypeError(
+                "Can only compare ConsanguinityRate with ConsanguinityRate")
         return self.__fix_value > other.__fix_value
 
     def __lt__(self, other: object) -> bool:
         if not isinstance(other, ConsanguinityRate):
-            raise TypeError("Can only compare ConsanguinityRate with ConsanguinityRate")
+            raise TypeError(
+                "Can only compare ConsanguinityRate with ConsanguinityRate")
         return self.__fix_value < other.__fix_value
 
     def __ge__(self, other: object) -> bool:
