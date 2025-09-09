@@ -208,3 +208,4 @@ __marimo__/
 
 # Exclude legacy
 !legacy/*
+tests/golden_master/records
