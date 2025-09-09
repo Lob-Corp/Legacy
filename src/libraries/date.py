@@ -77,3 +77,4 @@ class CalendarDate:
 
 
 Date = CalendarDate | str
+"""Type representing a date, which can be either a structured CalendarDate or a free-form string."""

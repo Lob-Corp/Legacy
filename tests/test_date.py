@@ -2,6 +2,10 @@ import pytest
 
 from date import *
 
+def test_precision_instantiation():
+    with pytest.raises(NotImplementedError):
+        _ = Precision()
+
 def test_sure_instantiation():
     p = Sure()
     assert isinstance(p, Sure)
