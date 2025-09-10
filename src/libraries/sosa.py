@@ -1,5 +1,7 @@
 import math
+from functools import total_ordering
 
+@total_ordering
 class Sosa:
     def __init__(self, value: int):
         if value < 0:
@@ -14,55 +16,48 @@ class Sosa:
     def one():
         return Sosa(1)
 
-    def eq(self, other):
+    def __eq__(self, other):
+        if not isinstance(other, Sosa):
+            return NotImplemented
         return self.value == other.value
 
-    def gt(self, other):
+    def __gt__(self, other):
+        if not isinstance(other, Sosa):
+            return NotImplemented
         return self.value > other.value
 
-    def compare(self, other):
-        return (self.value > other.value) - (self.value < other.value)
-
-    def add(self, other):
+    def __add__(self, other):
         return Sosa(self.value + other.value)
 
-    def sub(self, other):
+    def __sub__(self, other):
         if self.value < other.value:
             raise ValueError("Result would be negative")
         return Sosa(self.value - other.value)
 
-    def twice(self):
-        return Sosa(self.value * 2)
-
-    def half(self):
-        return Sosa(self.value // 2)
-
-    def even(self):
-        return self.value % 2 == 0
-
-    def inc(self, increment: int):
-        return Sosa(self.value + increment)
-
-    def mul(self, n: int):
+    def __mul__(self, n: int):
         return Sosa(self.value * n)
 
-    def exp(self, n: int):
-        return Sosa(pow(self.value, n))
-
-    def div(self, n: int):
+    def __floordiv__(self, n: int):
         if n == 0:
             raise ZeroDivisionError()
         return Sosa(self.value // n)
 
-    def modl(self, n: int):
+    def __mod__(self, n: int):
         if n == 0:
             raise ZeroDivisionError()
         return Sosa(self.value % n)
 
+    def __pow__(self, n: int):
+        return Sosa(pow(self.value, n))
+
+    def __str__(self):
+        return str(self.value)
+
+    def __repr__(self):
+        return f"Sosa({self.value})"
+
     def gen(self):
-        if self.value == 0:
-            return 0
-        return math.floor(math.log2(self.value)) + 1
+        return 0 if self.value == 0 else math.floor(math.log2(self.value)) + 1
 
     def branches(self):
         x = self.value
@@ -79,9 +74,6 @@ class Sosa:
     @staticmethod
     def of_string(s: str):
         return Sosa(int(s))
-
-    def to_string(self):
-        return str(self.value)
 
     def to_string_sep(self, sep: str):
         s = str(self.value)
