@@ -102,3 +102,32 @@ def test_conversions_and_str():
 
     assert Sosa(1234567).to_string_sep(",") == "1,234,567"
     assert Sosa(1234567).to_string_sep(" ") == "1 234 567"
+
+def test_family_methods() -> None:
+    s: Sosa = Sosa(3)
+
+    assert s.father() == Sosa(6)
+    assert s.mother() == Sosa(7)
+    assert s.child() == Sosa(1)
+
+def test_family_relations():
+    s1 = Sosa(1)
+    s2 = Sosa(2)
+    s3 = Sosa(3)
+
+    assert s1.father().value == 2
+    assert s1.mother().value == 3
+
+    assert s2.child().value == 1
+    assert s3.child().value == 1
+    assert Sosa(6).child().value == 3
+
+    with pytest.raises(ValueError):
+        Sosa(0).father()
+    with pytest.raises(ValueError):
+        Sosa(0).mother()
+    with pytest.raises(ValueError):
+        Sosa(0).child()
+
+    with pytest.raises(ValueError):
+        s1.child()
