@@ -4,7 +4,7 @@ from date import *
 
 def test_precision_instantiation():
     with pytest.raises(NotImplementedError):
-        _ = Precision()
+        _ = PrecisionBase()
 
 def test_sure_instantiation():
     p = Sure()

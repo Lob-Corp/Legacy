@@ -1,4 +1,5 @@
 import pytest
+from date import Calendar
 from familly import *
 
 
@@ -79,3 +80,25 @@ def test_getitem_out_of_range():
     p = Parents([1])
     with pytest.raises(AssertionError):
         _ = p[5]
+
+# DivorceStatusBase hierarchy
+def test_divorcestatusbase_cannot_instantiate():
+    with pytest.raises(NotImplementedError):
+        DivorceStatusBase()
+
+def test_notdivorced_instantiation():
+    nd = NotDivorced()
+    assert isinstance(nd, NotDivorced)
+    assert isinstance(nd, DivorceStatusBase)
+
+def test_divorced_instantiation_and_date():
+    date = (Calendar.GREGORIAN, 123)
+    d = Divorced(date)
+    assert isinstance(d, Divorced)
+    assert d.divorce_date == date
+
+def test_separated_instantiation():
+    s = Separated()
+    assert isinstance(s, Separated)
+    assert isinstance(s, DivorceStatusBase)
+

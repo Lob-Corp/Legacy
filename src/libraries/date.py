@@ -1,6 +1,7 @@
 from ctypes import Union
 from dataclasses import dataclass
 from enum import Enum
+from typing import Tuple, TypeAlias
 
 
 class Calendar(Enum):
@@ -10,10 +11,10 @@ class Calendar(Enum):
     HEBREW = "hebrew"
 
 
-class Precision:
+class PrecisionBase:
     def __init__(self):
         raise NotImplementedError(
-            "Precision is a base class and cannot be instantiated directly. Use one of its subclasses instead.")
+            "PrecisionBase is a base class and cannot be instantiated directly. Use one of its subclasses instead.")
 
 
 @dataclass(frozen=True)
@@ -21,39 +22,39 @@ class DateValue:
     day: int
     month: int
     year: int
-    prec: Precision | None
+    prec: PrecisionBase | None
     delta: int
 
 # Precision variants without extra data
 
 
-class Sure(Precision):
+class Sure(PrecisionBase):
     def __init__(self):
         pass
 
 
-class About(Precision):
+class About(PrecisionBase):
     def __init__(self):
         pass
 
 
-class Maybe(Precision):
+class Maybe(PrecisionBase):
     def __init__(self):
         pass
 
 
-class Before(Precision):
+class Before(PrecisionBase):
     def __init__(self):
         pass
 
 
-class After(Precision):
+class After(PrecisionBase):
     def __init__(self):
         pass
 
 # Variants that carry extra data
 @dataclass(frozen=True)
-class OrYear(Precision):
+class OrYear(PrecisionBase):
     date_value: DateValue
     def __post_init__(self):
         if self.date_value.prec is not None:
@@ -62,7 +63,7 @@ class OrYear(Precision):
 
 
 @dataclass(frozen=True)
-class YearInt(Precision):
+class YearInt(PrecisionBase):
     date_value: DateValue
     def __post_init__(self):
         if self.date_value.prec is not None:
@@ -76,5 +77,8 @@ class CalendarDate:
     cal: Calendar
 
 
-Date = CalendarDate | str
+Date: TypeAlias  = CalendarDate | str
 """Type representing a date, which can be either a structured CalendarDate or a free-form string."""
+
+CompressedDate: TypeAlias = Tuple[Calendar, int] | Date | str | None
+"""Type representing a compressed date, which can be a tuple of Calendar and year, a structured Date, a free-form string, or None."""
