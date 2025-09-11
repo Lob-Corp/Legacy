@@ -3,41 +3,37 @@ import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from webdriver_manager.firefox import GeckoDriverManager
+from pydantic import BaseModel
 
-class WebAction:
+class WebAction(BaseModel):
     def run(self, _: webdriver.Firefox):
         raise NotImplementedError()
 
 class WebGetAction(WebAction):
-    def __init__(self, url):
-        self._url = url
+    url: str
 
     def run(self, driver):
-        driver.get(self._url)
+        driver.get(self.url)
 
 class WebWaitAction(WebAction):
-    def __init__(self, seconds):
-        self.seconds = seconds
+    seconds: float
 
     def run(self, _):
         time.sleep(self.seconds)
 
 class WebSaveHTMLAction(WebAction):
-    def __init__(self, filename):
-        self.filename = filename
+    filename: str
 
     def run(self, driver):
         folder = os.path.dirname(self.filename)
         if folder and not os.path.exists(folder):
             os.makedirs(folder, exist_ok=True)
-
         with open(self.filename, "w", encoding="utf-8") as f:
             f.write(driver.page_source)
 
 class WebClickAction(WebAction):
-    def __init__(self, by, value):
-        self._by = by.lower()
-        self._value = value
+    by: str
+    value: str
 
     def run(self, driver):
         by_mapping = {
@@ -47,14 +43,13 @@ class WebClickAction(WebAction):
             "css": By.CSS_SELECTOR,
             "class": By.CLASS_NAME
         }
-        element = driver.find_element(by_mapping[self._by], self._value)
+        element = driver.find_element(by_mapping[self.by.lower()], self.value)
         element.click()
 
 class WebTypeAction(WebAction):
-    def __init__(self, by, value, text):
-        self._by = by.lower()
-        self._value = value
-        self._text = text
+    by: str
+    value: str
+    text: str
 
     def run(self, driver):
         by_mapping = {
@@ -64,9 +59,27 @@ class WebTypeAction(WebAction):
             "css": By.CSS_SELECTOR,
             "class": By.CLASS_NAME
         }
-        element = driver.find_element(by_mapping[self._by], self._value)
+        element = driver.find_element(by_mapping[self.by.lower()], self.value)
         element.clear()
-        element.send_keys(self._text)
+        element.send_keys(self.text)
+
+class WebSelectAction(WebAction):
+    by: str
+    value: str
+    option: str
+
+    def run(self, driver):
+        from selenium.webdriver.support.ui import Select
+        by_mapping = {
+            "id": By.ID,
+            "name": By.NAME,
+            "xpath": By.XPATH,
+            "css": By.CSS_SELECTOR,
+            "class": By.CLASS_NAME
+        }
+        element = driver.find_element(by_mapping[self.by.lower()], self.value)
+        select = Select(element)
+        select.select_by_value(self.option)
 
 class WebActionRunner:
 
@@ -74,15 +87,20 @@ class WebActionRunner:
 
     def __init__(self):
         GeckoDriverManager().install()
-
-    def run_action_sequence(self, actions: list[WebAction]):
-        if (self._driver is not None):
-            self._driver.quit()
-            self._driver = None
         self._driver = webdriver.Firefox()
 
+    def run_action_sequence(self, actions: list[WebAction]):
         for action in actions:
             action.run(self._driver)
 
     def dispose(self):
         self._driver.quit()
+
+WEB_ACTION_TYPE = {
+    "Get": WebGetAction,
+    "Click": WebClickAction,
+    "SaveHTML": WebSaveHTMLAction,
+    "Wait": WebWaitAction,
+    "Type": WebTypeAction,
+    "Select": WebSelectAction,
+}

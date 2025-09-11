@@ -1,0 +1,48 @@
+{
+	"name": "scenario_add_family_custom_event",
+	"actions": [
+		{ "type": "Get", "url": "http://localhost:2317/tests" },
+		{ "type": "Click", "by": "css", "value": "div.d-inline-flex:nth-child(3) > a:nth-child(1)" },
+
+		{ "type": "Type", "by": "css", "value": "#pa1_fn", "text": "Jack" },
+        { "type": "Type", "by": "css", "value": "#pa1_sn", "text": "Thompson" },
+        { "type": "Type", "by": "css", "value": "#pa1b_mm", "text": "08" },
+        { "type": "Type", "by": "css", "value": "#pa1b_dd", "text": "30" },
+        { "type": "Type", "by": "css", "value": "#pa1b_yyyy", "text": "1979" },
+        { "type": "Type", "by": "css", "value": "#pa1b_pl", "text": "Sydney, Australia" },
+        { "type": "Type", "by": "css", "value": "#pa1_occu", "text": "Firefighter" },
+
+        { "type": "Type", "by": "css", "value": "#pa2_fn", "text": "Grace" },
+        { "type": "Type", "by": "css", "value": "#pa2_sn", "text": "O’Neill" },
+        { "type": "Type", "by": "css", "value": "#pa2b_mm", "text": "10" },
+        { "type": "Type", "by": "css", "value": "#pa2b_dd", "text": "02" },
+        { "type": "Type", "by": "css", "value": "#pa2b_yyyy", "text": "1992" },
+        { "type": "Type", "by": "css", "value": "#pa2b_pl", "text": "Dublin, Republic of Ireland" },
+        { "type": "Type", "by": "css", "value": "#pa2_occu", "text": "Journalist" },
+
+        { "type": "Select", "by": "css", "value": "#fevent_select1", "option": "" },
+        { "type": "Type", "by": "css", "value": "#e_name1", "text": "Handfasting" },
+        { "type": "Type", "by": "css", "value": "#e_place1", "text": "Stonehenge" },
+        { "type": "Type", "by": "css", "value": "#e_date1_text", "text": "Summer, exact day unknown." },
+        { "type": "Type", "by": "css", "value": "#e_date1_mm_sel > input:nth-child(1)", "text": "6" },
+        { "type": "Type", "by": "css", "value": "div.card:nth-child(4) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2) > label:nth-child(2) > input:nth-child(1)", "text": "21" },
+        { "type": "Type", "by": "css", "value": "div.card:nth-child(4) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2) > label:nth-child(3) > input:nth-child(1)", "text": "2025" },
+        { "type": "Select", "by": "css", "value": "#e_date1_prec", "option": "yearint" },
+        { "type": "Type", "by": "css", "value": "#e_date1_ormonth_sel > input:nth-child(1)", "text": "9" },
+        { "type": "Type", "by": "css", "value": "div.card:nth-child(4) > div:nth-child(2) > div:nth-child(4) > div:nth-child(2) > label:nth-child(2) > input:nth-child(1)", "text": "22" },
+        { "type": "Type", "by": "css", "value": "div.card:nth-child(4) > div:nth-child(2) > div:nth-child(4) > div:nth-child(2) > label:nth-child(3) > input:nth-child(1)", "text": "2025" },
+        { "type": "Type", "by": "css", "value": "#e_note1", "text": "All the family was here." },
+        { "type": "Type", "by": "css", "value": "#e_src1", "text": "Family photo album" },
+
+        { "type": "Click", "by": "css", "value": ".mt-3 > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > label:nth-child(1)" },
+        { "type": "Click", "by": "css", "value": ".mt-3 > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)" },
+
+        { "type": "Type", "by": "css", "value": "#e1_witn1_fn", "text": "Arthur" },
+        { "type": "Type", "by": "css", "value": "#e1_witn1_sn", "text": "King" },
+        { "type": "Click", "by": "css", "value": ".ml-5 > label:nth-child(1) > input:nth-child(1)" },
+        { "type": "Click", "by": "css", "value": "div.custom-control:nth-child(1)" },
+
+		{ "type": "Click", "by": "css", "value": "button.btn-primary:nth-child(3)" },
+		{ "type": "SaveHTML", "filename": "records/add_family/scenario_add_family_custom_event.html" }
+	]
+}
