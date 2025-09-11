@@ -1,6 +1,8 @@
 import pytest
-
-from date import *
+# from date import CalendarDate, Calendar, Date
+import date.date as Date
+from date.precision import Precision, Sure, About, Maybe, Before, After, OrYear, YearInt
+from date.calendar_date import CalendarDate, Calendar, DateValue 
 
 def test_precision_instantiation():
     with pytest.raises(NotImplementedError):
