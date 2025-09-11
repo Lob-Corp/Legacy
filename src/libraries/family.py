@@ -1,7 +1,10 @@
+from dataclasses import dataclass
 from enum import Enum
 from typing import Generic, TypeVar
 
+from consanguinity_rate import ConsanguinityRate
 from date import CompressedDate
+from events import FamilyEvent
 
 class MaritalStatus(Enum):
     MARRIED = "Married"
@@ -63,3 +66,43 @@ class Divorced(DivorceStatusBase):
 class Separated(DivorceStatusBase):
     def __init__(self):
         pass
+
+class RelationToParentType(Enum):
+    ADOPTION = "Adoption"
+    RECOGNITION = "Recognition"
+    CANDIDATEPARENT = "CandidateParent"
+    GODPARENT = "GodParent"
+    FOSTERPARENT = "FosterParent"
+
+RelationDescriptorType = TypeVar('RelationDescriptorType')
+
+@dataclass(frozen=True)
+class Relation(Generic[Person, RelationDescriptorType]):
+    type: RelationToParentType
+    father: Person | None
+    mother: Person | None
+    sources: list[RelationDescriptorType]
+
+FamilyType = TypeVar('FamilyType')
+
+@dataclass(frozen=True)
+class Ascendants(Generic[FamilyType]):
+    parents: FamilyType | None
+    consanguinity_rate: ConsanguinityRate
+
+IndexType = TypeVar('IndexType')
+FamilyDescriptorType = TypeVar('FamilyDescriptorType')
+
+@dataclass(frozen=True)
+class Family(Generic[Person, IndexType, FamilyDescriptorType]):
+    index: IndexType
+    marriage_date: CompressedDate
+    marriage_place: FamilyDescriptorType
+    marriage_note: FamilyDescriptorType
+    marriage_src: FamilyDescriptorType
+    witnesses: list[Person]
+    relation_kind: MaritalStatus
+    family_events: list[FamilyEvent[Person, FamilyDescriptorType]]
+    comment: FamilyDescriptorType
+    origin_file: FamilyDescriptorType #.gw filename
+    src: FamilyDescriptorType

@@ -1,6 +1,6 @@
 import pytest
 from date import Calendar
-from familly import *
+from family import *
 
 
 # ---- __init__ ----
@@ -102,3 +102,98 @@ def test_separated_instantiation():
     assert isinstance(s, Separated)
     assert isinstance(s, DivorceStatusBase)
 
+import pytest
+
+# --- RelationToParentType Enum ---
+
+def test_relation_to_parent_enum_values():
+    assert RelationToParentType.ADOPTION.value == "Adoption"
+    assert RelationToParentType.RECOGNITION.value == "Recognition"
+    assert RelationToParentType.CANDIDATEPARENT.value == "CandidateParent"
+    assert RelationToParentType.GODPARENT.value == "GodParent"
+    assert RelationToParentType.FOSTERPARENT.value == "FosterParent"
+
+# --- Relation dataclass ---
+
+def test_relation_with_parents():
+    father = "John"
+    mother = "Jane"
+    relation = Relation(
+        type=RelationToParentType.ADOPTION,
+        father=father,
+        mother=mother,
+        sources=["source1", "source2"]
+    )
+    assert relation.type == RelationToParentType.ADOPTION
+    assert relation.father == "John"
+    assert relation.mother == "Jane"
+    assert relation.sources == ["source1", "source2"]
+
+def test_relation_without_parents():
+    relation = Relation(
+        type=RelationToParentType.GODPARENT,
+        father=None,
+        mother=None,
+        sources=[]
+    )
+    assert relation.type == RelationToParentType.GODPARENT
+    assert relation.father is None
+    assert relation.mother is None
+    assert relation.sources == []
+
+# --- Ascendants dataclass ---
+
+def test_ascendants_with_parents():
+    parents = ("Father", "Mother")
+    consanguinity = ConsanguinityRate(42)  # real class tested elsewhere
+    asc = Ascendants(parents=parents, consanguinity_rate=consanguinity)
+    assert asc.parents == parents
+    assert asc.consanguinity_rate == consanguinity
+
+def test_ascendants_without_parents():
+    consanguinity = ConsanguinityRate(0)
+    asc = Ascendants(parents=None, consanguinity_rate=consanguinity)
+    assert asc.parents is None
+    assert asc.consanguinity_rate == consanguinity
+
+# --- Family dataclass ---
+
+def test_family_full_creation():
+    date = "2025-01-01"  # placeholder CompressedDate
+    events = [
+        FamilyEvent(
+            name="Marriage",  # not testing FamilyEvent internals here
+            date=date,
+            place="Paris",
+            reason=None,
+            note="note",
+            src="src",
+            witnesses=[]
+        )
+    ]
+
+    fam = Family(
+        index=1,
+        marriage_date=date,
+        marriage_place="Paris",
+        marriage_note="note",
+        marriage_src="src",
+        witnesses=["John", "Jane"],
+        relation_kind=MaritalStatus.MARRIED,  # real enum tested elsewhere
+        family_events=events,
+        comment="comment",
+        origin_file="file.gw",
+        src="source"
+    )
+
+    assert fam.index == 1
+    assert fam.marriage_date == date
+    assert fam.marriage_place == "Paris"
+    assert fam.marriage_note == "note"
+    assert fam.marriage_src == "src"
+    assert fam.witnesses == ["John", "Jane"]
+    assert fam.relation_kind == MaritalStatus.MARRIED
+    assert fam.family_events == events
+    assert fam.comment == "comment"
+    assert fam.origin_file == "file.gw"
+    assert fam.src == "source"

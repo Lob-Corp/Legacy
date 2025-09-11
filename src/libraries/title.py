@@ -34,7 +34,7 @@ class NoTitle(TitleNameBase[None]):
 
 @dataclass(frozen=True)
 class Title(Generic[TitleDescriptorType]):
-    title_name: TitleNameBase
+    title_name: TitleNameBase[TitleDescriptorType]
     ident: str
     place: str
     date_start: CompressedDate

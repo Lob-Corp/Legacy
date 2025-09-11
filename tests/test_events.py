@@ -106,7 +106,7 @@ def test_family_event_dataclass():
     src = "Source"
     witnesses = [(DummyPerson(), EventWitnessKind.WITNESS)]
 
-    event = FamillyEvent(
+    event = FamilyEvent(
         name=name,
         date=date,
         place=place,

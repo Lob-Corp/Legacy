@@ -370,7 +370,7 @@ class FamNamedEvent(FamEventNameBase[EventDescriptorType]):
 
 
 @dataclass(frozen=True)
-class FamillyEvent(Generic[Person, EventDescriptorType]):
+class FamilyEvent(Generic[Person, EventDescriptorType]):
     name: FamEventNameBase[EventDescriptorType]
     date: CompressedDate
     place: EventDescriptorType
