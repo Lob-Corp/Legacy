@@ -55,11 +55,11 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     baptism_place: PersonDescriptorT
     baptism_note: PersonDescriptorT
     baptism_src: PersonDescriptorT
-    death_date: DeathStatusBase
+    death: DeathStatusBase
     death_place: PersonDescriptorT
     death_note: PersonDescriptorT
     death_src: PersonDescriptorT
-    burial_date: BurialInfoBase
+    burial: BurialInfoBase
     burial_place: PersonDescriptorT
     burial_note: PersonDescriptorT
     burial_src: PersonDescriptorT
