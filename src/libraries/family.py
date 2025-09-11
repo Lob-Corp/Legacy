@@ -19,34 +19,34 @@ class MaritalStatus(Enum):
     PACS = "Pacs"
     RESIDENCE = "Residence"
 
-Person = TypeVar('Person')
+PersonT = TypeVar('PersonT')
 
-class Parents(Generic[Person]):
-    def __init__(self, parents: list[Person]):
+class Parents(Generic[PersonT]):
+    def __init__(self, parents: list[PersonT]):
         assert len(parents) != 0, "Parents list cannot be empty"
         assert all(isinstance(p, type(parents[0])) for p in parents), "All parents must be of the same type"
         self.parents = parents
 
     @staticmethod
-    def from_couple(a: Person, b: Person) -> 'Parents[Person]':
+    def from_couple(a: PersonT, b: PersonT) -> 'Parents[PersonT]':
         return Parents([a, b])
 
     def is_couple(self) -> bool:
         return len(self.parents) == 2
 
-    def couple(self) -> tuple[Person, Person]:
+    def couple(self) -> tuple[PersonT, PersonT]:
         assert len(self.parents) == 2, "Is not a couple"
         return (self.parents[0], self.parents[1])
 
-    def father(self) -> Person:
+    def father(self) -> PersonT:
         assert len(self.parents) >= 1
         return self.parents[0]
 
-    def mother(self) -> Person:
+    def mother(self) -> PersonT:
         assert len(self.parents) >= 2
         return self.parents[1]
 
-    def __getitem__(self, index: int) -> Person:
+    def __getitem__(self, index: int) -> PersonT:
         assert 0 <= index < len(self.parents), "Index out of range"
         return self.parents[index]
 
@@ -74,35 +74,35 @@ class RelationToParentType(Enum):
     GODPARENT = "GodParent"
     FOSTERPARENT = "FosterParent"
 
-RelationDescriptorType = TypeVar('RelationDescriptorType')
+RelationDescriptorT = TypeVar('RelationDescriptorT')
 
 @dataclass(frozen=True)
-class Relation(Generic[Person, RelationDescriptorType]):
+class Relation(Generic[PersonT, RelationDescriptorT]):
     type: RelationToParentType
-    father: Person | None
-    mother: Person | None
-    sources: list[RelationDescriptorType]
+    father: PersonT | None
+    mother: PersonT | None
+    sources: list[RelationDescriptorT]
 
-FamilyType = TypeVar('FamilyType')
+FamilyT = TypeVar('FamilyT')
 
 @dataclass(frozen=True)
-class Ascendants(Generic[FamilyType]):
-    parents: FamilyType | None
+class Ascendants(Generic[FamilyT]):
+    parents: FamilyT | None
     consanguinity_rate: ConsanguinityRate
 
-IndexType = TypeVar('IndexType')
-FamilyDescriptorType = TypeVar('FamilyDescriptorType')
+IdxT = TypeVar('IdxT')
+FamilyDescriptorT = TypeVar('FamilyDescriptorT')
 
 @dataclass(frozen=True)
-class Family(Generic[Person, IndexType, FamilyDescriptorType]):
-    index: IndexType
+class Family(Generic[PersonT, IdxT, FamilyDescriptorT]):
+    index: IdxT
     marriage_date: CompressedDate
-    marriage_place: FamilyDescriptorType
-    marriage_note: FamilyDescriptorType
-    marriage_src: FamilyDescriptorType
-    witnesses: list[Person]
+    marriage_place: FamilyDescriptorT
+    marriage_note: FamilyDescriptorT
+    marriage_src: FamilyDescriptorT
+    witnesses: list[PersonT]
     relation_kind: MaritalStatus
-    family_events: list[FamilyEvent[Person, FamilyDescriptorType]]
-    comment: FamilyDescriptorType
-    origin_file: FamilyDescriptorType #.gw filename
-    src: FamilyDescriptorType
+    family_events: list[FamilyEvent[PersonT, FamilyDescriptorT]]
+    comment: FamilyDescriptorT
+    origin_file: FamilyDescriptorT #.gw filename
+    src: FamilyDescriptorT

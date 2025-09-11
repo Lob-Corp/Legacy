@@ -25,44 +25,44 @@ class Place:
     country: str
     other: str
 
-IndexType = TypeVar('IndexType')
-PersonType = TypeVar('PersonType')
-PersonDescriptorType = TypeVar('PersonDescriptorType')
+IdxT = TypeVar('IdxT')
+PersonT = TypeVar('PersonT')
+PersonDescriptorT = TypeVar('PersonDescriptorT')
 
 @dataclass(frozen=True)
-class Person(Generic[IndexType, PersonType, PersonDescriptorType]):
-    index: IndexType
-    first_name: PersonDescriptorType
-    surname: PersonDescriptorType
+class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
+    index: IdxT
+    first_name: PersonDescriptorT
+    surname: PersonDescriptorT
     occ: int
     image: str
-    public_name: PersonDescriptorType
-    qualifiers: list[PersonDescriptorType]
-    aliases: list[PersonDescriptorType]
-    first_names_aliases: list[PersonDescriptorType]
-    surname_aliases: list[PersonDescriptorType]
-    titles: list[Title[PersonDescriptorType]]
-    NonNativeParentsRelation: list[Relation[PersonType, PersonDescriptorType]]
-    RelatedPersons: list[PersonType]
-    occupation: PersonDescriptorType
+    public_name: PersonDescriptorT
+    qualifiers: list[PersonDescriptorT]
+    aliases: list[PersonDescriptorT]
+    first_names_aliases: list[PersonDescriptorT]
+    surname_aliases: list[PersonDescriptorT]
+    titles: list[Title[PersonDescriptorT]]
+    NonNativeParentsRelation: list[Relation[PersonT, PersonDescriptorT]]
+    RelatedPersons: list[PersonT]
+    occupation: PersonDescriptorT
     sex: Sex
     access_right: AccessRight
     birth_date: CompressedDate
-    birth_place: PersonDescriptorType
-    birth_note: PersonDescriptorType
-    birth_src: PersonDescriptorType
+    birth_place: PersonDescriptorT
+    birth_note: PersonDescriptorT
+    birth_src: PersonDescriptorT
     baptism_date: CompressedDate
-    baptism_place: PersonDescriptorType
-    baptism_note: PersonDescriptorType
-    baptism_src: PersonDescriptorType
+    baptism_place: PersonDescriptorT
+    baptism_note: PersonDescriptorT
+    baptism_src: PersonDescriptorT
     death_date: DeathStatusBase
-    death_place: PersonDescriptorType
-    death_note: PersonDescriptorType
-    death_src: PersonDescriptorType
+    death_place: PersonDescriptorT
+    death_note: PersonDescriptorT
+    death_src: PersonDescriptorT
     burial_date: BurialInfoBase
-    burial_place: PersonDescriptorType
-    burial_note: PersonDescriptorType
-    burial_src: PersonDescriptorType
-    personal_events: list[PersonalEvent[PersonType, PersonDescriptorType]]
-    notes: PersonDescriptorType
-    src: PersonDescriptorType
+    burial_place: PersonDescriptorT
+    burial_note: PersonDescriptorT
+    burial_src: PersonDescriptorT
+    personal_events: list[PersonalEvent[PersonT, PersonDescriptorT]]
+    notes: PersonDescriptorT
+    src: PersonDescriptorT

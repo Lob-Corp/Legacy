@@ -16,13 +16,13 @@ class EventWitnessKind(Enum):
     WITNESS_OTHER = "Witness_Other"
 
 
-EventDescriptorType = TypeVar('EventDescriptorType')
-Person = TypeVar('Person')
+EventDescriptorT = TypeVar('EventDescriptorT')
+PersonT = TypeVar('PersonT')
 
 # Personal events
 
 
-class PersEventNameBase(Generic[EventDescriptorType]):
+class PersEventNameBase(Generic[EventDescriptorT]):
     def __init__(self):
         raise NotImplementedError(
             "EventNameBase is a base class and cannot be instantiated directly. Use one of its subclasses instead."
@@ -279,25 +279,25 @@ class PersWill(PersEventNameBase[None]):
         pass
 
 
-class PersNamedEvent(PersEventNameBase[EventDescriptorType]):
-    def __init__(self, name: EventDescriptorType):
+class PersNamedEvent(PersEventNameBase[EventDescriptorT]):
+    def __init__(self, name: EventDescriptorT):
         self.name = name
 
 
 @dataclass(frozen=True)
-class PersonalEvent(Generic[Person, EventDescriptorType]):
-    name: PersEventNameBase[EventDescriptorType]
+class PersonalEvent(Generic[PersonT, EventDescriptorT]):
+    name: PersEventNameBase[EventDescriptorT]
     date: CompressedDate
-    place: EventDescriptorType
-    reason: EventDescriptorType
-    note: EventDescriptorType
-    src: EventDescriptorType
-    witnesses: list[tuple[Person, EventWitnessKind]]
+    place: EventDescriptorT
+    reason: EventDescriptorT
+    note: EventDescriptorT
+    src: EventDescriptorT
+    witnesses: list[tuple[PersonT, EventWitnessKind]]
 
 # Family events
 
 
-class FamEventNameBase(Generic[EventDescriptorType]):
+class FamEventNameBase(Generic[EventDescriptorT]):
     def __init__(self):
         raise NotImplementedError(
             "FamEventNameBase is a base class and cannot be instantiated directly. Use one of its subclasses instead."
@@ -364,17 +364,17 @@ class FamResidence(FamEventNameBase[None]):
         pass
 
 
-class FamNamedEvent(FamEventNameBase[EventDescriptorType]):
-    def __init__(self, name: EventDescriptorType):
+class FamNamedEvent(FamEventNameBase[EventDescriptorT]):
+    def __init__(self, name: EventDescriptorT):
         self.name = name
 
 
 @dataclass(frozen=True)
-class FamilyEvent(Generic[Person, EventDescriptorType]):
-    name: FamEventNameBase[EventDescriptorType]
+class FamilyEvent(Generic[PersonT, EventDescriptorT]):
+    name: FamEventNameBase[EventDescriptorT]
     date: CompressedDate
-    place: EventDescriptorType
-    reason: EventDescriptorType
-    note: EventDescriptorType
-    src: EventDescriptorType
-    witnesses: list[tuple[Person, EventWitnessKind]]
+    place: EventDescriptorT
+    reason: EventDescriptorT
+    note: EventDescriptorT
+    src: EventDescriptorT
+    witnesses: list[tuple[PersonT, EventWitnessKind]]
