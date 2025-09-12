@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Generic, TypeVar
 
-from consanguinity_rate import ConsanguinityRate
-from date import CompressedDate
-from events import FamilyEvent
+from libraries.consanguinity_rate import ConsanguinityRate
+from libraries.date import CompressedDate
+from libraries.events import FamilyEvent
 
 class MaritalStatus(Enum):
     MARRIED = "Married"

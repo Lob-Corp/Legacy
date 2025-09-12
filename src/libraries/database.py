@@ -2,9 +2,9 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Callable, Generic, Tuple, TypeAlias, TypeVar
 
-from date import DateValue
-from family import Family
-from person import Person
+from libraries.date import DateValue
+from libraries.family import Family
+from libraries.person import Person
 
 
 PersonT = TypeVar('PersonT')

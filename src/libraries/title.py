@@ -2,7 +2,7 @@ from enum import Enum
 from dataclasses import dataclass
 from typing import Any, Generic, TypeVar
 
-from date import CompressedDate
+from libraries.date import CompressedDate
 
 
 class AccessRight(Enum):

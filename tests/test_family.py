@@ -1,7 +1,8 @@
+from libraries.consanguinity_rate import ConsanguinityRate
 import pytest
-from date import Calendar
-from events import EventWitnessKind, FamMarriage
-from family import *
+from libraries.date import Calendar
+from libraries.events import EventWitnessKind, FamMarriage, FamilyEvent
+from libraries.family import Ascendants, DivorceStatusBase, Divorced, Family, MaritalStatus, NotDivorced, Parents, Relation, RelationToParentType, Separated
 
 
 # ---- __init__ ----
@@ -9,9 +10,11 @@ def test_init_with_list_of_ints():
     p = Parents([1, 2])
     assert p.parents == [1, 2]
 
+
 def test_init_empty_list():
     with pytest.raises(AssertionError):
         _ = Parents([])
+
 
 def test_init_type_check_fails():
     with pytest.raises(AssertionError):
@@ -24,6 +27,7 @@ def test_from_couple_with_ints():
     assert isinstance(p, Parents)
     assert p.parents == [1, 2]
 
+
 def test_from_couple_type_check_fails():
     with pytest.raises(AssertionError):
         Parents.from_couple(1, "x")
@@ -34,6 +38,7 @@ def test_is_couple_true():
     p = Parents([1, 2])
     assert p.is_couple() is True
 
+
 def test_is_couple_false():
     p = Parents([1])
     assert p.is_couple() is False
@@ -43,6 +48,7 @@ def test_is_couple_false():
 def test_couple_returns_tuple():
     p = Parents([1, 2])
     assert p.couple() == (1, 2)
+
 
 def test_couple_raises_if_not_two():
     p = Parents([1])
@@ -55,6 +61,7 @@ def test_father_returns_first():
     p = Parents([1, 2])
     assert p.father() == 1
 
+
 def test_father_with_one_parent():
     p = Parents([42])
     assert p.father() == 42
@@ -64,6 +71,7 @@ def test_father_with_one_parent():
 def test_mother_returns_second():
     p = Parents([1, 2])
     assert p.mother() == 2
+
 
 def test_mother_raises_if_not_enough():
     p = Parents([1])
@@ -77,20 +85,25 @@ def test_getitem_valid_index():
     assert p[0] == 1
     assert p[2] == 3
 
+
 def test_getitem_out_of_range():
     p = Parents([1])
     with pytest.raises(AssertionError):
         _ = p[5]
 
 # DivorceStatusBase hierarchy
+
+
 def test_divorcestatusbase_cannot_instantiate():
     with pytest.raises(NotImplementedError):
         DivorceStatusBase()
+
 
 def test_notdivorced_instantiation():
     nd = NotDivorced()
     assert isinstance(nd, NotDivorced)
     assert isinstance(nd, DivorceStatusBase)
+
 
 def test_divorced_instantiation_and_date():
     date = (Calendar.GREGORIAN, 123)
@@ -98,14 +111,15 @@ def test_divorced_instantiation_and_date():
     assert isinstance(d, Divorced)
     assert d.divorce_date == date
 
+
 def test_separated_instantiation():
     s = Separated()
     assert isinstance(s, Separated)
     assert isinstance(s, DivorceStatusBase)
 
-import pytest
 
 # --- RelationToParentType Enum ---
+
 
 def test_relation_to_parent_enum_values():
     assert RelationToParentType.ADOPTION.value == "Adoption"
@@ -115,6 +129,7 @@ def test_relation_to_parent_enum_values():
     assert RelationToParentType.FOSTERPARENT.value == "FosterParent"
 
 # --- Relation dataclass ---
+
 
 def test_relation_with_parents():
     father = "John"
@@ -130,6 +145,7 @@ def test_relation_with_parents():
     assert relation.mother == "Jane"
     assert relation.sources == ["source1", "source2"]
 
+
 def test_relation_without_parents():
     relation = Relation[int, str](
         type=RelationToParentType.GODPARENT,
@@ -144,12 +160,14 @@ def test_relation_without_parents():
 
 # --- Ascendants dataclass ---
 
+
 def test_ascendants_with_parents():
     parents = ("Father", "Mother")
     consanguinity = ConsanguinityRate(42)  # real class tested elsewhere
     asc = Ascendants(parents=parents, consanguinity_rate=consanguinity)
     assert asc.parents == parents
     assert asc.consanguinity_rate == consanguinity
+
 
 def test_ascendants_without_parents():
     consanguinity = ConsanguinityRate(0)
@@ -158,6 +176,7 @@ def test_ascendants_without_parents():
     assert asc.consanguinity_rate == consanguinity
 
 # --- Family dataclass ---
+
 
 def test_family_full_creation():
     date = "2025-01-01"

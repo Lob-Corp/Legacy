@@ -1,5 +1,5 @@
 import pytest
-from title import *
+from libraries.title import *
 
 # --- Base class enforcement ---
 

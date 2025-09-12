@@ -1,11 +1,11 @@
 # test_database_info.py
+from libraries.database import *
 import pytest
-from database import *
-from date import DateValue
-from death_info import NotDead, UnknownBurial
-from person import Person, Sex
-from family import Family, MaritalStatus
-from title import AccessRight, Title, UseMainTitle
+from libraries.date import DateValue
+from libraries.death_info import NotDead, UnknownBurial
+from libraries.person import Person, Sex
+from libraries.family import Family, MaritalStatus
+from libraries.title import AccessRight, Title, UseMainTitle
 
 
 @pytest.fixture
@@ -55,7 +55,7 @@ def person_fixture(date_fixture) -> Person[int, str, str]:
 
 
 @pytest.fixture
-def family_fixture(date_fixture, person_fixture) -> Family[str, int, str]:
+def family_fixture(date_fixture, person_fixture) -> Family[int, str, str]:
     return Family(
         index=1,
         marriage_date=date_fixture,
@@ -426,7 +426,7 @@ def test_family_inverted_info(person_fixture, family_fixture):
 def test_children_names_changed_info(person_fixture):
     change_tuple = ("old_first", "old_last", 1, person_fixture)
     info = ChildrenNamesChangedInfo[int, Person[int, str, str], str](person=person_fixture, changes=[
-                                    (change_tuple, change_tuple)])
+        (change_tuple, change_tuple)])
     assert info.person == person_fixture
     assert info.changes[0] == (change_tuple, change_tuple)
 

@@ -1,6 +1,6 @@
 from enum import Enum
 
-from date import CompressedDate
+from libraries.date import CompressedDate
 
 
 class DeathReason(Enum):

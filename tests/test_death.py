@@ -1,5 +1,5 @@
-from date import Calendar
-from death_info import *
+from libraries.date import Calendar
+from libraries.death_info import Burial, BurialInfoBase, Cremated, Dead, DeadDontKnowWhen, DeadYoung, DeathReason, DeathStatusBase, DontKnowIfDead, NotDead, OfCourseDead, UnknownBurial
 import pytest
 
 # DeathStatusBase hierarchy

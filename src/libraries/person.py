@@ -2,11 +2,11 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import Generic, TypeVar
 
-from date import CompressedDate
-from death_info import BurialInfoBase, DeathStatusBase
-from events import PersonalEvent
-from family import Relation
-from title import AccessRight, Title
+from libraries.date import CompressedDate
+from libraries.death_info import BurialInfoBase, DeathStatusBase
+from libraries.events import PersonalEvent
+from libraries.family import Relation
+from libraries.title import AccessRight, Title
 
 
 class Sex(Enum):

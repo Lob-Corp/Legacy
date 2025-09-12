@@ -1,9 +1,10 @@
+from libraries.person import Person, Place, Sex
 import pytest
-from death_info import DontKnowIfDead, NotDead, UnknownBurial
-from events import EventWitnessKind, PersBirth, PersonalEvent
-from family import Relation, RelationToParentType
-from person import *
-from title import Title, TitleName
+from libraries.death_info import DontKnowIfDead, NotDead, UnknownBurial
+from libraries.events import EventWitnessKind, PersBirth, PersonalEvent
+from libraries.family import Relation, RelationToParentType
+from libraries.title import AccessRight, Title, TitleName
+from libraries.date import CompressedDate
 
 
 @pytest.fixture

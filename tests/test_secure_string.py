@@ -1,6 +1,6 @@
+from libraries.secure_string import *
 import pytest
 
-from secure_string import *
 
 # SafeString tests
 def test_safe_concat_multiple_safestrings():
