@@ -212,3 +212,7 @@ release
 
 # vscode files
 .vscode/*
+
+# coverage files
+*lcov
+lcov.*.info
