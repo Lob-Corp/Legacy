@@ -81,4 +81,4 @@ Date: TypeAlias  = CalendarDate | str
 """Type representing a date, which can be either a structured CalendarDate or a free-form string."""
 
 CompressedDate: TypeAlias = Tuple[Calendar, int] | Date | str | None
-"""Type representing a compressed date, which can be a tuple of Calendar and year, a structured Date, a free-form string, or None."""
+"""Type representing a compressed date, which can be a Tuple of Calendar and year, a structured Date, a free-form string, or None."""

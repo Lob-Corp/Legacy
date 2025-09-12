@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Callable, Generic, Tuple, TypeAlias, TypeVar
+from typing import Callable, Generic, List, Tuple, TypeAlias, TypeVar
 
 from libraries.date import DateValue
 from libraries.family import Family
@@ -63,29 +63,29 @@ class IncoherentSexWarning(DatabaseWarningBase[None, PersonT, None, None, None, 
 class ChangedOrderOfChildrenWarning(DatabaseWarningBase[PersonIndexT, None, FamilyT, DescendenceT, None, None, None]):
     family: FamilyT
     descendence: DescendenceT
-    old_order: list[PersonIndexT]
-    new_order: list[PersonIndexT]
+    old_order: List[PersonIndexT]
+    new_order: List[PersonIndexT]
 
 
 @dataclass(frozen=True)
 class ChangedOrderOfMarriagesWarning(DatabaseWarningBase[None, PersonT, FamilyT, None, None, None, None]):
     person: PersonT
-    old_order: list[FamilyT]
-    new_order: list[FamilyT]
+    old_order: List[FamilyT]
+    new_order: List[FamilyT]
 
 
 @dataclass(frozen=True)
 class ChangedOrderOfFamilyEventsWarning(DatabaseWarningBase[None, None, FamilyT, None, None, None, FamEventT]):
     family: FamilyT
-    old_order: list[FamEventT]
-    new_order: list[FamEventT]
+    old_order: List[FamEventT]
+    new_order: List[FamEventT]
 
 
 @dataclass(frozen=True)
 class ChangedOrderOfPersonEventsWarning(DatabaseWarningBase[None, PersonT, None, None, None, PersEventT, None]):
     person: PersonT
-    old_order: list[PersEventT]
-    new_order: list[PersEventT]
+    old_order: List[PersEventT]
+    new_order: List[PersEventT]
 
 
 @dataclass(frozen=True)
@@ -267,7 +267,7 @@ class DatabaseReadingMode(Enum):
 class DatabaseNote:
     read: Callable[[str, DatabaseReadingMode], str]
     origin_file: str
-    files: list[str]
+    files: List[str]
 
 
 class DatabaseUpdatedInfoBase(Generic[PersonIndexT, PersonT, FamilyT, DatabaseDescriptorT]):
@@ -348,7 +348,7 @@ ChildrenNamesChangedInfoChanges: TypeAlias = Tuple[str, str, int, PersonT]
 @dataclass(frozen=True)
 class ChildrenNamesChangedInfo(DatabaseUpdatedInfoBase[PersonIndexT, PersonT, None, DatabaseDescriptorT]):
     person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
-    changes: list[tuple[ChildrenNamesChangedInfoChanges,
+    changes: List[Tuple[ChildrenNamesChangedInfoChanges,
                         ChildrenNamesChangedInfoChanges]]
 
 @dataclass(frozen=True)

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Generic, TypeVar
+from typing import Generic, List, Tuple, TypeVar
 
 from libraries.consanguinity_rate import ConsanguinityRate
 from libraries.date import CompressedDate
@@ -22,8 +22,8 @@ class MaritalStatus(Enum):
 PersonT = TypeVar('PersonT')
 
 class Parents(Generic[PersonT]):
-    def __init__(self, parents: list[PersonT]):
-        assert len(parents) != 0, "Parents list cannot be empty"
+    def __init__(self, parents: List[PersonT]):
+        assert len(parents) != 0, "Parents List cannot be empty"
         assert all(isinstance(p, type(parents[0])) for p in parents), "All parents must be of the same type"
         self.parents = parents
 
@@ -34,7 +34,7 @@ class Parents(Generic[PersonT]):
     def is_couple(self) -> bool:
         return len(self.parents) == 2
 
-    def couple(self) -> tuple[PersonT, PersonT]:
+    def couple(self) -> Tuple[PersonT, PersonT]:
         assert len(self.parents) == 2, "Is not a couple"
         return (self.parents[0], self.parents[1])
 
@@ -81,7 +81,7 @@ class Relation(Generic[PersonT, RelationDescriptorT]):
     type: RelationToParentType
     father: PersonT | None
     mother: PersonT | None
-    sources: list[RelationDescriptorT]
+    sources: List[RelationDescriptorT]
 
 FamilyT = TypeVar('FamilyT')
 
@@ -100,9 +100,10 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
     marriage_place: FamilyDescriptorT
     marriage_note: FamilyDescriptorT
     marriage_src: FamilyDescriptorT
-    witnesses: list[PersonT]
+    witnesses: List[PersonT]
     relation_kind: MaritalStatus
-    family_events: list[FamilyEvent[PersonT, FamilyDescriptorT]]
+    family_events: List[FamilyEvent[PersonT, FamilyDescriptorT]]
     comment: FamilyDescriptorT
     origin_file: FamilyDescriptorT #.gw filename
     src: FamilyDescriptorT
+

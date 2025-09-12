@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Generic, TypeVar
+from typing import Any, Generic, List, Tuple, TypeVar
 
 from libraries.date import CompressedDate
 
@@ -292,7 +292,7 @@ class PersonalEvent(Generic[PersonT, EventDescriptorT]):
     reason: EventDescriptorT
     note: EventDescriptorT
     src: EventDescriptorT
-    witnesses: list[tuple[PersonT, EventWitnessKind]]
+    witnesses: List[Tuple[PersonT, EventWitnessKind]]
 
 # Family events
 
@@ -377,4 +377,4 @@ class FamilyEvent(Generic[PersonT, EventDescriptorT]):
     reason: EventDescriptorT
     note: EventDescriptorT
     src: EventDescriptorT
-    witnesses: list[tuple[PersonT, EventWitnessKind]]
+    witnesses: List[Tuple[PersonT, EventWitnessKind]]

@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Generic, TypeVar
+from typing import Generic, List, TypeVar
 
 from libraries.date import CompressedDate
 from libraries.death_info import BurialInfoBase, DeathStatusBase
@@ -37,13 +37,13 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     occ: int
     image: str
     public_name: PersonDescriptorT
-    qualifiers: list[PersonDescriptorT]
-    aliases: list[PersonDescriptorT]
-    first_names_aliases: list[PersonDescriptorT]
-    surname_aliases: list[PersonDescriptorT]
-    titles: list[Title[PersonDescriptorT]]
-    NonNativeParentsRelation: list[Relation[PersonT, PersonDescriptorT]]
-    RelatedPersons: list[PersonT]
+    qualifiers: List[PersonDescriptorT]
+    aliases: List[PersonDescriptorT]
+    first_names_aliases: List[PersonDescriptorT]
+    surname_aliases: List[PersonDescriptorT]
+    titles: List[Title[PersonDescriptorT]]
+    NonNativeParentsRelation: List[Relation[PersonT, PersonDescriptorT]]
+    RelatedPersons: List[PersonT]
     occupation: PersonDescriptorT
     sex: Sex
     access_right: AccessRight
@@ -63,6 +63,6 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     burial_place: PersonDescriptorT
     burial_note: PersonDescriptorT
     burial_src: PersonDescriptorT
-    personal_events: list[PersonalEvent[PersonT, PersonDescriptorT]]
+    personal_events: List[PersonalEvent[PersonT, PersonDescriptorT]]
     notes: PersonDescriptorT
     src: PersonDescriptorT
