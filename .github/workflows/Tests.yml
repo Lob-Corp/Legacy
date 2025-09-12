@@ -19,7 +19,7 @@ jobs:
       - name: Run pytest
         run: pytest --cov=src --cov-report=lcov:lcov.unit.info --cov-branch tests
       - name: Upload coverage
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
             name: coverage-unit
             path: lcov.unit.info
@@ -47,7 +47,7 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
       - name: Download coverage from unit tests
-        uses: actions/download-artifact@v3
+        uses: actions/download-artifact@v4
         with:
             name: coverage-unit
             path: coverage-artifacts/
