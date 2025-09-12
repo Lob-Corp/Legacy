@@ -16,6 +16,8 @@ jobs:
           python-version: "3.13"
       - name: Install dependencies
         run: pip install -r requirements-test.txt
+      - name: Install GenewebPy package
+        run: pip install -e .
       - name: Run pytest
         run: pytest --cov=src --cov-report=lcov:lcov.unit.info --cov-branch tests
       - name: Upload coverage
@@ -26,20 +28,39 @@ jobs:
 
   lint:
     runs-on: ubuntu-latest
-    name: Run linter
+    strategy:
+      matrix:
+        linter: [flake8, mypy]
+    name: Run ${{ matrix.linter }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-      - name: Python Linter
-        uses: sunnysid3up/python-linter@master
+      - name: Install ${{ matrix.linter }}
+        run: |
+          pip install ${{ matrix.linter }}
+
+      - name: Run flake8 with annotations
+        if: ${{ matrix.linter }} == "flake8"
+        uses: reviewdog/action-flake8@v2
         with:
-          source: "src"
-          mypy-options: "--ignore-missing-imports --check-untyped-defs --show-error-codes"
-          django: true
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          filter_mode: diff_context
+          fail_on_error: true
+      - name: Run mypy
+        if: ${{ matrix.linter }} == "mypy"
+        uses: sasanquaneuf/mypy-github-action@releases/v1
+        with:
+          checkName: 'lint'   # NOTE: this needs to be the same as the job name
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   #TODO: Add action executing different type of tests (Integration, E2E) based on the branch
 
   report_coverage:
+    permissions:
+      pull-requests: write
+      contents: read
     needs: unit_tests
     runs-on: ubuntu-latest
     name: Report code coverage
