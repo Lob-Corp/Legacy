@@ -94,7 +94,7 @@ IdxT = TypeVar('IdxT')
 FamilyDescriptorT = TypeVar('FamilyDescriptorT')
 
 @dataclass(frozen=True)
-class Family(Generic[PersonT, IdxT, FamilyDescriptorT]):
+class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
     index: IdxT
     marriage_date: CompressedDate
     marriage_place: FamilyDescriptorT

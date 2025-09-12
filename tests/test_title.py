@@ -70,5 +70,4 @@ def test_title_match():
                 matched.append("no_title")
             case _:
                 matched.append("unknown")
-    
     assert matched == ["use_main", "title:Duke of Python", "no_title"]

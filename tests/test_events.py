@@ -31,9 +31,9 @@ def test_personal_event_dataclass():
     reason = "Test"
     note = "Note"
     src = "Source"
-    witnesses = [(DummyPerson(), EventWitnessKind.WITNESS)]
+    witnesses = [(5, EventWitnessKind.WITNESS)]
 
-    event = PersonalEvent(
+    event = PersonalEvent[int, str](
         name=name,
         date=date,
         place=place,

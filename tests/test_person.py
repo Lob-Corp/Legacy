@@ -1,8 +1,38 @@
-from events import PersonalEvent
-from family import Relation
+import pytest
+from death_info import DontKnowIfDead, NotDead, UnknownBurial
+from events import EventWitnessKind, PersBirth, PersonalEvent
+from family import Relation, RelationToParentType
 from person import *
-from title import Title
+from title import Title, TitleName
 
+
+@pytest.fixture
+def compressed_date_fixture() -> CompressedDate:
+    return "2025-01-01"
+
+@pytest.fixture
+def title_fixture(compressed_date_fixture) -> Title[str]:
+    return Title[str](title_name=TitleName[str]("name"), ident="t1", place="Paris",
+                       date_start=compressed_date_fixture, date_end=compressed_date_fixture, nth=1)
+
+@pytest.fixture
+def pers_event_fixture(compressed_date_fixture) -> PersonalEvent[int, str]:
+    name = PersBirth()
+    place = "Paris"
+    reason = "Test"
+    note = "Note"
+    src = "Source"
+    witnesses = [(5, EventWitnessKind.WITNESS)]
+
+    return PersonalEvent[int, str](
+        name=name,
+        date=compressed_date_fixture,
+        place=place,
+        reason=reason,
+        note=note,
+        src=src,
+        witnesses=witnesses,
+    )
 
 def test_place_full_creation():
     place = Place(
@@ -22,15 +52,10 @@ def test_place_full_creation():
 
 # --- Person dataclass ---
 
-def test_person_minimal_stubs():
-    # placeholders for external types
-    fake_date = "2025-01-01"  # CompressedDate stub
-    fake_death = "dead"       # DeathStatusBase stub
-    fake_burial = "buried"    # BurialInfoBase stub
-    fake_title = Title(title_name="Duke", ident="t1", place="Paris", date_start=fake_date, date_end=fake_date, nth=1)
-    fake_relation = Relation(type="Adoption", father=None, mother=None, sources=[])
-    fake_event = PersonalEvent(name="Birth", date=fake_date, place="Paris", reason=None, note="note", src="src", witnesses=[])
 
+def test_person_minimal_stubs(compressed_date_fixture, title_fixture, pers_event_fixture):
+    fake_relation = Relation[int, str](
+        type=RelationToParentType.ADOPTION, father=None, mother=None, sources=[])
     person = Person(
         index=1,
         first_name="Jean",
@@ -42,29 +67,29 @@ def test_person_minimal_stubs():
         aliases=["alias1"],
         first_names_aliases=["J"],
         surname_aliases=["Du."],
-        titles=[fake_title],
+        titles=[title_fixture],
         NonNativeParentsRelation=[fake_relation],
         RelatedPersons=[],
         occupation="Farmer",
         sex=Sex.MALE,
         access_right=AccessRight.PUBLIC,
-        birth_date=fake_date,
+        birth_date=compressed_date_fixture,
         birth_place="Paris",
         birth_note="note",
         birth_src="src",
-        baptism_date=fake_date,
+        baptism_date=compressed_date_fixture,
         baptism_place="Church",
         baptism_note="bap note",
         baptism_src="bap src",
-        death=fake_death,
+        death=DontKnowIfDead(),
         death_place="Paris",
         death_note="death note",
         death_src="death src",
-        burial=fake_burial,
+        burial=UnknownBurial(),
         burial_place="Cemetery",
         burial_note="burial note",
         burial_src="burial src",
-        personal_events=[fake_event],
+        personal_events=[pers_event_fixture],
         notes="general note",
         src="src file"
     )
@@ -80,12 +105,9 @@ def test_person_minimal_stubs():
     assert person.burial_place == "Cemetery"
     assert person.notes == "general note"
 
-def test_person_with_empty_lists():
-    fake_date = "today"
-    fake_death = "dead"
-    fake_burial = "buried"
 
-    person = Person(
+def test_person_with_empty_lists(compressed_date_fixture):
+    person = Person[int, str, str](
         index=2,
         first_name="Alice",
         surname="Smith",
@@ -102,19 +124,19 @@ def test_person_with_empty_lists():
         occupation="",
         sex=Sex.FEMALE,
         access_right=AccessRight.PRIVATE,
-        birth_date=fake_date,
+        birth_date=compressed_date_fixture,
         birth_place="",
         birth_note="",
         birth_src="",
-        baptism_date=fake_date,
+        baptism_date=compressed_date_fixture,
         baptism_place="",
         baptism_note="",
         baptism_src="",
-        death=fake_death,
+        death=NotDead(),
         death_place="",
         death_note="",
         death_src="",
-        burial=fake_burial,
+        burial=UnknownBurial(),
         burial_place="",
         burial_note="",
         burial_src="",

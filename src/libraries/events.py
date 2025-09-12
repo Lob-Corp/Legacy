@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Generic, TypeVar
+from typing import Any, Generic, TypeVar
 
 from date import CompressedDate
 
@@ -29,252 +29,252 @@ class PersEventNameBase(Generic[EventDescriptorT]):
         )
 
 
-class PersBirth(PersEventNameBase[None]):
+class PersBirth(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersBaptism(PersEventNameBase[None]):
+class PersBaptism(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersDeath(PersEventNameBase[None]):
+class PersDeath(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersBurial(PersEventNameBase[None]):
+class PersBurial(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersCremation(PersEventNameBase[None]):
+class PersCremation(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersAccomplishment(PersEventNameBase[None]):
+class PersAccomplishment(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersAcquisition(PersEventNameBase[None]):
+class PersAcquisition(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersAdhesion(PersEventNameBase[None]):
+class PersAdhesion(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersBaptismLDS(PersEventNameBase[None]):
+class PersBaptismLDS(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersBarMitzvah(PersEventNameBase[None]):
+class PersBarMitzvah(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersBatMitzvah(PersEventNameBase[None]):
+class PersBatMitzvah(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersBenediction(PersEventNameBase[None]):
+class PersBenediction(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersChangeName(PersEventNameBase[None]):
+class PersChangeName(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersCircumcision(PersEventNameBase[None]):
+class PersCircumcision(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersConfirmation(PersEventNameBase[None]):
+class PersConfirmation(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersConfirmationLDS(PersEventNameBase[None]):
+class PersConfirmationLDS(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersDecoration(PersEventNameBase[None]):
+class PersDecoration(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersDemobilisationMilitaire(PersEventNameBase[None]):
+class PersDemobilisationMilitaire(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersDiploma(PersEventNameBase[None]):
+class PersDiploma(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersDistinction(PersEventNameBase[None]):
+class PersDistinction(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersDotation(PersEventNameBase[None]):
+class PersDotation(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersDotationLDS(PersEventNameBase[None]):
+class PersDotationLDS(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersEducation(PersEventNameBase[None]):
+class PersEducation(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersElection(PersEventNameBase[None]):
+class PersElection(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersEmigration(PersEventNameBase[None]):
+class PersEmigration(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersExcommunication(PersEventNameBase[None]):
+class PersExcommunication(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersFamilyLinkLDS(PersEventNameBase[None]):
+class PersFamilyLinkLDS(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersFirstCommunion(PersEventNameBase[None]):
+class PersFirstCommunion(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersFuneral(PersEventNameBase[None]):
+class PersFuneral(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersGraduate(PersEventNameBase[None]):
+class PersGraduate(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersHospitalisation(PersEventNameBase[None]):
+class PersHospitalisation(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersIllness(PersEventNameBase[None]):
+class PersIllness(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersImmigration(PersEventNameBase[None]):
+class PersImmigration(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersListePassenger(PersEventNameBase[None]):
+class PersListePassenger(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersMilitaryDistinction(PersEventNameBase[None]):
+class PersMilitaryDistinction(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersMilitaryPromotion(PersEventNameBase[None]):
+class PersMilitaryPromotion(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersMilitaryService(PersEventNameBase[None]):
+class PersMilitaryService(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersMobilisationMilitaire(PersEventNameBase[None]):
+class PersMobilisationMilitaire(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersNaturalisation(PersEventNameBase[None]):
+class PersNaturalisation(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersOccupation(PersEventNameBase[None]):
+class PersOccupation(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersOrdination(PersEventNameBase[None]):
+class PersOrdination(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersProperty(PersEventNameBase[None]):
+class PersProperty(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersRecensement(PersEventNameBase[None]):
+class PersRecensement(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersResidence(PersEventNameBase[None]):
+class PersResidence(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersRetired(PersEventNameBase[None]):
+class PersRetired(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersScellentChildLDS(PersEventNameBase[None]):
+class PersScellentChildLDS(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersScellentParentLDS(PersEventNameBase[None]):
+class PersScellentParentLDS(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersScellentSpouseLDS(PersEventNameBase[None]):
+class PersScellentSpouseLDS(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersVenteBien(PersEventNameBase[None]):
+class PersVenteBien(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class PersWill(PersEventNameBase[None]):
+class PersWill(PersEventNameBase[Any]):
     def __init__(self):
         pass
 
@@ -304,62 +304,62 @@ class FamEventNameBase(Generic[EventDescriptorT]):
         )
 
 
-class FamMarriage(FamEventNameBase[None]):
+class FamMarriage(FamEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class FamNoMarriage(FamEventNameBase[None]):
+class FamNoMarriage(FamEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class FamNoMention(FamEventNameBase[None]):
+class FamNoMention(FamEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class FamEngage(FamEventNameBase[None]):
+class FamEngage(FamEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class FamDivorce(FamEventNameBase[None]):
+class FamDivorce(FamEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class FamSeparated(FamEventNameBase[None]):
+class FamSeparated(FamEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class FamAnnulation(FamEventNameBase[None]):
+class FamAnnulation(FamEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class FamMarriageBann(FamEventNameBase[None]):
+class FamMarriageBann(FamEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class FamMarriageContract(FamEventNameBase[None]):
+class FamMarriageContract(FamEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class FamMarriageLicense(FamEventNameBase[None]):
+class FamMarriageLicense(FamEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class FamPACS(FamEventNameBase[None]):
+class FamPACS(FamEventNameBase[Any]):
     def __init__(self):
         pass
 
 
-class FamResidence(FamEventNameBase[None]):
+class FamResidence(FamEventNameBase[Any]):
     def __init__(self):
         pass
 

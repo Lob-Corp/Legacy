@@ -31,7 +31,7 @@ def person_fixture(date_fixture) -> Person[int, str, str]:
         RelatedPersons=[],
         occupation="Worker",
         sex=Sex.MALE,
-        access_right=AccessRight.PUBLIC,  # replace with valid AccessRight if needed
+        access_right=AccessRight.PUBLIC,
         birth_date=date_fixture,
         birth_place="Paris",
         birth_note="",
@@ -44,7 +44,7 @@ def person_fixture(date_fixture) -> Person[int, str, str]:
         death_place="",
         death_note="",
         death_src="",
-        burial=UnknownBurial(),  # replace with BurialInfoBase if needed
+        burial=UnknownBurial(),
         burial_place="",
         burial_note="",
         burial_src="",
@@ -156,7 +156,7 @@ def test_changed_order_of_marriages_warning(person_fixture, family_fixture):
 
 
 def test_changed_order_of_family_events_warning(family_fixture):
-    warning = ChangedOrderOfFamilyEventsWarning(
+    warning = ChangedOrderOfFamilyEventsWarning[Family[str, int, str], None](
         family=family_fixture,
         old_order=[],
         new_order=[]
@@ -167,7 +167,7 @@ def test_changed_order_of_family_events_warning(family_fixture):
 
 
 def test_changed_order_of_person_events_warning(person_fixture):
-    warning = ChangedOrderOfPersonEventsWarning(
+    warning = ChangedOrderOfPersonEventsWarning[Person[int, str, str], None](
         person=person_fixture,
         old_order=[],
         new_order=[]
@@ -425,7 +425,7 @@ def test_family_inverted_info(person_fixture, family_fixture):
 
 def test_children_names_changed_info(person_fixture):
     change_tuple = ("old_first", "old_last", 1, person_fixture)
-    info = ChildrenNamesChangedInfo(person=person_fixture, changes=[
+    info = ChildrenNamesChangedInfo[int, Person[int, str, str], str](person=person_fixture, changes=[
                                     (change_tuple, change_tuple)])
     assert info.person == person_fixture
     assert info.changes[0] == (change_tuple, change_tuple)

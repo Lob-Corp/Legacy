@@ -346,7 +346,7 @@ ChildrenNamesChangedInfoChanges: TypeAlias = Tuple[str, str, int, PersonT]
 
 
 @dataclass(frozen=True)
-class ChildrenNamesChangedInfo(DatabaseUpdatedInfoBase[PersonIndexT, PersonT, FamilyT, DatabaseDescriptorT]):
+class ChildrenNamesChangedInfo(DatabaseUpdatedInfoBase[PersonIndexT, PersonT, None, DatabaseDescriptorT]):
     person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
     changes: list[tuple[ChildrenNamesChangedInfoChanges,
                         ChildrenNamesChangedInfoChanges]]
@@ -367,6 +367,6 @@ class MultiPersonModified(DatabaseUpdatedInfoBase[PersonIndexT, PersonT, None, D
     multi: bool
 
 @dataclass(frozen=True)
-class NotesUpdatedInfo(DatabaseUpdatedInfoBase[None, None, None, DatabaseDescriptorT]):
+class NotesUpdatedInfo(DatabaseUpdatedInfoBase[None, None, None, None]):
     note: int | None
     description: str

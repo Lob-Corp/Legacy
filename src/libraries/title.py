@@ -1,6 +1,6 @@
 from enum import Enum
 from dataclasses import dataclass
-from typing import Generic, TypeVar
+from typing import Any, Generic, TypeVar
 
 from date import CompressedDate
 
@@ -19,7 +19,7 @@ class TitleNameBase(Generic[TitleDescriptorT]):
             "TitleNameBase is a base class and cannot be instantiated directly. Use one of its subclasses instead.")
 
 
-class UseMainTitle(TitleNameBase[None]):
+class UseMainTitle(TitleNameBase[Any]):
     def __init__(self):
         pass
 
@@ -28,7 +28,7 @@ class TitleName(TitleNameBase[TitleDescriptorT]):
         self.title_name = title_name
 
 
-class NoTitle(TitleNameBase[None]):
+class NoTitle(TitleNameBase[Any]):
     def __init__(self):
         pass
 

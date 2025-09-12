@@ -1,5 +1,6 @@
 import pytest
 from date import Calendar
+from events import EventWitnessKind, FamMarriage
 from family import *
 
 
@@ -130,7 +131,7 @@ def test_relation_with_parents():
     assert relation.sources == ["source1", "source2"]
 
 def test_relation_without_parents():
-    relation = Relation(
+    relation = Relation[int, str](
         type=RelationToParentType.GODPARENT,
         father=None,
         mother=None,
@@ -152,17 +153,17 @@ def test_ascendants_with_parents():
 
 def test_ascendants_without_parents():
     consanguinity = ConsanguinityRate(0)
-    asc = Ascendants(parents=None, consanguinity_rate=consanguinity)
+    asc = Ascendants[int](parents=None, consanguinity_rate=consanguinity)
     assert asc.parents is None
     assert asc.consanguinity_rate == consanguinity
 
 # --- Family dataclass ---
 
 def test_family_full_creation():
-    date = "2025-01-01"  # placeholder CompressedDate
+    date = "2025-01-01"
     events = [
-        FamilyEvent(
-            name="Marriage",  # not testing FamilyEvent internals here
+        FamilyEvent[int, str | None](
+            name=FamMarriage(),
             date=date,
             place="Paris",
             reason=None,
@@ -172,14 +173,14 @@ def test_family_full_creation():
         )
     ]
 
-    fam = Family(
+    fam = Family[int, int, str | None](
         index=1,
         marriage_date=date,
         marriage_place="Paris",
         marriage_note="note",
         marriage_src="src",
-        witnesses=["John", "Jane"],
-        relation_kind=MaritalStatus.MARRIED,  # real enum tested elsewhere
+        witnesses=[1, 2],
+        relation_kind=MaritalStatus.MARRIED,
         family_events=events,
         comment="comment",
         origin_file="file.gw",
@@ -191,7 +192,7 @@ def test_family_full_creation():
     assert fam.marriage_place == "Paris"
     assert fam.marriage_note == "note"
     assert fam.marriage_src == "src"
-    assert fam.witnesses == ["John", "Jane"]
+    assert fam.witnesses == [1, 2]
     assert fam.relation_kind == MaritalStatus.MARRIED
     assert fam.family_events == events
     assert fam.comment == "comment"
