@@ -1,9 +1,15 @@
 import os
 import time
+import re
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from webdriver_manager.firefox import GeckoDriverManager
 from pydantic import BaseModel
+from typing import List, Tuple, Optional
+
+from pydantic import BaseModel, Field
+from typing import Optional, List
+import re
 
 class WebAction(BaseModel):
     def run(self, _: webdriver.Firefox):
@@ -21,15 +27,56 @@ class WebWaitAction(WebAction):
     def run(self, _):
         time.sleep(self.seconds)
 
+class CleanRule(BaseModel):
+    pattern: str = Field(..., description="Regex pattern to search in the HTML")
+    replacement: Optional[str] = Field(
+        None,
+        description="Replacement string for the matched pattern. If omitted, the text will be removed."
+    )
+    flags: Optional[List[str]] = Field(
+        default=None,
+        description="Optional regex flags (e.g. ['ignorecase', 'dotall'])"
+    )
+
+    def compile_flags(self) -> int:
+        """Convert list of string flags into re flags"""
+        flag_map = {
+            "ignorecase": re.IGNORECASE,
+            "multiline": re.MULTILINE,
+            "dotall": re.DOTALL,
+        }
+        result = 0
+        if self.flags:
+            for f in self.flags:
+                result |= flag_map.get(f.lower(), 0)
+        return result
+
+    def apply(self, text: str) -> str:
+        """Apply this cleaning rule to given text"""
+        return re.sub(
+            self.pattern,
+            self.replacement if self.replacement is not None else "",
+            text,
+            flags=self.compile_flags()
+        )
+
 class WebSaveHTMLAction(WebAction):
     filename: str
+    clean_rules: Optional[List[CleanRule]] = None
 
     def run(self, driver):
         folder = os.path.dirname(self.filename)
         if folder and not os.path.exists(folder):
             os.makedirs(folder, exist_ok=True)
+
+        html = driver.page_source
+
+        if self.clean_rules:
+            for rule in self.clean_rules:
+                html = rule.apply(html)
+
         with open(self.filename, "w", encoding="utf-8") as f:
-            f.write(driver.page_source)
+            f.write(html)
 
 class WebClickAction(WebAction):
     by: str

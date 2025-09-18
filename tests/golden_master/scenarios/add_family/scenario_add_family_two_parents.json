@@ -21,6 +21,19 @@
         { "type": "Type", "by": "css", "value": "#pa2_occu", "text": "Architect" },
 
 		{ "type": "Click", "by": "css", "value": "button.btn-primary:nth-child(3)" },
-		{ "type": "SaveHTML", "filename": "records/add_family/scenario_add_family_two_parents.html" }
+		{
+            "type": "SaveHTML",
+            "filename": "records/add_family/scenario_add_family_two_parents.html",
+            "clean_rules": [
+                {
+                    "pattern": "(<div class=\"btn btn-sm p-0 border-0 text-success\" id=\"q_time\" title=\"Query treated in )[0-9.]+(&nbsp;s\">)",
+                    "replacement": "\\g<1>0.0\\g<2>"
+                },
+                {
+                    "pattern": "var q_time = [0-9.]+;",
+                    "replacement": "var q_time = 0.0;"
+                }
+            ]
+        }
 	]
 }
