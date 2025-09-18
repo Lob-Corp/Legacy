@@ -1,6 +1,7 @@
 class ConsanguinityRate():
     def __init__(self, fix_value: int):
-        """Class to represent consanguinity rate with a fix value. Equivalent to from_int."""
+        """Class to represent consanguinity rate with a fix value.
+        Equivalent to from_int."""
         self.__fix_value = fix_value
 
     @staticmethod
@@ -11,7 +12,8 @@ class ConsanguinityRate():
 
     @staticmethod
     def from_integer(value: int) -> 'ConsanguinityRate':
-        """Create a ConsanguinityRate from an integer value. It is the rate * 1000000."""
+        """Create a ConsanguinityRate from an integer value.
+        It is the rate * 1000000."""
         return ConsanguinityRate(value)
 
     def rate(self) -> float:

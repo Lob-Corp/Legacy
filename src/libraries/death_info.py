@@ -14,7 +14,8 @@ class DeathReason(Enum):
 class DeathStatusBase:
     def __init__(self):
         raise NotImplementedError(
-            "DeathStatusBase is a base class and cannot be instantiated directly. Use one of its subclasses instead.")
+            "DeathStatusBase is a base class and cannot be instantiated"
+            "directly. Use one of its subclasses instead.")
 
 
 class NotDead(DeathStatusBase):
@@ -23,7 +24,8 @@ class NotDead(DeathStatusBase):
 
 
 class Dead(DeathStatusBase):
-    def __init__(self, death_reason: DeathReason, date_of_death: CompressedDate):
+    def __init__(self, death_reason: DeathReason,
+                 date_of_death: CompressedDate):
         self.death_reason = death_reason
 
 
@@ -50,7 +52,8 @@ class OfCourseDead(DeathStatusBase):
 class BurialInfoBase():
     def __init__(self):
         raise NotImplementedError(
-            "BurialInfoBase is a base class and cannot be instantiated directly. Use one of its subclasses instead.")
+            "BurialInfoBase is a base class and cannot be"
+            "instantiated directly. Use one of its subclasses instead.")
 
 
 class UnknownBurial(BurialInfoBase):

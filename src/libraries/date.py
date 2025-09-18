@@ -1,4 +1,3 @@
-from ctypes import Union
 from dataclasses import dataclass
 from enum import Enum
 from typing import Tuple, TypeAlias
@@ -14,7 +13,8 @@ class Calendar(Enum):
 class PrecisionBase:
     def __init__(self):
         raise NotImplementedError(
-            "PrecisionBase is a base class and cannot be instantiated directly. Use one of its subclasses instead.")
+            "PrecisionBase is a base class and cannot be instantiated"
+            "directly. Use one of its subclasses instead.")
 
 
 @dataclass(frozen=True)
@@ -53,9 +53,12 @@ class After(PrecisionBase):
         pass
 
 # Variants that carry extra data
+
+
 @dataclass(frozen=True)
 class OrYear(PrecisionBase):
     date_value: DateValue
+
     def __post_init__(self):
         if self.date_value.prec is not None:
             raise ValueError(
@@ -65,6 +68,7 @@ class OrYear(PrecisionBase):
 @dataclass(frozen=True)
 class YearInt(PrecisionBase):
     date_value: DateValue
+
     def __post_init__(self):
         if self.date_value.prec is not None:
             raise ValueError(
@@ -77,8 +81,10 @@ class CalendarDate:
     cal: Calendar
 
 
-Date: TypeAlias  = CalendarDate | str
-"""Type representing a date, which can be either a structured CalendarDate or a free-form string."""
+Date: TypeAlias = CalendarDate | str
+"""Type representing a date, which can be either a structured CalendarDate
+or a free-form string."""
 
 CompressedDate: TypeAlias = Tuple[Calendar, int] | Date | str | None
-"""Type representing a compressed date, which can be a Tuple of Calendar and year, a structured Date, a free-form string, or None."""
+"""Type representing a compressed date, which can be a Tuple of Calendar
+and year, a structured Date, a free-form string, or None."""

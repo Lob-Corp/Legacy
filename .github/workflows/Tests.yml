@@ -3,6 +3,10 @@ name: Tests
 on:
   pull_request:
 
+permissions:
+  pull-requests: write
+  contents: read
+
 jobs:
   unit_tests:
     runs-on: ubuntu-latest
@@ -29,6 +33,7 @@ jobs:
   lint:
     runs-on: ubuntu-latest
     strategy:
+      fail-fast: false
       matrix:
         linter: [flake8, mypy]
     name: Run ${{ matrix.linter }}
@@ -40,27 +45,25 @@ jobs:
           pip install ${{ matrix.linter }}
 
       - name: Run flake8 with annotations
-        if: ${{ matrix.linter }} == "flake8"
+        if: matrix.linter == 'flake8'
         uses: reviewdog/action-flake8@v2
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
+          exclude: "tests/"
           filter_mode: diff_context
           fail_on_error: true
       - name: Run mypy
-        if: ${{ matrix.linter }} == "mypy"
-        uses: sasanquaneuf/mypy-github-action@releases/v1
+        if: matrix.linter == 'mypy'
+        uses: jpetrucciani/mypy-check@master
         with:
-          checkName: 'lint'   # NOTE: this needs to be the same as the job name
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          path: src
+          mypy_flags: "--check-untyped-defs --ignore-missing-imports"
+          python_version: '3.13'
 
   #TODO: Add action executing different type of tests (Integration, E2E) based on the branch
 
   report_coverage:
-    permissions:
-      pull-requests: write
-      contents: read
     needs: unit_tests
     runs-on: ubuntu-latest
     name: Report code coverage

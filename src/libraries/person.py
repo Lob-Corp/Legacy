@@ -14,6 +14,7 @@ class Sex(Enum):
     FEMALE = "Female"
     NEUTER = "Neuter"
 
+
 @dataclass(frozen=True)
 class Place:
     town: str
@@ -25,9 +26,11 @@ class Place:
     country: str
     other: str
 
+
 IdxT = TypeVar('IdxT')
 PersonT = TypeVar('PersonT')
 PersonDescriptorT = TypeVar('PersonDescriptorT')
+
 
 @dataclass(frozen=True)
 class Person(Generic[IdxT, PersonT, PersonDescriptorT]):

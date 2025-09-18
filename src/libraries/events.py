@@ -25,7 +25,8 @@ PersonT = TypeVar('PersonT')
 class PersEventNameBase(Generic[EventDescriptorT]):
     def __init__(self):
         raise NotImplementedError(
-            "EventNameBase is a base class and cannot be instantiated directly. Use one of its subclasses instead."
+            "EventNameBase is a base class and cannot be"
+            "instantiated directly. Use one of its subclasses instead."
         )
 
 
@@ -300,7 +301,8 @@ class PersonalEvent(Generic[PersonT, EventDescriptorT]):
 class FamEventNameBase(Generic[EventDescriptorT]):
     def __init__(self):
         raise NotImplementedError(
-            "FamEventNameBase is a base class and cannot be instantiated directly. Use one of its subclasses instead."
+            "FamEventNameBase is a base class and cannot be"
+            "instantiated directly. Use one of its subclasses instead."
         )
 
 
