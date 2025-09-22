@@ -208,3 +208,11 @@ __marimo__/
 
 # Exclude legacy
 !legacy/*
+release
+
+# vscode files
+.vscode/*
+
+# coverage files
+*lcov
+lcov.*.info
