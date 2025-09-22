@@ -45,14 +45,14 @@ def nb_days_in_month(month: int, year: int) -> int:
 
 
 # # # --- Dmy2 conversion ---
-# # def dmy_of_dmy2(d2: Dmy2) -> Dmy:
-# #     return Dmy(day=d2.day2, month=d2.month2, year=d2.year2, delta=d2.delta2, prec=Sure())
+# # def dmy_of_dmy2(to_date: Dmy2) -> Dmy:
+# #     return Dmy(day=to_date.day2, month=to_date.month2, year=to_date.year2, delta=to_date.delta2, prec=Sure())
 
 
 # # --- Aux function for precision handling ---
 # def aux(fn, d: DateValue) -> DateValue:
-#     def aux2(d2: DateValue):
-#         d = of_calendars(fn(to_calendars(dmy_of_dmy2(d2))))
+#     def aux2(to_date: DateValue):
+#         d = of_calendars(fn(to_calendars(dmy_of_dmy2(to_date))))
 #         return DateValue(day2=d.day, month2=d.month, year2=d.year, delta2=d.delta)
 
 #     prec = d.prec

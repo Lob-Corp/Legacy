@@ -5,7 +5,6 @@ from date.calendar_date import Calendar, CalendarDate, DateValue
 from exception import NotComparable
 # --- Compression & uncompression --- #
 
-
 @dataclass(frozen=True)
 class CDate:
     cdate: tuple[Calendar, int] | Date | str | None

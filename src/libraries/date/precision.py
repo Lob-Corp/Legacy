@@ -1,6 +1,7 @@
 from dataclasses import dataclass
 # from date.calendar_date import DateValue
 
+
 class Precision:
     def __init__(self):
         raise NotImplementedError(
@@ -9,7 +10,6 @@ class Precision:
 
     def __eq__(self, other):
         return isinstance(other, self.__class__)
-
 
 
 class Sure(Precision):
@@ -41,6 +41,9 @@ class After(Precision):
 class OrYear(Precision):
     date_value: "DateValue"
 
+    def __eq__(self, other):
+        return isinstance(other, YearInt) and self.date_value == other.date_value
+
     def __post_init__(self):
         if self.date_value.prec is not None:
             raise ValueError("OrYear precision must have None as its precision.")
@@ -49,6 +52,9 @@ class OrYear(Precision):
 @dataclass(frozen=True)
 class YearInt(Precision):
     date_value: "DateValue"
+
+    def __eq__(self, other):
+        return isinstance(other, YearInt) and self.date_value == other.date_value
 
     def __post_init__(self):
         if self.date_value.prec is not None:
