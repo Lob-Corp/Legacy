@@ -208,4 +208,14 @@ __marimo__/
 
 # Exclude legacy
 !legacy/*
+release
+
+# vscode files
+.vscode/*
+
+# coverage files
+*lcov
+lcov.*.info
+
+# golden master testing
 tests/golden_master/records
