@@ -1,0 +1,55 @@
+{
+	"name": "scenario_add_family_link_child",
+	"actions": [
+		{ "type": "Get", "url": "http://localhost:2317/tests" },
+		{ "type": "Click", "by": "css", "value": "div.d-inline-flex:nth-child(3) > a:nth-child(1)" },
+
+		{ "type": "Type", "by": "css", "value": "#pa1_fn", "text": "Mat" },
+        { "type": "Type", "by": "css", "value": "#pa1_sn", "text": "Robertson" },
+        { "type": "Type", "by": "css", "value": "#pa1b_mm", "text": "12" },
+        { "type": "Type", "by": "css", "value": "#pa1b_dd", "text": "07" },
+        { "type": "Type", "by": "css", "value": "#pa1b_yyyy", "text": "2025" },
+        { "type": "Type", "by": "css", "value": "#pa1b_pl", "text": "Stockholm, Sweden" },
+        { "type": "Type", "by": "css", "value": "#pa1_occu", "text": "Newborn" },
+
+        { "type": "Click", "by": "css", "value": "button.btn-primary:nth-child(3)" },
+		{ "type": "Get", "url": "http://localhost:2317/tests" },
+		{ "type": "Click", "by": "css", "value": "div.d-inline-flex:nth-child(3) > a:nth-child(1)" },
+
+		{ "type": "Type", "by": "css", "value": "#pa1_fn", "text": "Ian" },
+        { "type": "Type", "by": "css", "value": "#pa1_sn", "text": "Robertson" },
+        { "type": "Type", "by": "css", "value": "#pa1b_mm", "text": "06" },
+        { "type": "Type", "by": "css", "value": "#pa1b_dd", "text": "30" },
+        { "type": "Type", "by": "css", "value": "#pa1b_yyyy", "text": "1990" },
+        { "type": "Type", "by": "css", "value": "#pa1b_pl", "text": "Belfast, Northern Ireland" },
+        { "type": "Type", "by": "css", "value": "#pa1_occu", "text": "Photographer" },
+
+        { "type": "Type", "by": "css", "value": "#pa2_fn", "text": "Julia" },
+        { "type": "Type", "by": "css", "value": "#pa2_sn", "text": "Andersson" },
+        { "type": "Type", "by": "css", "value": "#pa2b_mm", "text": "08" },
+        { "type": "Type", "by": "css", "value": "#pa2b_dd", "text": "14" },
+        { "type": "Type", "by": "css", "value": "#pa2b_yyyy", "text": "1991" },
+        { "type": "Type", "by": "css", "value": "#pa2b_pl", "text": "Stockholm, Sweden" },
+        { "type": "Type", "by": "css", "value": "#pa2_occu", "text": "Veterinarian" },
+
+        { "type": "Select", "by": "css", "value": "#ch1_p_selct", "option": 0 },
+        { "type": "Type", "by": "css", "value": "#ch1_fn", "text": "Mat" },
+        { "type": "Type", "by": "css", "value": "#ch1_sn", "text": "Robertson" },
+
+		{ "type": "Click", "by": "css", "value": "button.btn-primary:nth-child(3)" },
+		{
+            "type": "SaveHTML",
+            "filename": "records/add_family/scenario_add_family_link_child.html",
+            "clean_rules": [
+                {
+                    "pattern": "(<div class=\"btn btn-sm p-0 border-0 text-success\" id=\"q_time\" title=\"Query treated in )[0-9.]+(&nbsp;s\">)",
+                    "replacement": "\\g<1>0.0\\g<2>"
+                },
+                {
+                    "pattern": "var q_time = [0-9.]+;",
+                    "replacement": "var q_time = 0.0;"
+                }
+            ]
+        }
+	]
+}

@@ -2,6 +2,7 @@ import os
 import time
 import re
 from selenium import webdriver
+from selenium.webdriver.firefox.options import Options
 from selenium.webdriver.common.by import By
 from webdriver_manager.firefox import GeckoDriverManager
 from pydantic import BaseModel
@@ -113,7 +114,7 @@ class WebTypeAction(WebAction):
 class WebSelectAction(WebAction):
     by: str
     value: str
-    option: str
+    option: str | int
 
     def run(self, driver):
         from selenium.webdriver.support.ui import Select
@@ -126,7 +127,10 @@ class WebSelectAction(WebAction):
         }
         element = driver.find_element(by_mapping[self.by.lower()], self.value)
         select = Select(element)
-        select.select_by_value(self.option)
+        if isinstance(self.option, int):
+            select.select_by_index(self.option)
+        else:
+            select.select_by_value(self.option)
 
 class WebActionRunner:
 
@@ -134,7 +138,8 @@ class WebActionRunner:
 
     def __init__(self):
         GeckoDriverManager().install()
-        self._driver = webdriver.Firefox()
+        options: Options = Options()
+        self._driver = webdriver.Firefox(options=options)
 
     def run_action_sequence(self, actions: list[WebAction]):
         for action in actions:

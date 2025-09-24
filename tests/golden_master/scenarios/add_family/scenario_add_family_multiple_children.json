@@ -1,0 +1,59 @@
+{
+	"name": "scenario_add_family_multiple_children",
+	"actions": [
+		{ "type": "Get", "url": "http://localhost:2317/tests" },
+		{ "type": "Click", "by": "css", "value": "div.d-inline-flex:nth-child(3) > a:nth-child(1)" },
+
+		{ "type": "Type", "by": "css", "value": "#pa1_fn", "text": "Yusuf" },
+        { "type": "Type", "by": "css", "value": "#pa1_sn", "text": "Ahmed" },
+        { "type": "Type", "by": "css", "value": "#pa1b_mm", "text": "09" },
+        { "type": "Type", "by": "css", "value": "#pa1b_dd", "text": "06" },
+        { "type": "Type", "by": "css", "value": "#pa1b_yyyy", "text": "1986" },
+        { "type": "Type", "by": "css", "value": "#pa1b_pl", "text": "Cairo, Egypt" },
+        { "type": "Type", "by": "css", "value": "#pa1_occu", "text": "Archaeologist" },
+
+        { "type": "Type", "by": "css", "value": "#pa2_fn", "text": "Zara" },
+        { "type": "Type", "by": "css", "value": "#pa2_sn", "text": "Ali" },
+        { "type": "Type", "by": "css", "value": "#pa2b_mm", "text": "07" },
+        { "type": "Type", "by": "css", "value": "#pa2b_dd", "text": "18" },
+        { "type": "Type", "by": "css", "value": "#pa2b_yyyy", "text": "1990" },
+        { "type": "Type", "by": "css", "value": "#pa2b_pl", "text": "Dubai, United Arab Emirates" },
+        { "type": "Type", "by": "css", "value": "#pa2_occu", "text": "Marketing Manager" },
+
+        { "type": "Type", "by": "css", "value": "#ch1_fn", "text": "Kader" },
+        { "type": "Type", "by": "css", "value": "#ch1_sn", "text": "Ali" },
+        { "type": "Type", "by": "css", "value": "#ch1b_mm", "text": "09" },
+        { "type": "Type", "by": "css", "value": "#ch1b_dd", "text": "20" },
+        { "type": "Type", "by": "css", "value": "#ch1b_yyyy", "text": "2022" },
+        { "type": "Click", "by": "css", "value": "div.form-check:nth-child(1) > label:nth-child(1)" },
+        { "type": "Type", "by": "css", "value": "#ch1_occu", "text": "Schoolchild" },
+
+        { "type": "Select", "by": "css", "value": "#ins_ch1_n", "option": 0 },
+        { "type": "Click", "by": "css", "value": "div.col-5:nth-child(3) > div:nth-child(1) > div:nth-child(2) > label:nth-child(1)" },
+        { "type": "Click", "by": "css", "value": "div.col-5:nth-child(3) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)" },
+
+        { "type": "Type", "by": "css", "value": "#ch2_fn", "text": "Bianca" },
+        { "type": "Type", "by": "css", "value": "#ch2_sn", "text": "Ali" },
+        { "type": "Type", "by": "css", "value": "#ch2b_mm", "text": "01" },
+        { "type": "Type", "by": "css", "value": "#ch2b_dd", "text": "18" },
+        { "type": "Type", "by": "css", "value": "#ch2b_yyyy", "text": "2024" },
+        { "type": "Click", "by": "css", "value": "#ch2_p_selct_sex > div:nth-child(1) > div:nth-child(2) > div:nth-child(3) > label:nth-child(1)" },
+        { "type": "Type", "by": "css", "value": "#ch2_occu", "text": "Schoolchild" },
+
+		{ "type": "Click", "by": "css", "value": "button.btn-primary:nth-child(3)" },
+		{
+            "type": "SaveHTML",
+            "filename": "records/add_family/scenario_add_family_multiple_children.html",
+            "clean_rules": [
+                {
+                    "pattern": "(<div class=\"btn btn-sm p-0 border-0 text-success\" id=\"q_time\" title=\"Query treated in )[0-9.]+(&nbsp;s\">)",
+                    "replacement": "\\g<1>0.0\\g<2>"
+                },
+                {
+                    "pattern": "var q_time = [0-9.]+;",
+                    "replacement": "var q_time = 0.0;"
+                }
+            ]
+        }
+	]
+}
