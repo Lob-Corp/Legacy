@@ -5,7 +5,8 @@ def create_app(config="wserver.config.DevConfig"):
     """Create and configure the Flask app.
 
     Args:
-        config (str): Config class path. Defaults to "wserver.config.DevConfig".
+        config (str): Config class path.
+        Defaults to "wserver.config.DevConfig".
 
     Returns:
         Flask: Configured Flask app instance.
