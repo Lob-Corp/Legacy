@@ -326,11 +326,11 @@ class PersonalEvent(Generic[PersonT, EventDescriptorT]):
     """Container for a personal event.
 
     Fields are generic so callers can use strings, structured descriptors, or
-    domain-specific objects for `place`, `reason`, `note`, and `src`.
+    domain-specific objects for `place`, `reason`, `note`, and `src`
 
-    - name: a marker or named event instance (see `PersNamedEvent`).
-    - date: a `CompressedDate` (can represent compressed calendars, text, None).
-    - witnesses: list of (person, witness_kind) tuples.
+    - name: a marker or named event instance (see `PersNamedEvent`)
+    - date: a `CompressedDate` (can represent compressed calendars, text, None)
+    - witnesses: list of (person, witness_kind) tuples
     """
 
     name: PersEventNameBase[EventDescriptorT]

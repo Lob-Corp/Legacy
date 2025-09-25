@@ -60,7 +60,8 @@ class Parents(Generic[PersonT]):
     #     """Construct a Parents value from a parent list.
 
     #     If `multi` is False, treat the list as a couple (first two entries).
-    #     If `multi` is True, keep the list as-is (multi-parents representation).
+    #     If `multi` is True, keep the list as-is
+    #           (multi-parents representation).
     #     This mirrors the OCaml `parent` / `multi_parent` behavior.
     #     """
     #     assert len(parent) >= 2,

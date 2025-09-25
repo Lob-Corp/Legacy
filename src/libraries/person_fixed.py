@@ -35,13 +35,9 @@ class Place:
 
 
 # Type variables for genealogical data structures
-IdxT = TypeVar("IdxT")  # Index/identifier type (e.g., database key)
-PersonT = TypeVar(
-    "PersonT"
-)  # Person reference type (e.g., Person or PersonId)
-PersonDescriptorT = TypeVar(
-    "PersonDescriptorT"
-)  # String descriptors (names, notes, etc.)
+IdxT = TypeVar("IdxT")
+PersonT = TypeVar("PersonT")
+PersonDescriptorT = TypeVar("PersonDescriptorT")
 
 
 @dataclass(frozen=True)
@@ -58,7 +54,7 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     index: IdxT
     first_name: PersonDescriptorT
     surname: PersonDescriptorT
-    occ: int  # Occurrence number for name disambiguation
+    occ: int
     image: PersonDescriptorT
     public_name: PersonDescriptorT
     qualifiers: List[PersonDescriptorT]
@@ -97,10 +93,10 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
         person_mapper: Callable[[PersonT], PersonT],
         date_mapper: Callable[[Date], Date],
     ) -> "Person[IdxT, PersonT, PersonDescriptorT]":
-        """Transform all string, person, and date fields using mapper functions.
+        """Transform all string, person, and date fields using mapper functions
 
         Args:
-            string_mapper: Function to transform string fields (names, notes...)
+            string_mapper: Function to change string fields (names, notes...)
             person_mapper: Function to transform person references
             date_mapper: Function to transform dates
 

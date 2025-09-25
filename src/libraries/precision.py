@@ -8,7 +8,7 @@ if TYPE_CHECKING:
 class PrecisionBase:
     def __init__(self):
         raise NotImplementedError(
-            "PrecisionBase is a base class and cannot be instantiated directly."
+            "PrecisionBase is a base class, cannot be instantiated directly."
             "Use one of its subclasses instead."
         )
 
