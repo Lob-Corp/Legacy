@@ -1,5 +1,11 @@
 #!/bin/bash
 
+if [ "$#" -ne 2 ]; then
+    echo "Error: Expected 2 arguments, got $#."
+    echo "Usage: $0 <base_branch> <head_branch>"
+    exit 1
+fi
+
 BASE_BRANCH="$1"
 HEAD_BRANCH="$2"
 
