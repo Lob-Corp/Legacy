@@ -79,7 +79,7 @@ class Buffer:
         Returns:
             int: Next position after the stored slice.
         """
-        slice_bytes = s[si : si + slen].encode()
+        slice_bytes = s[si:si + slen].encode()
         end = pos + len(slice_bytes)
         self._ensure_capacity(end)
         self._buff[pos:end] = slice_bytes
