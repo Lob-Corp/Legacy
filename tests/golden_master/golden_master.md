@@ -21,6 +21,10 @@ Each test scenario in this document:
 
 This systematic approach allows to refactor and modernize the codebase while maintaining behavioral compatibility with the original legacy application.
 
+### How to run
+
+Use `python record.py` to launch the recording on the legacy project.
+
 ## Test Scenarios
 
 ### Add Family (`add_family`)
