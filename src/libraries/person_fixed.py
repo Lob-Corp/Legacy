@@ -3,7 +3,8 @@ from enum import Enum
 from typing import Callable, Generic, List, TypeVar
 
 from libraries.date import CompressedDate, Date
-from libraries.death_info import BurialInfoBase, DeathStatusBase
+from libraries.death_info import DeathStatusBase
+from libraries.burial_info import BurialInfoBase
 from libraries.events import PersonalEvent
 from libraries.family import Relation
 from libraries.title import AccessRight, Title
@@ -35,7 +36,9 @@ class Place:
 
 # Type variables for genealogical data structures
 IdxT = TypeVar("IdxT")  # Index/identifier type (e.g., database key)
-PersonT = TypeVar("PersonT")  # Person reference type (e.g., Person or PersonId)
+PersonT = TypeVar(
+    "PersonT"
+)  # Person reference type (e.g., Person or PersonId)
 PersonDescriptorT = TypeVar(
     "PersonDescriptorT"
 )  # String descriptors (names, notes, etc.)
@@ -94,10 +97,10 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
         person_mapper: Callable[[PersonT], PersonT],
         date_mapper: Callable[[Date], Date],
     ) -> "Person[IdxT, PersonT, PersonDescriptorT]":
-        """Transform all string, person, and date fields using provided mapper functions.
+        """Transform all string, person, and date fields using mapper functions.
 
         Args:
-            string_mapper: Function to transform string fields (names, notes, places, etc.)
+            string_mapper: Function to transform string fields (names, notes...)
             person_mapper: Function to transform person references
             date_mapper: Function to transform dates
 
@@ -118,7 +121,8 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
             ],
             surname_aliases=[string_mapper(sa) for sa in self.surname_aliases],
             titles=[
-                title.map_title(string_mapper, date_mapper) for title in self.titles
+                title.map_title(string_mapper, date_mapper)
+                for title in self.titles
             ],
             non_native_parents_relation=[
                 r.map_relation_strings(string_mapper, person_mapper)

@@ -329,7 +329,7 @@ class PersonalEvent(Generic[PersonT, EventDescriptorT]):
     domain-specific objects for `place`, `reason`, `note`, and `src`.
 
     - name: a marker or named event instance (see `PersNamedEvent`).
-    - date: a `CompressedDate` (can represent compressed calendars, text, or None).
+    - date: a `CompressedDate` (can represent compressed calendars, text, None).
     - witnesses: list of (person, witness_kind) tuples.
     """
 
@@ -443,7 +443,7 @@ class FamResidence(FamEventNameBase[Any]):
 
 
 class FamNamedEvent(FamEventNameBase[EventDescriptorT]):
-    """Family event type that carries a custom descriptor (see PersNamedEvent)."""
+    """Family event type that carries a custom descriptor."""
 
     def __init__(self, name: EventDescriptorT):
         self.name = name

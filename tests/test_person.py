@@ -10,7 +10,7 @@ from libraries.date import CompressedDate
 
 @pytest.fixture
 def compressed_date_fixture() -> CompressedDate:
-    return "2025-01-01"
+    return CompressedDate("2025-01-01")
 
 
 @pytest.fixture

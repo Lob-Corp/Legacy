@@ -1,6 +1,6 @@
 from enum import Enum
 from dataclasses import dataclass
-from typing import Any, Generic, TypeVar, Optional, Callable, override
+from typing import Any, Generic, TypeVar, Optional, Callable
 
 from libraries.date import CompressedDate, Date
 
@@ -35,7 +35,9 @@ class TitleNameBase(Generic[TitleDescriptorT]):
 
     def __eq__(self, other):
         if isinstance(other, TitleNameBase):
-            if isinstance(self, UseMainTitle) and isinstance(other, UseMainTitle):
+            if isinstance(self, UseMainTitle) and isinstance(
+                other, UseMainTitle
+            ):
                 return True
             if isinstance(self, NoTitle) and isinstance(other, NoTitle):
                 return True
@@ -43,7 +45,7 @@ class TitleNameBase(Generic[TitleDescriptorT]):
 
 
 class UseMainTitle(TitleNameBase[Any]):
-    """Indicates that a person's main title should be used for this title field."""
+    """Indicates that a person's main titleshould be used for this title."""
 
     def __init__(self):
         pass
@@ -104,7 +106,8 @@ class Title(Generic[TitleDescriptorT]):
 
         Args:
             string_mapper: Function to transform string fields (ident, place)
-            date_mapper: Optional function to transform dates. If None, dates are unchanged.
+            date_mapper: Optional function to transform dates.
+                         If None, dates are unchanged.
 
         Returns:
             New Title instance with transformed fields

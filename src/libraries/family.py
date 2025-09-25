@@ -27,9 +27,9 @@ PersonT = TypeVar("PersonT")
 class Parents(Generic[PersonT]):
     def __init__(self, parents: List[PersonT]):
         assert len(parents) != 0, "Parents List cannot be empty"
-        assert all(isinstance(p, type(parents[0])) for p in parents), (
-            "All parents must be of the same type"
-        )
+        assert all(
+            isinstance(p, type(parents[0])) for p in parents
+        ), "All parents must be of the same type"
         self.parents = parents
 
     @staticmethod
@@ -63,13 +63,15 @@ class Parents(Generic[PersonT]):
     #     If `multi` is True, keep the list as-is (multi-parents representation).
     #     This mirrors the OCaml `parent` / `multi_parent` behavior.
     #     """
-    #     assert len(parent) >= 2, "parent list must contain at least two elements"
+    #     assert len(parent) >= 2,
+    #           "parent list must contain at least two elements"
     #     if not multi:
     #         return Parents.from_couple(parent[0], parent[1])
     #     return Parents(parent)
 
     # @staticmethod
-    # def map_couple_p(multi_parents: bool, fp: Callable[[PersonT], PersonT], cpl: 'Parents[PersonT]') -> 'Parents[PersonT]':
+    # def map_couple_p(multi_parents: bool, fp: Callable[[PersonT], PersonT],
+    #       cpl: 'Parents[PersonT]') -> 'Parents[PersonT]':
     #     """Map `fp` over the parents of `cpl` and wrap using `parent` logic.
 
     #     Equivalent to: parent multi_parents (Array.map fp (parent_array cpl))
@@ -164,7 +166,9 @@ class Descendants(Generic[PersonT]):
     def map_descendants(
         self, family_mapper: Callable[[PersonT], PersonT]
     ) -> "Descendants[PersonT]":
-        return Descendants(children=[family_mapper(child) for child in self.children])
+        return Descendants(
+            children=[family_mapper(child) for child in self.children]
+        )
 
 
 IdxT = TypeVar("IdxT")
@@ -203,7 +207,9 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
             relation_kind=self.relation_kind,
             divorce=self.divorce.map_divorce(date_mapper),
             family_events=[
-                family_event.map_family_event(string_mapper, date_mapper, person_mapper)
+                family_event.map_family_event(
+                    string_mapper, date_mapper, person_mapper
+                )
                 for family_event in self.family_events
             ],
             comment=string_mapper(self.comment),

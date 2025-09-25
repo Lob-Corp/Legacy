@@ -4,10 +4,12 @@ from typing import TYPE_CHECKING
 if TYPE_CHECKING:
     from libraries.date import DateValue
 
+
 class PrecisionBase:
     def __init__(self):
         raise NotImplementedError(
-            "PrecisionBase is a base class and cannot be instantiated directly. Use one of its subclasses instead."
+            "PrecisionBase is a base class and cannot be instantiated directly."
+            "Use one of its subclasses instead."
         )
 
     def __eq__(self, other):
@@ -44,11 +46,15 @@ class OrYear(PrecisionBase):
     date_value: "DateValue"
 
     def __eq__(self, other):
-        return isinstance(other, YearInt) and self.date_value == other.date_value
+        return (
+            isinstance(other, YearInt) and self.date_value == other.date_value
+        )
 
     def __post_init__(self):
         if self.date_value.prec is not None:
-            raise ValueError("OrYear precision must have None as its precision.")
+            raise ValueError(
+                "OrYear precision must have None as its precision."
+            )
 
 
 @dataclass(frozen=True)
@@ -56,8 +62,12 @@ class YearInt(PrecisionBase):
     date_value: "DateValue"
 
     def __eq__(self, other):
-        return isinstance(other, YearInt) and self.date_value == other.date_value
+        return (
+            isinstance(other, YearInt) and self.date_value == other.date_value
+        )
 
     def __post_init__(self):
         if self.date_value.prec is not None:
-            raise ValueError("YearInt precision must have None as its precision.")
+            raise ValueError(
+                "YearInt precision must have None as its precision."
+            )

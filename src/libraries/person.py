@@ -38,7 +38,9 @@ class Place:
 
 # Type variables for genealogical data structures
 IdxT = TypeVar("IdxT")  # Index/identifier type (e.g., database key)
-PersonT = TypeVar("PersonT")  # Person reference type (e.g., Person or PersonId)
+PersonT = TypeVar(
+    "PersonT"
+)  # Person reference type (e.g., Person or PersonId)
 PersonDescriptorT = TypeVar(
     "PersonDescriptorT"
 )  # String descriptors (names, notes, etc.)
@@ -132,7 +134,8 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
             ],
             surname_aliases=[string_mapper(sa) for sa in self.surname_aliases],
             titles=[
-                title.map_title(string_mapper, date_mapper) for title in self.titles
+                title.map_title(string_mapper, date_mapper)
+                for title in self.titles
             ],
             non_native_parents_relation=[
                 r.map_relation_strings(string_mapper, person_mapper)

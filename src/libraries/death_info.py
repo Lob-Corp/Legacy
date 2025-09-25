@@ -35,7 +35,7 @@ class DeathStatusBase:
             date_mapper: Function to transform Date objects
 
         Returns:
-            New instance with transformed dates, or self if no dates to transform
+            New instance with transformed dates, or self if no dates
         """
         return self
 
@@ -48,7 +48,9 @@ class NotDead(DeathStatusBase):
 class Dead(DeathStatusBase):
     """Person is confirmed dead with known reason and date."""
 
-    def __init__(self, death_reason: DeathReason, date_of_death: CompressedDate):
+    def __init__(
+        self, death_reason: DeathReason, date_of_death: CompressedDate
+    ):
         self.death_reason: DeathReason = death_reason
         self.date_of_death: CompressedDate = date_of_death
 
