@@ -156,7 +156,7 @@ def test_relation_without_parents():
     assert relation.type == RelationToParentType.GODPARENT
     assert relation.father is None
     assert relation.mother is None
-    assert relation.sources == []
+    assert relation.sources == ""
 
 # --- Ascendants dataclass ---
 
