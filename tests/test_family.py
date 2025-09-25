@@ -151,7 +151,7 @@ def test_relation_without_parents():
         type=RelationToParentType.GODPARENT,
         father=None,
         mother=None,
-        sources=[]
+        sources=""
     )
     assert relation.type == RelationToParentType.GODPARENT
     assert relation.father is None
@@ -200,6 +200,7 @@ def test_family_full_creation():
         marriage_src="src",
         witnesses=[1, 2],
         relation_kind=MaritalStatus.MARRIED,
+        divorce_status=NotDivorced(),
         family_events=events,
         comment="comment",
         origin_file="file.gw",

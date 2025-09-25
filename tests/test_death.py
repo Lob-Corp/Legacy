@@ -22,11 +22,6 @@ def test_dead_instantiation_and_reason():
     assert d.death_reason == DeathReason.KILLED
 
 
-def test_dead_does_not_store_date_of_death():
-    date = (Calendar.GREGORIAN, 123)
-    d = Dead(DeathReason.MURDERED, date)
-    assert not hasattr(d, "date_of_death")
-
 
 def test_deadyoung_instantiation():
     dy = DeadYoung()

@@ -43,10 +43,18 @@ class Parents(Generic[PersonT]):
         return (self.parents[0], self.parents[1])
 
     def father(self) -> PersonT:
+        """
+        Get first parent.
+        Warning: homophobic and heteronormative
+        assumption, use with caution"""
         assert len(self.parents) >= 1
         return self.parents[0]
 
     def mother(self) -> PersonT:
+        """
+        Get second parent.
+        Warning: homophobic and heteronormative
+        assumption, use with caution"""
         assert len(self.parents) >= 2
         return self.parents[1]
 
@@ -93,7 +101,7 @@ class Relation(Generic[PersonT, RelationDescriptorT]):
     type: RelationToParentType
     father: PersonT | None
     mother: PersonT | None
-    sources: List[RelationDescriptorT]
+    sources: RelationDescriptorT
 
 
 FamilyT = TypeVar('FamilyT')
@@ -118,6 +126,7 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
     marriage_src: FamilyDescriptorT
     witnesses: List[PersonT]
     relation_kind: MaritalStatus
+    divorce_status: DivorceStatusBase
     family_events: List[FamilyEvent[PersonT, FamilyDescriptorT]]
     comment: FamilyDescriptorT
     origin_file: FamilyDescriptorT  # .gw filename
