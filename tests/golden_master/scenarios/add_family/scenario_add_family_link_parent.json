@@ -1,0 +1,47 @@
+{
+	"name": "scenario_add_family_link_parent",
+	"actions": [
+		{ "type": "Get", "url": "http://localhost:2317/tests" },
+		{ "type": "Click", "by": "css", "value": "div.d-inline-flex:nth-child(3) > a:nth-child(1)" },
+
+		{ "type": "Type", "by": "css", "value": "#pa1_fn", "text": "Liam" },
+        { "type": "Type", "by": "css", "value": "#pa1_sn", "text": "Patel" },
+        { "type": "Type", "by": "css", "value": "#pa1b_mm", "text": "06" },
+        { "type": "Type", "by": "css", "value": "#pa1b_dd", "text": "05" },
+        { "type": "Type", "by": "css", "value": "#pa1b_yyyy", "text": "1991" },
+        { "type": "Type", "by": "css", "value": "#pa1b_pl", "text": "Mumbai, India" },
+        { "type": "Type", "by": "css", "value": "#pa1_occu", "text": "Doctor" },
+
+		{ "type": "Click", "by": "css", "value": "button.btn-primary:nth-child(3)" },
+		{ "type": "Click", "by": "css", "value": "a.btn:nth-child(1)" },
+		{ "type": "Click", "by": "css", "value": "div.d-inline-flex:nth-child(3) > a:nth-child(1)" },
+
+		{ "type": "Select", "by": "css", "value": "#pa1_p_selct", "option": "link" },
+        { "type": "Type", "by": "css", "value": "#pa1_fn", "text": "Liam" },
+		{ "type": "Type", "by": "css", "value": "#pa1_sn", "text": "Patel" },
+
+        { "type": "Type", "by": "css", "value": "#pa2_fn", "text": "Emma" },
+        { "type": "Type", "by": "css", "value": "#pa2_sn", "text": "Fischer" },
+        { "type": "Type", "by": "css", "value": "#pa2b_mm", "text": "02" },
+        { "type": "Type", "by": "css", "value": "#pa2b_dd", "text": "28" },
+        { "type": "Type", "by": "css", "value": "#pa2b_yyyy", "text": "1975" },
+        { "type": "Type", "by": "css", "value": "#pa2b_pl", "text": "Berlin, Germany" },
+        { "type": "Type", "by": "css", "value": "#pa2_occu", "text": "Nurse" },
+
+		{ "type": "Click", "by": "css", "value": "button.btn-primary:nth-child(3)" },
+		{
+            "type": "SaveHTML",
+            "filename": "records/add_family/scenario_add_family_link_parent.html",
+            "clean_rules": [
+                {
+                    "pattern": "(<div class=\"btn btn-sm p-0 border-0 text-success\" id=\"q_time\" title=\"Query treated in )[0-9.]+(&nbsp;s\">)",
+                    "replacement": "\\g<1>0.0\\g<2>"
+                },
+                {
+                    "pattern": "var q_time = [0-9.]+;",
+                    "replacement": "var q_time = 0.0;"
+                }
+            ]
+        }
+	]
+}
