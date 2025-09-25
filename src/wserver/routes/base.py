@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, make_response
+from flask import Blueprint, make_response
 
 base_bp = Blueprint('base', __name__)
 
