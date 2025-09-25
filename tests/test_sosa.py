@@ -1,5 +1,5 @@
 import pytest
-from sosa import Sosa
+from libraries.sosa import Sosa
 
 def test_constructor_and_static_methods():
     assert Sosa.zero().value == 0
