@@ -71,4 +71,6 @@ class Cremated(BurialInfoBase):
         Returns:
             New Cremated instance with transformed cremation date
         """
-        return Cremated(cremation_date=self.cremation_date.map_cdate(date_mapper))
+        return Cremated(
+            cremation_date=self.cremation_date.map_cdate(date_mapper)
+        )

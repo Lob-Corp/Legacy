@@ -34,7 +34,7 @@ class Buffer:
         """
         if target_len > len(self._buff):
             grow = max(len(self._buff), target_len - len(self._buff))
-            self._buff.extend(b'\x00' * grow)
+            self._buff.extend(b"\x00" * grow)
 
     def store(self, pos: int, c: str) -> int:
         """
@@ -79,7 +79,7 @@ class Buffer:
         Returns:
             int: Next position after the stored slice.
         """
-        slice_bytes = s[si:si+slen].encode()
+        slice_bytes = s[si : si + slen].encode()
         end = pos + len(slice_bytes)
         self._ensure_capacity(end)
         self._buff[pos:end] = slice_bytes
@@ -93,4 +93,4 @@ class Buffer:
         Returns:
             str: Decoded string from the buffer.
         """
-        return self.buff[:self._len].decode()
+        return self.buff[: self._len].decode()

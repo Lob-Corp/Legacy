@@ -40,10 +40,12 @@ class CompressedDate:
         """Transform the date using provided mapper function.
 
         Args:
-            date_mapper: Function to transform Date objects. If None, returns self unchanged.
+            date_mapper: Function to transform Date objects.
+            If None, returns self unchanged.
 
         Returns:
-            New CompressedDate with transformed date, or original if no mapper provided
+            New CompressedDate with transformed date,or original
+            if no mapper provided
         """
         if date_mapper is None:
             return self
@@ -67,14 +69,22 @@ class CompressedDate:
         match self.cdate:
             case (Calendar.GREGORIAN, code) if isinstance(code, int):
                 return Date(
-                    CalendarDate(DateValue.uncompress(code), Calendar.GREGORIAN)
+                    CalendarDate(
+                        DateValue.uncompress(code), Calendar.GREGORIAN
+                    )
                 )
             case (Calendar.JULIAN, code) if isinstance(code, int):
-                return Date(CalendarDate(DateValue.uncompress(code), Calendar.JULIAN))
+                return Date(
+                    CalendarDate(DateValue.uncompress(code), Calendar.JULIAN)
+                )
             case (Calendar.FRENCH, code) if isinstance(code, int):
-                return Date(CalendarDate(DateValue.uncompress(code), Calendar.FRENCH))
+                return Date(
+                    CalendarDate(DateValue.uncompress(code), Calendar.FRENCH)
+                )
             case (Calendar.HEBREW, code) if isinstance(code, int):
-                return Date(CalendarDate(DateValue.uncompress(code), Calendar.HEBREW))
+                return Date(
+                    CalendarDate(DateValue.uncompress(code), Calendar.HEBREW)
+                )
             case Date():
                 return self.cdate
             case str():
@@ -85,14 +95,17 @@ class CompressedDate:
 
 @dataclass(frozen=True)
 class Date:
-    """Type representing a date, which can be either a structured CalendarDate or a free-form string."""
+    """Type representing a date, which can be either a structured CalendarDate
+    or a free-form string."""
 
     date: CalendarDate | str
 
     def __eq__(self, other) -> bool:
         if not isinstance(other, Date):
             raise NotComparable(f"Cannot compare Date with {type(other)}")
-        if isinstance(self.date, CalendarDate) and isinstance(other.date, CalendarDate):
+        if isinstance(self.date, CalendarDate) and isinstance(
+            other.date, CalendarDate
+        ):
             return self.date == other.date
         if isinstance(self.date, str) and isinstance(other.date, str):
             return self.date == other.date
@@ -117,10 +130,11 @@ class Date:
 
 @dataclass(frozen=True)
 class DateValue:
-    """Represents a specific date with day, month, year and precision information.
-
-    Core date structure that handles uncertain dates, different precision levels,
-    and comparison operations. Day/month values of 0 indicate unknown components.
+    """
+    Represents a specific date with day, month, year and precision information.
+    Core date structure that handles uncertain dates, different precision
+    levels, and comparison operations. Day/month values of 0 indicate unknown
+    components.
     """
 
     day: int
@@ -144,7 +158,10 @@ class DateValue:
             strict: If True, incompatible precision combinations return None
 
         Returns:
-            -1 if self < other, 0 if equal, 1 if self > other, None if incomparable
+            -1 if self < other,
+            0 if equal,
+            1 if self > other,
+            None if incomparable
 
         Raises:
             NotComparable: If comparing with non-DateValue object
@@ -156,19 +173,28 @@ class DateValue:
             return self.__compare_month_or_day(False, strict, self, other)
 
         return self.__eval_strict(
-            strict, (self.year > other.year) - (self.year < other.year), self, other
+            strict,
+            (self.year > other.year) - (self.year < other.year),
+            self,
+            other,
         )
 
     def __eval_strict(
-        self, strict: bool, comparison: int, from_date: DateValue, to_date: DateValue
+        self,
+        strict: bool,
+        comparison: int,
+        from_date: DateValue,
+        to_date: DateValue,
     ) -> Optional[int]:
         if strict:
             if comparison == -1 and (
-                isinstance(from_date.prec, After) or isinstance(to_date.prec, Before)
+                isinstance(from_date.prec, After)
+                or isinstance(to_date.prec, Before)
             ):
                 return None
             if comparison == 1 and (
-                isinstance(from_date.prec, Before) or isinstance(to_date.prec, After)
+                isinstance(from_date.prec, Before)
+                or isinstance(to_date.prec, After)
             ):
                 return None
             return comparison
@@ -191,14 +217,22 @@ class DateValue:
             a = replace(from_date, prec=Sure())
             b = replace(to_date, prec=Sure())
             return a.compare(b, strict)
-        if isinstance(from_date.prec, Before) or isinstance(to_date.prec, After):
+        if isinstance(from_date.prec, Before) or isinstance(
+            to_date.prec, After
+        ):
             return -1
-        if isinstance(from_date.prec, After) or isinstance(to_date.prec, Before):
+        if isinstance(from_date.prec, After) or isinstance(
+            to_date.prec, Before
+        ):
             return 1
         return 0
 
     def __compare_month_or_day(
-        self, is_day: bool, strict: bool, from_date: DateValue, to_date: DateValue
+        self,
+        is_day: bool,
+        strict: bool,
+        from_date: DateValue,
+        to_date: DateValue,
     ) -> Optional[int]:
         """Compare months first, then days, using prec if needed."""
 
@@ -220,6 +254,7 @@ class DateValue:
 
             def func(strict, fd, td):
                 return self.__compare_prec(strict, fd, td)
+
         else:
             x, y = from_date.month, to_date.month
 
@@ -263,8 +298,12 @@ class DateValue:
             if self.prec is None:
                 p = 0
             else:
-                p = {About: 1, Maybe: 2, Before: 3, After: 4}.get(type(self.prec), 0)
-            return (((((p * 32) + self.day) * 13) + self.month) * 2500) + self.year
+                p = {About: 1, Maybe: 2, Before: 3, After: 4}.get(
+                    type(self.prec), 0
+                )
+            return (
+                ((((p * 32) + self.day) * 13) + self.month) * 2500
+            ) + self.year
         return None
 
     @staticmethod
@@ -292,8 +331,8 @@ class DateValue:
     ) -> PrecisionBase:
         """Combine two precision values into a single precision level.
 
-        Used when performing operations on dates with different precision levels
-        to determine the appropriate precision for the result.
+        Used when performing operations on dates with different precision
+        levels to determine the appropriate precision for the result.
 
         Args:
             p1: First precision level
@@ -375,7 +414,9 @@ class DateValue:
         ):
             return None
         prec = DateValue._combine_precision(from_date.prec, to_date.prec)
-        delta_days = DateValue._sdn_of_date(to_date) - DateValue._sdn_of_date(from_date)
+        delta_days = DateValue._sdn_of_date(to_date) - DateValue._sdn_of_date(
+            from_date
+        )
 
         years = delta_days // 365
         months = (delta_days % 365) // 30
