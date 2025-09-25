@@ -1,0 +1,12 @@
+name: Branch Rule Enforcement
+
+on:
+  pull_request:
+
+jobs:
+  enforce-branch-rules:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check branch merging rules
+        run: ./check_branch.sh "${{ github.base_ref }}" "${{ github.head_ref }}"
+
