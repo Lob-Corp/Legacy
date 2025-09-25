@@ -69,9 +69,7 @@ class CompressedDate:
         match self.cdate:
             case (Calendar.GREGORIAN, code) if isinstance(code, int):
                 return Date(
-                    CalendarDate(
-                        DateValue.uncompress(code), Calendar.GREGORIAN
-                    )
+                    CalendarDate(DateValue.uncompress(code), Calendar.GREGORIAN)
                 )
             case (Calendar.JULIAN, code) if isinstance(code, int):
                 return Date(

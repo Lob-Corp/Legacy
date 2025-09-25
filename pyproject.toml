@@ -7,7 +7,11 @@ name = "GenewebPy"
 version = "0.1.0"
 
 [tool.setuptools.packages.find]
+<<<<<<< HEAD
 where = ["src"]
 
 [tool.black]
 line-length = 79
+=======
+where = ["src"]
+>>>>>>> 3fe50d4 (style(utils-module): refacotr linting on multiple utils module)
