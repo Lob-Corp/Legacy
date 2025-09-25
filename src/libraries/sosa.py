@@ -1,10 +1,12 @@
 import math
 from functools import total_ordering
 
+
 @total_ordering
 class Sosa:
     """
-    Represents a Sosa number in genealogy, used to identify individuals in an ancestry tree.
+    Represents a Sosa number in genealogy, used to identify individuals in
+    an ancestry tree.
 
     Attributes:
         value (int): The Sosa number (must be non-negative).
