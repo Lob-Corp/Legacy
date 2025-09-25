@@ -1,4 +1,3 @@
-import pytest
 from wserver import config
 
 def test_config_has_secret_key():
