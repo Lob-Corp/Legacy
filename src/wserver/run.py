@@ -1,3 +1,5 @@
+"""Run the Flask application."""
+
 from wserver import create_app
 import os
 from dotenv import load_dotenv
