@@ -1,0 +1,90 @@
+name: Tests
+
+on:
+  pull_request:
+
+permissions:
+  pull-requests: write
+  contents: read
+
+jobs:
+  unit_tests:
+    runs-on: ubuntu-latest
+    name: Run unit tests
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: "3.13"
+      - name: Install dependencies
+        run: pip install -r requirements-test.txt
+      - name: Install GenewebPy package
+        run: pip install -e .
+      - name: Run pytest
+        run: pytest --cov=src --cov-report=lcov:lcov.unit.info --cov-branch tests
+      - name: Upload coverage
+        uses: actions/upload-artifact@v4
+        with:
+            name: coverage-unit
+            path: lcov.unit.info
+
+  lint:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        linter: [flake8, mypy]
+    name: Run ${{ matrix.linter }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Install ${{ matrix.linter }}
+        run: |
+          pip install ${{ matrix.linter }}
+
+      - name: Run flake8 with annotations
+        if: matrix.linter == 'flake8'
+        uses: reviewdog/action-flake8@v2
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          reporter: github-pr-review
+          exclude: "tests/"
+          filter_mode: diff_context
+          fail_on_error: true
+      - name: Run mypy
+        if: matrix.linter == 'mypy'
+        uses: jpetrucciani/mypy-check@master
+        with:
+          path: src
+          mypy_flags: "--check-untyped-defs --ignore-missing-imports"
+          python_version: '3.13'
+
+  #TODO: Add action executing different type of tests (Integration, E2E) based on the branch
+
+  report_coverage:
+    needs: unit_tests
+    runs-on: ubuntu-latest
+    name: Report code coverage
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Download coverage from unit tests
+        uses: actions/download-artifact@v4
+        with:
+            name: coverage-unit
+            path: coverage-artifacts/
+      - name: Install lcov
+        run: sudo apt-get install -y lcov
+      - name: Merge LCOV files
+        run: |
+          lcov -a coverage-artifacts/lcov.unit.info \
+               -o coverage.info
+      - uses: zgosalvez/github-actions-report-lcov@v4
+        with:
+          coverage-files: coverage.info
+          minimum-coverage: 80
+          artifact-name: code-coverage-report
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          update-comment: true
