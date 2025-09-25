@@ -1,5 +1,5 @@
 import pytest
-from utils.buffer import Buffer
+from libraries.buffer import Buffer
 
 @pytest.fixture
 def buf():

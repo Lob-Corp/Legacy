@@ -1,5 +1,5 @@
+from libraries.consanguinity_rate import ConsanguinityRate
 import pytest
-from consanguinity_rate import ConsanguinityRate
 
 def test_init():
     cr = ConsanguinityRate(123456)

@@ -4,10 +4,10 @@ from dataclasses import replace
 from typing import Optional
 
 # Assuming these imports based on the code structure
-from date.precision import OrYear, Precision, Sure, About, Maybe, Before, After, YearInt
-from date.calendar_date import Calendar, CalendarDate, DateValue
+from libraries.precision import OrYear, PrecisionBase, Sure, About, Maybe, Before, After, YearInt
+from libraries.calendar_date import Calendar, CalendarDate
 # NotComparable intentionally not imported here; tests use compare return values
-from date.date import Date, CDate
+from libraries.date import Date, CompressedDate, DateValue
 
 
 

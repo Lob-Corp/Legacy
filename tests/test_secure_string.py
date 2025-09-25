@@ -1,6 +1,6 @@
+from libraries.secure_string import *
 import pytest
 
-from secure_string import *
 
 # SafeString tests
 def test_safe_concat_multiple_safestrings():
@@ -26,7 +26,7 @@ def test_safe_concat_mixed_subclasses_raises():
 def test_safe_concat_invalid_type_raises():
     a = SafeString("hello")
     with pytest.raises(TypeError):
-        SafeString.concat_all(a, 123)
+        SafeString.concat_all(a, 123) #type: ignore
 
 def test_safe_concat_empty_args():
     result = SafeString.concat_all()

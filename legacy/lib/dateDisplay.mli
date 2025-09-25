@@ -59,7 +59,7 @@ val year_text : dmy -> string
 (** Returns textual representation of date's year. *)
 
 val short_dates_text : config -> base -> person -> Adef.safe_string
-(** Returns concatenation of person's birth and death dates (if exists). Precision is mentionned for each date.
+(** Returns concatenation of person's birth and death dates (if exists). PrecisionBase is mentionned for each date.
     For example :
 
         * 1700-1780 (birth - death)
