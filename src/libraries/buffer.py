@@ -93,4 +93,4 @@ class Buffer:
         Returns:
             str: Decoded string from the buffer.
         """
-        return self.buff[: self._len].decode()
+        return self.buff[:self._len].decode()

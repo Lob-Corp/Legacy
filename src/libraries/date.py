@@ -69,9 +69,7 @@ class CompressedDate:
         match self.cdate:
             case (Calendar.GREGORIAN, code) if isinstance(code, int):
                 return Date(
-                    CalendarDate(
-                        DateValue.uncompress(code), Calendar.GREGORIAN
-                    )
+                    CalendarDate(DateValue.uncompress(code), Calendar.GREGORIAN)
                 )
             case (Calendar.JULIAN, code) if isinstance(code, int):
                 return Date(
@@ -144,7 +142,8 @@ class DateValue:
     delta: int = 0
 
     def __eq__(self, other) -> bool:
-        """Check equality by comparing dates, raising error if not comparable."""
+        """Check equality by comparing dates, raising error
+        if not comparable."""
         result = self.compare(other)
         if result is None:
             raise NotComparable("Dates not comparable")
