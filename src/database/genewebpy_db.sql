@@ -27,13 +27,13 @@ CREATE TABLE
         "greg_date" TEXT NOT NULL,
         "precision" TEXT NOT NULL CHECK (
             "precision" IN (
-                'sure',
-                'about',
-                'maybe',
-                'before',
-                'after',
-                'orYear',
-                'yearInt'
+                'SURE',
+                'ABOUT',
+                'MAYBE',
+                'BEFORE',
+                'AFTER',
+                'ORYEAR',
+                'YEARINT'
             )
         ),
         "precision_date_value" INTEGER NOT NULL,
