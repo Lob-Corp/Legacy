@@ -199,6 +199,7 @@ def test_family_full_creation():
         marriage_note="note",
         marriage_src="src",
         witnesses=[1, 2],
+        divorce=NotDivorced(),
         relation_kind=MaritalStatus.MARRIED,
         family_events=events,
         comment="comment",
