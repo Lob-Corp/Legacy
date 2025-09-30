@@ -102,6 +102,7 @@ class Date:
 
     def __eq__(self, other) -> bool:
         if not isinstance(other, Date):
+            print(f"AAA - {type(self)} vs {type(other)}")
             raise NotComparable(f"Cannot compare Date with {type(other)}")
         if isinstance(self.date, CalendarDate) and isinstance(
             other.date, CalendarDate
@@ -374,11 +375,9 @@ class DateValue:
         Raises:
             ValueError: If day, month, or year are zero/unknown
         """
-        # require fully specified positive day/month/year
         if d.day <= 0 or d.month <= 0 or d.year == 0:
             raise ValueError("Cannot compute SDN for unknown day/month/year")
 
-        # integer algorithm for Gregorian calendar JDN
         a = (14 - d.month) // 12
         y = d.year + 4800 - a
         m = d.month + 12 * a - 3
