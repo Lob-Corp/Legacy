@@ -58,7 +58,7 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     baptism_place: PersonDescriptorT
     baptism_note: PersonDescriptorT
     baptism_src: PersonDescriptorT
-    death: DeathStatusBase
+    death_status: DeathStatusBase
     death_place: PersonDescriptorT
     death_note: PersonDescriptorT
     death_src: PersonDescriptorT
