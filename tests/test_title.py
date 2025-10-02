@@ -1,5 +1,5 @@
 import pytest
-from libraries.title import *
+from libraries.title import Title, TitleName, UseMainTitle, NoTitle, TitleNameBase
 
 # --- Base class enforcement ---
 
@@ -71,3 +71,23 @@ def test_title_match():
             case _:
                 matched.append("unknown")
     assert matched == ["use_main", "title:Duke of Python", "no_title"]
+
+# --- Equality checks ---
+
+def test_title_equality():
+    t1 = TitleName("Duke of Python")
+    t2 = TitleName("Duke of Python")
+    t3 = TitleName("Duke of Java")
+    t4 = "TitleName"
+
+    assert t1 == t2
+    assert t1 != t3
+    assert t1 != t4
+
+def test_title_namebase_equality():
+    t1 = UseMainTitle()
+    t2 = UseMainTitle()
+    t3 = NoTitle()
+
+    assert t1 == t2
+    assert t1 != t3
