@@ -14,9 +14,10 @@ CREATE TABLE
 
 CREATE TABLE
     IF NOT EXISTS "CoupleParents" (
+        "id" INTEGER NOT NULL,
         "couple_id" INTEGER NOT NULL,
         "person_id" INTEGER NOT NULL,
-        PRIMARY KEY ("couple_id", "person_id"),
+        PRIMARY KEY ("id"),
         FOREIGN KEY ("couple_id") REFERENCES "Couple" ("id"),
         FOREIGN KEY ("person_id") REFERENCES "Person" ("id")
     );
@@ -43,9 +44,10 @@ CREATE TABLE
 
 CREATE TABLE
     IF NOT EXISTS "DescendChildren" (
+        "id" INTEGER NOT NULL,
         "descend_id" INTEGER NOT NULL,
         "person_id" INTEGER NOT NULL,
-        PRIMARY KEY ("descend_id", "person_id"),
+        PRIMARY KEY ("id"),
         FOREIGN KEY ("descend_id") REFERENCES "Descends" ("id"),
         FOREIGN KEY ("person_id") REFERENCES "Person" ("id")
     );
@@ -142,18 +144,20 @@ CREATE TABLE
 
 CREATE TABLE
     IF NOT EXISTS "FamilyEvents" (
+        "id" INTEGER NOT NULL,
         "family_id" INTEGER NOT NULL,
         "event_id" INTEGER NOT NULL,
-        PRIMARY KEY ("family_id", "event_id"),
+        PRIMARY KEY ("id"),
         FOREIGN KEY ("event_id") REFERENCES "FamilyEvent" ("id"),
         FOREIGN KEY ("family_id") REFERENCES "Family" ("id")
     );
 
 CREATE TABLE
     IF NOT EXISTS "FamilyWitness" (
+        "id" INTEGER NOT NULL,
         "family_id" INTEGER NOT NULL,
         "person_id" INTEGER NOT NULL,
-        PRIMARY KEY ("family_id", "person_id"),
+        PRIMARY KEY ("id"),
         FOREIGN KEY ("family_id") REFERENCES "Family" ("id"),
         FOREIGN KEY ("person_id") REFERENCES "Person" ("id")
     );
@@ -184,7 +188,7 @@ CREATE TABLE
         "baptism_note" TEXT NOT NULL,
         "baptism_src" TEXT NOT NULL,
         "death_status" TEXT NOT NULL CHECK (
-            "death" IN (
+            "death_status" IN (
                 'NOT_DEAD',
                 'DEAD',
                 'DEAD_YOUNG',
@@ -242,36 +246,40 @@ CREATE TABLE
 
 CREATE TABLE
     IF NOT EXISTS "PersonEvents" (
+        "id" INTEGER NOT NULL,
         "person_id" INTEGER NOT NULL,
         "event_id" INTEGER NOT NULL,
-        PRIMARY KEY ("person_id", "event_id"),
+        PRIMARY KEY ("id"),
         FOREIGN KEY ("event_id") REFERENCES "PersonalEvent" ("id"),
         FOREIGN KEY ("person_id") REFERENCES "Person" ("id")
     );
 
 CREATE TABLE
     IF NOT EXISTS "PersonNonNativeRelations" (
+        "id" INTEGER NOT NULL,
         "person_id" INTEGER NOT NULL,
         "relation_id" INTEGER NOT NULL,
-        PRIMARY KEY ("person_id", "relation_id"),
+        PRIMARY KEY ("id"),
         FOREIGN KEY ("person_id") REFERENCES "Person" ("id"),
         FOREIGN KEY ("relation_id") REFERENCES "Relation" ("id")
     );
 
 CREATE TABLE
     IF NOT EXISTS "PersonRelations" (
+        "id" INTEGER NOT NULL,
         "person_id" INTEGER NOT NULL,
         "related_person_id" INTEGER NOT NULL,
-        PRIMARY KEY ("person_id", "related_person_id"),
+        PRIMARY KEY ("id"),
         FOREIGN KEY ("person_id") REFERENCES "Person" ("id"),
         FOREIGN KEY ("related_person_id") REFERENCES "Person" ("id")
     );
 
 CREATE TABLE
     IF NOT EXISTS "PersonTitles" (
+        "id" INTEGER NOT NULL,
         "person_id" INTEGER NOT NULL,
         "title_id" INTEGER NOT NULL,
-        PRIMARY KEY ("person_id", "title_id"),
+        PRIMARY KEY ("id"),
         FOREIGN KEY ("person_id") REFERENCES "Person" ("id"),
         FOREIGN KEY ("title_id") REFERENCES "Titles" ("id")
     );
@@ -395,9 +403,10 @@ CREATE TABLE
 
 CREATE TABLE
     IF NOT EXISTS "UnionFamilies" (
+        "id" INTEGER NOT NULL,
         "union_id" INTEGER NOT NULL,
         "family_id" INTEGER NOT NULL,
-        PRIMARY KEY ("union_id", "family_id"),
+        PRIMARY KEY ("id"),
         FOREIGN KEY ("family_id") REFERENCES "Family" ("id"),
         FOREIGN KEY ("union_id") REFERENCES "Unions" ("id")
     );
