@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, Text
 from database import Base
 
+
 class Place(Base):
     __tablename__ = "Place"
 

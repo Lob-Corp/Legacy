@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from database import Base
 
+
 class PersonTitles(Base):
     __tablename__ = "PersonTitles"
 

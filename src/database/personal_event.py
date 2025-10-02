@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, Text, Enum, ForeignKey
 from database import Base
 import enum
 
+
 class PersonalEventName(enum.Enum):
     BIRTH = "BIRTH"
     BAPTISM = "BAPTISM"
@@ -54,6 +55,7 @@ class PersonalEventName(enum.Enum):
     VENTE_BIEN = "VENTE_BIEN"
     WILL = "WILL"
     NAMED_EVENT = "NAMED_EVENT"
+
 
 class PersonalEvent(Base):
     __tablename__ = "PersonalEvent"

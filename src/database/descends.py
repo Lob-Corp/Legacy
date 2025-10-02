@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer
 from database import Base
 
+
 class Descends(Base):
     __tablename__ = "Descends"
 

@@ -7,6 +7,7 @@ from libraries.death_info import DeathReason
 
 import enum
 
+
 class DeathStatus(enum.Enum):
     NOT_DEAD = "NOT_DEAD"
     DEAD = "DEAD"
@@ -15,10 +16,12 @@ class DeathStatus(enum.Enum):
     DONT_KNOW_IF_DEAD = "DONT_KNOW_IF_DEAD"
     OF_COURSE_DEAD = "OF_COURSE_DEAD"
 
+
 class BurialStatus(enum.Enum):
     UNKNOWN_BURIAL = "UNKNOWN_BURIAL"
     BURIAL = "BURIAL"
     CREMATED = "CREMATED"
+
 
 class Person(Base):
     __tablename__ = "Person"

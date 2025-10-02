@@ -1,6 +1,7 @@
 from sqlalchemy import Column, Integer, ForeignKey
 from database import Base
 
+
 class DescendChildren(Base):
     __tablename__ = "DescendChildren"
     id = Column(Integer, primary_key=True, nullable=False)

@@ -2,6 +2,7 @@ from sqlalchemy import Column, Integer, Enum, ForeignKey
 from database import Base
 from libraries.events import EventWitnessKind
 
+
 class FamilyEventWitness(Base):
     __tablename__ = "FamilyEventWitness"
 

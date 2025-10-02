@@ -3,10 +3,12 @@ from database import Base
 from libraries.family import MaritalStatus
 import enum
 
+
 class DivorceStatus(enum.Enum):
     NOT_DIVORCED = "NOT_DIVORCED"
     DIVORCED = "DIVORCED"
     SEPARATED = "SEPARATED"
+
 
 class Family(Base):
     __tablename__ = "Family"

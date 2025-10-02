@@ -1,6 +1,7 @@
-from sqlalchemy import Column, Integer, Text, Enum, ForeignKey
+from sqlalchemy import Column, Integer, Enum, ForeignKey
 from database import Base
 from libraries.events import EventWitnessKind
+
 
 class PersonEventWitness(Base):
     __tablename__ = "PersonEventWitness"
