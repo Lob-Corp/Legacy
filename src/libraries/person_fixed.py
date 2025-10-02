@@ -11,8 +11,6 @@ from libraries.title import AccessRight, Title
 
 
 class Sex(Enum):
-    """Biological sex classification for genealogical records."""
-
     MALE = "Male"
     FEMALE = "Female"
     NEUTER = "Neuter"
@@ -37,22 +35,20 @@ class Place:
 
 
 # Type variables for genealogical data structures
-IdxT = TypeVar("IdxT")  # Index/identifier type (e.g., database key)
-PersonT = TypeVar(
-    "PersonT"
-)  # Person reference type (e.g., Person or PersonId)
-PersonDescriptorT = TypeVar(
-    "PersonDescriptorT"
-)  # String descriptors (names, notes, etc.)
+IdxT = TypeVar("IdxT")
+PersonT = TypeVar("PersonT")
+PersonDescriptorT = TypeVar("PersonDescriptorT")
 
 
 @dataclass(frozen=True)
 class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
-    """Complete genealogical record for an individual person.
+    """Represents a person in a genealogical database.
 
-    Contains all biographical information typically tracked in genealogy:
-    names, dates, places, relationships, and sources. Uses generic types
-    to support different storage backends and identifier systems.
+    Contains all biographical information including names, vital records
+    (birth/death/baptism/burial), family relationships, titles, and events.
+
+    The 'occ' field is an occurrence number to distinguish people with
+    identical names (e.g., "John Smith" vs "John Smith (2)").
     """
 
     index: IdxT
@@ -71,26 +67,18 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     occupation: PersonDescriptorT
     sex: Sex
     access_right: AccessRight
-
-    # Birth information
     birth_date: CompressedDate
     birth_place: PersonDescriptorT
     birth_note: PersonDescriptorT
     birth_src: PersonDescriptorT
-
-    # Baptism/christening information
     baptism_date: CompressedDate
     baptism_place: PersonDescriptorT
     baptism_note: PersonDescriptorT
     baptism_src: PersonDescriptorT
-
-    # Death information
     death: DeathStatusBase
     death_place: PersonDescriptorT
     death_note: PersonDescriptorT
     death_src: PersonDescriptorT
-
-    # Burial information
     burial: BurialInfoBase
     burial_place: PersonDescriptorT
     burial_note: PersonDescriptorT
@@ -105,15 +93,10 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
         person_mapper: Callable[[PersonT], PersonT],
         date_mapper: Callable[[Date], Date],
     ) -> "Person[IdxT, PersonT, PersonDescriptorT]":
-        """Transform all fields using provided mapper functions.
-
-        This creates a new Person instance with all string descriptors,
-        person references, and dates transformed using the respective
-        mapper functions. Useful for data migration, format conversion,
-        or applying systematic transformations.
+        """Transform all string, person, and date fields using mapper functions
 
         Args:
-            string_mapper: Function to transform string descriptors
+            string_mapper: Function to change string fields (names, notes...)
             person_mapper: Function to transform person references
             date_mapper: Function to transform dates
 

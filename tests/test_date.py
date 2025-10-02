@@ -1,5 +1,8 @@
-from libraries.date import About, After, Before, Calendar, CalendarDate, Date, DateValue, Maybe, OrYear, PrecisionBase, Sure, YearInt
+from libraries.precision import About, After, Before, Maybe, OrYear, PrecisionBase, Sure, YearInt
+from libraries.calendar_date import Calendar, CalendarDate
+from libraries.date import Date, DateValue
 import pytest
+
 
 
 def test_precision_instantiation():
@@ -48,7 +51,6 @@ def test_yearint_invalid_precision_raises():
     with pytest.raises(ValueError):
         YearInt(d)
 
-
 def test_datevalue_creation():
     p = Sure()
     d = DateValue(day=10, month=5, year=1990, prec=p, delta=0)
@@ -57,7 +59,6 @@ def test_datevalue_creation():
     assert d.year == 1990
     assert d.prec == p
     assert d.delta == 0
-
 
 def test_calendar_date_gregorian():
     d = DateValue(day=15, month=8, year=1947, prec=About(), delta=0)
@@ -82,7 +83,6 @@ def test_calendar_date_hebrew():
     c = CalendarDate(dmy=d, cal=Calendar.HEBREW)
     assert c.dmy == d
     assert c.cal == Calendar.HEBREW
-
 
 def test_date_as_calendar_date():
     d = DateValue(day=1, month=1, year=2000, prec=About(), delta=0)

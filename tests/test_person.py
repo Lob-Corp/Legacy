@@ -1,6 +1,7 @@
 from libraries.person import Person, Place, Sex
 import pytest
-from libraries.death_info import DontKnowIfDead, NotDead, UnknownBurial
+from libraries.burial_info import UnknownBurial
+from libraries.death_info import DontKnowIfDead, NotDead
 from libraries.events import EventWitnessKind, PersBirth, PersonalEvent
 from libraries.family import Relation, RelationToParentType
 from libraries.title import AccessRight, Title, TitleName
@@ -9,12 +10,20 @@ from libraries.date import CompressedDate
 
 @pytest.fixture
 def compressed_date_fixture() -> CompressedDate:
-    return "2025-01-01"
+    return CompressedDate("2025-01-01")
+
 
 @pytest.fixture
 def title_fixture(compressed_date_fixture) -> Title[str]:
-    return Title[str](title_name=TitleName[str]("name"), ident="t1", place="Paris",
-                       date_start=compressed_date_fixture, date_end=compressed_date_fixture, nth=1)
+    return Title[str](
+        title_name=TitleName[str]("name"),
+        ident="t1",
+        place="Paris",
+        date_start=compressed_date_fixture,
+        date_end=compressed_date_fixture,
+        nth=1,
+    )
+
 
 @pytest.fixture
 def pers_event_fixture(compressed_date_fixture) -> PersonalEvent[int, str]:
@@ -35,6 +44,7 @@ def pers_event_fixture(compressed_date_fixture) -> PersonalEvent[int, str]:
         witnesses=witnesses,
     )
 
+
 def test_place_full_creation():
     place = Place(
         town="Paris",
@@ -44,19 +54,23 @@ def test_place_full_creation():
         county="County",
         region="Île-de-France",
         country="France",
-        other="Extra info"
+        other="Extra info",
     )
     assert place.town == "Paris"
     assert place.region == "Île-de-France"
     assert place.country == "France"
     assert place.other == "Extra info"
 
+
 # --- Person dataclass ---
 
 
-def test_person_minimal_stubs(compressed_date_fixture, title_fixture, pers_event_fixture):
+def test_person_minimal_stubs(
+    compressed_date_fixture, title_fixture, pers_event_fixture
+):
     fake_relation = Relation[int, str](
-        type=RelationToParentType.ADOPTION, father=None, mother=None, sources=[])
+        type=RelationToParentType.ADOPTION, father=None, mother=None, sources=[]
+    )
     person = Person(
         index=1,
         first_name="Jean",
@@ -69,8 +83,8 @@ def test_person_minimal_stubs(compressed_date_fixture, title_fixture, pers_event
         first_names_aliases=["J"],
         surname_aliases=["Du."],
         titles=[title_fixture],
-        NonNativeParentsRelation=[fake_relation],
-        RelatedPersons=[],
+        non_native_parents_relation=[fake_relation],
+        related_persons=[],
         occupation="Farmer",
         sex=Sex.MALE,
         access_right=AccessRight.PUBLIC,
@@ -92,7 +106,7 @@ def test_person_minimal_stubs(compressed_date_fixture, title_fixture, pers_event
         burial_src="burial src",
         personal_events=[pers_event_fixture],
         notes="general note",
-        src="src file"
+        src="src file",
     )
 
     # Check key fields
@@ -120,8 +134,8 @@ def test_person_with_empty_lists(compressed_date_fixture):
         first_names_aliases=[],
         surname_aliases=[],
         titles=[],
-        NonNativeParentsRelation=[],
-        RelatedPersons=[],
+        non_native_parents_relation=[],
+        related_persons=[],
         occupation="",
         sex=Sex.FEMALE,
         access_right=AccessRight.PRIVATE,
@@ -143,7 +157,7 @@ def test_person_with_empty_lists(compressed_date_fixture):
         burial_src="",
         personal_events=[],
         notes="",
-        src=""
+        src="",
     )
 
     assert person.index == 2
