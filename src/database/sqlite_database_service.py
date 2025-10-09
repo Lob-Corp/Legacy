@@ -35,7 +35,7 @@ class SQLiteDatabaseService:
         self._engine = None
         self._sessionmaker = None
 
-    def get_session(self) -> Session | None:
+    def get_session(self) -> Optional[Session]:
         if self._sessionmaker is None:
             return None
         return self._sessionmaker()
@@ -61,15 +61,25 @@ class SQLiteDatabaseService:
         for obj in objs:
             session.delete(obj)
 
-    def get(self, session: Session, model: Type[ModelType], query: dict = {}) -> ModelType | None:
+    def get(
+        self, session: Session, model: Type[ModelType], query: dict = {}
+    ) -> Optional[ModelType]:
         if session is None:
             return None
         return session.query(model).filter_by(**query).first()
 
-    def get_all(self, session: Session, model: Type[ModelType], query: dict = {}, offset: int = 0, limit: int = 100) -> List[ModelType]:
+    def get_all(
+        self,
+        session: Session,
+        model: Type[ModelType],
+        query: dict = {},
+        offset: int = 0,
+        limit: int = 100
+    ) -> List[ModelType]:
         if session is None:
             return []
-        return session.query(model).filter_by(**query).offset(offset).limit(limit).all()
+        return (session.query(model).filter_by(**query)
+                .offset(offset).limit(limit).all())
 
     def refresh(self, session: Session, obj: object) -> None:
         if session is None:
