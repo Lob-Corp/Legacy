@@ -11,4 +11,3 @@ class DevConfig(Config):
 class ProdConfig(Config):
     """Production config."""
     DEBUG = False
-
