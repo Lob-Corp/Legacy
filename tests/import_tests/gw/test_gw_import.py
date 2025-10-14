@@ -2,7 +2,7 @@ import os
 import tempfile
 from typing import cast
 
-from script.gwcomp import (
+from script.gw_parser import (
     SomebodyUndefined,
     parse_gw_file,
     FamilyGwSyntax,
