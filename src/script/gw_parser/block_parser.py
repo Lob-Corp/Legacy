@@ -4,6 +4,7 @@ Handles parsing of different block types: family, notes, relations,
 personal events, etc.
 """
 
+from dataclasses import replace
 from typing import List, Tuple, Optional, cast
 
 from libraries.person import Person, Sex
@@ -19,9 +20,8 @@ from libraries.family import (
     DivorceStatusBase,
 )
 from libraries.events import FamilyEvent
-from libraries.death_info import NotDead, UnknownBurial
-from libraries.title import AccessRight
 
+from .person_parser import build_person
 from .data_types import (
     Key,
     Somebody,
@@ -71,43 +71,16 @@ def _parse_child_line(
             if c0 not in boundary:
                 surname, toks = parse_name(toks)
 
-    person: Person[int, int, str] = Person(
-        index=-1,
-        first_name=first,
-        surname=surname,
-        occ=occ,
-        image='',
-        public_name='',
-        qualifiers=[],
-        aliases=[],
-        first_names_aliases=[],
-        surname_aliases=[],
-        titles=[],
-        non_native_parents_relation=[],
-        related_persons=[],
-        occupation='',
-        sex=default_sex,
-        access_right=AccessRight.PUBLIC,
-        birth_date=None,
-        birth_place=common_birth_place,
-        birth_note='',
-        birth_src=common_src,
-        baptism_date=None,
-        baptism_place='',
-        baptism_note='',
-        baptism_src='',
-        death=NotDead(),
-        death_place='',
-        death_note='',
-        death_src='',
-        burial=UnknownBurial(),
-        burial_place='',
-        burial_note='',
-        burial_src='',
-        personal_events=[],
-        notes='',
-        src='',
-    )
+    # Now parse all the remaining person attributes using build_person
+    # Need to update birth_place and src defaults after parsing
+    person, _ = build_person(first, surname, occ, default_sex, toks)
+
+    # Apply defaults from family if not specified
+    if not person.birth_place:
+        person = replace(person, birth_place=common_birth_place)
+    if not person.birth_src:
+        person = replace(person, birth_src=common_src)
+
     return person, surname
 
 

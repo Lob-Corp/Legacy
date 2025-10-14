@@ -91,12 +91,12 @@ def date_of_string_py(s: str, start: int = 0) -> Optional[CompressedDate]:
                 day2 = month2
                 month2 = year2
                 year2, i = champ(i)
-                if month2 < 1 or month2 > 13:
+                if month2 < 1 or month2 > 12:
                     error(2)
                 if day2 < 1 or day2 > 31:
                     error(3)
                 return (day2, month2, year2), i
-            if month2 < 1 or month2 > 13:
+            if month2 < 1 or month2 > 12:
                 error(4)
             return (0, month2, year2), i
         return (0, 0, year2), i
@@ -113,7 +113,7 @@ def date_of_string_py(s: str, start: int = 0) -> Optional[CompressedDate]:
             day = month
             month = year
             year, i_ref = champ(i_ref)
-            if month < 1 or month > 13:
+            if month < 1 or month > 12:
                 error(2)
             if day < 1 or day > 31:
                 error(3)
@@ -127,7 +127,7 @@ def date_of_string_py(s: str, start: int = 0) -> Optional[CompressedDate]:
         else:
             if year == 0:
                 date = None
-            elif month < 1 or month > 13:
+            elif month < 1 or month > 12:
                 error(4)
             else:
                 dv = DateValue(
@@ -153,36 +153,42 @@ def date_of_string_py(s: str, start: int = 0) -> Optional[CompressedDate]:
 
     # OrYear / YearInt
     if date is not None and isinstance(date[0], CalendarDate):
+        from dataclasses import replace
         caldate, idx = date
         if idx < len(s) and s[idx] == '|':
             year2, j = champ(idx + 1)
             (d2, m2, y2), j = dmy2(year2, j)
             dv2 = DateValue(day=d2, month=m2, year=y2, prec=None, delta=0)
-            caldate.dmy.prec = OrYear(dv2)  # type: ignore[attr-defined]
+            # Replace frozen dataclass instead of modifying
+            new_dmy = replace(caldate.dmy, prec=OrYear(dv2))
+            caldate = replace(caldate, dmy=new_dmy)
             date = (caldate, j)
         elif idx + 1 < len(s) and s[idx:idx + 2] == '..':
             year2, j = champ(idx + 2)
             (d2, m2, y2), j = dmy2(year2, j)
             dv2 = DateValue(day=d2, month=m2, year=y2, prec=None, delta=0)
-            caldate.dmy.prec = YearInt(dv2)  # type: ignore[attr-defined]
+            # Replace frozen dataclass instead of modifying
+            new_dmy = replace(caldate.dmy, prec=YearInt(dv2))
+            caldate = replace(caldate, dmy=new_dmy)
             date = (caldate, j)
 
     # Calendar suffix
     if date is not None and isinstance(date[0], CalendarDate):
+        from dataclasses import replace
         caldate, idx = date
         if idx < len(s):
             suf = s[idx]
             if suf == 'G':
-                caldate.cal = Calendar.GREGORIAN
+                caldate = replace(caldate, cal=Calendar.GREGORIAN)
                 idx += 1
             elif suf == 'J':
-                caldate.cal = Calendar.JULIAN
+                caldate = replace(caldate, cal=Calendar.JULIAN)
                 idx += 1
             elif suf == 'F':
-                caldate.cal = Calendar.FRENCH
+                caldate = replace(caldate, cal=Calendar.FRENCH)
                 idx += 1
             elif suf == 'H':
-                caldate.cal = Calendar.HEBREW
+                caldate = replace(caldate, cal=Calendar.HEBREW)
                 idx += 1
             date = (caldate, idx)
 
