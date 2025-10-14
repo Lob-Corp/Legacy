@@ -11,186 +11,41 @@ from script.gwcomp import (
     PersonalEventsGwSyntax,
     BaseNotesGwSyntax,
     WizardNotesGwSyntax,
+    PageExtGwSyntax,
 )
 
-# Sample minimal .gw content for each block type
-FAM_BLOCK = """fam 0 John + 0 Jane
-wit m: 0 John
-src test_source
-fevt
-#marr 2020 #p Paris #c Ceremony #s Source
-end fevt
-beg
-- Paul
-end
-"""
-
-FAM_BLOCK_NO_MARRIAGE = """fam 0 John +# 0 Jane
-beg
-- Paul
-end
-"""
-
-FAM_BLOCK_NOT_MARRIED = """fam 0 John +~ 0 Jane
-beg
-- Paul
-end
-"""
-
-FAM_BLOCK_ENGAGED = """fam 0 John +e 0 Jane
-beg
-- Paul
-end
-"""
-
-FAM_BLOCK_WITH_DIVORCE = """fam 0 John +2020 0 Jane
--2022
-beg
-- Paul
-end
-"""
-
-FAM_BLOCK_SEPARATED = """fam 0 John +2020 0 Jane
-#sep
-beg
-- Paul
-end
-"""
-
-FAM_BLOCK_WITH_MULTIPLE_CHILDREN = """fam 0 John + 0 Jane
-beg
-- Paul
-- m: Peter
-- f: Patricia
-end
-"""
-
-FAM_BLOCK_WITH_COMMENT = """fam 0 John + 0 Jane
-comm This is a family comment
-beg
-- Paul
-end
-"""
-
-# TODO: Future implementation - marriage contracts, licenses, PACS, residence
-FAM_BLOCK_MARRIAGE_CONTRACT = """fam 0 John +#contract 0 Jane
-beg
-- Paul
-end
-"""
-
-FAM_BLOCK_MARRIAGE_LICENSE = """fam 0 John +#license 0 Jane
-beg
-- Paul
-end
-"""
-
-FAM_BLOCK_PACS = """fam 0 John +#pacs 0 Jane
-beg
-- Paul
-end
-"""
-
-FAM_BLOCK_RESIDENCE = """fam 0 John +#residence 0 Jane
-beg
-- Paul
-end
-"""
-
-NOTES_BLOCK = """notes 0 John
-This is a note about John.
-Another line of note.
-"""
-
-REL_BLOCK = """rel 0 John
-beg
-- adop fath: 0 Mike
-- adop moth: 0 Mary
-end
-"""
-
-REL_BLOCK_DUAL_PARENT = """rel 0 John
-beg
-- adop: 0 Mike + 0 Mary
-end
-"""
-
-REL_BLOCK_RECOGNITION = """rel 0 John
-beg
-- reco fath: 0 Mike
-end
-"""
-
-REL_BLOCK_CANDIDATE_PARENT = """rel 0 John
-beg
-- cand fath: 0 Mike
-end
-"""
-
-REL_BLOCK_GODPARENT = """rel 0 John
-beg
-- godp fath: 0 Mike
-end
-"""
-
-REL_BLOCK_FOSTER_PARENT = """rel 0 John
-beg
-- fost fath: 0 Mike
-end
-"""
-
-PEVT_BLOCK = """pevt 0 John
-#birt 1990 #p Paris #c Born #s Source
-end pevt
-"""
-
-PEVT_BLOCK_MULTIPLE_EVENTS = """pevt 0 John
-#birt 1990 #p Paris
-#bapt 1990/02/15 #p Paris
-#deat 2050 #p London
-end pevt
-"""
-
-PEVT_BLOCK_CUSTOM_EVENT = """pevt 0 John
-#gradschool 2010 #p Boston #c Graduated from university
-end pevt
-"""
-
-# TODO: Future implementation - special personal event types
-PEVT_BLOCK_BAPTISM_LDS = """pevt 0 John
-#brtm 1990 #p Salt Lake City
-end pevt
-"""
-
-PEVT_BLOCK_BAR_MITZVAH = """pevt 0 John
-#barm 2005 #p Jerusalem
-end pevt
-"""
-
-NOTES_DB_BLOCK = """notes-db
-This is a base note.
-end notes-db
-"""
-
-WIZARD_NOTE_BLOCK = """wizard-note wiz123
-This is a wizard note.
-end wizard-note
-"""
-
-# TODO: Future implementation - encoding and gwplus directives
-ENCODING_DIRECTIVE = """encoding: iso-8859-1
-fam 0 John + 0 Jane
-beg
-- Paul
-end
-"""
-
-GWPLUS_DIRECTIVE = """gwplus
-fam 0 John + 0 Jane
-beg
-- Paul
-end
-"""
+from tests.import_tests.gw.test_data import (
+    FAM_BLOCK,
+    FAM_BLOCK_NO_MARRIAGE,
+    FAM_BLOCK_NOT_MARRIED,
+    FAM_BLOCK_ENGAGED,
+    FAM_BLOCK_WITH_DIVORCE,
+    FAM_BLOCK_SEPARATED,
+    FAM_BLOCK_WITH_MULTIPLE_CHILDREN,
+    FAM_BLOCK_WITH_COMMENT,
+    FAM_BLOCK_MARRIAGE_CONTRACT,
+    FAM_BLOCK_MARRIAGE_LICENSE,
+    FAM_BLOCK_PACS,
+    FAM_BLOCK_RESIDENCE,
+    NOTES_BLOCK,
+    REL_BLOCK,
+    REL_BLOCK_DUAL_PARENT,
+    REL_BLOCK_RECOGNITION,
+    REL_BLOCK_CANDIDATE_PARENT,
+    REL_BLOCK_GODPARENT,
+    REL_BLOCK_FOSTER_PARENT,
+    PEVT_BLOCK,
+    PEVT_BLOCK_MULTIPLE_EVENTS,
+    PEVT_BLOCK_CUSTOM_EVENT,
+    PEVT_BLOCK_BAPTISM_LDS,
+    PEVT_BLOCK_BAR_MITZVAH,
+    NOTES_DB_BLOCK,
+    WIZARD_NOTE_BLOCK,
+    ENCODING_DIRECTIVE,
+    GWPLUS_DIRECTIVE,
+    PAGE_EXT_BLOCK,
+    INVALID_CONTENT_WITH_VALID_FAMILIES,
+)
 
 
 def write_temp_gw(content: str) -> str:
@@ -476,7 +331,6 @@ def test_parse_personal_events_bar_mitzvah():
     assert pevt_blocks
 
 
-# TODO: Future implementation - encoding directive parsing
 def test_parse_encoding_directive():
     path = write_temp_gw(ENCODING_DIRECTIVE)
     result = parse_gw_file(path)
@@ -486,7 +340,6 @@ def test_parse_encoding_directive():
     assert fam_blocks
 
 
-# TODO: Future implementation - gwplus directive parsing
 def test_parse_gwplus_directive():
     path = write_temp_gw(GWPLUS_DIRECTIVE)
     result = parse_gw_file(path)
@@ -494,3 +347,24 @@ def test_parse_gwplus_directive():
     # Should handle gwplus directive and parse family
     fam_blocks = [x for x in result if isinstance(x, FamilyGwSyntax)]
     assert fam_blocks
+
+
+def test_parse_page_ext_block():
+    path = write_temp_gw(PAGE_EXT_BLOCK)
+    result = parse_gw_file(path)
+    os.remove(path)
+    page_ext_blocks = [x for x in result if isinstance(x, PageExtGwSyntax)]
+    assert page_ext_blocks
+    page_ext = page_ext_blocks[0]
+    assert page_ext.page_name == "custom_page"
+    assert "extended page content" in page_ext.content
+
+
+def test_parse_no_fail_mode():
+    # Test that no_fail mode allows parser to continue after errors
+    path = write_temp_gw(INVALID_CONTENT_WITH_VALID_FAMILIES)
+    result = parse_gw_file(path, no_fail=True)
+    os.remove(path)
+    # Should have parsed the valid families despite the invalid one
+    fam_blocks = [x for x in result if isinstance(x, FamilyGwSyntax)]
+    assert len(fam_blocks) >= 1  # At least one valid family parsed

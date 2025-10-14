@@ -1,4 +1,5 @@
 from __future__ import annotations
+import sys
 from libraries.date import (
     CompressedDate,
     Calendar,
@@ -14,7 +15,7 @@ from libraries.date import (
     PrecisionBase,
 )
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import (
     List,
     Tuple,
@@ -22,9 +23,7 @@ from typing import (
     Any,
     Iterable,
     Iterator,
-    Union,
     Sequence,
-    Callable,
     Deque,
     cast)
 from collections import deque
@@ -33,7 +32,7 @@ from collections import deque
 # the Python translations of
 # OCaml Def / Adef domain model. If some names differ, adjust imports
 # accordingly.
-from libraries.person import Person, Sex, PersonDescriptorT, PersonT
+from libraries.person import Person, Sex
 from libraries.family import (
     Family,
     Parents,
@@ -45,12 +44,27 @@ from libraries.family import (
     Separated,
     DivorceStatusBase,
 )
-from libraries.title import Title, AccessRight
+from libraries.title import (
+    NoTitle,
+    Title,
+    AccessRight,
+    TitleName,
+    UseMainTitle
+)
 from libraries.death_info import (
-    DeathStatusBase,
+    Burial,
     BurialInfoBase,
+    Cremated,
+    DeathStatusBase,
+    DeadYoung,
+    OfCourseDead,
+    DontKnowIfDead,
+    DeadDontKnowWhen,
     NotDead,
-    UnknownBurial)
+    Dead,
+    DeathReason,
+    UnknownBurial,
+)
 from libraries.events import (
     FamilyEvent,
     PersonalEvent,
@@ -198,6 +212,8 @@ def _parse_child_line(
 
 magic_gwo = "GnWo000o"
 create_all_keys: bool = False
+gwplus_mode: bool = False
+no_fail_mode: bool = False
 
 
 @dataclass(frozen=True)
@@ -265,6 +281,12 @@ class BaseNotesGwSyntax(GwSyntax):
 @dataclass(frozen=True)
 class WizardNotesGwSyntax(GwSyntax):
     wizard_id: str
+    content: str
+
+
+@dataclass(frozen=True)
+class PageExtGwSyntax(GwSyntax):
+    page_name: str
     content: str
 
 
@@ -343,9 +365,7 @@ def date_of_string_py(s: str, start: int = 0) -> Optional[CompressedDate]:
             neg = True
             i += 1
         n = 0
-        found = False
         while i < len(s) and s[i].isdigit():
-            found = True
             n = 10 * n + (ord(s[i]) - 48)
             i += 1
         return (-n if neg else n, i)
@@ -609,8 +629,6 @@ def _parse_titles(tokens: List[str]) -> Tuple[List[Title[str]], List[str]]:
         while len(parts) < 6:
             parts.append('')
         raw_name, ident, place, d_start, d_end, nth = parts[:6]
-        # title name mapping
-        from libraries.title import NoTitle, UseMainTitle, TitleName
         # type: ignore[name-defined]
         tname: TitleName[str] | NoTitle | UseMainTitle
         if raw_name == '':
@@ -724,17 +742,6 @@ def build_person(first: str, surname: str, occ: int, sex: Sex,
     if len(tokens) >= 2 and tokens[0] == '#ps':
         baptism_src = cut_space(tokens[1])
         tokens = tokens[2:]
-    # death parsing simplified: codes mapping
-    from libraries.death_info import (
-        DeathStatusBase,
-        DeadYoung,
-        OfCourseDead,
-        DontKnowIfDead,
-        DeadDontKnowWhen,
-        NotDead,
-        Dead,
-        DeathReason,
-    )
     death: DeathStatusBase = DontKnowIfDead()
     if tokens:
         code = tokens[0]
@@ -774,7 +781,6 @@ def build_person(first: str, surname: str, occ: int, sex: Sex,
         death_src = cut_space(tokens[1])
         tokens = tokens[2:]
     # burial info
-    from libraries.death_info import Burial, Cremated, UnknownBurial
     burial: BurialInfoBase = UnknownBurial()
     if tokens and tokens[0] in ('#buri', '#crem'):
         tag = tokens.pop(0)
@@ -1527,25 +1533,80 @@ def parse_block(line: str, stream: LineStream) -> Optional[GwSyntax]:
         return _parse_personal_events_block(f, stream)
     if tag == 'rel':
         return _parse_relations_block(f, stream)
+    if tag == 'page-ext':
+        # page-ext <page_name>
+        page_name = line[len('page-ext'):].strip()
+        content = []
+        while True:
+            ln = stream.pop()
+            if ln is None:
+                break
+            if ln.strip() == 'end page-ext':
+                break
+            content.append(ln)
+        return PageExtGwSyntax(page_name=page_name, content='\n'.join(content))
     return None
 
 
-def parse_gw_file(path: str) -> List[GwSyntax]:
+def parse_gw_file(path: str, encoding: str = 'utf-8',
+                  no_fail: bool = False) -> List[GwSyntax]:
     """Parse a .gw file producing a list of GwSyntax variant objects.
-    Translation note: This is an incremental port.
-    Many detailed features (events, full date semantics, witnesses kinds,
-    relations outside families) are TODO.
+
+    Args:
+        path: Path to .gw file
+        encoding: File encoding (default 'utf-8', can be overridden by
+                  encoding directive)
+        no_fail: If True, continue parsing after errors (collect errors but
+                 don't raise)
+
+    Returns:
+        List of parsed GwSyntax blocks
     """
-    with open(path, 'r', encoding='utf-8') as fh:
+    global gwplus_mode, no_fail_mode
+    gwplus_mode = False
+    no_fail_mode = no_fail
+
+    # Detect encoding directive on first line
+    detected_encoding = encoding
+    with open(path, 'r', encoding='utf-8', errors='replace') as probe:
+        first_line = probe.readline().strip()
+        if first_line.startswith('encoding:'):
+            enc_name = first_line[len('encoding:'):].strip()
+            if enc_name.lower() in ('iso-8859-1', 'iso_8859_1', 'latin1'):
+                detected_encoding = 'iso-8859-1'
+            elif enc_name.lower() in ('utf-8', 'utf_8'):
+                detected_encoding = 'utf-8'
+
+    with open(path, 'r', encoding=detected_encoding) as fh:
         syntaxes: List[GwSyntax] = []
         stream = LineStream(iter_strip_lines(fh))
+        line_num = 0
+
         while True:
             first = stream.pop()
             if first is None:
                 break
-            block = parse_block(first, stream)
-            if block is not None:
-                syntaxes.append(block)
+            line_num += 1
+
+            # Handle directives
+            if first.startswith('encoding:'):
+                # Already handled, skip
+                continue
+            if first.strip() == 'gwplus':
+                gwplus_mode = True
+                continue
+
+            try:
+                block = parse_block(first, stream)
+                if block is not None:
+                    syntaxes.append(block)
+            except Exception as e:
+                if not no_fail_mode:
+                    raise RuntimeError(
+                        f"Parse error at line ~{line_num}: {e}") from e
+                print(f"Warning: Parse error at line ~{line_num}: {e}",
+                      file=sys.stderr)
+
         return syntaxes
 
 
@@ -1561,4 +1622,5 @@ __all__ = [
     'PersonalEventsGwSyntax',
     'BaseNotesGwSyntax',
     'WizardNotesGwSyntax',
+    'PageExtGwSyntax',
     'parse_gw_file']
