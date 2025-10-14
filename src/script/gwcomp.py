@@ -15,10 +15,22 @@ from libraries.date import (
 )
 
 from dataclasses import dataclass, field
-from typing import List, Tuple, Optional, Any, Iterable, Iterator, Union, Sequence, Callable, Deque, cast
+from typing import (
+    List,
+    Tuple,
+    Optional,
+    Any,
+    Iterable,
+    Iterator,
+    Union,
+    Sequence,
+    Callable,
+    Deque,
+    cast)
 from collections import deque
 
-# NOTE: We assume the following existing modules provide the Python translations of
+# NOTE: We assume the following existing modules provide
+# the Python translations of
 # OCaml Def / Adef domain model. If some names differ, adjust imports
 # accordingly.
 from libraries.person import Person, Sex, PersonDescriptorT, PersonT
@@ -34,7 +46,11 @@ from libraries.family import (
     DivorceStatusBase,
 )
 from libraries.title import Title, AccessRight
-from libraries.death_info import DeathStatusBase, BurialInfoBase, NotDead, UnknownBurial
+from libraries.death_info import (
+    DeathStatusBase,
+    BurialInfoBase,
+    NotDead,
+    UnknownBurial)
 from libraries.events import (
     FamilyEvent,
     PersonalEvent,
@@ -108,6 +124,8 @@ from libraries.events import (
 # ---------------------------------------------------------------------------
 # Child parsing helpers (port of OCaml parse_child logic)
 # ---------------------------------------------------------------------------
+
+
 def _parse_child_line(
     line_tokens: List[str],
     default_surname: str,
@@ -136,7 +154,8 @@ def _parse_child_line(
             boundary = set('<>!?~-0123456789{#([')
             if c0 not in boundary:
                 surname, toks = parse_name(toks)
-    # Construct Person using dataclass fields order from libraries.person.Person
+    # Construct Person using dataclass fields order from
+    # libraries.person.Person
     person: Person[int, int, str] = Person(
         index=-1,
         first_name=first,
@@ -175,6 +194,7 @@ def _parse_child_line(
         src='',
     )
     return person, surname
+
 
 magic_gwo = "GnWo000o"
 create_all_keys: bool = False
@@ -248,12 +268,13 @@ class WizardNotesGwSyntax(GwSyntax):
     content: str
 
 
-# ---------------- Parsing Helpers (Translation of selected OCaml helpers) ---------------- #
+# ------- Parsing Helpers (Translation of selected OCaml helpers) ------- #
 
 
 def copy_decode(s: str, i1: int, i2: int) -> str:
     """Decode word slice, translating '\\x' (escaped) and '_' -> ' '.
-    In the OCaml code: replaces "\\" sequences and underscores. Here we simplify:
+    In the OCaml code: replaces "\\" sequences and underscores.
+    Here we simplify:
     - backslash followed by any char copies that char
     - '_' becomes space
     """
@@ -310,7 +331,8 @@ def _strip_trailing_spaces(text: str) -> str:
 
 
 def date_of_string_py(s: str, start: int = 0) -> Optional[CompressedDate]:
-    """Faithful port of OCaml date_of_string (minus calendar conversions for non-gregorian).
+    """Faithful port of OCaml date_of_string (minus calendar conversions
+    for non-gregorian).
     Returns CalendarDate or textual date (str) or None.
     """
     i_ref = start
@@ -630,7 +652,8 @@ def _parse_access(tokens: List[str]) -> Tuple[AccessRight, List[str]]:
 
 
 def _parse_optional_date_prefixed(
-        tokens: List[str], bang_means_none: bool = True) -> Tuple[Optional[CompressedDate], List[str]]:
+        tokens: List[str],
+        bang_means_none: bool = True) -> Tuple[CompressedDate, List[str]]:
     if not tokens:
         return None, tokens
     head = tokens[0]
@@ -828,16 +851,17 @@ class Encoding(str):
     ISO_8859_1 = 'iso-8859-1'
 
 
-def iter_non_comment_lines(lines: Iterable[str]) -> Iterator[str]:
+def iter_strip_lines(lines: Iterable[str]) -> Iterator[str]:
     for raw in lines:
         line = raw.rstrip('\r\n')
-        if not line or line.startswith('#'):
+        if not line:
             continue
         yield line
 
 
 class LineStream:
-    """Lookahead + pushback capable line stream over already pre-filtered lines."""
+    """Lookahead + pushback capable line stream
+    over already pre-filtered lines."""
 
     def __init__(self, source: Iterator[str]):
         self._src = source
@@ -997,7 +1021,8 @@ def _parse_marriage_and_relation(
 ]:
     """Full-fidelity port of OCaml get_mar_date.
 
-    Returns (relation_kind, father_sex, mother_sex, marriage_date, place, note, src, divorce_status, rest_tokens).
+    Returns (relation_kind, father_sex, mother_sex, marriage_date, place, note,
+    src, divorce_status, rest_tokens).
     """
     rest = list(tokens)
 
@@ -1112,7 +1137,8 @@ def _parse_marriage_and_relation(
 
 
 def _parse_event_witness_lines(
-        stream: LineStream) -> Tuple[List[Tuple[Somebody, Sex, EventWitnessKind]], Optional[str]]:
+        stream: LineStream) -> Tuple[
+            List[Tuple[Somebody, Sex, EventWitnessKind]], Optional[str]]:
     witnesses: List[Tuple[Somebody, Sex, EventWitnessKind]] = []
     while True:
         nxt = stream.peek()
@@ -1152,7 +1178,8 @@ def _parse_event_notes(stream: LineStream) -> Tuple[str, Optional[str]]:
 
 
 def _parse_family_events(
-        stream: LineStream) -> List[Tuple[FamilyEvent[Somebody, str], List[Sex]]]:
+        stream: LineStream) -> List[
+            Tuple[FamilyEvent[Somebody, str], List[Sex]]]:
     events: List[Tuple[FamilyEvent[Somebody, str], List[Sex]]] = []
     # first line already consumed: 'fevt' header; events follow until 'end
     # fevt'
@@ -1231,8 +1258,9 @@ def parse_family_block(
         stream: LineStream) -> FamilyGwSyntax:
     tokens = first_line_fields[1:]  # drop 'fam'
     father, _, _, tokens = parse_person_ref(tokens)
-    relation_kind, fath_sex, moth_sex, marriage_date, marr_place, marr_note, marr_src, divorce_status, tokens = _parse_marriage_and_relation(
-        tokens)
+    relation_kind, fath_sex, moth_sex, marriage_date, marr_place, \
+        marr_note, marr_src, divorce_status, tokens = \
+        _parse_marriage_and_relation(tokens)
     mother, _, _, tokens = parse_person_ref(tokens)
     # any residue tokens currently ignored
     parents: Parents[Somebody] = Parents.from_couple(
@@ -1327,11 +1355,12 @@ def parse_family_block(
             descend.append(child)
     family: Family[int, Person[int, int, str], str] = Family(  # type: ignore
         index=-1,
-    marriage_date=marriage_date or '',  # empty placeholder
+        marriage_date=marriage_date or '',  # empty placeholder
         marriage_place=marr_place,
         marriage_note=marr_note,
         marriage_src=marr_src,
-        witnesses=[],  # top-level family witnesses unresolved -> list of Somebody not Person
+        witnesses=[],  # top-level family witnesses unresolved ->
+                       # list of Somebody not Person
         relation_kind=relation_kind,
         divorce_status=divorce_status,
         family_events=cast(List[FamilyEvent[Person[int, int, str], str]], [
@@ -1342,8 +1371,8 @@ def parse_family_block(
     )
     return FamilyGwSyntax(
         couple=parents,
-    father_sex=fath_sex,
-    mother_sex=moth_sex,
+        father_sex=fath_sex,
+        mother_sex=moth_sex,
         witnesses=witnesses,
         events=events,
         family=family,
@@ -1420,7 +1449,8 @@ def _parse_relations_block(
             father_ref, _, _, toks = parse_person_ref(toks)
             if not toks or toks[0] != '+':
                 raise ValueError(
-                    'Expected + between father and mother in dual-parent relation')
+                    'Expected + between father and mother in '
+                    'dual-parent relation')
             toks = toks[1:]
             mother_ref, _, _, toks = parse_person_ref(toks)
             if toks:
@@ -1502,12 +1532,13 @@ def parse_block(line: str, stream: LineStream) -> Optional[GwSyntax]:
 
 def parse_gw_file(path: str) -> List[GwSyntax]:
     """Parse a .gw file producing a list of GwSyntax variant objects.
-    Translation note: This is an incremental port. Many detailed features (events, full
-    date semantics, witnesses kinds, relations outside families) are TODO.
+    Translation note: This is an incremental port.
+    Many detailed features (events, full date semantics, witnesses kinds,
+    relations outside families) are TODO.
     """
     with open(path, 'r', encoding='utf-8') as fh:
         syntaxes: List[GwSyntax] = []
-        stream = LineStream(iter_non_comment_lines(fh))
+        stream = LineStream(iter_strip_lines(fh))
         while True:
             first = stream.pop()
             if first is None:

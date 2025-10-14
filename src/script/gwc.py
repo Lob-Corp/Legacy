@@ -12,7 +12,8 @@ def check_magic(fname: str, ic) -> None:
                 f'"{fname}" is a GeneWeb object file, but not compatible')
         else:
             raise Exception(
-                f'"{fname}" is not a GeneWeb object file, or it is a very old version')
+                f'"{fname}" is not a GeneWeb object file,'
+                f'or it is a very old version')
 
 
 def appendFileData(files: list[tuple[str, bool, str, int]],
@@ -34,7 +35,8 @@ def main() -> None:
     )
     parser.add_argument(
         "-bnotes", type=str, default="merge",
-        help="[drop|erase|first|merge] Behavior for base notes of the next file.")
+        help="[drop|erase|first|merge] Behavior "
+        "for base notes of the next file.")
     parser.add_argument("-c", action="store_true", help="Only compiling")
     parser.add_argument(
         "-cg",
@@ -42,7 +44,8 @@ def main() -> None:
         help="Compute consanguinity")
     parser.add_argument(
         "-ds", type=str, default="",
-        help="Set the source field for persons and families without source data")
+        help="Set the source field for persons and "
+        "families without source data")
     parser.add_argument(
         "-f",
         action="store_true",
