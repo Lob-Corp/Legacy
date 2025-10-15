@@ -45,7 +45,7 @@ class TitleNameBase(Generic[TitleDescriptorT]):
 
 
 class UseMainTitle(TitleNameBase[Any]):
-    """Indicates that a person's main titleshould be used for this title."""
+    """Indicates that a person's main title should be used for this title."""
 
     def __init__(self):
         pass

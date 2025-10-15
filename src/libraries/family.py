@@ -55,32 +55,6 @@ class Parents(Generic[PersonT]):
         assert 0 <= index < len(self.parents), "Index out of range"
         return self.parents[index]
 
-    # @staticmethod
-    # def parent(multi: bool, parent: List[PersonT]) -> 'Parents[PersonT]':
-    #     """Construct a Parents value from a parent list.
-
-    #     If `multi` is False, treat the list as a couple (first two entries).
-    #     If `multi` is True, keep the list as-is
-    #           (multi-parents representation).
-    #     This mirrors the OCaml `parent` / `multi_parent` behavior.
-    #     """
-    #     assert len(parent) >= 2,
-    #           "parent list must contain at least two elements"
-    #     if not multi:
-    #         return Parents.from_couple(parent[0], parent[1])
-    #     return Parents(parent)
-
-    # @staticmethod
-    # def map_couple_p(multi_parents: bool, fp: Callable[[PersonT], PersonT],
-    #       cpl: 'Parents[PersonT]') -> 'Parents[PersonT]':
-    #     """Map `fp` over the parents of `cpl` and wrap using `parent` logic.
-
-    #     Equivalent to: parent multi_parents (Array.map fp (parent_array cpl))
-    #     in the OCaml source.
-    #     """
-    #     mapped = [fp(p) for p in cpl.parents]
-    #     return Parents.parent(multi_parents, mapped)
-
 
 class DivorceStatusBase:
     def __init__(self):

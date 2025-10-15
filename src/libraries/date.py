@@ -102,7 +102,6 @@ class Date:
 
     def __eq__(self, other) -> bool:
         if not isinstance(other, Date):
-            print(f"AAA - {type(self)} vs {type(other)}")
             raise NotComparable(f"Cannot compare Date with {type(other)}")
         if isinstance(self.date, CalendarDate) and isinstance(
             other.date, CalendarDate

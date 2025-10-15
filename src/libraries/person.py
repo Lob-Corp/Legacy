@@ -37,13 +37,12 @@ class Place:
 
 
 # Type variables for genealogical data structures
-IdxT = TypeVar("IdxT")  # Index/identifier type (e.g., database key)
-PersonT = TypeVar(
-    "PersonT"
-)  # Person reference type (e.g., Person or PersonId)
-PersonDescriptorT = TypeVar(
-    "PersonDescriptorT"
-)  # String descriptors (names, notes, etc.)
+IdxT = TypeVar("IdxT")
+
+# Person reference type (e.g., Person or PersonId)
+PersonT = TypeVar("PersonT")
+# String descriptors (names, notes, etc.)
+PersonDescriptorT = TypeVar("PersonDescriptorT")
 
 
 @dataclass(frozen=True)

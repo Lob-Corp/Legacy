@@ -1,6 +1,6 @@
 import unicodedata
 import re
-from typing import Callable, List, Optional, Tuple
+from typing import List, Optional, Tuple
 
 
 class NameUtils:
@@ -298,50 +298,3 @@ class NameUtils:
             True if any forbidden character is found
         """
         return any(char in s for char in NameUtils.FORBIDDEN_CHARS)
-
-    @staticmethod
-    def split_name_internal(
-        s: str,
-        separators: str,
-        callback: Optional[Callable[[int, int], None]] = None,
-    ) -> List[str]:
-        """
-        Internal unified function to split names on specified separators.
-
-        Args:
-            s: String to split
-            separators: Characters to split on (e.g., " " or " -")
-            callback: Optional callback function called with
-            (position, length) for each part
-
-        Returns:
-            List of name parts
-        """
-        if not s:
-            return []
-
-        result = []
-        j = len(s)
-
-        # Split from right to left to maintain order
-        for i in range(len(s) - 1, -1, -1):
-            if s[i] in separators:
-                part_start = i + 1
-                part_length = j - i - 1
-
-                if callback:
-                    callback(part_start, part_length)
-                else:
-                    if part_length > 0:
-                        result.append(s[part_start:part_start + part_length])
-                j = i
-
-        # Add the first part
-        if callback:
-            callback(0, j)
-        else:
-            if j > 0:  # Only add non-empty parts
-                result.append(s[0:j])
-
-        # Reverse to get correct order since we processed right-to-left
-        return list(reversed(result))
