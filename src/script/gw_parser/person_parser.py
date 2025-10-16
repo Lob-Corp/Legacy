@@ -27,7 +27,7 @@ from libraries.death_info import (
     UnknownBurial,
 )
 
-from .data_types import Key, Somebody, SomebodyUndefined
+from .data_types import Key, Somebody, SomebodyDefined, SomebodyUndefined
 from .utils import cut_space
 from .date_parser import date_of_string_py, CompressedDate
 
@@ -91,6 +91,54 @@ def parse_person_ref(tokens: Sequence[str]
     # Return Undefined (full definition parsed elsewhere)
     key = Key(first, surname, occ)
     return SomebodyUndefined(key), surname, occ, tokens
+
+
+def parse_parent(
+    tokens: Sequence[str],
+    default_sex: Sex = Sex.NEUTER
+) -> Tuple[Somebody, str, int, List[str]]:
+    """Parse a parent in a family line (may have inline definition).
+
+    Similar to OCaml's parse_parent function. Checks if the person is:
+    - Just a reference (next token is '+' or end of line) → Undefined
+    - Has inline attributes (dates, places, etc.) → Defined with full Person
+
+    Args:
+        tokens: Token sequence
+        default_sex: Default sex if not specified (usually Male/Female)
+
+    Returns:
+        Tuple of (Somebody, surname, occurrence, remaining_tokens)
+    """
+    surname, tokens = parse_name(tokens)
+    first, occ, tokens = parse_first_name(tokens)
+
+    # Check for bogus/placeholder definitions
+    if first == "?" or surname == "?":
+        key = Key(first, surname, occ)
+        return SomebodyUndefined(key), surname, occ, tokens
+
+    # Check if this is just a reference (not an inline definition)
+    # A person is considered "defined inline" if there are more tokens
+    # AND the next token doesn't start with '+' (marriage indicator)
+    defined_inline = False
+    if tokens:
+        next_token = tokens[0]
+        # Not defined if it's the marriage indicator or end of tokens
+        if next_token.startswith('+'):
+            defined_inline = False
+        else:
+            # Has additional attributes, so it's an inline definition
+            defined_inline = True
+
+    if not defined_inline:
+        # Just a reference - return Undefined
+        key = Key(first, surname, occ)
+        return SomebodyUndefined(key), surname, occ, tokens
+    else:
+        # Parse inline person definition with all attributes
+        person, tokens = build_person(first, surname, occ, default_sex, tokens)
+        return SomebodyDefined(person), surname, occ, tokens
 
 
 def _parse_first_names_aliases(

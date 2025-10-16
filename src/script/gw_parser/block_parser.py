@@ -37,7 +37,12 @@ from .data_types import (
 )
 from .utils import fields
 from .date_parser import date_of_string_py, CompressedDate
-from .person_parser import parse_person_ref, parse_first_name, parse_name
+from .person_parser import (
+    parse_person_ref,
+    parse_parent,
+    parse_first_name,
+    parse_name,
+)
 from .event_parser import (
     parse_family_events,
     parse_personal_events,
@@ -218,11 +223,11 @@ def parse_family_block(
         stream: LineStream) -> FamilyGwSyntax:
     """Parse a family block (fam)."""
     tokens = first_line_fields[1:]  # drop 'fam'
-    father, _, _, tokens = parse_person_ref(tokens)
+    father, _, _, tokens = parse_parent(tokens, Sex.MALE)
     relation_kind, fath_sex, moth_sex, marriage_date, marr_place, \
         marr_note, marr_src, divorce_status, tokens = \
         _parse_marriage_and_relation(tokens)
-    mother, _, _, tokens = parse_person_ref(tokens)
+    mother, _, _, tokens = parse_parent(tokens, Sex.FEMALE)
 
     parents: Parents[Somebody] = Parents.from_couple(
         father, mother)  # type: ignore

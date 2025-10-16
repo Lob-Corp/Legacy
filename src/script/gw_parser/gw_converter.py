@@ -148,20 +148,28 @@ class GwConverter:
                 somebody.person.occ
             )
 
+            from dataclasses import replace
+
             # Check if this was previously a dummy
             if key_tuple in self.dummy_persons:
                 # Override dummy - keep same index (like OCaml)
                 self.dummy_persons.remove(key_tuple)
                 old_person = self.person_by_key[key_tuple]
-                somebody.person.index = old_person.index
+                person = replace(somebody.person, index=old_person.index)
             elif key_tuple not in self.person_by_key:
                 # New person - assign index
-                somebody.person.index = self.person_index_counter
+                person = replace(
+                    somebody.person,
+                    index=self.person_index_counter
+                )
                 self.person_index_counter += 1
+            else:
+                # Already registered with correct index
+                person = somebody.person
 
             # Register/update the person
-            self.person_by_key[key_tuple] = somebody.person
-            return somebody.person
+            self.person_by_key[key_tuple] = person
+            return person
 
         elif isinstance(somebody, SomebodyUndefined):
             # Reference to person - find or create dummy
