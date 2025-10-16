@@ -53,7 +53,6 @@ def date_of_string_py(s: str, start: int = 0) -> Optional[CompressedDate]:
     if i_ref >= len(s):
         return None
 
-    # precision
     c = s[i_ref]
     if c == '~':
         precision: PrecisionBase = About()
@@ -151,7 +150,6 @@ def date_of_string_py(s: str, start: int = 0) -> Optional[CompressedDate]:
             dv = DateValue(day=0, month=0, year=year, prec=precision, delta=0)
             date = (CalendarDate(dv, Calendar.GREGORIAN), i_ref)
 
-    # OrYear / YearInt
     if date is not None and isinstance(date[0], CalendarDate):
         from dataclasses import replace
         caldate, idx = date
@@ -159,7 +157,6 @@ def date_of_string_py(s: str, start: int = 0) -> Optional[CompressedDate]:
             year2, j = champ(idx + 1)
             (d2, m2, y2), j = dmy2(year2, j)
             dv2 = DateValue(day=d2, month=m2, year=y2, prec=None, delta=0)
-            # Replace frozen dataclass instead of modifying
             new_dmy = replace(caldate.dmy, prec=OrYear(dv2))
             caldate = replace(caldate, dmy=new_dmy)
             date = (caldate, j)
@@ -167,7 +164,6 @@ def date_of_string_py(s: str, start: int = 0) -> Optional[CompressedDate]:
             year2, j = champ(idx + 2)
             (d2, m2, y2), j = dmy2(year2, j)
             dv2 = DateValue(day=d2, month=m2, year=y2, prec=None, delta=0)
-            # Replace frozen dataclass instead of modifying
             new_dmy = replace(caldate.dmy, prec=YearInt(dv2))
             caldate = replace(caldate, dmy=new_dmy)
             date = (caldate, j)

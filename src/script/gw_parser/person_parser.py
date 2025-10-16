@@ -88,7 +88,6 @@ def parse_person_ref(tokens: Sequence[str]
         # unknown person placeholder
         key = Key(first, surname, occ)
         return SomebodyUndefined(key), surname, occ, tokens
-    # Return Undefined (full definition parsed elsewhere)
     key = Key(first, surname, occ)
     return SomebodyUndefined(key), surname, occ, tokens
 
@@ -113,7 +112,6 @@ def parse_parent(
     surname, tokens = parse_name(tokens)
     first, occ, tokens = parse_first_name(tokens)
 
-    # Check for bogus/placeholder definitions
     if first == "?" or surname == "?":
         key = Key(first, surname, occ)
         return SomebodyUndefined(key), surname, occ, tokens
@@ -124,19 +122,15 @@ def parse_parent(
     defined_inline = False
     if tokens:
         next_token = tokens[0]
-        # Not defined if it's the marriage indicator or end of tokens
         if next_token.startswith('+'):
             defined_inline = False
         else:
-            # Has additional attributes, so it's an inline definition
             defined_inline = True
 
     if not defined_inline:
-        # Just a reference - return Undefined
         key = Key(first, surname, occ)
         return SomebodyUndefined(key), surname, occ, tokens
     else:
-        # Parse inline person definition with all attributes
         person, tokens = build_person(first, surname, occ, default_sex, tokens)
         return SomebodyDefined(person), surname, occ, tokens
 
@@ -272,11 +266,9 @@ def build_person(first: str, surname: str, occ: int, sex: Sex,
     Returns:
         Tuple of (Person, remaining_tokens)
     """
-    # Parse sequential fields per OCaml order
     first_aliases, tokens = _parse_first_names_aliases(tokens)
     surname_aliases, tokens = _parse_surname_aliases(tokens)
 
-    # public name ( (xxx) )
     public_name = ''
     if tokens and tokens[0].startswith('(') and tokens[0].endswith(')'):
         public_name = cut_space(tokens[0][1:-1])
@@ -371,7 +363,6 @@ def build_person(first: str, surname: str, occ: int, sex: Sex,
         death_src = cut_space(tokens[1])
         tokens = tokens[2:]
 
-    # burial info
     burial: BurialInfoBase = UnknownBurial()
     if tokens and tokens[0] in ('#buri', '#crem'):
         tag = tokens.pop(0)
@@ -400,7 +391,6 @@ def build_person(first: str, surname: str, occ: int, sex: Sex,
         burial_src = cut_space(tokens[1])
         tokens = tokens[2:]
 
-    # Create person
     person: Person[int, int, str] = Person(
         index=-1,
         first_name=first,

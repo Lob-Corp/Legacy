@@ -27,8 +27,6 @@ PersonT = TypeVar('PersonT')
 class Parents(Generic[PersonT]):
     def __init__(self, parents: List[PersonT]):
         assert len(parents) != 0, "Parents List cannot be empty"
-        assert all(isinstance(p, type(parents[0]))
-                   for p in parents), "All parents must be of the same type"
         self.parents = parents
 
     @staticmethod

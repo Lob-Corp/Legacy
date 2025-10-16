@@ -1,8 +1,18 @@
 from libraries.consanguinity_rate import ConsanguinityRate
 import pytest
 from libraries.date import Calendar
-from libraries.events import EventWitnessKind, FamMarriage, FamilyEvent
-from libraries.family import Ascendants, DivorceStatusBase, Divorced, Family, MaritalStatus, NotDivorced, Parents, Relation, RelationToParentType, Separated
+from libraries.events import FamMarriage, FamilyEvent
+from libraries.family import (
+    Ascendants,
+    DivorceStatusBase,
+    Divorced,
+    Family,
+    MaritalStatus,
+    NotDivorced,
+    Parents,
+    Relation,
+    RelationToParentType,
+    Separated)
 
 
 # ---- __init__ ----
@@ -16,9 +26,10 @@ def test_init_empty_list():
         _ = Parents([])
 
 
-def test_init_type_check_fails():
-    with pytest.raises(AssertionError):
-        Parents([1, "not same type"])
+def test_init_type_check_allows_mixed_types():
+    p = Parents([1, "mixed type allowed"])
+    assert isinstance(p, Parents)
+    assert p.parents == [1, "mixed type allowed"]
 
 
 # ---- from_couple ----
@@ -26,11 +37,6 @@ def test_from_couple_with_ints():
     p = Parents.from_couple(1, 2)
     assert isinstance(p, Parents)
     assert p.parents == [1, 2]
-
-
-def test_from_couple_type_check_fails():
-    with pytest.raises(AssertionError):
-        Parents.from_couple(1, "x")
 
 
 # ---- is_couple ----

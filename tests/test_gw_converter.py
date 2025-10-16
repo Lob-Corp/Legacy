@@ -192,16 +192,20 @@ class TestResolveSomebody:
         assert result == simple_person
 
     def test_resolve_somebody_undefined_failure(self):
-        """Test resolving a SomebodyUndefined that doesn't exist."""
+        """Test resolving SomebodyUndefined creates dummy if doesn't exist."""
         converter = GwConverter()
         key = Key(pk_first_name="Unknown", pk_surname="Person", pk_occ=0)
         somebody = SomebodyUndefined(key=key)
 
-        with pytest.raises(
-            ValueError,
-            match="Cannot resolve undefined person"
-        ):
-            converter.resolve_somebody(somebody)
+        # Should create a dummy person
+        result = converter.resolve_somebody(somebody)
+
+        assert result.first_name == "Unknown"
+        assert result.surname == "Person"
+        assert result.occ == 0
+        # Check it's marked as a dummy
+        key_tuple = converter.key_tuple(key)
+        assert key_tuple in converter.dummy_persons
 
     def test_resolve_somebody_invalid_type(self):
         """Test resolving an invalid Somebody type."""

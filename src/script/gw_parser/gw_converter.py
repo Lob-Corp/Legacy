@@ -5,6 +5,7 @@ types defined in the libraries/ module.
 """
 
 from typing import Dict, List, Optional, Tuple
+from dataclasses import replace
 
 from script.gw_parser.data_types import (
     FamilyGwSyntax,
@@ -36,28 +37,20 @@ class GwConverter:
         """Initialize the converter with tracking structures."""
         self.person_index_counter: int = 0
         self.family_index_counter: int = 0
-
         # Map from Key to resolved Person
         self.person_by_key: Dict[
             Tuple[str, str, int],
             Person[int, int, str]
         ] = {}
-
-        # Track which persons are dummies (undefined references)
         self.dummy_persons: set[Tuple[str, str, int]] = set()
-
-        # Map from family index to Family
         self.families: Dict[int, Family[int, Person[int, int, str], str]] = {}
-
         # Notes storage: Key -> content
         self.notes: Dict[Tuple[str, str, int], str] = {}
-
         # Relations storage: Key -> relations
         self.relations: Dict[
             Tuple[str, str, int],
             List[Relation[Person[int, int, str], str]]
         ] = {}
-
         # Personal events storage: Key -> events
         self.personal_events: Dict[
             Tuple[str, str, int],
@@ -83,8 +76,6 @@ class GwConverter:
 
         index = self.person_index_counter
         self.person_index_counter += 1
-
-        # Create minimal person - equivalent to OCaml's 'U' marker entry
         dummy = Person(
             index=index,
             first_name=key.pk_first_name,
@@ -122,7 +113,6 @@ class GwConverter:
             notes="",
             src="",
         )
-
         return dummy
 
     def resolve_somebody(
@@ -141,45 +131,33 @@ class GwConverter:
             The resolved Person object
         """
         if isinstance(somebody, SomebodyDefined):
-            # Full person definition - register or override dummy
             key_tuple = (
                 somebody.person.first_name,
                 somebody.person.surname,
                 somebody.person.occ
             )
-
-            from dataclasses import replace
-
-            # Check if this was previously a dummy
             if key_tuple in self.dummy_persons:
-                # Override dummy - keep same index (like OCaml)
                 self.dummy_persons.remove(key_tuple)
                 old_person = self.person_by_key[key_tuple]
                 person = replace(somebody.person, index=old_person.index)
             elif key_tuple not in self.person_by_key:
-                # New person - assign index
                 person = replace(
                     somebody.person,
                     index=self.person_index_counter
                 )
                 self.person_index_counter += 1
             else:
-                # Already registered with correct index
                 person = somebody.person
 
-            # Register/update the person
             self.person_by_key[key_tuple] = person
             return person
 
         elif isinstance(somebody, SomebodyUndefined):
-            # Reference to person - find or create dummy
             key_tuple = self.key_tuple(somebody.key)
 
             if key_tuple in self.person_by_key:
-                # Already exists (dummy or defined)
                 return self.person_by_key[key_tuple]
             else:
-                # Create dummy person (like OCaml's 'U' marker)
                 dummy = self._create_dummy_person(somebody.key)
                 self.person_by_key[key_tuple] = dummy
                 self.dummy_persons.add(key_tuple)
@@ -211,35 +189,33 @@ class GwConverter:
         """
         # Resolve the couple (father and mother) - this creates dummies
         # if needed and registers them in person_by_key
-        father = self.resolve_somebody(gw_family.couple.parents[0])
-        mother = self.resolve_somebody(gw_family.couple.parents[1])
+        father = None
+        mother = None
+        if len(gw_family.couple.parents) >= 1:
+            father = self.resolve_somebody(gw_family.couple.parents[0])
+        if len(gw_family.couple.parents) >= 2:
+            mother = self.resolve_somebody(gw_family.couple.parents[1])
+
         # NOTE: father and mother are now registered but not used directly
         # because Family doesn't store parents (they're implied by the
         # database structure)
         _ = (father, mother)  # Suppress unused variable warning
 
-        # Register children from the family
         for person in gw_family.descend:
             key_tuple = (person.first_name, person.surname, person.occ)
             self.person_by_key[key_tuple] = person
 
-        # Resolve witnesses
         witness_persons = []
         for witness_somebody, sex in gw_family.witnesses:
             witness = self.resolve_somebody(witness_somebody)
             witness_persons.append(witness)
 
-        # Convert family events - resolve witness references
         converted_events: List[FamilyEvent[Person[int, int, str], str]] = []
         for event, witness_sexes in gw_family.events:
-            # The event already has the structure, we just need to ensure
-            # witness types are resolved if needed
             converted_events.append(event)
 
-        # Use the family data from gw_family.family
         family = gw_family.family
 
-        # Create converted family with proper witness list
         converted_family = Family(
             index=self.family_index_counter,
             marriage_date=family.marriage_date,
@@ -278,7 +254,6 @@ class GwConverter:
         person = self.resolve_somebody(gw_relations.person)
         key_tuple = (person.first_name, person.surname, person.occ)
 
-        # Convert relations - resolve parent references
         converted_relations: List[Relation[Person[int, int, str], str]] = []
         for relation in gw_relations.relations:
             father = (
@@ -313,10 +288,8 @@ class GwConverter:
         person = self.resolve_somebody(gw_events.person)
         key_tuple = (person.first_name, person.surname, person.occ)
 
-        # Convert events - resolve witness references
         converted_events: List[PersonalEvent[Person[int, int, str], str]] = []
         for event in gw_events.events:
-            # Events are already in the right structure
             converted_events.append(event)
 
         self.personal_events[key_tuple] = converted_events
@@ -400,7 +373,6 @@ class GwConverter:
 
         key_tuple = (person.first_name, person.surname, person.occ)
 
-        # Get additional data
         notes = self.notes.get(key_tuple, person.notes)
         relations = self.relations.get(
             key_tuple,
@@ -411,7 +383,6 @@ class GwConverter:
             person.personal_events
         )
 
-        # Create enriched person
         return replace(
             person,
             notes=notes,

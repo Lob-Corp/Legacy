@@ -29,7 +29,6 @@ def parse_gw_file(path: str, encoding: str = 'utf-8',
     dt.gwplus_mode = False
     dt.no_fail_mode = no_fail
 
-    # Detect encoding directive on first line
     detected_encoding = encoding
     with open(path, 'r', encoding='utf-8', errors='replace') as probe:
         first_line = probe.readline().strip()
@@ -50,15 +49,11 @@ def parse_gw_file(path: str, encoding: str = 'utf-8',
             if first is None:
                 break
             line_num += 1
-
-            # Handle directives
             if first.startswith('encoding:'):
-                # Already handled, skip
                 continue
             if first.strip() == 'gwplus':
                 dt.gwplus_mode = True
                 continue
-
             try:
                 block = parse_block(first, stream)
                 if block is not None:
@@ -69,5 +64,4 @@ def parse_gw_file(path: str, encoding: str = 'utf-8',
                         f"Parse error at line ~{line_num}: {e}") from e
                 print(f"Warning: Parse error at line ~{line_num}: {e}",
                       file=sys.stderr)
-
         return syntaxes

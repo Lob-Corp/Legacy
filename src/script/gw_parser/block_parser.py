@@ -76,11 +76,9 @@ def _parse_child_line(
             if c0 not in boundary:
                 surname, toks = parse_name(toks)
 
-    # Now parse all the remaining person attributes using build_person
-    # Need to update birth_place and src defaults after parsing
     person, _ = build_person(first, surname, occ, default_sex, toks)
 
-    # Apply defaults from family if not specified
+    # Apply defaults
     if not person.birth_place:
         person = replace(person, birth_place=common_birth_place)
     if not person.birth_src:
@@ -116,7 +114,6 @@ def _parse_marriage_and_relation(
     place = note = src = ""
     divorce_status: DivorceStatusBase = NotDivorced()
 
-    # Marriage indicator '+' possibly followed immediately by date
     if rest and rest[0].startswith('+'):
         plus_tok = rest.pop(0)
         if len(plus_tok) > 1:
@@ -142,7 +139,6 @@ def _parse_marriage_and_relation(
         except Exception:
             return None
 
-    # Relation tag and optional sex overrides
     if rest and rest[0].startswith('#'):
         tag = rest[0]
         tag_map: dict[str, MaritalStatus] = {
@@ -160,7 +156,6 @@ def _parse_marriage_and_relation(
         if tag in tag_map:
             relation_kind = tag_map[tag]
             rest.pop(0)
-            # Only certain tags allow immediate two-char sex override token
             if relation_kind in (
                 MaritalStatus.NO_MENTION,
                 MaritalStatus.NO_SEXES_CHECK_NOT_MARRIED,
@@ -176,7 +171,6 @@ def _parse_marriage_and_relation(
                     father_sex, mother_sex = sexes_override
                     rest.pop(0)
 
-    # Fields (#mp, #mn, #ms)
     def take_field(label: str) -> str:
         nonlocal rest
         if len(rest) >= 2 and rest[0] == label:
@@ -189,7 +183,6 @@ def _parse_marriage_and_relation(
     note = take_field('#mn')
     src = take_field('#ms')
 
-    # Divorce / separation indicators
     if rest:
         head = rest[0]
         if head.startswith('-'):
@@ -232,7 +225,6 @@ def parse_family_block(
     parents: Parents[Somebody] = Parents.from_couple(
         father, mother)  # type: ignore
 
-    # Parse optional witness lines
     witnesses: List[Tuple[Somebody, Sex]] = []
     while True:
         nxt = stream.peek()
@@ -253,7 +245,6 @@ def parse_family_block(
         somebody, _, _, _ = parse_person_ref(toks)
         witnesses.append((somebody, sex))
 
-    # family source 'src <text>' line
     fam_src = ''
     nxt = stream.peek()
     if nxt:
@@ -262,7 +253,6 @@ def parse_family_block(
             fam_src = f[1]
             stream.pop()
 
-    # common children source and birth place
     common_child_src = ''
     common_child_bp = ''
     for tag in ('csrc', 'cbp'):
@@ -276,21 +266,18 @@ def parse_family_block(
                     common_child_bp = f[1]
                 stream.pop()
 
-    # comment line 'comm <text>'
     comment = ''
     nxt = stream.peek()
     if nxt and nxt.startswith('comm '):
         comment = nxt[5:]
         stream.pop()
 
-    # family events block
     events: List[Tuple[FamilyEvent[Somebody, str], List[Sex]]] = []
     nxt = stream.peek()
     if nxt and nxt.startswith('fevt'):
         stream.pop()
         events = parse_family_events(stream)
 
-    # children block
     descend: List[Person[int, int, str]] = []
     nxt = stream.peek()
     if nxt and nxt.strip() == 'beg':
