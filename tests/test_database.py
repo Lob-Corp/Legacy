@@ -40,7 +40,7 @@ def person_fixture(date_fixture) -> Person[int, str, str]:
         baptism_place="",
         baptism_note="",
         baptism_src="",
-        death=NotDead(),  # replace with DeathStatusBase if needed
+        death_status=NotDead(),  # replace with DeathStatusBase if needed
         death_place="",
         death_note="",
         death_src="",
