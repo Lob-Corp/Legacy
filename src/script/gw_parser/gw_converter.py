@@ -17,9 +17,10 @@ from script.gw_parser.data_types import (
     SomebodyDefined,
     SomebodyUndefined,
 )
-from libraries.person import Person
+from libraries.person import Person, Sex, AccessRight
 from libraries.family import Family, Relation
 from libraries.events import FamilyEvent, PersonalEvent
+from libraries.death_info import NotDead, UnknownBurial
 
 
 class GwConverter:
@@ -41,6 +42,9 @@ class GwConverter:
             Tuple[str, str, int],
             Person[int, int, str]
         ] = {}
+
+        # Track which persons are dummies (undefined references)
+        self.dummy_persons: set[Tuple[str, str, int]] = set()
 
         # Map from family index to Family
         self.families: Dict[int, Family[int, Person[int, int, str], str]] = {}
@@ -64,34 +68,114 @@ class GwConverter:
         """Convert a Key to a hashable tuple."""
         return (key.pk_first_name, key.pk_surname, key.pk_occ)
 
+    def _create_dummy_person(self, key: Key) -> Person[int, int, str]:
+        """Create a minimal dummy person for an undefined reference.
+
+        Mimics OCaml gwc's behavior of creating placeholder persons
+        ('U' marker) that can be overridden later with full definition.
+
+        Args:
+            key: The person key (name and occurrence)
+
+        Returns:
+            A minimal Person object with just basic identification
+        """
+
+        index = self.person_index_counter
+        self.person_index_counter += 1
+
+        # Create minimal person - equivalent to OCaml's 'U' marker entry
+        dummy = Person(
+            index=index,
+            first_name=key.pk_first_name,
+            surname=key.pk_surname,
+            occ=key.pk_occ,
+            image="",
+            public_name="",
+            qualifiers=[],
+            aliases=[],
+            first_names_aliases=[],
+            surname_aliases=[],
+            titles=[],
+            non_native_parents_relation=[],
+            related_persons=[],
+            occupation="",
+            sex=Sex.NEUTER,
+            access_right=AccessRight.PUBLIC,
+            birth_date=None,
+            birth_place="",
+            birth_note="",
+            birth_src="",
+            baptism_date=None,
+            baptism_place="",
+            baptism_note="",
+            baptism_src="",
+            death=NotDead(),
+            death_place="",
+            death_note="",
+            death_src="",
+            burial=UnknownBurial(),
+            burial_place="",
+            burial_note="",
+            burial_src="",
+            personal_events=[],
+            notes="",
+            src="",
+        )
+
+        return dummy
+
     def resolve_somebody(
         self,
         somebody: Somebody
     ) -> Person[int, int, str]:
         """Resolve a Somebody reference to an actual Person.
 
+        Creates dummy persons for undefined references (like OCaml's 'U').
+        Overrides dummies when full definition found (like OCaml's 'D').
+
         Args:
             somebody: The Somebody reference (defined or undefined)
 
         Returns:
             The resolved Person object
-
-        Raises:
-            ValueError: If an undefined person cannot be resolved
         """
         if isinstance(somebody, SomebodyDefined):
+            # Full person definition - register or override dummy
+            key_tuple = (
+                somebody.person.first_name,
+                somebody.person.surname,
+                somebody.person.occ
+            )
+
+            # Check if this was previously a dummy
+            if key_tuple in self.dummy_persons:
+                # Override dummy - keep same index (like OCaml)
+                self.dummy_persons.remove(key_tuple)
+                old_person = self.person_by_key[key_tuple]
+                somebody.person.index = old_person.index
+            elif key_tuple not in self.person_by_key:
+                # New person - assign index
+                somebody.person.index = self.person_index_counter
+                self.person_index_counter += 1
+
+            # Register/update the person
+            self.person_by_key[key_tuple] = somebody.person
             return somebody.person
+
         elif isinstance(somebody, SomebodyUndefined):
+            # Reference to person - find or create dummy
             key_tuple = self.key_tuple(somebody.key)
+
             if key_tuple in self.person_by_key:
+                # Already exists (dummy or defined)
                 return self.person_by_key[key_tuple]
             else:
-                raise ValueError(
-                    f"Cannot resolve undefined person: "
-                    f"{somebody.key.pk_first_name} "
-                    f"{somebody.key.pk_surname} "
-                    f"#{somebody.key.pk_occ}"
-                )
+                # Create dummy person (like OCaml's 'U' marker)
+                dummy = self._create_dummy_person(somebody.key)
+                self.person_by_key[key_tuple] = dummy
+                self.dummy_persons.add(key_tuple)
+                return dummy
         else:
             raise TypeError(f"Unknown Somebody type: {type(somebody)}")
 
@@ -117,7 +201,16 @@ class GwConverter:
         Returns:
             Tuple of (converted Family, list of children)
         """
-        # Register all persons in the family first
+        # Resolve the couple (father and mother) - this creates dummies
+        # if needed and registers them in person_by_key
+        father = self.resolve_somebody(gw_family.couple.parents[0])
+        mother = self.resolve_somebody(gw_family.couple.parents[1])
+        # NOTE: father and mother are now registered but not used directly
+        # because Family doesn't store parents (they're implied by the
+        # database structure)
+        _ = (father, mother)  # Suppress unused variable warning
+
+        # Register children from the family
         for person in gw_family.descend:
             key_tuple = (person.first_name, person.surname, person.occ)
             self.person_by_key[key_tuple] = person
@@ -220,6 +313,11 @@ class GwConverter:
 
         self.personal_events[key_tuple] = converted_events
 
+        # If this person was a dummy, mark them as defined now
+        # since we have substantial data (events) for them
+        if key_tuple in self.dummy_persons:
+            self.dummy_persons.remove(key_tuple)
+
     def convert(self, gw_syntax: GwSyntax) -> None:
         """Convert a GwSyntax block and accumulate in the converter.
 
@@ -319,6 +417,34 @@ class GwConverter:
             self.enrich_person_with_additional_data(person)
             for person in self.get_all_persons()
         ]
+
+    def get_dummy_persons(self) -> List[Person[int, int, str]]:
+        """Get all persons that remain as dummies (undefined references).
+
+        These are persons that were referenced but never fully defined,
+        similar to OCaml entries with 'U' marker.
+
+        Returns:
+            List of persons that were referenced but never defined
+        """
+        return [
+            self.person_by_key[key_tuple]
+            for key_tuple in self.dummy_persons
+        ]
+
+    def get_statistics(self) -> Dict[str, int]:
+        """Get conversion statistics.
+
+        Returns:
+            Dictionary with counts of persons, families, and dummies
+        """
+        defined_count = len(self.person_by_key) - len(self.dummy_persons)
+        return {
+            'total_persons': len(self.person_by_key),
+            'defined_persons': defined_count,
+            'dummy_persons': len(self.dummy_persons),
+            'families': len(self.families),
+        }
 
 
 def convert_gw_file(gw_blocks: List[GwSyntax]) -> Tuple[

@@ -2,30 +2,32 @@ import argparse
 import os
 import sys
 
+# TODO: complete when database is implemented
 
-def check_magic(fname: str, ic) -> None:
-    magic_gwo: str = "GnWo000o"
-    b: str = ic.read(len(magic_gwo))
-    if b != magic_gwo:
-        if b[:4] == magic_gwo[:4]:
-            raise Exception(
-                f'"{fname}" is a GeneWeb object file, but not compatible')
-        else:
-            raise Exception(
-                f'"{fname}" is not a GeneWeb object file,'
-                f'or it is a very old version')
+from script.gw_parser import parse_gw_file, GwConverter
+from libraries.person import Person
+from libraries.family import Family
 
 
-def appendFileData(files: list[tuple[str, bool, str, int]],
-                   x: str, separate: bool, bnotes: str, shift: int) -> None:
+def appendFileData(
+    files: list[tuple[str, bool, str, int]],
+    x: str,
+    separate: bool,
+    bnotes: str,
+    shift: int
+) -> None:
+    """Validate and append file data to the list."""
     if x.endswith(".gw"):
-        pass  # Compilation handled later
+        if not os.path.exists(x):
+            raise FileNotFoundError(f'File "{x}" not found')
     else:
-        raise argparse.ArgumentTypeError(f'Don\'t know what to do with "{x}"')
+        raise argparse.ArgumentTypeError(
+            f'Don\'t know what to do with "{x}"'
+        )
     files.append((x, separate, bnotes, shift))
 
 
-def main() -> None:
+def main() -> int:
     parser = argparse.ArgumentParser(
         description="GeneWeb Compiler/Linker",
         usage="gwc [options] [files]\n"
@@ -37,7 +39,6 @@ def main() -> None:
         "-bnotes", type=str, default="merge",
         help="[drop|erase|first|merge] Behavior "
         "for base notes of the next file.")
-    parser.add_argument("-c", action="store_true", help="Only compiling")
     parser.add_argument(
         "-cg",
         action="store_true",
@@ -70,8 +71,8 @@ def main() -> None:
         "-nopicture", action="store_true",
         help="Do not create associative pictures")
     parser.add_argument(
-        "-o", type=str, default="a.gwb",
-        help="Output database (default: a.gwb)")
+        "-o", type=str, default="a.sql",
+        help="Output database (default: a.sql)")
     parser.add_argument(
         "-particles", type=str, default="",
         help="Particles file (default = predefined particles)")
@@ -89,7 +90,7 @@ def main() -> None:
 
     args = parser.parse_args()
 
-    out_file: str = args.o if hasattr(args, 'o') else "a.gwb"
+    out_file: str = args.o if hasattr(args, 'o') else "a.sql"
     input_file_data: list[tuple[str, bool, str, int]] = []
     separate: bool = args.sep
     bnotes: str = args.bnotes
@@ -97,7 +98,7 @@ def main() -> None:
 
     # Validate output file name
     basename: str = os.path.basename(out_file)
-    if not all(c.isalnum() or c == '-' for c in basename):
+    if not all((c.isalnum() or c == '-' or c == '.') for c in basename):
         print(
             f'The database name "{out_file}" contains a forbidden character.')
         print("Allowed characters: a..z, A..Z, 0..9, -")
@@ -109,14 +110,218 @@ def main() -> None:
         separate = False
         bnotes = "merge"
 
-    for x, separate, bnotes, shift in input_file_data:
-        if x.endswith(".gw"):
-            # TODO: Parse .gw file and create app types
-            pass
+    # Process files
+    if not input_file_data:
+        parser.print_help()
+        sys.exit(1)
+
+    verbose: bool = args.v and not args.q
+    all_persons: list[Person] = []
+    all_families: list[Family] = []
+
+    if verbose:
+        print(f"Processing {len(input_file_data)} file(s)...")
+
+    for idx, (filename, separate, bnotes_mode, shift) in enumerate(
+        input_file_data, 1
+    ):
+        if verbose:
+            print(f"\n[{idx}/{len(input_file_data)}] Processing {filename}...")
+
+        try:
+            # Parse the .gw file
+            if verbose:
+                print(f"  Parsing {filename}...")
+
+            gw_syntax_blocks = parse_gw_file(filename)
+
+            if verbose:
+                print(f"  Parsed {len(gw_syntax_blocks)} blocks")
+                print("  Converting to application types...")
+
+            # Convert to application types
+            converter = GwConverter()
+            converter.convert_all(gw_syntax_blocks)
+            persons = converter.get_all_persons()
+            families = converter.get_all_families()
+
+            # Get statistics
+            stats = converter.get_statistics()
+
+            if verbose:
+                print(
+                    f"  Converted {stats['defined_persons']} persons, "
+                    f"{stats['families']} families"
+                )
+                if stats['dummy_persons'] > 0:
+                    print(
+                        f"  Warning: {stats['dummy_persons']} "
+                        f"undefined person(s)"
+                    )
+
+            # TODO: Apply shift if specified
+            if shift != 0 and verbose:
+                print(f"  Note: -sh {shift} specified but not yet implemented")
+
+            # TODO: Apply separate if specified
+            if separate and verbose:
+                print("  Note: -sep specified but not yet implemented")
+
+            # Merge into all collections
+            all_persons.extend(persons)
+            all_families.extend(families)
+
+            # TODO: Handle bnotes_mode
+            if bnotes_mode != "merge" and verbose:
+                print(
+                    f"  Note: -bnotes {bnotes_mode} specified "
+                    f"but not yet implemented"
+                )
+
+        except Exception as e:
+            if args.nofail:
+                print(f"Error processing {filename}: {e}", file=sys.stderr)
+                if verbose:
+                    import traceback
+                    traceback.print_exc()
+                continue
+            else:
+                print(f"Error processing {filename}: {e}", file=sys.stderr)
+                if verbose:
+                    import traceback
+                    traceback.print_exc()
+                sys.exit(1)
+
+    # Print statistics
+    if args.stats or verbose:
+        print("\n" + "=" * 50)
+        print("Parsing Statistics:")
+        print("=" * 50)
+        print(f"Total persons: {len(all_persons)}")
+        print(f"Total families: {len(all_families)}")
+        print(f"Files processed: {len(input_file_data)}")
+        # TODO: temporary, until database is implemented
+
+        def _get(obj, *names):
+            for n in names:
+                if hasattr(obj, n):
+                    val = getattr(obj, n)
+                    if val is not None:
+                        return val
+            if hasattr(obj, "__dict__"):
+                d = obj.__dict__
+                for k, v in d.items():
+                    for n in names:
+                        if n in k and v is not None:
+                            return v
+            return None
+
+        def _id_of(o):
+            return _get(o, "id", "pid", "fid", "xref") or str(o)
+
+        def _format_person(p):
+            pid = _id_of(p)
+            name = _get(p, "name", "full_name", "fullname")
+            if not name:
+                given = _get(p, "given", "given_name", "firstname", "first")
+                family = _get(p, "surname", "last", "lastname", "family")
+                if given or family:
+                    name = " ".join(filter(None, (given, family)))
+            sex = _get(p, "sex", "gender")
+            birth = _get(p, "birth", "bdate", "born")
+            death = _get(p, "death", "ddate", "died")
+            parts = [f"id={pid}"]
+            if name:
+                parts.append(f"name=\"{name}\"")
+            if sex:
+                parts.append(f"sex={sex}")
+            if birth or death:
+                parts.append(f"b:{birth or '?'} d:{death or '?'}")
+            return "  - " + " | ".join(parts)
+
+        def _format_family(f):
+            fid = _id_of(f)
+            hus = _get(f, "husband", "husb", "hus", "h", "father")
+            wife = _get(f, "wife", "w", "mother", "m")
+            children = _get(
+                f,
+                "children",
+                "kids",
+                "children_list",
+                "childs",
+                "child")
+
+            def _ref(x):
+                if hasattr(x, "__dict__"):
+                    return _id_of(x)
+                return str(x)
+            child_ids = []
+            if children is not None:
+                if isinstance(children, (list, tuple)):
+                    child_ids = [_ref(c) for c in children]
+                else:
+                    child_ids = [_ref(children)]
+            parts = [f"id={fid}"]
+            if hus:
+                parts.append(f"H={_ref(hus)}")
+            if wife:
+                parts.append(f"W={_ref(wife)}")
+            if child_ids:
+                parts.append(f"children={len(child_ids)}")
+            tail = f" -> [{', '.join(child_ids)}]" if child_ids else ""
+            return "  - " + " | ".join(parts) + tail
+
+        print("\nPersons:")
+        if not all_persons:
+            print("  (none)")
         else:
-            raise argparse.ArgumentTypeError(
-                f'Don\'t know what to do with "{x}"')
+            for p in all_persons:
+                try:
+                    print(_format_person(p))
+                except Exception:
+                    print("  -", str(p))
+
+        print("\nFamilies:")
+        if not all_families:
+            print("  (none)")
+        else:
+            for f in all_families:
+                try:
+                    print(_format_family(f))
+                except Exception:
+                    print("  -", str(f))
+        print("=" * 50)
+
+    # TODO: Save to SQLite database
+    if verbose:
+        print(f"\nDatabase output: {out_file}")
+        print("Note: SQLite database saving not yet implemented")
+        print("Data has been parsed and converted to application types")
+
+    # TODO: Compute consanguinity if requested
+    if args.cg and verbose:
+        print("Note: -cg (consanguinity) not yet implemented")
+
+    # TODO: Handle default source
+    if args.ds and verbose:
+        print(f"Note: -ds '{args.ds}' (default source) not yet implemented")
+
+    # TODO: Handle particles file
+    if args.particles and verbose:
+        print(
+            f"Note: -particles '{args.particles}' "
+            f"not yet implemented"
+        )
+
+    # TODO: No consistency check
+    if args.nc and verbose:
+        print("Note: -nc (no consistency check) not yet implemented")
+
+    if verbose:
+        print("\nProcessing complete!")
+
+    return 0
 
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
