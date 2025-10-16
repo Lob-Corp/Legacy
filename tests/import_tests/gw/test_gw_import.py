@@ -14,7 +14,7 @@ from script.gw_parser import (
     PageExtGwSyntax,
 )
 
-from tests.import_tests.gw.test_data import (
+from test_data import (
     FAM_BLOCK,
     FAM_BLOCK_NO_MARRIAGE,
     FAM_BLOCK_NOT_MARRIED,
@@ -295,7 +295,6 @@ def test_parse_personal_events_custom():
     assert evt.events[0].name.__class__.__name__ == "PersNamedEvent"
 
 
-# TODO: Future implementation - marriage contract/license/PACS/residence
 def test_parse_family_marriage_contract():
     path = write_temp_gw(FAM_BLOCK_MARRIAGE_CONTRACT)
     result = parse_gw_file(path)
@@ -306,7 +305,6 @@ def test_parse_family_marriage_contract():
     assert fam.family.relation_kind.name == "MARRIAGE_CONTRACT"
 
 
-# TODO: Future implementation - marriage license parsing
 def test_parse_family_marriage_license():
     path = write_temp_gw(FAM_BLOCK_MARRIAGE_LICENSE)
     result = parse_gw_file(path)
@@ -317,7 +315,6 @@ def test_parse_family_marriage_license():
     assert fam.family.relation_kind.name == "MARRIAGE_LICENSE"
 
 
-# TODO: Future implementation - PACS parsing
 def test_parse_family_pacs():
     path = write_temp_gw(FAM_BLOCK_PACS)
     result = parse_gw_file(path)
@@ -328,7 +325,6 @@ def test_parse_family_pacs():
     assert fam.family.relation_kind.name == "PACS"
 
 
-# TODO: Future implementation - residence parsing
 def test_parse_family_residence():
     path = write_temp_gw(FAM_BLOCK_RESIDENCE)
     result = parse_gw_file(path)
@@ -339,7 +335,6 @@ def test_parse_family_residence():
     assert fam.family.relation_kind.name == "RESIDENCE"
 
 
-# TODO: Future implementation - baptism LDS parsing
 def test_parse_personal_events_baptism_lds():
     path = write_temp_gw(PEVT_BLOCK_BAPTISM_LDS)
     result = parse_gw_file(path)
@@ -348,7 +343,6 @@ def test_parse_personal_events_baptism_lds():
     assert pevt_blocks
 
 
-# TODO: Future implementation - bar mitzvah parsing
 def test_parse_personal_events_bar_mitzvah():
     path = write_temp_gw(PEVT_BLOCK_BAR_MITZVAH)
     result = parse_gw_file(path)

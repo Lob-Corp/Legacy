@@ -11,10 +11,14 @@ from libraries.date import CompressedDate
 def compressed_date_fixture() -> CompressedDate:
     return "2025-01-01"
 
+
 @pytest.fixture
 def title_fixture(compressed_date_fixture) -> Title[str]:
-    return Title[str](title_name=TitleName[str]("name"), ident="t1", place="Paris",
-                       date_start=compressed_date_fixture, date_end=compressed_date_fixture, nth=1)
+    return Title[str](title_name=TitleName[str]("name"),
+                      ident="t1", place="Paris",
+                      date_start=compressed_date_fixture,
+                      date_end=compressed_date_fixture, nth=1)
+
 
 @pytest.fixture
 def pers_event_fixture(compressed_date_fixture) -> PersonalEvent[int, str]:
@@ -35,6 +39,7 @@ def pers_event_fixture(compressed_date_fixture) -> PersonalEvent[int, str]:
         witnesses=witnesses,
     )
 
+
 def test_place_full_creation():
     place = Place(
         town="Paris",
@@ -54,9 +59,11 @@ def test_place_full_creation():
 # --- Person dataclass ---
 
 
-def test_person_minimal_stubs(compressed_date_fixture, title_fixture, pers_event_fixture):
+def test_person_minimal_stubs(
+        compressed_date_fixture, title_fixture, pers_event_fixture):
     fake_relation = Relation[int, str](
-        type=RelationToParentType.ADOPTION, father=None, mother=None, sources="")
+        type=RelationToParentType.ADOPTION, father=None, mother=None,
+        sources="")
     person = Person(
         index=1,
         first_name="Jean",
