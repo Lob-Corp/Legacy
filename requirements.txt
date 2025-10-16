@@ -5,3 +5,4 @@ pydantic==2.11.7
 ged4py==0.5.2
 python-gedcom==1.0.0
 gedcom7==0.4.0
+SQLAlchemy==2.0.43

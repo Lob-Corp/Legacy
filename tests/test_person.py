@@ -56,7 +56,7 @@ def test_place_full_creation():
 
 def test_person_minimal_stubs(compressed_date_fixture, title_fixture, pers_event_fixture):
     fake_relation = Relation[int, str](
-        type=RelationToParentType.ADOPTION, father=None, mother=None, sources=[])
+        type=RelationToParentType.ADOPTION, father=None, mother=None, sources="")
     person = Person(
         index=1,
         first_name="Jean",
@@ -69,8 +69,8 @@ def test_person_minimal_stubs(compressed_date_fixture, title_fixture, pers_event
         first_names_aliases=["J"],
         surname_aliases=["Du."],
         titles=[title_fixture],
-        NonNativeParentsRelation=[fake_relation],
-        RelatedPersons=[],
+        non_native_parents_relation=[fake_relation],
+        related_persons=[],
         occupation="Farmer",
         sex=Sex.MALE,
         access_right=AccessRight.PUBLIC,
@@ -82,7 +82,7 @@ def test_person_minimal_stubs(compressed_date_fixture, title_fixture, pers_event
         baptism_place="Church",
         baptism_note="bap note",
         baptism_src="bap src",
-        death=DontKnowIfDead(),
+        death_status=DontKnowIfDead(),
         death_place="Paris",
         death_note="death note",
         death_src="death src",
@@ -120,8 +120,8 @@ def test_person_with_empty_lists(compressed_date_fixture):
         first_names_aliases=[],
         surname_aliases=[],
         titles=[],
-        NonNativeParentsRelation=[],
-        RelatedPersons=[],
+        non_native_parents_relation=[],
+        related_persons=[],
         occupation="",
         sex=Sex.FEMALE,
         access_right=AccessRight.PRIVATE,
@@ -133,7 +133,7 @@ def test_person_with_empty_lists(compressed_date_fixture):
         baptism_place="",
         baptism_note="",
         baptism_src="",
-        death=NotDead(),
+        death_status=NotDead(),
         death_place="",
         death_note="",
         death_src="",

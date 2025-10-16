@@ -45,8 +45,8 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     first_names_aliases: List[PersonDescriptorT]
     surname_aliases: List[PersonDescriptorT]
     titles: List[Title[PersonDescriptorT]]
-    NonNativeParentsRelation: List[Relation[PersonT, PersonDescriptorT]]
-    RelatedPersons: List[PersonT]
+    non_native_parents_relation: List[Relation[PersonT, PersonDescriptorT]]
+    related_persons: List[PersonT]
     occupation: PersonDescriptorT
     sex: Sex
     access_right: AccessRight
@@ -58,7 +58,7 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     baptism_place: PersonDescriptorT
     baptism_note: PersonDescriptorT
     baptism_src: PersonDescriptorT
-    death: DeathStatusBase
+    death_status: DeathStatusBase
     death_place: PersonDescriptorT
     death_note: PersonDescriptorT
     death_src: PersonDescriptorT

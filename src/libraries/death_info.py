@@ -27,6 +27,7 @@ class Dead(DeathStatusBase):
     def __init__(self, death_reason: DeathReason,
                  date_of_death: CompressedDate):
         self.death_reason = death_reason
+        self.date_of_death = date_of_death
 
 
 class DeadYoung(DeathStatusBase):

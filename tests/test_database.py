@@ -4,7 +4,7 @@ import pytest
 from libraries.date import DateValue
 from libraries.death_info import NotDead, UnknownBurial
 from libraries.person import Person, Sex
-from libraries.family import Family, MaritalStatus
+from libraries.family import Family, MaritalStatus, NotDivorced
 from libraries.title import AccessRight, Title, UseMainTitle
 
 
@@ -27,8 +27,8 @@ def person_fixture(date_fixture) -> Person[int, str, str]:
         first_names_aliases=[],
         surname_aliases=[],
         titles=[],
-        NonNativeParentsRelation=[],
-        RelatedPersons=[],
+        non_native_parents_relation=[],
+        related_persons=[],
         occupation="Worker",
         sex=Sex.MALE,
         access_right=AccessRight.PUBLIC,
@@ -40,7 +40,7 @@ def person_fixture(date_fixture) -> Person[int, str, str]:
         baptism_place="",
         baptism_note="",
         baptism_src="",
-        death=NotDead(),  # replace with DeathStatusBase if needed
+        death_status=NotDead(),  # replace with DeathStatusBase if needed
         death_place="",
         death_note="",
         death_src="",
@@ -64,6 +64,7 @@ def family_fixture(date_fixture, person_fixture) -> Family[int, str, str]:
         marriage_src="",
         witnesses=[person_fixture],
         relation_kind=MaritalStatus.MARRIED,
+        divorce_status=NotDivorced(),
         family_events=[],
         comment="",
         origin_file="origin.gw",
