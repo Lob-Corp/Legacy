@@ -219,3 +219,5 @@ lcov.*.info
 
 # golden master testing
 tests/golden_master/records
+
+*.ged
