@@ -8,6 +8,7 @@ from dataclasses import replace
 from typing import List, Tuple, Optional, cast
 
 from libraries.person import Person, Sex
+from libraries.title import AccessRight
 from libraries.family import (
     Family,
     Parents,
@@ -18,8 +19,11 @@ from libraries.family import (
     Divorced,
     Separated,
     DivorceStatusBase,
+    Ascendants,
 )
 from libraries.events import FamilyEvent
+from libraries.death_info import NotDead, UnknownBurial
+from libraries.consanguinity_rate import ConsanguinityRate
 
 from .person_parser import build_person
 from .data_types import (
@@ -56,7 +60,7 @@ def _parse_child_line(
     default_sex: Sex,
     common_src: str,
     common_birth_place: str,
-) -> Tuple[Person[int, int, str], str]:
+) -> Tuple[Person[int, int, str, int], str]:
     """Parse a child definition line (tokens after '-').
 
     Returns (person, surname_used).
@@ -278,7 +282,7 @@ def parse_family_block(
         stream.pop()
         events = parse_family_events(stream)
 
-    descend: List[Person[int, int, str]] = []
+    descend: List[Person[int, int, str, int]] = []
     nxt = stream.peek()
     if nxt and nxt.strip() == 'beg':
         stream.pop()
@@ -312,7 +316,38 @@ def parse_family_block(
             )
             descend.append(child)
 
-    family: Family[int, Person[int, int, str], str] = Family(  # type: ignore
+    # Extract Person objects from Somebody references for template Family
+    # The converter will replace this with properly resolved persons
+    template_parents: List[Person[int, int, str, int]] = []
+    for somebody in parents.parents:
+        if isinstance(somebody, SomebodyDefined):
+            template_parents.append(somebody.person)
+
+    # Parents must have at least one element
+    if not template_parents:
+        # Create a minimal placeholder if no defined parents
+        # This shouldn't happen in well-formed data
+        placeholder = Person(
+            index=-1, first_name="", surname="", occ=0,
+            image="", public_name="", qualifiers=[], aliases=[],
+            first_names_aliases=[], surname_aliases=[], titles=[],
+            non_native_parents_relation=[], related_persons=[],
+            occupation="", sex=Sex.NEUTER, access_right=AccessRight.PUBLIC,
+            birth_date=None, birth_place="", birth_note="", birth_src="",
+            baptism_date=None, baptism_place="", baptism_note="",
+            baptism_src="", death_status=NotDead(), death_place="",
+            death_note="", death_src="", burial=UnknownBurial(),
+            burial_place="", burial_note="", burial_src="",
+            personal_events=[], notes="", src="",
+            ascend=Ascendants(
+                parents=None,
+                consanguinity_rate=ConsanguinityRate.from_integer(-1)
+            ),
+            families=[]
+        )
+        template_parents.append(placeholder)
+
+    family: Family[int, Person[int, int, str, int], str] = Family(
         index=-1,
         marriage_date=marriage_date or '',
         marriage_place=marr_place,
@@ -321,11 +356,15 @@ def parse_family_block(
         witnesses=[],
         relation_kind=relation_kind,
         divorce_status=divorce_status,
-        family_events=cast(List[FamilyEvent[Person[int, int, str], str]], [
-                           evt for (evt, _) in events]),
+        family_events=cast(
+            List[FamilyEvent[Person[int, int, str, int], str]],
+            [evt for (evt, _) in events]
+        ),
         comment=comment,
         origin_file='',
         src=fam_src,
+        parents=Parents(template_parents),
+        children=descend,
     )
     return FamilyGwSyntax(
         couple=parents,

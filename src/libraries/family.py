@@ -129,3 +129,5 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
     comment: FamilyDescriptorT
     origin_file: FamilyDescriptorT  # .gw filename
     src: FamilyDescriptorT
+    parents: Parents[PersonT]  # equivalent to OCaml's gen_couple
+    children: List[PersonT]

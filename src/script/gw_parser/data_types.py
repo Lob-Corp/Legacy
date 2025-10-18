@@ -40,7 +40,7 @@ class SomebodyUndefined(Somebody):
 @dataclass(frozen=True)
 class SomebodyDefined(Somebody):
     """Person reference with full person data."""
-    person: Person[int, int, str]
+    person: Person[int, int, str, int]
 
 
 class GwSyntax:
@@ -56,8 +56,8 @@ class FamilyGwSyntax(GwSyntax):
     mother_sex: Sex
     witnesses: List[Tuple[Somebody, Sex]]
     events: List[Tuple[FamilyEvent[Somebody, str], List[Sex]]]
-    family: Family[int, Person[int, int, str], str]
-    descend: List[Person[int, int, str]]
+    family: Family[int, Person[int, int, str, int], str]
+    descend: List[Person[int, int, str, int]]
 
 
 @dataclass(frozen=True)

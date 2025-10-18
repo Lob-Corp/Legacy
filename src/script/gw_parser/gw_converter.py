@@ -19,9 +19,10 @@ from script.gw_parser.data_types import (
     SomebodyUndefined,
 )
 from libraries.person import Person, Sex, AccessRight
-from libraries.family import Family, Relation
+from libraries.family import Family, Relation, Ascendants, Parents
 from libraries.events import FamilyEvent, PersonalEvent
 from libraries.death_info import NotDead, UnknownBurial
+from libraries.consanguinity_rate import ConsanguinityRate
 
 
 class GwConverter:
@@ -40,28 +41,30 @@ class GwConverter:
         # Map from Key to resolved Person
         self.person_by_key: Dict[
             Tuple[str, str, int],
-            Person[int, int, str]
+            Person[int, int, str, int]
         ] = {}
         self.dummy_persons: set[Tuple[str, str, int]] = set()
-        self.families: Dict[int, Family[int, Person[int, int, str], str]] = {}
+        self.families: Dict[
+            int, Family[int, Person[int, int, str, int], str]
+        ] = {}
         # Notes storage: Key -> content
         self.notes: Dict[Tuple[str, str, int], str] = {}
         # Relations storage: Key -> relations
         self.relations: Dict[
             Tuple[str, str, int],
-            List[Relation[Person[int, int, str], str]]
+            List[Relation[Person[int, int, str, int], str]]
         ] = {}
         # Personal events storage: Key -> events
         self.personal_events: Dict[
             Tuple[str, str, int],
-            List[PersonalEvent[Person[int, int, str], str]]
+            List[PersonalEvent[Person[int, int, str, int], str]]
         ] = {}
 
     def key_tuple(self, key: Key) -> Tuple[str, str, int]:
         """Convert a Key to a hashable tuple."""
         return (key.pk_first_name, key.pk_surname, key.pk_occ)
 
-    def _create_dummy_person(self, key: Key) -> Person[int, int, str]:
+    def _create_dummy_person(self, key: Key) -> Person[int, int, str, int]:
         """Create a minimal dummy person for an undefined reference.
 
         Mimics OCaml gwc's behavior of creating placeholder persons
@@ -101,7 +104,7 @@ class GwConverter:
             baptism_place="",
             baptism_note="",
             baptism_src="",
-            death=NotDead(),
+            death_status=NotDead(),
             death_place="",
             death_note="",
             death_src="",
@@ -112,13 +115,18 @@ class GwConverter:
             personal_events=[],
             notes="",
             src="",
+            ascend=Ascendants(
+                parents=None,
+                consanguinity_rate=ConsanguinityRate.from_integer(-1)
+            ),
+            families=[],
         )
         return dummy
 
     def resolve_somebody(
         self,
         somebody: Somebody
-    ) -> Person[int, int, str]:
+    ) -> Person[int, int, str, int]:
         """Resolve a Somebody reference to an actual Person.
 
         Creates dummy persons for undefined references (like OCaml's 'U').
@@ -168,7 +176,7 @@ class GwConverter:
     def resolve_somebody_list(
         self,
         somebodies: List[Somebody]
-    ) -> List[Person[int, int, str]]:
+    ) -> List[Person[int, int, str, int]]:
         """Resolve a list of Somebody references."""
         return [self.resolve_somebody(s) for s in somebodies]
 
@@ -176,8 +184,8 @@ class GwConverter:
         self,
         gw_family: FamilyGwSyntax
     ) -> Tuple[
-        Family[int, Person[int, int, str], str],
-        List[Person[int, int, str]]
+        Family[int, Person[int, int, str, int], str],
+        List[Person[int, int, str, int]]
     ]:
         """Convert a FamilyGwSyntax to a Family and register persons.
 
@@ -189,17 +197,20 @@ class GwConverter:
         """
         # Resolve the couple (father and mother) - this creates dummies
         # if needed and registers them in person_by_key
-        father = None
-        mother = None
+        resolved_parents: List[Person[int, int, str, int]] = []
         if len(gw_family.couple.parents) >= 1:
             father = self.resolve_somebody(gw_family.couple.parents[0])
+            resolved_parents.append(father)
         if len(gw_family.couple.parents) >= 2:
             mother = self.resolve_somebody(gw_family.couple.parents[1])
+            resolved_parents.append(mother)
 
-        # NOTE: father and mother are now registered but not used directly
-        # because Family doesn't store parents (they're implied by the
-        # database structure)
-        _ = (father, mother)  # Suppress unused variable warning
+        # Create Parents object for the family
+        if resolved_parents:
+            family_parents = Parents(resolved_parents)
+        else:
+            # This shouldn't happen in well-formed data
+            raise ValueError("Family has no parents")
 
         for person in gw_family.descend:
             key_tuple = (person.first_name, person.surname, person.occ)
@@ -210,7 +221,9 @@ class GwConverter:
             witness = self.resolve_somebody(witness_somebody)
             witness_persons.append(witness)
 
-        converted_events: List[FamilyEvent[Person[int, int, str], str]] = []
+        converted_events: List[
+            FamilyEvent[Person[int, int, str, int], str]
+        ] = []
         for event, witness_sexes in gw_family.events:
             converted_events.append(event)
 
@@ -229,6 +242,9 @@ class GwConverter:
             comment=family.comment,
             origin_file=family.origin_file,
             src=family.src,
+            parents=family_parents,
+            # descend is already the list of children
+            children=gw_family.descend,
         )
 
         self.families[self.family_index_counter] = converted_family
@@ -254,7 +270,9 @@ class GwConverter:
         person = self.resolve_somebody(gw_relations.person)
         key_tuple = (person.first_name, person.surname, person.occ)
 
-        converted_relations: List[Relation[Person[int, int, str], str]] = []
+        converted_relations: List[
+            Relation[Person[int, int, str, int], str]
+        ] = []
         for relation in gw_relations.relations:
             father = (
                 self.resolve_somebody(relation.father)
@@ -288,7 +306,9 @@ class GwConverter:
         person = self.resolve_somebody(gw_events.person)
         key_tuple = (person.first_name, person.surname, person.occ)
 
-        converted_events: List[PersonalEvent[Person[int, int, str], str]] = []
+        converted_events: List[
+            PersonalEvent[Person[int, int, str, int], str]
+        ] = []
         for event in gw_events.events:
             converted_events.append(event)
 
@@ -328,13 +348,13 @@ class GwConverter:
         for block in gw_blocks:
             self.convert(block)
 
-    def get_all_persons(self) -> List[Person[int, int, str]]:
+    def get_all_persons(self) -> List[Person[int, int, str, int]]:
         """Get all registered persons."""
         return list(self.person_by_key.values())
 
     def get_all_families(
         self
-    ) -> List[Family[int, Person[int, int, str], str]]:
+    ) -> List[Family[int, Person[int, int, str, int], str]]:
         """Get all registered families."""
         return list(self.families.values())
 
@@ -343,7 +363,7 @@ class GwConverter:
         first_name: str,
         surname: str,
         occ: int = 0
-    ) -> Optional[Person[int, int, str]]:
+    ) -> Optional[Person[int, int, str, int]]:
         """Look up a person by their key.
 
         Args:
@@ -359,8 +379,8 @@ class GwConverter:
 
     def enrich_person_with_additional_data(
         self,
-        person: Person[int, int, str]
-    ) -> Person[int, int, str]:
+        person: Person[int, int, str, int]
+    ) -> Person[int, int, str, int]:
         """Enrich a person with notes, relations, and personal events.
 
         Args:
@@ -390,14 +410,14 @@ class GwConverter:
             personal_events=events,
         )
 
-    def get_enriched_persons(self) -> List[Person[int, int, str]]:
+    def get_enriched_persons(self) -> List[Person[int, int, str, int]]:
         """Get all persons with notes, relations, events merged in."""
         return [
             self.enrich_person_with_additional_data(person)
             for person in self.get_all_persons()
         ]
 
-    def get_dummy_persons(self) -> List[Person[int, int, str]]:
+    def get_dummy_persons(self) -> List[Person[int, int, str, int]]:
         """Get all persons that remain as dummies (undefined references).
 
         These are persons that were referenced but never fully defined,
@@ -427,8 +447,8 @@ class GwConverter:
 
 
 def convert_gw_file(gw_blocks: List[GwSyntax]) -> Tuple[
-    List[Person[int, int, str]],
-    List[Family[int, Person[int, int, str], str]]
+    List[Person[int, int, str, int]],
+    List[Family[int, Person[int, int, str, int], str]]
 ]:
     """Convenience function to convert a complete GeneWeb file.
 

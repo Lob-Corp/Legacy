@@ -210,7 +210,9 @@ def test_family_full_creation():
         family_events=events,
         comment="comment",
         origin_file="file.gw",
-        src="source"
+        src="source",
+        parents=Parents([1, 2]),
+        children=[],
     )
 
     assert fam.index == 1

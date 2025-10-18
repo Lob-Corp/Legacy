@@ -24,10 +24,12 @@ from libraries.family import (
     Family,
     Parents,
     Relation,
+    Ascendants,
     MaritalStatus,
     NotDivorced,
     RelationToParentType,
 )
+from libraries.consanguinity_rate import ConsanguinityRate
 from libraries.events import PersGraduate, PersonalEvent
 from libraries.date import CalendarDate, DateValue, Calendar, Sure
 from libraries.death_info import NotDead, UnknownBurial
@@ -35,7 +37,7 @@ from libraries.title import AccessRight
 
 
 @pytest.fixture
-def simple_person() -> Person[int, int, str]:
+def simple_person() -> Person[int, int, str, int]:
     """Create a simple person for testing."""
     date = CalendarDate(
         dmy=DateValue(day=1, month=1, year=1950, prec=Sure(), delta=0),
@@ -66,7 +68,7 @@ def simple_person() -> Person[int, int, str]:
         baptism_place="",
         baptism_note="",
         baptism_src="",
-        death=NotDead(),
+        death_status=NotDead(),
         death_place="",
         death_note="",
         death_src="",
@@ -77,11 +79,16 @@ def simple_person() -> Person[int, int, str]:
         personal_events=[],
         notes="",
         src="",
+        ascend=Ascendants(
+            parents=None,
+            consanguinity_rate=ConsanguinityRate.from_integer(-1)
+        ),
+        families=[],
     )
 
 
 @pytest.fixture
-def another_person() -> Person[int, int, str]:
+def another_person() -> Person[int, int, str, int]:
     """Create another person for testing."""
     date = CalendarDate(
         dmy=DateValue(day=1, month=1, year=1952, prec=Sure(), delta=0),
@@ -112,7 +119,7 @@ def another_person() -> Person[int, int, str]:
         baptism_place="",
         baptism_note="",
         baptism_src="",
-        death=NotDead(),
+        death_status=NotDead(),
         death_place="",
         death_note="",
         death_src="",
@@ -123,6 +130,11 @@ def another_person() -> Person[int, int, str]:
         personal_events=[],
         notes="",
         src="",
+        ascend=Ascendants(
+            parents=None,
+            consanguinity_rate=ConsanguinityRate.from_integer(-1)
+        ),
+        families=[],
     )
 
 
@@ -237,7 +249,7 @@ class TestConvertFamily:
         converter = GwConverter()
 
         # Create a simple family
-        family = Family[int, Person[int, int, str], str](
+        family = Family[int, Person[int, int, str, int], str](
             index=0,
             marriage_date=None,
             marriage_place="",
@@ -250,6 +262,8 @@ class TestConvertFamily:
             comment="",
             origin_file="test.gw",
             src="",
+            parents=Parents([simple_person, another_person]),
+            children=[],
         )
 
         family_gw = FamilyGwSyntax(
@@ -280,7 +294,7 @@ class TestConvertFamily:
         # Create a child
         child = replace(simple_person, first_name="Child", surname="Doe")
 
-        family = Family[int, Person[int, int, str], str](
+        family = Family[int, Person[int, int, str, int], str](
             index=0,
             marriage_date=None,
             marriage_place="",
@@ -293,6 +307,8 @@ class TestConvertFamily:
             comment="",
             origin_file="test.gw",
             src="",
+            parents=Parents([simple_person, another_person]),
+            children=[child],
         )
 
         family_gw = FamilyGwSyntax(
@@ -331,7 +347,7 @@ class TestConvertFamily:
         )
         converter.person_by_key[("Witness", "Person", 0)] = witness
 
-        family = Family[int, Person[int, int, str], str](
+        family = Family[int, Person[int, int, str, int], str](
             index=0,
             marriage_date=None,
             marriage_place="",
@@ -344,6 +360,8 @@ class TestConvertFamily:
             comment="",
             origin_file="test.gw",
             src="",
+            parents=Parents([simple_person, another_person]),
+            children=[],
         )
 
         family_gw = FamilyGwSyntax(
@@ -509,7 +527,7 @@ class TestConvert:
         """Test converting FamilyGwSyntax."""
         converter = GwConverter()
 
-        family = Family[int, Person[int, int, str], str](
+        family = Family[int, Person[int, int, str, int], str](
             index=0,
             marriage_date=None,
             marriage_place="",
@@ -522,6 +540,8 @@ class TestConvert:
             comment="",
             origin_file="test.gw",
             src="",
+            parents=Parents([simple_person, another_person]),
+            children=[],
         )
 
         family_gw = FamilyGwSyntax(
@@ -568,7 +588,7 @@ class TestConvertAll:
         """Test converting multiple GwSyntax blocks."""
         converter = GwConverter()
 
-        family = Family[int, Person[int, int, str], str](
+        family = Family[int, Person[int, int, str, int], str](
             index=0,
             marriage_date=None,
             marriage_place="",
@@ -581,6 +601,8 @@ class TestConvertAll:
             comment="",
             origin_file="test.gw",
             src="",
+            parents=Parents([simple_person]),
+            children=[],
         )
 
         blocks = [
@@ -624,7 +646,7 @@ class TestGetMethods:
         """Test getting all registered families."""
         converter = GwConverter()
 
-        family = Family[int, Person[int, int, str], str](
+        family = Family[int, Person[int, int, str, int], str](
             index=0,
             marriage_date=None,
             marriage_place="",
@@ -637,6 +659,8 @@ class TestGetMethods:
             comment="",
             origin_file="test.gw",
             src="",
+            parents=Parents([simple_person, another_person]),
+            children=[],
         )
 
         family_gw = FamilyGwSyntax(
@@ -691,10 +715,11 @@ class TestEnrichPerson:
         assert enriched.notes == "Enriched notes"
         assert enriched.first_name == "John"
 
-    def test_enrich_person_with_relations(self,
-                                          simple_person,
-                                          another_person:
-                                          Person[int, int, str]):
+    def test_enrich_person_with_relations(
+        self,
+        simple_person,
+        another_person: Person[int, int, str, int]
+    ):
         """Test enriching person with relations."""
         converter = GwConverter()
 
@@ -756,7 +781,7 @@ class TestConvertGwFile:
 
     def test_convert_gw_file_with_data(self, simple_person):
         """Test converting a file with data."""
-        family = Family[int, Person[int, int, str], str](
+        family = Family[int, Person[int, int, str, int], str](
             index=0,
             marriage_date=None,
             marriage_place="",
@@ -769,6 +794,8 @@ class TestConvertGwFile:
             comment="",
             origin_file="test.gw",
             src="",
+            parents=Parents([simple_person]),
+            children=[],
         )
 
         blocks = [

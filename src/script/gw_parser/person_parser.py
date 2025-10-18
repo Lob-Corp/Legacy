@@ -13,6 +13,8 @@ from libraries.title import (
     NoTitle,
     UseMainTitle
 )
+from libraries.family import Ascendants
+from libraries.consanguinity_rate import ConsanguinityRate
 from libraries.death_info import (
     BurialInfoBase,
     Burial,
@@ -249,8 +251,9 @@ def _parse_optional_date_prefixed(
     return None, tokens
 
 
-def build_person(first: str, surname: str, occ: int, sex: Sex,
-                 tokens: List[str]) -> Tuple[Person[int, int, str], List[str]]:
+def build_person(
+    first: str, surname: str, occ: int, sex: Sex, tokens: List[str]
+) -> Tuple[Person[int, int, str, int], List[str]]:
     """Build a complete Person object from tokens.
 
     Parses all person fields in sequence: aliases, titles, access rights,
@@ -391,7 +394,7 @@ def build_person(first: str, surname: str, occ: int, sex: Sex,
         burial_src = cut_space(tokens[1])
         tokens = tokens[2:]
 
-    person: Person[int, int, str] = Person(
+    person: Person[int, int, str, int] = Person(
         index=-1,
         first_name=first,
         surname=surname,
@@ -416,7 +419,7 @@ def build_person(first: str, surname: str, occ: int, sex: Sex,
         baptism_place=baptism_place,
         baptism_note=baptism_note,
         baptism_src=baptism_src,
-        death=death,
+        death_status=death,
         death_place=death_place,
         death_note=death_note,
         death_src=death_src,
@@ -427,5 +430,10 @@ def build_person(first: str, surname: str, occ: int, sex: Sex,
         personal_events=[],
         notes=person_sources,
         src=person_sources,
+        ascend=Ascendants(
+            parents=None,
+            consanguinity_rate=ConsanguinityRate.from_integer(-1)
+        ),
+        families=[],
     )
     return person, tokens

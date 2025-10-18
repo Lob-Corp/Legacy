@@ -2,9 +2,10 @@ from libraries.person import Person, Place, Sex
 import pytest
 from libraries.death_info import DontKnowIfDead, NotDead, UnknownBurial
 from libraries.events import EventWitnessKind, PersBirth, PersonalEvent
-from libraries.family import Relation, RelationToParentType
+from libraries.family import Relation, RelationToParentType, Ascendants
 from libraries.title import AccessRight, Title, TitleName
 from libraries.date import CompressedDate
+from libraries.consanguinity_rate import ConsanguinityRate
 
 
 @pytest.fixture
@@ -99,7 +100,12 @@ def test_person_minimal_stubs(
         burial_src="burial src",
         personal_events=[pers_event_fixture],
         notes="general note",
-        src="src file"
+        src="src file",
+        ascend=Ascendants[int](
+            parents=None,
+            consanguinity_rate=ConsanguinityRate.from_integer(-1)
+        ),
+        families=[],
     )
 
     # Check key fields
@@ -115,7 +121,7 @@ def test_person_minimal_stubs(
 
 
 def test_person_with_empty_lists(compressed_date_fixture):
-    person = Person[int, str, str](
+    person = Person[int, str, str, int](
         index=2,
         first_name="Alice",
         surname="Smith",
@@ -150,7 +156,12 @@ def test_person_with_empty_lists(compressed_date_fixture):
         burial_src="",
         personal_events=[],
         notes="",
-        src=""
+        src="",
+        ascend=Ascendants(
+            parents=None,
+            consanguinity_rate=ConsanguinityRate.from_integer(-1)
+        ),
+        families=[],
     )
 
     assert person.index == 2
