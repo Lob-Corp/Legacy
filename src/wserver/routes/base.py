@@ -1,8 +1,58 @@
-from flask import Blueprint, request, make_response, send_from_directory, abort
+from flask import Blueprint, request, make_response, send_from_directory, abort, redirect, url_for
 from pathlib import Path
 import re
 
+# new import
+from ..services.template_loader import TemplateService
+
 base_bp = Blueprint('base', __name__)
+_template_service = TemplateService()
+def _render_setup(fname: str, lang: str):
+    """
+    Small wrapper used by the Flask routes:
+      - fname e.g. 'welcome.htm'
+      - lang e.g. 'fr'
+    """
+    # build params dict for TemplateService (host/port/o)
+    host = request.host.split(':')[0]
+    port = request.host.split(':')[1] if ':' in request.host else ""
+    params = {"host": host, "port": port, "o": request.args.get("o", "")}
+    html_str = _template_service.render_setup_template(fname, lang, params)
+    resp = make_response(html_str)
+    resp.headers["Content-Type"] = "text/html; charset=utf-8"
+    return resp
+
+@base_bp.route('/welcome/<lang>', methods=['GET', 'POST'])
+def route_welcome(lang):
+    return _render_setup("welcome.htm", lang)
+
+@base_bp.route('/delete/<lang>', methods=['GET', 'POST'])
+def route_delete(lang):
+    return _render_setup("delete.htm", lang)
+
+@base_bp.route('/delete_1/<lang>', methods=['GET', 'POST'])
+def route_delete_1(lang):
+    return _render_setup("delete_1.htm", lang)
+
+@base_bp.route('/list/<lang>', methods=['GET', 'POST'])
+def route_list(lang):
+    return _render_setup("list.htm", lang)
+
+@base_bp.route('/main/<lang>', methods=['GET', 'POST'])
+def route_main(lang):
+    return _render_setup("main.htm", lang)
+
+@base_bp.route('/traces/<lang>', methods=['GET', 'POST'])
+def route_traces(lang):
+    return _render_setup("traces.htm", lang)
+
+@base_bp.route('/gwc/<lang>', methods=['GET', 'POST'])
+def route_gwc(lang):
+    return _render_setup("gwc.htm", lang)
+
+@base_bp.route('/gwu/<lang>', methods=['GET', 'POST'])
+def route_gwu(lang):
+    return _render_setup("gwu.htm", lang)
 
 # overview of the routes and endpoints will be refactor
 @base_bp.route('/robots.txt')
@@ -276,110 +326,6 @@ def update_nldb_htm():
 @base_bp.route('/welcome.htm')
 def welcome_htm():
     raise NotImplementedError("Route /welcome.htm (welcome_htm) not implemented yet")
-@base_bp.route('/gwsetup', methods=['GET', 'POST'])
-def gwsetup():
-    """
-    Serve setup templates like:
-      /gwsetup?lang=fr;v=welcome.htm
-    Accepts query separator '&' or ';' (legacy links use ';').
-    """
-    # parse query string supporting ';' as separator
-    qs = request.query_string.decode('utf-8', 'ignore')
-    params = {}
-    for part in re.split(r'[&;]', qs):
-        if part == "":
-            continue
-        if '=' in part:
-            k, v = part.split('=', 1)
-            params[k] = v
-        else:
-            params[part] = ""
-    lang = params.get('lang', request.args.get('lang', 'en'))
-    v = params.get('v', request.args.get('v', 'welcome.htm'))
-
-    # repo paths
-    repo_root = Path(__file__).resolve().parents[3]
-    setup_lang_dir = repo_root / "legacy" / "bin" / "setup" / "lang"
-    assets_dir = repo_root / "legacy" / "hd" / "etc"
-
-    # sanitize filename
-    if not v:
-        return make_response("Missing v parameter", 400)
-    fname = Path(v).name  # avoid path traversal
-
-    cand = setup_lang_dir / fname
-    if cand.exists():
-        raw = cand.read_text(encoding="utf-8")
-        base_dir = setup_lang_dir
-    else:
-        # fallback to assets etc (some setup pages may be in hd/etc)
-        cand2 = assets_dir / fname.replace('.htm', '.txt')
-        if cand2.exists():
-            raw = cand2.read_text(encoding="utf-8")
-            base_dir = assets_dir
-        else:
-            return make_response(f"Template {fname} not found", 404)
-
-    # Lightweight templm -> minimal HTML transformation (non-exhaustive)
-    raw = re.sub(r'%define;.*?%end;', '', raw, flags=re.DOTALL)
-    raw = re.sub(r'%let;.*?%in;', '', raw, flags=re.DOTALL)
-    raw = raw.replace('%end;', '')
-    css = (repo_root / "src" / "wserver" / "css" / "setup.css").read_text(encoding="utf-8")
-    raw = raw.replace('%fsetup.css;', f"<style>{css}</style>")
-
-    # include handler: %include;name -> include name.* from setup_lang_dir or assets_dir
-    def include_repl(m):
-        name = m.group(1)
-        for ext in ("htm", "html", "txt"):
-            p = base_dir / f"{name}.{ext}"
-            if p.exists():
-                try:
-                    return p.read_text(encoding="utf-8")
-                except Exception:
-                    return ""
-        for ext in ("htm", "html", "txt"):
-            p = assets_dir / f"{name}.{ext}"
-            if p.exists():
-                try:
-                    return p.read_text(encoding="utf-8")
-                except Exception:
-                    return ""
-        return ""
-    raw = re.sub(r'%include;([A-Za-z0-9_/-]+)', include_repl, raw)
-
-    # simple substitutions used in setup templates
-    ctx = {
-        "l": lang,
-        "lang": lang,
-        "Vbody_prop": "",  # not implemented in minimal server
-        "m": request.host.split(':')[0],  # %m -> host
-        "P": str(request.host.split(':')[1]) if ':' in request.host else "",
-        "a": params.get("o", ""),  # some templates use %a etc.
-    }
-
-    def var_repl(m):
-        key = m.group(1)
-        return ctx.get(key, "")
-
-    # match %l or %Vbody_prop; or %m; etc. pattern: %name;
-    raw = re.sub(r'%([A-Za-z0-9_]+);', var_repl, raw)
-    # Remove remaining templm markers conservatively
-    raw = re.sub(r'%[A-Za-z0-9_;().,-]+', '', raw)
-
-    # trailer/footer to append to setup pages
-    #TODO: replace and display version
-    trailer_html = (
-        '<br><div id="footer"><hr><div><em>'
-        '<a href="https://github.com/geneweb/geneweb/">'
-        '<img src="/images/logo_bas.png" style="border:0"></a> '
-        'Version - Copyright &copy; 1998-2021'
-        '</em></div></div>'
-    )
-    raw_with_trailer = raw + trailer_html
-
-    resp = make_response(raw_with_trailer)
-    resp.headers["Content-Type"] = "text/html; charset=utf-8"
-    return resp
 
 @base_bp.route('/images/<path:filename>')
 def images_route(filename):
@@ -398,4 +344,3 @@ def images_route(filename):
         resp.cache_control.max_age = 3600
         return resp
     abort(404)
-
