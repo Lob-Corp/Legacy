@@ -47,13 +47,14 @@ def parse_first_name(tokens: Sequence[str]) -> Tuple[str, int, List[str]]:
         raise ValueError("Expected first name token")
     token = tokens[0]
     occ = 0
-    # occurrence suffix pattern name[n]
-    if '[' in token and token.endswith(']'):
-        base, occ_str = token.rsplit('[', 1)
-        occ_str = occ_str[:-1]
-        if occ_str.isdigit():
-            occ = int(occ_str)
-            token = base
+    if '.' in token:
+        dot_idx = token.rfind('.')
+        if dot_idx != -1:
+            base = token[:dot_idx]
+            occ_str = token[dot_idx + 1:]
+            if occ_str.isdigit():
+                occ = int(occ_str)
+                token = base
     return cut_space(token), occ, list(tokens[1:])
 
 
