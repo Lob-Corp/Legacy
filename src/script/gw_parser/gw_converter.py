@@ -14,6 +14,9 @@ from script.gw_parser.data_types import (
     NotesGwSyntax,
     PersonalEventsGwSyntax,
     RelationsGwSyntax,
+    BaseNotesGwSyntax,
+    WizardNotesGwSyntax,
+    PageExtGwSyntax,
     Somebody,
     SomebodyDefined,
     SomebodyUndefined,
@@ -59,6 +62,9 @@ class GwConverter:
             Tuple[str, str, int],
             List[PersonalEvent[Person[int, int, str, int], str]]
         ] = {}
+        self.base_notes: List[Tuple[str, str]] = []
+        self.wizard_notes: Dict[str, str] = {}
+        self.page_extensions: Dict[str, str] = {}
 
     def key_tuple(self, key: Key) -> Tuple[str, str, int]:
         """Convert a Key to a hashable tuple."""
@@ -205,7 +211,6 @@ class GwConverter:
             mother = self.resolve_somebody(gw_family.couple.parents[1])
             resolved_parents.append(mother)
 
-        # Create Parents object for the family
         if resolved_parents:
             family_parents = Parents(resolved_parents)
         else:
@@ -252,14 +257,11 @@ class GwConverter:
             origin_file=family.origin_file,
             src=family.src,
             parents=family_parents,
-            # descend is already the list of children
             children=gw_family.descend,
         )
 
         self.families[self.family_index_counter] = converted_family
 
-        # CHECKPOINT 2: Establish bidirectional links
-        # Link parents to this family (add to their families list)
         updated_parents = []
         for parent in resolved_parents:
             parent_key = (parent.first_name, parent.surname, parent.occ)
@@ -278,14 +280,12 @@ class GwConverter:
                 # Parent not yet in person_by_key, use original
                 updated_parents.append(parent)
 
-        # Update the Family with the updated parents
         updated_family_parents = Parents(updated_parents)
         converted_family = replace(
             converted_family,
             parents=updated_family_parents
         )
 
-        # Link children to this family (update their ascend.parents)
         updated_children = []
         for child in gw_family.descend:
             child_key = (child.first_name, child.surname, child.occ)
@@ -306,7 +306,6 @@ class GwConverter:
                 # Child not yet in person_by_key, use original
                 updated_children.append(child)
 
-        # Update the Family with the updated children
         converted_family = replace(
             converted_family,
             children=updated_children
@@ -384,6 +383,34 @@ class GwConverter:
         if key_tuple in self.dummy_persons:
             self.dummy_persons.remove(key_tuple)
 
+    def convert_base_notes(self, gw_base_notes: BaseNotesGwSyntax) -> None:
+        """Store base notes (database-wide notes).
+
+        Args:
+            gw_base_notes: The parsed base notes block
+        """
+        self.base_notes.append((gw_base_notes.page, gw_base_notes.content))
+
+    def convert_wizard_notes(
+        self,
+        gw_wizard_notes: WizardNotesGwSyntax
+    ) -> None:
+        """Store wizard notes.
+
+        Args:
+            gw_wizard_notes: The parsed wizard notes block
+        """
+        self.wizard_notes[gw_wizard_notes.wizard_id] = \
+            gw_wizard_notes.content
+
+    def convert_page_ext(self, gw_page_ext: PageExtGwSyntax) -> None:
+        """Store page extension content.
+
+        Args:
+            gw_page_ext: The parsed page extension block
+        """
+        self.page_extensions[gw_page_ext.page_name] = gw_page_ext.content
+
     def convert(self, gw_syntax: GwSyntax) -> None:
         """Convert a GwSyntax block and accumulate in the converter.
 
@@ -401,6 +428,12 @@ class GwConverter:
             self.convert_relations(gw_syntax)
         elif isinstance(gw_syntax, PersonalEventsGwSyntax):
             self.convert_personal_events(gw_syntax)
+        elif isinstance(gw_syntax, BaseNotesGwSyntax):
+            self.convert_base_notes(gw_syntax)
+        elif isinstance(gw_syntax, WizardNotesGwSyntax):
+            self.convert_wizard_notes(gw_syntax)
+        elif isinstance(gw_syntax, PageExtGwSyntax):
+            self.convert_page_ext(gw_syntax)
         else:
             raise TypeError(f"Unknown GwSyntax type: {type(gw_syntax)}")
 
@@ -496,11 +529,36 @@ class GwConverter:
             for key_tuple in self.dummy_persons
         ]
 
+    def get_base_notes(self) -> List[Tuple[str, str]]:
+        """Get all database-wide notes.
+
+        Returns:
+            List of (page, content) tuples for base notes
+        """
+        return self.base_notes
+
+    def get_wizard_notes(self) -> Dict[str, str]:
+        """Get all wizard notes.
+
+        Returns:
+            Dictionary mapping wizard_id to content
+        """
+        return self.wizard_notes
+
+    def get_page_extensions(self) -> Dict[str, str]:
+        """Get all page extensions.
+
+        Returns:
+            Dictionary mapping page_name to content
+        """
+        return self.page_extensions
+
     def get_statistics(self) -> Dict[str, int]:
         """Get conversion statistics.
 
         Returns:
-            Dictionary with counts of persons, families, and dummies
+            Dictionary with counts of persons, families, dummies, and
+            database-level data
         """
         defined_count = len(self.person_by_key) - len(self.dummy_persons)
         return {
@@ -508,6 +566,9 @@ class GwConverter:
             'defined_persons': defined_count,
             'dummy_persons': len(self.dummy_persons),
             'families': len(self.families),
+            'base_notes': len(self.base_notes),
+            'wizard_notes': len(self.wizard_notes),
+            'page_extensions': len(self.page_extensions),
         }
 
 

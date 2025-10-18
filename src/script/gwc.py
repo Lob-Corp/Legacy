@@ -1,6 +1,7 @@
 import argparse
 import os
 import sys
+from typing import Dict, List, Tuple
 
 # TODO: complete when database is implemented
 
@@ -118,6 +119,9 @@ def main() -> int:
     verbose: bool = args.v and not args.q
     all_persons: list[Person] = []
     all_families: list[Family] = []
+    all_base_notes: list[tuple[str, str]] = []
+    all_wizard_notes: dict[str, str] = {}
+    all_page_extensions: dict[str, str] = {}
 
     if verbose:
         print(f"Processing {len(input_file_data)} file(s)...")
@@ -139,13 +143,13 @@ def main() -> int:
                 print(f"  Parsed {len(gw_syntax_blocks)} blocks")
                 print("  Converting to application types...")
 
-            # Convert to application types
             converter = GwConverter()
             converter.convert_all(gw_syntax_blocks)
             persons = converter.get_all_persons()
             families = converter.get_all_families()
-
-            # Get statistics
+            base_notes = converter.get_base_notes()
+            wizard_notes = converter.get_wizard_notes()
+            page_extensions = converter.get_page_extensions()
             stats = converter.get_statistics()
 
             if verbose:
@@ -158,6 +162,15 @@ def main() -> int:
                         f"  Warning: {stats['dummy_persons']} "
                         f"undefined person(s)"
                     )
+                if stats['base_notes'] > 0:
+                    print(f"  Found {stats['base_notes']} base note(s)")
+                if stats['wizard_notes'] > 0:
+                    print(f"  Found {stats['wizard_notes']} wizard note(s)")
+                if stats['page_extensions'] > 0:
+                    print(
+                        f"  Found {stats['page_extensions']} "
+                        f"page extension(s)"
+                    )
 
             # TODO: Apply shift if specified
             if shift != 0 and verbose:
@@ -167,15 +180,34 @@ def main() -> int:
             if separate and verbose:
                 print("  Note: -sep specified but not yet implemented")
 
-            # Merge into all collections
-            all_persons.extend(persons)
-            all_families.extend(families)
+            from dataclasses import replace
+            families_with_origin = [
+                replace(fam, origin_file=filename) for fam in families
+            ]
 
-            # TODO: Handle bnotes_mode
+            all_persons.extend(persons)
+            all_families.extend(families_with_origin)
+
+            match bnotes_mode:
+                case "merge":
+                    all_base_notes.extend(base_notes)
+                    all_wizard_notes.update(wizard_notes)
+                    all_page_extensions.update(page_extensions)
+                case "first" if not all_base_notes:
+                    all_base_notes.extend(base_notes)
+                    all_wizard_notes.update(wizard_notes)
+                    all_page_extensions.update(page_extensions)
+                case "drop":
+                    pass
+                case "erase":
+                    all_base_notes = list(base_notes)
+                    all_wizard_notes = dict(wizard_notes)
+                    all_page_extensions = dict(page_extensions)
+
             if bnotes_mode != "merge" and verbose:
                 print(
-                    f"  Note: -bnotes {bnotes_mode} specified "
-                    f"but not yet implemented"
+                    f"  Applied -bnotes {bnotes_mode} "
+                    f"for database-level data"
                 )
 
         except Exception as e:
@@ -199,97 +231,18 @@ def main() -> int:
         print("=" * 50)
         print(f"Total persons: {len(all_persons)}")
         print(f"Total families: {len(all_families)}")
+        print(f"Total base notes: {len(all_base_notes)}")
+        print(f"Total wizard notes: {len(all_wizard_notes)}")
+        print(f"Total page extensions: {len(all_page_extensions)}")
         print(f"Files processed: {len(input_file_data)}")
         # TODO: temporary, until database is implemented
-
-        def _get(obj, *names):
-            for n in names:
-                if hasattr(obj, n):
-                    val = getattr(obj, n)
-                    if val is not None:
-                        return val
-            if hasattr(obj, "__dict__"):
-                d = obj.__dict__
-                for k, v in d.items():
-                    for n in names:
-                        if n in k and v is not None:
-                            return v
-            return None
-
-        def _id_of(o):
-            return _get(o, "id", "pid", "fid", "xref") or str(o)
-
-        def _format_person(p):
-            pid = _id_of(p)
-            name = _get(p, "name", "full_name", "fullname")
-            if not name:
-                given = _get(p, "given", "given_name", "firstname", "first")
-                family = _get(p, "surname", "last", "lastname", "family")
-                if given or family:
-                    name = " ".join(filter(None, (given, family)))
-            sex = _get(p, "sex", "gender")
-            birth = _get(p, "birth", "bdate", "born")
-            death = _get(p, "death", "ddate", "died")
-            parts = [f"id={pid}"]
-            if name:
-                parts.append(f"name=\"{name}\"")
-            if sex:
-                parts.append(f"sex={sex}")
-            if birth or death:
-                parts.append(f"b:{birth or '?'} d:{death or '?'}")
-            return "  - " + " | ".join(parts)
-
-        def _format_family(f):
-            fid = _id_of(f)
-            hus = _get(f, "husband", "husb", "hus", "h", "father")
-            wife = _get(f, "wife", "w", "mother", "m")
-            children = _get(
-                f,
-                "children",
-                "kids",
-                "children_list",
-                "childs",
-                "child")
-
-            def _ref(x):
-                if hasattr(x, "__dict__"):
-                    return _id_of(x)
-                return str(x)
-            child_ids = []
-            if children is not None:
-                if isinstance(children, (list, tuple)):
-                    child_ids = [_ref(c) for c in children]
-                else:
-                    child_ids = [_ref(children)]
-            parts = [f"id={fid}"]
-            if hus:
-                parts.append(f"H={_ref(hus)}")
-            if wife:
-                parts.append(f"W={_ref(wife)}")
-            if child_ids:
-                parts.append(f"children={len(child_ids)}")
-            tail = f" -> [{', '.join(child_ids)}]" if child_ids else ""
-            return "  - " + " | ".join(parts) + tail
-
-        print("\nPersons:")
-        if not all_persons:
-            print("  (none)")
-        else:
-            for p in all_persons:
-                try:
-                    print(_format_person(p))
-                except Exception:
-                    print("  -", str(p))
-
-        print("\nFamilies:")
-        if not all_families:
-            print("  (none)")
-        else:
-            for f in all_families:
-                try:
-                    print(_format_family(f))
-                except Exception:
-                    print("  -", str(f))
+        print_data(
+            all_persons,
+            all_families,
+            all_base_notes,
+            all_wizard_notes,
+            all_page_extensions
+        )
         print("=" * 50)
 
     # TODO: Save to SQLite database
@@ -321,6 +274,138 @@ def main() -> int:
         print("\nProcessing complete!")
 
     return 0
+
+
+def print_data(
+        all_persons: List[Person],
+        all_families: List[Family],
+        all_base_notes: List[Tuple[str, str]],
+        all_wizard_notes: Dict[str, str],
+        all_page_extensions: Dict[str, str]):
+    """Serve as a temporary function to print parsed data.
+    To remove when database saving is implemented."""
+
+    def _get(obj, *names):
+        for n in names:
+            if hasattr(obj, n):
+                val = getattr(obj, n)
+                if val is not None:
+                    return val
+        if hasattr(obj, "__dict__"):
+            d = obj.__dict__
+            for k, v in d.items():
+                for n in names:
+                    if n in k and v is not None:
+                        return v
+        return None
+
+    def _id_of(o):
+        return _get(o, "id", "pid", "fid", "xref") or str(o)
+
+    def _format_person(p):
+        pid = _id_of(p)
+        name = _get(p, "name", "full_name", "fullname")
+        if not name:
+            given = _get(p, "given", "given_name", "firstname", "first")
+            family = _get(p, "surname", "last", "lastname", "family")
+            if given or family:
+                name = " ".join(filter(None, (given, family)))
+        sex = _get(p, "sex", "gender")
+        birth = _get(p, "birth", "bdate", "born")
+        death = _get(p, "death", "ddate", "died")
+        parts = [f"id={pid}"]
+        if name:
+            parts.append(f"name=\"{name}\"")
+        if sex:
+            parts.append(f"sex={sex}")
+        if birth or death:
+            parts.append(f"b:{birth or '?'} d:{death or '?'}")
+        return "  - " + " | ".join(parts)
+
+    def _format_family(f):
+        fid = _id_of(f)
+        hus = _get(f, "husband", "husb", "hus", "h", "father")
+        wife = _get(f, "wife", "w", "mother", "m")
+        children = _get(
+            f,
+            "children",
+            "kids",
+            "children_list",
+            "childs",
+            "child")
+
+        def _ref(x):
+            if hasattr(x, "__dict__"):
+                return _id_of(x)
+            return str(x)
+        child_ids = []
+        if children is not None:
+            if isinstance(children, (list, tuple)):
+                child_ids = [_ref(c) for c in children]
+            else:
+                child_ids = [_ref(children)]
+        parts = [f"id={fid}"]
+        if hus:
+            parts.append(f"H={_ref(hus)}")
+        if wife:
+            parts.append(f"W={_ref(wife)}")
+        if child_ids:
+            parts.append(f"children={len(child_ids)}")
+        tail = f" -> [{', '.join(child_ids)}]" if child_ids else ""
+        return "  - " + " | ".join(parts) + tail
+
+    print("\nPersons:")
+    if not all_persons:
+        print("  (none)")
+    else:
+        for p in all_persons:
+            try:
+                print(_format_person(p))
+            except Exception:
+                print("  -", str(p))
+
+    print("\nFamilies:")
+    if not all_families:
+        print("  (none)")
+    else:
+        for f in all_families:
+            try:
+                print(_format_family(f))
+            except Exception:
+                print("  -", str(f))
+
+    print("\nBase Notes:")
+    if not all_base_notes:
+        print("  (none)")
+    else:
+        for page, content in all_base_notes:
+            content_preview = (
+                content[:80] + "..." if len(content) > 80 else content
+            )
+            print(f"  - Page: {page!r}")
+            print(f"    Content: {content_preview!r}")
+
+    print("\nWizard Notes:")
+    if not all_wizard_notes:
+        print("  (none)")
+    else:
+        for wizard_id, content in all_wizard_notes.items():
+            content_preview = (
+                content[:80] + "..." if len(content) > 80 else content
+            )
+            print(f"  - Wizard ID: {wizard_id!r}")
+            print(f"    Content: {content_preview!r}")
+
+    print("\nPage Extensions:")
+    if not all_page_extensions:
+        print("  (none)")
+    else:
+        for page_name, content in all_page_extensions.items():
+            content_preview = (
+                content[:80] + "..." if len(content) > 80 else content
+            )
+            print(f"  - Page: {page_name!r}")
+            print(f"    Content: {content_preview!r}")
 
 
 if __name__ == "__main__":
