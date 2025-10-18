@@ -414,7 +414,7 @@ end
 fam 0 Test1 + 0 Test2
 beg
 - Child1
-- m: Child2
+- h Child2
 - f: Child3
 - Child4 ?
 - Child5 ? Surname

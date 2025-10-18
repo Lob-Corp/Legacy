@@ -212,8 +212,17 @@ class GwConverter:
             # This shouldn't happen in well-formed data
             raise ValueError("Family has no parents")
 
+        # Register inline-defined children into person_by_key, assigning
+        # indices if needed so subsequent updates (ascend/families) persist.
         for person in gw_family.descend:
             key_tuple = (person.first_name, person.surname, person.occ)
+            if key_tuple in self.person_by_key:
+                # Already present (dummy or defined earlier), keep existing
+                continue
+            # If the person has an unassigned index (-1), assign a new one
+            if person.index == -1:
+                person = replace(person, index=self.person_index_counter)
+                self.person_index_counter += 1
             self.person_by_key[key_tuple] = person
 
         witness_persons = []
@@ -248,6 +257,62 @@ class GwConverter:
         )
 
         self.families[self.family_index_counter] = converted_family
+
+        # CHECKPOINT 2: Establish bidirectional links
+        # Link parents to this family (add to their families list)
+        updated_parents = []
+        for parent in resolved_parents:
+            parent_key = (parent.first_name, parent.surname, parent.occ)
+            if parent_key in self.person_by_key:
+                existing_parent = self.person_by_key[parent_key]
+                # Add this family to parent's families list (marriages/unions)
+                updated_parent = replace(
+                    existing_parent,
+                    families=existing_parent.families + [
+                        self.family_index_counter
+                    ]
+                )
+                self.person_by_key[parent_key] = updated_parent
+                updated_parents.append(updated_parent)
+            else:
+                # Parent not yet in person_by_key, use original
+                updated_parents.append(parent)
+
+        # Update the Family with the updated parents
+        updated_family_parents = Parents(updated_parents)
+        converted_family = replace(
+            converted_family,
+            parents=updated_family_parents
+        )
+
+        # Link children to this family (update their ascend.parents)
+        updated_children = []
+        for child in gw_family.descend:
+            child_key = (child.first_name, child.surname, child.occ)
+            if child_key in self.person_by_key:
+                existing_child = self.person_by_key[child_key]
+                # Update child's ascend to point to this family
+                updated_ascend = replace(
+                    existing_child.ascend,
+                    parents=self.family_index_counter
+                )
+                updated_child = replace(
+                    existing_child,
+                    ascend=updated_ascend
+                )
+                self.person_by_key[child_key] = updated_child
+                updated_children.append(updated_child)
+            else:
+                # Child not yet in person_by_key, use original
+                updated_children.append(child)
+
+        # Update the Family with the updated children
+        converted_family = replace(
+            converted_family,
+            children=updated_children
+        )
+        self.families[self.family_index_counter] = converted_family
+
         self.family_index_counter += 1
 
         return converted_family, gw_family.descend

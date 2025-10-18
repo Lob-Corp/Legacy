@@ -297,9 +297,15 @@ def parse_family_block(
                 raise ValueError(f'Invalid child line: {line}')
             toks = f[1:]
             child_sex = Sex.NEUTER
-            if toks and toks[0] in ('m:', 'f:'):
-                child_sex = Sex.MALE if toks[0] == 'm:' else Sex.FEMALE
-                toks = toks[1:]
+            if toks:
+                tok0 = toks[0]
+                match tok0:
+                    case 'm:' | 'h' | 'm':
+                        child_sex = Sex.MALE
+                        toks = toks[1:]
+                    case 'f' | 'f:':
+                        child_sex = Sex.FEMALE
+                        toks = toks[1:]
 
             father_person = None
             first_parent = parents.parents[0]
