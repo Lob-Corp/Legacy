@@ -98,7 +98,3 @@ When updating documentation:
 - Provide both CLI and API examples where applicable
 - Link between related sections
 - Keep table of contents updated
-
----
-
-*Last updated: October 16, 2025*

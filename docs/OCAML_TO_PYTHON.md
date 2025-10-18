@@ -2,6 +2,16 @@
 
 This document tracks all differences between the original OCaml GeneWeb implementation and the Python reimplementation. It serves as a reference for developers working on the port.
 
+## Key Architectural Difference: Bidirectional Linking
+
+**OCaml**: Uses separate parallel arrays for relationships (ascends, unions, couples, descends) with index-based linking.
+
+**Python**: Uses integrated object references with generic types for bidirectional linking:
+- `Person` has 4 type parameters: `[IdxT, PersonT, PersonDescriptorT, FamilyT]`
+- `Family` has 3 type parameters: `[IdxT, PersonT, FamilyDescriptorT]`
+- Direct object references instead of index lookups
+- See [Bidirectional Linking Architecture](#bidirectional-linking-architecture) for details
+
 ---
 
 ## Table of Contents
@@ -263,7 +273,7 @@ type gen_person 'person 'string = {
 
 ```python
 @dataclass(frozen=True)
-class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
+class Person(Generic[IdxT, PersonT, PersonDescriptorT, FamilyT]):
     index: IdxT
     first_name: PersonDescriptorT
     surname: PersonDescriptorT
@@ -280,15 +290,15 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     occupation: PersonDescriptorT
     sex: Sex
     access_right: AccessRight
-    birth_date: Optional[CompressedDate]
+    birth_date: CompressedDate
     birth_place: PersonDescriptorT
     birth_note: PersonDescriptorT
     birth_src: PersonDescriptorT
-    baptism_date: Optional[CompressedDate]
+    baptism_date: CompressedDate
     baptism_place: PersonDescriptorT
     baptism_note: PersonDescriptorT
     baptism_src: PersonDescriptorT
-    death: DeathStatusBase
+    death_status: DeathStatusBase
     death_place: PersonDescriptorT
     death_note: PersonDescriptorT
     death_src: PersonDescriptorT
@@ -299,7 +309,22 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     personal_events: List[PersonalEvent[PersonT, PersonDescriptorT]]
     notes: PersonDescriptorT
     src: PersonDescriptorT
+    ascend: Ascendants[FamilyT]
+    families: List[FamilyT]
 ```
+
+**Bidirectional Linking:**
+
+In OCaml, persons and families reference each other through separate types:
+- `gen_ascend`: Links person → parent family (where person is a child)
+- `gen_union`: Links person → spouse families (where person is a parent)
+- `gen_descend`: Links family → children
+
+In Python, these are simplified using generic types:
+- `Person.ascend: Ascendants[FamilyT]` - Links to parent family (bidirectional with `Family.children`)
+- `Person.families: List[FamilyT]` - Links to spouse families (bidirectional with `Family.parents`)
+- `Family.parents: Parents[PersonT]` - Links to parent persons (bidirectional with `Person.families`)
+- `Family.children: List[PersonT]` - Links to child persons (bidirectional with `Person.ascend`)
 
 **Key Differences:**
 
@@ -310,11 +335,16 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
 | `related` | `list iper` | `related_persons: List[PersonT]` | Generic type |
 | `access` | Field name | `access_right` | More explicit |
 | `birth` | `codate` | `birth_date: Optional[CompressedDate]` | Split into date/place/note/src |
-| `death` | `death` variant | `death: DeathStatusBase` | Class hierarchy |
+| `death` | `death` variant | `death_status: DeathStatusBase` | Class hierarchy |
 | `pevents` | Field name | `personal_events` | More descriptive |
 | `psources` | Field name | `src` | Shortened |
+| **Ascendants** | Separate `gen_ascend` type | `ascend: Ascendants[FamilyT]` | **Integrated, bidirectional** |
+| **Unions** | Separate `gen_union` type | `families: List[FamilyT]` | **Integrated, bidirectional** |
 
-**Question**: What is `iper` in OCaml? It appears to be a person index type. In Python, we use the generic `PersonT` type variable.
+**Type Parameters:**
+- OCaml `gen_person` has 3 type params: `('iper, 'person, 'string)`
+- Python `Person` has 4 type params: `Generic[IdxT, PersonT, PersonDescriptorT, FamilyT]`
+  - Added `FamilyT` for bidirectional linking with families
 
 ### Family Data Structure
 
@@ -354,7 +384,19 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
     comment: FamilyDescriptorT
     origin_file: FamilyDescriptorT
     src: FamilyDescriptorT
+    parents: Parents[PersonT]
+    children: List[PersonT]
 ```
+
+**Bidirectional Linking:**
+
+In OCaml, families store parent/child relationships through separate types:
+- `gen_couple`: Stored separately, links family → parents
+- `gen_descend`: Stored separately, links family → children
+
+In Python, these are integrated directly into the `Family` dataclass:
+- `Family.parents: Parents[PersonT]` - Direct link to parent persons (bidirectional with `Person.families`)
+- `Family.children: List[PersonT]` - Direct link to child persons (bidirectional with `Person.ascend`)
 
 **Key Differences:**
 
@@ -366,6 +408,125 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
 | `fevents` | Field name | `family_events` | More descriptive |
 | `fsources` | Field name | `src` | Shortened |
 | `fam_index` | In record | `index: IdxT` | Renamed |
+| **Couple** | Separate `gen_couple` type | `parents: Parents[PersonT]` | **Integrated, bidirectional** |
+| **Descend** | Separate `gen_descend` type | `children: List[PersonT]` | **Integrated, bidirectional** |
+
+**Type Parameters:**
+- OCaml `gen_family` has 2 type params: `('person, 'string)`
+- Python `Family` has 3 type params: `Generic[IdxT, PersonT, FamilyDescriptorT]`
+  - Added `IdxT` for explicit index typing
+
+### Bidirectional Linking Architecture
+
+#### OCaml Approach: Separate Arrays
+
+OCaml stores relationships in separate parallel arrays:
+
+```ocaml
+(* Person linking *)
+type 'family gen_ascend = { 
+  parents : 'family option;     (* Parent family *)
+  consang : Adef.fix            (* Consanguinity rate *)
+}
+type 'family gen_union = { 
+  family : 'family array         (* Spouse families *)
+}
+
+(* Family linking *)
+type 'person gen_descend = { 
+  children : 'person array       (* Child persons *)
+}
+(* gen_couple stored separately, not in gen_family record *)
+```
+
+**Storage Model:**
+- `persons: array gen_person` - Person data
+- `ascends: array gen_ascend` - Person → parent family links (index-aligned with persons)
+- `unions: array gen_union` - Person → spouse families links (index-aligned)
+- `families: array gen_family` - Family data
+- `couples: array gen_couple` - Family → parent persons links (index-aligned with families)
+- `descends: array gen_descend` - Family → children links (index-aligned)
+
+**Access Pattern:**
+```ocaml
+(* Get person's parent family *)
+let ascend = ascends.(person_index) in
+Option.map (fun fam_idx -> families.(fam_idx)) ascend.parents
+
+(* Get person's spouse families *)
+let union = unions.(person_index) in
+Array.map (fun fam_idx -> families.(fam_idx)) union.family
+```
+
+#### Python Approach: Integrated References
+
+Python integrates relationships directly into dataclass fields using generic types:
+
+```python
+@dataclass(frozen=True)
+class Person(Generic[IdxT, PersonT, PersonDescriptorT, FamilyT]):
+    # ... other fields ...
+    ascend: Ascendants[FamilyT]   # Link to parent family (bidirectional)
+    families: List[FamilyT]        # Links to spouse families (bidirectional)
+
+@dataclass(frozen=True)  
+class Ascendants(Generic[FamilyT]):
+    parents: FamilyT | None        # Direct reference to parent Family object
+    consanguinity_rate: ConsanguinityRate
+
+@dataclass(frozen=True)
+class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
+    # ... other fields ...
+    parents: Parents[PersonT]      # Links to parent persons (bidirectional)
+    children: List[PersonT]        # Links to child persons (bidirectional)
+
+class Parents(Generic[PersonT]):
+    def __init__(self, parents: List[PersonT]):
+        self.parents = parents     # Direct references to Person objects
+```
+
+**Storage Model:**
+- `persons: List[Person]` - Person data with embedded family references
+- `families: List[Family]` - Family data with embedded person references
+- All links are bidirectional object references
+
+**Access Pattern:**
+```python
+# Get person's parent family (direct reference)
+parent_family = person.ascend.parents
+
+# Get person's spouse families (direct references)
+spouse_families = person.families
+
+# Get family's parents (direct references)
+parent_persons = family.parents.parents
+
+# Get family's children (direct references)
+children = family.children
+```
+
+#### Key Architectural Differences
+
+| Aspect | OCaml | Python |
+|--------|-------|--------|
+| **Separation** | 6 separate parallel arrays | 2 lists with embedded refs |
+| **Indirection** | Index-based (integer lookup) | Direct object references |
+| **Type safety** | Separate types enforce structure | Generics enforce structure |
+| **Memory layout** | Struct-of-arrays | Array-of-structs |
+| **Modification** | Update separate array slot | Immutable (use `dataclasses.replace()`) |
+| **Traversal** | Requires index → array lookup | Direct object navigation |
+
+**Advantages of Python Approach:**
+- More intuitive API (follow references directly)
+- Less index management overhead
+- Clearer bidirectional relationships
+- Better type inference with generics
+
+**Advantages of OCaml Approach:**
+- Better cache locality (array access)
+- Easier serialization (flat arrays)
+- More memory efficient (indices are smaller than references)
+- Safer concurrent access (immutable indices)
 
 ---
 
@@ -497,7 +658,70 @@ dummy_persons.remove((first_name, surname, occ))
 
 ## Algorithm Differences
 
-TBA
+### Bidirectional Linking in Converter
+
+The bidirectional linking architecture affects how the converter builds the data structures:
+
+#### OCaml (`db1link.ml`): Index-based Two-Phase Linking
+
+**Phase 1: Create entries with indices**
+```ocaml
+(* Add person to persons array, get index *)
+let person_idx = add_person person in
+
+(* Add family to families array, get index *)  
+let family_idx = add_family family in
+
+(* Store parent/child relationships using indices *)
+ascends.(person_idx) <- { parents = Some family_idx; consang = rate };
+unions.(father_idx) <- { family = Array.append unions.(father_idx).family [|family_idx|] };
+descends.(family_idx) <- { children = [|child_idx1; child_idx2|] };
+```
+
+**Phase 2: Build couples array**
+```ocaml
+(* Link family to parent persons using indices *)
+couples.(family_idx) <- (father_idx, mother_idx);
+```
+
+#### Python (`gw_converter.py`): Object-based Single-Phase Linking
+
+**Single Phase: Create objects with direct references**
+```python
+# Create parent persons with bidirectional links
+father = Person(
+    # ... fields ...
+    ascend=Ascendants(parents=None, ...),  # No parent family
+    families=[family]  # Will be filled after family creation
+)
+
+# Create family with direct object references
+family = Family(
+    # ... fields ...
+    parents=Parents([father, mother]),  # Direct references
+    children=[child1, child2]           # Direct references
+)
+
+# Update parent persons to reference the family
+father = replace(father, families=[family])
+mother = replace(mother, families=[family])
+
+# Update children to reference the family as parents
+child1 = replace(child1, ascend=Ascendants(parents=family, ...))
+child2 = replace(child2, ascend=Ascendants(parents=family, ...))
+```
+
+**Key Difference**: Python uses `dataclasses.replace()` to update frozen dataclasses with bidirectional references after initial creation, while OCaml updates mutable parallel arrays by index.
+
+#### Implications
+
+| Aspect | OCaml | Python |
+|--------|-------|--------|
+| **Creation order** | Can create in any order, link later by index | Must create objects, then update with `replace()` |
+| **Circular refs** | No issue (indices don't care) | Requires careful ordering + `replace()` |
+| **Memory usage** | Indices are small (4-8 bytes) | Object references larger (~8 bytes + GC overhead) |
+| **Verification** | Check index bounds | Type system ensures references are valid |
+| **Dummy handling** | Write 'U' marker, upgrade to 'D' later | Create dummy object, `replace()` with real data |
 
 ## File Format Differences
 

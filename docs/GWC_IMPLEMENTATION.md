@@ -112,12 +112,12 @@ Command-line interface:
 | `-q` | Quiet mode - suppress output | ✅ Working |
 | `-nofail` | Continue processing on errors | ✅ Working |
 | `-o <file>` | Output database file | ✅ Recognized (output pending) |
+| `-bnotes <mode>` | Base notes strategy (merge/erase/first/drop) | ✅ Implemented - merges base notes, wizard notes, page extensions |
 
 ### Partially Implemented
 
 | Option | Description | Status |
 |--------|-------------|--------|
-| `-bnotes <mode>` | Base notes strategy (merge/erase/first/drop) | 🚧 Recognized, logic pending |
 | `-sep` | Separate persons per file | 🚧 Recognized, not implemented |
 | `-sh <n>` | Shift person indices by n | 🚧 Recognized, not implemented |
 
@@ -140,6 +140,51 @@ Command-line interface:
 | `-c` | Compile-only mode | No `.gwo` support in Python |
 | `-mem` | Memory optimization | Not applicable to Python |
 
+### The `-bnotes` Option
+
+The `-bnotes` option controls how database-level notes (base notes, wizard notes, page extensions) from multiple `.gw` files are merged during compilation. The option applies to the **next file** in the command line.
+
+#### Modes
+
+**`merge`** (default): Concatenates new content to existing content
+```bash
+gwc file1.gw file2.gw  # file2's notes appended to file1's
+```
+
+**`erase`**: Replaces all existing content with new content
+```bash
+gwc file1.gw -bnotes erase file2.gw  # file2's notes replace all previous
+```
+
+**`first`**: Keeps existing content if not empty, otherwise uses new content
+```bash
+gwc file1.gw -bnotes first file2.gw  # file2's notes only if no previous notes
+```
+
+**`drop`**: Ignores notes from the file entirely
+```bash
+gwc file1.gw -bnotes drop file2.gw  # file2's notes are discarded
+```
+
+#### Behavior
+
+The option affects three types of data:
+- **Base notes** (`notes-db` blocks): Merged per page name
+- **Wizard notes** (`wizard-note` blocks): Merged per wizard ID
+- **Page extensions** (`page-ext` blocks): Merged per page name
+
+After each file is processed, the option resets to `merge` for subsequent files.
+
+#### Example
+
+```bash
+# Start with base notes from file1
+gwc file1.gw \
+    -bnotes first file2.gw \    # Add file2's notes only if pages empty
+    -bnotes merge file3.gw \    # Append file3's notes
+    -bnotes drop file4.gw       # Ignore file4's notes
+```
+
 ---
 
 ## Parser Implementation
@@ -158,6 +203,107 @@ Command-line interface:
 #### `build_person()` (person_parser.py)
 - Parses all person attributes: aliases, titles, dates, places, events
 - Returns complete `Person` object
+
+### Occurrence Numbers
+
+Occurrence numbers distinguish between people with the same name. Two formats are supported:
+
+**Dot notation** (OCaml standard):
+```gw
+John.0 DOE    # First John Doe
+John.1 DOE    # Second John Doe
+```
+
+**Bracket notation** (Python extension):
+```gw
+John[0] DOE
+John[1] DOE
+```
+
+The occurrence number defaults to 0 if not specified. When parsing names, the parser uses `rfind('.')` to locate the last dot, then validates that what follows is a numeric occurrence.
+
+### Child Sex Tokens
+
+In family blocks, children can have their sex specified inline before their name:
+
+**OCaml standard format** (without colon):
+```gw
+fam John DOE + Jane SMITH
+beg
+- h Bob    # homme (male)
+- f Alice  # female
+end
+```
+
+**Extended format** (with colon, for compatibility):
+```gw
+beg
+- m: Bob   # male
+- f: Alice # female
+end
+```
+
+Both formats are accepted. If no sex token is present, the sex must be inferred or left as unknown.
+
+### Database-Level Data
+
+GeneWeb supports three types of database-level data that apply to the entire database rather than individual persons:
+
+#### Base Notes (`notes-db` blocks)
+
+Database-wide documentation pages. Each note has:
+- A page name (empty string "" for main database note)
+- Content (the note text)
+
+```gw
+notes-db
+This is the main database note.
+end notes
+
+notes-db INTRO
+This is the introduction page.
+end notes
+```
+
+#### Wizard Notes (`wizard-note` blocks)
+
+Notes specific to wizard (genealogy researcher) identifiers:
+
+```gw
+wizard-note john_researcher
+Research notes for John's work.
+end wizard-note
+```
+
+#### Page Extensions (`page-ext` blocks)
+
+Extended page content for custom pages:
+
+```gw
+page-ext custom_page
+Extended content for this page.
+end page-ext
+```
+
+The converter stores these separately from person/family data and provides getter methods to retrieve them.
+
+### Origin File Tracking
+
+Each family records which source file it came from in the `origin_file` field. When compiling multiple `.gw` files, the converter automatically populates this field with the filename being processed.
+
+**Purpose**: Track data provenance for debugging, auditing, and multi-file database management.
+
+**Example**:
+```bash
+gwc file1.gw file2.gw file3.gw
+```
+
+All families from `file1.gw` will have `origin_file='file1.gw'`, families from `file2.gw` will have `origin_file='file2.gw'`, etc.
+
+This allows you to:
+- Identify which file introduced problematic data
+- Filter or query families by source
+- Understand the composition of merged databases
 
 ---
 
@@ -539,6 +685,15 @@ def convert_personal_events(self, gw_events: PersonalEventsGwSyntax) -> None:
     
     Also removes person from dummy_persons set if they were a dummy.
     """
+
+def convert_base_notes(self, gw_base_notes: BaseNotesGwSyntax) -> None:
+    """Store base notes (database-wide notes)."""
+
+def convert_wizard_notes(self, gw_wizard_notes: WizardNotesGwSyntax) -> None:
+    """Store wizard notes."""
+
+def convert_page_ext(self, gw_page_ext: PageExtGwSyntax) -> None:
+    """Store page extension content."""
 ```
 
 #### Retrieval Methods
@@ -559,6 +714,24 @@ def get_person_by_key(self, first_name: str, surname: str, occ: int = 0) -> Opti
 def get_dummy_persons(self) -> List[Person[int, int, str]]:
     """Get all persons that remain as dummies (undefined references)."""
 
+def get_base_notes(self) -> List[Tuple[str, str]]:
+    """Get all database-wide notes.
+    
+    Returns list of (page, content) tuples.
+    """
+
+def get_wizard_notes(self) -> Dict[str, str]:
+    """Get all wizard notes.
+    
+    Returns dictionary mapping wizard_id to content.
+    """
+
+def get_page_extensions(self) -> Dict[str, str]:
+    """Get all page extensions.
+    
+    Returns dictionary mapping page_name to content.
+    """
+
 def get_statistics(self) -> Dict[str, int]:
     """Get conversion statistics.
     
@@ -567,7 +740,10 @@ def get_statistics(self) -> Dict[str, int]:
             'total_persons': int,      # All persons (defined + dummy)
             'defined_persons': int,    # Fully defined persons
             'dummy_persons': int,      # Undefined references
-            'families': int            # Total families
+            'families': int,           # Total families
+            'base_notes': int,         # Database-wide notes
+            'wizard_notes': int,       # Wizard-specific notes
+            'page_extensions': int     # Page extensions
         }
     """
 ```

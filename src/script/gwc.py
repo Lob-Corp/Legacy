@@ -97,7 +97,6 @@ def main() -> int:
     bnotes: str = args.bnotes
     shift: int = args.sh
 
-    # Validate output file name
     basename: str = os.path.basename(out_file)
     if not all((c.isalnum() or c == '-' or c == '.') for c in basename):
         print(
@@ -105,13 +104,11 @@ def main() -> int:
         print("Allowed characters: a..z, A..Z, 0..9, -")
         sys.exit(2)
 
-    # Collect files
     for x in args.files:
         appendFileData(input_file_data, x, separate, bnotes, shift)
         separate = False
         bnotes = "merge"
 
-    # Process files
     if not input_file_data:
         parser.print_help()
         sys.exit(1)
@@ -133,7 +130,6 @@ def main() -> int:
             print(f"\n[{idx}/{len(input_file_data)}] Processing {filename}...")
 
         try:
-            # Parse the .gw file
             if verbose:
                 print(f"  Parsing {filename}...")
 
@@ -224,7 +220,6 @@ def main() -> int:
                     traceback.print_exc()
                 sys.exit(1)
 
-    # Print statistics
     if args.stats or verbose:
         print("\n" + "=" * 50)
         print("Parsing Statistics:")
