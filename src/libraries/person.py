@@ -5,7 +5,7 @@ from typing import Generic, List, TypeVar
 from libraries.date import CompressedDate
 from libraries.death_info import BurialInfoBase, DeathStatusBase
 from libraries.events import PersonalEvent
-from libraries.family import Relation
+from libraries.family import Ascendants, Relation
 from libraries.title import AccessRight, Title
 
 
@@ -29,11 +29,12 @@ class Place:
 
 IdxT = TypeVar('IdxT')
 PersonT = TypeVar('PersonT')
+FamilyT = TypeVar('FamilyT')
 PersonDescriptorT = TypeVar('PersonDescriptorT')
 
 
 @dataclass(frozen=True)
-class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
+class Person(Generic[IdxT, PersonT, PersonDescriptorT, FamilyT]):
     index: IdxT
     first_name: PersonDescriptorT
     surname: PersonDescriptorT
@@ -69,3 +70,5 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     personal_events: List[PersonalEvent[PersonT, PersonDescriptorT]]
     notes: PersonDescriptorT
     src: PersonDescriptorT
+    ascend: Ascendants[FamilyT]
+    families: List[FamilyT]
