@@ -551,7 +551,7 @@ def images_route(filename):
     Returns 404 if not found.
     """
     repo_root = Path(__file__).resolve().parents[3]
-    repo_root = repo_root / "src" / "wserver" / "images"
+    repo_root = repo_root / "src" / "wserver" / "static" / "images"
     filename_path = Path(filename)
     if filename_path.is_absolute() or ".." in filename_path.parts:
         abort(400)
