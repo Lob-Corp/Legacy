@@ -167,7 +167,8 @@ class TemplateService:
                     p = base_dir / f"{name}.{ext}"
                     if p.exists():
                         try:
-                            return p.read_text(encoding="utf-8", errors="ignore")
+                            return p.read_text(
+                                encoding="utf-8", errors="ignore")
                         except Exception:
                             return ""
             for ext in ("htm", "html", "txt"):
