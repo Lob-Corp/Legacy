@@ -1,7 +1,7 @@
 from pathlib import Path
 import re
 import html
-from typing import Dict, Optional
+from typing import Dict, Optional, Tuple
 
 class TemplateService:
     """
@@ -83,7 +83,7 @@ class TemplateService:
         except Exception:
             return ""
 
-    def _resolve_template_file(self, fname: str) -> (Optional[Path], Optional[Path]):
+    def _resolve_template_file(self, fname: str) -> 'Tuple[Optional[Path], Optional[Path]]':
         """
         Return (file_path, base_dir) where the template is found.
         Search order: setup_lang_dir/fname, assets_dir/fname(.txt)
