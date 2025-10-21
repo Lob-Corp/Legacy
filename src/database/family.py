@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, Text, Enum, ForeignKey
+from sqlalchemy.orm import relationship
 from database import Base
 from libraries.family import MaritalStatus
 import enum
@@ -24,3 +25,16 @@ class Family(Base):
     comment = Column(Text, nullable=False)
     origin_file = Column(Text, nullable=False)
     src = Column(Text, nullable=False)
+
+    marriage_date_obj = relationship(
+        "DateValue",
+        cascade="all, delete-orphan",
+        single_parent=True,
+        foreign_keys=[marriage_date]
+    )
+    divorce_date_obj = relationship(
+        "DateValue",
+        cascade="all, delete-orphan",
+        single_parent=True,
+        foreign_keys=[divorce_date]
+    )

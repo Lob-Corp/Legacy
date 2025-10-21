@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, Text, Enum, ForeignKey
+from sqlalchemy.orm import relationship
 from database import Base
 import enum
 
@@ -30,3 +31,11 @@ class FamilyEvent(Base):
     reason = Column(Text, nullable=False)
     note = Column(Text, nullable=False)
     src = Column(Text, nullable=False)
+
+    family_obj = relationship("Family", foreign_keys=[family_id])
+    date_obj = relationship(
+        "DateValue",
+        cascade="all, delete-orphan",
+        single_parent=True,
+        foreign_keys=[date]
+    )

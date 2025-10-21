@@ -1,4 +1,5 @@
-from sqlalchemy import Column, Integer, Text, Enum
+from sqlalchemy import Column, Integer, Text, Enum, ForeignKey
+from sqlalchemy.orm import relationship
 from database import Base
 
 from libraries.person import Sex
@@ -39,24 +40,49 @@ class Person(Base):
     occupation = Column(Text, nullable=False)
     sex = Column(Enum(Sex), nullable=False)
     access_right = Column(Enum(AccessRight), nullable=False)
-    birth_date = Column(Integer, nullable=False)
+    birth_date = Column(Integer, ForeignKey("DateValue.id"))
     birth_place = Column(Text, nullable=False)
     birth_note = Column(Text, nullable=False)
     birth_src = Column(Text, nullable=False)
-    baptism_date = Column(Integer, nullable=False)
+    baptism_date = Column(Integer, ForeignKey("DateValue.id"))
     baptism_place = Column(Text, nullable=False)
     baptism_note = Column(Text, nullable=False)
     baptism_src = Column(Text, nullable=False)
     death_status = Column(Enum(DeathStatus), nullable=False)
     death_reason = Column(Enum(DeathReason))
-    death_date = Column(Integer)
+    death_date = Column(Integer, ForeignKey("DateValue.id"))
     death_place = Column(Text, nullable=False)
     death_note = Column(Text, nullable=False)
     death_src = Column(Text, nullable=False)
     burial_status = Column(Enum(BurialStatus), nullable=False)
-    burial_date = Column(Integer)
+    burial_date = Column(Integer, ForeignKey("DateValue.id"))
     burial_place = Column(Text, nullable=False)
     burial_note = Column(Text, nullable=False)
     burial_src = Column(Text, nullable=False)
     notes = Column(Text, nullable=False)
     src = Column(Text, nullable=False)
+
+    birth_date_obj = relationship(
+        "DateValue",
+        cascade="all, delete-orphan",
+        single_parent=True,
+        foreign_keys=[birth_date]
+    )
+    baptism_date_obj = relationship(
+        "DateValue",
+        cascade="all, delete-orphan",
+        single_parent=True,
+        foreign_keys=[baptism_date]
+    )
+    death_date_obj = relationship(
+        "DateValue",
+        cascade="all, delete-orphan",
+        single_parent=True,
+        foreign_keys=[death_date]
+    )
+    burial_date_obj = relationship(
+        "DateValue",
+        cascade="all, delete-orphan",
+        single_parent=True,
+        foreign_keys=[burial_date]
+    )

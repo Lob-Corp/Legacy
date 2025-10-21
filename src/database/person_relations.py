@@ -1,4 +1,5 @@
 from sqlalchemy import Column, Integer, ForeignKey
+from sqlalchemy.orm import relationship
 from database import Base
 
 
@@ -9,3 +10,7 @@ class PersonRelations(Base):
     person_id = Column(Integer, ForeignKey("Person.id"), nullable=False)
     related_person_id = Column(
         Integer, ForeignKey("Person.id"), nullable=False)
+
+    person_obj = relationship("Person", foreign_keys=[person_id])
+    related_person_obj = relationship(
+        "Person", foreign_keys=[related_person_id])

@@ -10,9 +10,9 @@ from libraries.title import AccessRight, Title
 
 
 class Sex(Enum):
-    MALE = "Male"
-    FEMALE = "Female"
-    NEUTER = "Neuter"
+    MALE = "MALE"
+    FEMALE = "FEMALE"
+    NEUTER = "NEUTER"
 
 
 @dataclass(frozen=True)
