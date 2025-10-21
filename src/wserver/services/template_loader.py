@@ -31,12 +31,12 @@ class TemplateService:
 
     # --- lexicon minimal loader used for %D translation ---
     def _parse_lexicon_file(self, p: Path):
-        d = {}
+        d = dict()
         if not p.exists():
             return d
         with p.open(encoding="utf-8", errors="ignore") as fh:
             current_key = None
-            current_trans = {}
+            current_trans = dict()
             for ln in fh:
                 ln = ln.rstrip("\n")
                 m_key = re.match(r'^\s{4}(.+)\s*$', ln)
