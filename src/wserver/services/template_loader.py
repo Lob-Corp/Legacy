@@ -8,10 +8,9 @@ class TemplateService:
     """
     Small service to load and render 'setup' templates (gwsetup):
       - search order: legacy/bin/setup/lang -> legacy/hd/etc (txt)
-      - basic templm handling: remove %define/%let blocks, %include;, %fsetup.css;, %G/%D minimal
+      - basic template handling: remove %define/%let blocks,
+        %include;, %fsetup.css;, %G/%D minimal
       - variables: %l; %m; %P; %a; %lang;
-    Public API:
-      TemplateService(repo_root).render_setup_template(fname, lang, params_dict) -> str
     """
 
     def __init__(self, repo_root: Optional[Path] = None):
@@ -95,7 +94,9 @@ class TemplateService:
         except Exception:
             return ""
 
-    def _resolve_template_file(self, fname: str) -> 'Tuple[Optional[Path], Optional[Path]]':
+    def _resolve_template_file(
+        self, fname: str
+    ) -> Tuple[Optional[Path], Optional[Path]]:
         """
         Return (file_path, base_dir) where the template is found.
         Search order: setup_lang_dir/fname, assets_dir/fname(.txt)
@@ -143,8 +144,7 @@ class TemplateService:
             raise FileNotFoundError(f"Template {fname} not found")
         raw = file_path.read_text(encoding="utf-8", errors="ignore")
 
-        # Inject <base href="/"> so relative URLs like "images/gwlogo.png" resolve to "/images/..."
-        # This mirrors legacy behaviour where assets are served from repository root.
+        # Ajoute <base href="/"> pour que les URLs relatives pointent vers "/"
         raw = re.sub(
             r'(<head[^>]*>)',
             r'\1<base href="/">',
@@ -191,7 +191,7 @@ class TemplateService:
         raw = re.sub(
             r'%([A-Za-z0-9_]+);', lambda m: html.escape(
                 str(ctx.get(m.group(1), ""))), raw)
-        # Also replace bare %l and %lang occurrences left in some setup templates
+        # Also replace bare %l and %lang occurrences in some setup templates
         raw = raw.replace('%l', html.escape(str(ctx.get("l", ""))))
         raw = raw.replace('%lang', html.escape(str(ctx.get("lang", ""))))
 
