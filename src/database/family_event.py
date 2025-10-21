@@ -26,7 +26,7 @@ class FamilyEvent(Base):
     id = Column(Integer, primary_key=True, nullable=False)
     family_id = Column(Integer, ForeignKey("Family.id"), nullable=False)
     name = Column(Enum(FamilyEventName), nullable=False)
-    date = Column(Integer, ForeignKey("DateValue.id"), nullable=False)
+    date = Column(Integer, ForeignKey("Date.id"), nullable=False)
     place = Column(Text, nullable=False)
     reason = Column(Text, nullable=False)
     note = Column(Text, nullable=False)
@@ -34,7 +34,7 @@ class FamilyEvent(Base):
 
     family_obj = relationship("Family", foreign_keys=[family_id])
     date_obj = relationship(
-        "DateValue",
+        "Date",
         cascade="all, delete-orphan",
         single_parent=True,
         foreign_keys=[date]
