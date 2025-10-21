@@ -30,13 +30,13 @@ class TemplateService:
         self._lexicon = None
 
     # --- lexicon minimal loader used for %D translation ---
-    def _parse_lexicon_file(self, p: Path):
-        d = dict()
+    def _parse_lexicon_file(self, p: Path) -> dict[str, dict[str, str]]:
+        d: dict[str, dict[str, str]] = {}
         if not p.exists():
             return d
         with p.open(encoding="utf-8", errors="ignore") as fh:
-            current_key = None
-            current_trans = dict()
+            current_key: Optional[str] = None
+            current_trans: dict[str, str] = {}
             for ln in fh:
                 ln = ln.rstrip("\n")
                 m_key = re.match(r'^\s{4}(.+)\s*$', ln)
@@ -64,7 +64,7 @@ class TemplateService:
     def _load_lexicon(self):
         if self._lexicon is not None:
             return self._lexicon
-        combined = {}
+        combined: dict[str, dict[str, str]] = {}
         for p in (
             self.assets_dir / "lexicon.txt",
             self.setup_lang_dir / "lexicon.txt"
@@ -162,13 +162,14 @@ class TemplateService:
 
         def include_repl(m):
             name = m.group(1)
-            for ext in ("htm", "html", "txt"):
-                p = base_dir / f"{name}.{ext}"
-                if p.exists():
-                    try:
-                        return p.read_text(encoding="utf-8", errors="ignore")
-                    except Exception:
-                        return ""
+            if base_dir is not None:
+                for ext in ("htm", "html", "txt"):
+                    p = base_dir / f"{name}.{ext}"
+                    if p.exists():
+                        try:
+                            return p.read_text(encoding="utf-8", errors="ignore")
+                        except Exception:
+                            return ""
             for ext in ("htm", "html", "txt"):
                 p = self.assets_dir / f"{name}.{ext}"
                 if p.exists():
