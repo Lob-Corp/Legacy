@@ -135,7 +135,8 @@ class TemplateService:
     def render_setup_template(
             self, fname: str, lang: str, params: Dict[str, str]) -> str:
         """
-        Main entry: fname like "welcome.htm", lang like "fr", params from URL query.
+        Main entry: fname like "welcome.htm", lang like "fr",
+        params from URL query.
         Returns rendered HTML string (not Response).
         """
         fname = Path(fname).name  # sanitize
