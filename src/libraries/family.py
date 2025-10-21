@@ -27,8 +27,6 @@ PersonT = TypeVar('PersonT')
 class Parents(Generic[PersonT]):
     def __init__(self, parents: List[PersonT]):
         assert len(parents) != 0, "Parents List cannot be empty"
-        assert all(isinstance(p, type(parents[0]))
-                   for p in parents), "All parents must be of the same type"
         self.parents = parents
 
     @staticmethod
@@ -131,3 +129,5 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
     comment: FamilyDescriptorT
     origin_file: FamilyDescriptorT  # .gw filename
     src: FamilyDescriptorT
+    parents: Parents[PersonT]  # equivalent to OCaml's gen_couple
+    children: List[PersonT]
