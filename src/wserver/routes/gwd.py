@@ -11,13 +11,10 @@ Handlers are explicit functions and currently raise NotImplementedError..
 """
 
 # DEFAULT / ROOT (already present)
-@gwd_bp.route('/gwd/', methods=['GET', 'POST'])
-def gwd_root():
-    raise NotImplementedError("Route default /gwd/ not implemented yet")
-
+@gwd_bp.route('/gwd', defaults={'lang': 'en'}, methods=['GET', 'POST'], strict_slashes=False)
 @gwd_bp.route('/gwd/<lang>', methods=['GET', 'POST'])
-def gwd_root_lang(lang='en'):
-    raise NotImplementedError(f"Route default /gwd/{lang} not implemented yet")
+def gwd_root(lang):
+    raise NotImplementedError(f"GWD root route not implemented yet (lang={lang})")
 
 # BASE-ONLY (no mode) - corresponds to empty "" mode
 @gwd_bp.route('/gwd/<base>/', methods=['GET', 'POST'])
