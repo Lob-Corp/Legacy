@@ -27,7 +27,7 @@ class TemplateService:
         self.local_css = (
             self.repo_root / "src" / "wserver" / "css" / "setup.css"
         )
-        self._lexicon = None
+        self._lexicon: dict[str, dict[str, str]] = {}
 
     # --- lexicon minimal loader used for %D translation ---
     def _parse_lexicon_file(self, p: Path) -> dict[str, dict[str, str]]:
