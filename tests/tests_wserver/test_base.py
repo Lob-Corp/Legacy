@@ -1,25 +1,25 @@
 import unittest
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from flask import Flask
-from wserver.routes.base import base_bp
+from wserver.routes.gwsetup import gwsetup_bp
 
 class TestBaseRoutes(unittest.TestCase):
     def setUp(self):
         self.app = Flask(__name__)
-        self.app.register_blueprint(base_bp)
+        self.app.register_blueprint(gwsetup_bp)
         self.client = self.app.test_client()
 
-    @patch('wserver.routes.base._template_service')
+    @patch('wserver.routes.gwsetup._template_service')
     def test_route_welcome(self, mock_service):
         mock_service.render_setup_template.return_value = '<html>ok</html>'
-        response = self.client.get('/welcome/fr')
+        response = self.client.get('gwsetup/welcome/fr')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'ok', response.data)
 
-    @patch('wserver.routes.base._template_service')
+    @patch('wserver.routes.gwsetup._template_service')
     def test_route_delete(self, mock_service):
         mock_service.render_setup_template.return_value = '<html>ok</html>'
-        response = self.client.get('/delete/fr')
+        response = self.client.get('gwsetup/delete/fr')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'ok', response.data)
 
@@ -44,7 +44,7 @@ class TestBaseRoutes(unittest.TestCase):
             '/update_nldb_ok.htm', '/update_nldb.htm', '/welcome.htm'
         ]
         for route in not_implemented_routes:
-            resp = self.client.get(route)
+            resp = self.client.get('gwsetup' + route)
             self.assertEqual(
                 resp.status_code, 500,
                 msg=f"Route {route} should return 500 NotImplementedError"
