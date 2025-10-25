@@ -2,10 +2,9 @@ from database.person import Person
 from database.family import Family
 from database.place import Place
 from database.family_event import FamilyEvent
-from database.date_value import DateValue
+from database.date import Date
 from database.ascends import Ascends
 from database.couple import Couple
-from database.couple_parents import CoupleParents
 from database.descend_children import DescendChildren
 from database.descends import Descends
 from database.family_event_witness import FamilyEventWitness
@@ -43,9 +42,9 @@ def test_family_event_instantiation():
     assert isinstance(fe, FamilyEvent)
 
 
-def test_date_value_instantiation():
-    dv = DateValue()
-    assert isinstance(dv, DateValue)
+def test_date_instantiation():
+    dv = Date()
+    assert isinstance(dv, Date)
 
 
 def test_ascends_instantiation():
@@ -56,11 +55,6 @@ def test_ascends_instantiation():
 def test_couple_instantiation():
     c = Couple()
     assert isinstance(c, Couple)
-
-
-def test_couple_parents_instantiation():
-    cp = CoupleParents()
-    assert isinstance(cp, CoupleParents)
 
 
 def test_descend_children_instantiation():

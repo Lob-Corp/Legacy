@@ -29,6 +29,19 @@ This directory contains comprehensive documentation for the Legacy/GeneWeb proje
 
 ## Other Documentation
 
+### �️ [DATABASE.md](./DATABASE.md)
+Complete database architecture documentation covering models, relationships, and usage.
+
+**Topics**:
+- Database overview and technology stack (SQLAlchemy + SQLite)
+- SQLiteDatabaseService API reference
+- All 23 data models explained (Person, Family, Events, Titles, etc.)
+- Relationship types and cascade behaviors
+- All enumerations (Sex, Calendar, EventTypes, etc.)
+- Usage examples and best practices
+- Complete SQL schema reference
+- Troubleshooting and common issues
+
 ### 🔄 [OCAML_TO_PYTHON.md](./OCAML_TO_PYTHON.md)
 Complete reference for OCaml-to-Python translation differences across the entire codebase.
 
@@ -65,6 +78,18 @@ Quality assurance processes and standards for the project.
 ## Quick Navigation
 
 ### I want to...
+
+**...understand the database architecture**
+→ Read [DATABASE.md](./DATABASE.md)
+
+**...use the database service**
+→ Read [DATABASE.md § Database Service](./DATABASE.md#database-service)
+
+**...understand data models and relationships**
+→ Read [DATABASE.md § Data Models](./DATABASE.md#data-models) and [§ Relationships](./DATABASE.md#relationships)
+
+**...see database usage examples**
+→ Read [DATABASE.md § Usage Examples](./DATABASE.md#usage-examples)
 
 **...understand how gwc works**
 → Read [GWC_IMPLEMENTATION.md § Overview](./GWC_IMPLEMENTATION.md#overview)

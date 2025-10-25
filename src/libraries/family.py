@@ -8,17 +8,17 @@ from libraries.events import FamilyEvent
 
 
 class MaritalStatus(Enum):
-    MARRIED = "Married"
-    NOT_MARRIED = "NotMarried"
-    ENGAGED = "Engaged"
-    NO_SEXES_CHECK_NOT_MARRIED = "NoSexesCheckNotMarried"
-    NO_MENTION = "NoMention"
-    NO_SEXES_CHECK_MARRIED = "NoSexesCheckMarried"
-    MARRIAGE_BANN = "MarriageBann"
-    MARRIAGE_CONTRACT = "MarriageContract"
-    MARRIAGE_LICENSE = "MarriageLicense"
-    PACS = "Pacs"
-    RESIDENCE = "Residence"
+    MARRIED = "MARRIED"
+    NOT_MARRIED = "NOT_MARRIED"
+    ENGAGED = "ENGAGED"
+    NO_SEXES_CHECK_NOT_MARRIED = "NO_SEXES_CHECK_NOT_MARRIED"
+    NO_MENTION = "NO_MENTION"
+    NO_SEXES_CHECK_MARRIED = "NO_SEXES_CHECK_MARRIED"
+    MARRIAGE_BANN = "MARRIAGE_BANN"
+    MARRIAGE_CONTRACT = "MARRIAGE_CONTRACT"
+    MARRIAGE_LICENSE = "MARRIAGE_LICENSE"
+    PACS = "PACS"
+    RESIDENCE = "RESIDENCE"
 
 
 PersonT = TypeVar('PersonT')
