@@ -624,12 +624,10 @@ def test_convert_family_with_events():
     db_event.note = ""
     db_event.src = ""
 
-    events_and_witnesses = [(db_event, [])]
-
     result = convert_family_from_db(
         db_family,
         [],
-        events_and_witnesses,
+        [(db_event, [])],
         []
     )
 
@@ -1328,7 +1326,7 @@ def test_convert_person_complete():
     db_person.first_name = "John"
     db_person.surname = "Smith"
     db_person.sex = database.person.Sex.MALE
-    db_person.first_name_aliases = "Johnny,Jack"
+    db_person.first_names_aliases = "Johnny,Jack"
     db_person.surname_aliases = "Smithson"
     db_person.public_name = "John Smith Sr."
     db_person.qualifiers = "Jr,III"
