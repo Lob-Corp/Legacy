@@ -134,7 +134,7 @@ def convert_fam_event_from_db(
 def convert_family_from_db(
     to_convert: database.family.Family,
     witnesses: List[database.family_witness.FamilyWitness],
-    eventsAndWitnesses: List[Tuple[
+    events_and_witnesses: List[Tuple[
         database.family_event.FamilyEvent,
         List[database.family_event_witness.FamilyEventWitness]
     ]],
@@ -152,7 +152,7 @@ def convert_family_from_db(
             to_convert.divorce_status, to_convert.divorce_date_obj
         ),
         family_events=[convert_fam_event_from_db(e[0], e[1])
-                       for e in eventsAndWitnesses],
+                       for e in events_and_witnesses],
         comment=to_convert.comment,
         origin_file=to_convert.origin_file,
         src=to_convert.src,
