@@ -13,14 +13,16 @@ class TemplateService:
     """
 
     def __init__(self, repo_root: Optional[Path] = None):
-        self.repo_root = Path(__file__).resolve().parents[3] if repo_root is None else Path(repo_root)
+        self.repo_root = Path(__file__).resolve(
+        ).parents[3] if repo_root is None else Path(repo_root)
         # primary template directory (where welcome.htm lives)
-        self.setup_lang_dir = self.repo_root / "src" / "wserver" / "templates" / "gwsetup"
+        self.setup_lang_dir = self.repo_root / \
+            "src" / "wserver" / "templates" / "gwsetup"
         # fallback/legacy locations (may not exist)
         self.assets_dir = self.setup_lang_dir
         # css location requested: src/wserver/static/css (project layout)
         self.static_css_dir = self.repo_root / "src" / "wserver" / "static" / "css"
-        #handle all '%' that refer to template directives
+        # handle all '%' that refer to template directives
 
     def _resolve_template_file(self, fname: str) -> Tuple[Optional[Path], Optional[Path]]:
         """
@@ -62,7 +64,7 @@ class TemplateService:
         """
         return key
 
-    def render_setup_template(self, fname: str, lang: str, params: Dict[str, str], mode: str = "gwsetup") -> str:
+    def render_gwsetup_template(self, fname: str) -> str:
         """
         Render a template
         """
@@ -73,14 +75,15 @@ class TemplateService:
         raw = file_path.read_text(encoding="utf-8", errors="ignore")
 
         # TODO: VERIFIE HOW TO HANDLE REDIRECT PROPERLY
-        raw = re.sub(r'(<head[^>]*>)', r'\1<base href="/">', raw, flags=re.I, count=1)
+        raw = re.sub(r'(<head[^>]*>)', r'\1<base href="/">',
+                     raw, flags=re.I, count=1)
 
         # inject css
         css_text = self._load_css_text()
-        raw = raw.replace('%fsetup.css;', f"<style>{css_text}</style>" if css_text else "")
+        raw = raw.replace(
+            '%fsetup.css;', f"<style>{css_text}</style>" if css_text else "")
 
-
-        # remove stray %... directives and restore %% (cleanup template artifacts)
+        # remove stray %... (cleanup template artifacts)
         raw = re.sub(r'%[A-Za-z0-9_;().,-]+', '', raw)
         raw = raw.replace('%%', '%')
 
@@ -94,10 +97,11 @@ class TemplateService:
         )
         return raw + trailer_html
 
-    def render_gwd_template(self, fname: str, lang: str, params: Dict[str, str]) -> str:
+    def render_gwd_template(
+            self, fname: str, lang: str, params: Dict[str, str]) -> str:
         """
         Render a GWD template
         TO BE IMPLEMENTED
         """
-        # Placeholder implementation; actual implementation would be similar to render_setup_template
+        # Placeholder implementation; actual implementation would be similar to render_gwsetup_template
         raise NotImplementedError("GWD template rendering not yet implemented")

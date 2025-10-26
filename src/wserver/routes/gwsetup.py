@@ -19,9 +19,7 @@ def _render_setup(fname: str, lang: str):
         "port": port,
         "o": request.args.get("o", "")
     }
-    html_str = _template_service.render_setup_template(
-        fname, lang, params
-    )
+    html_str = _template_service.render_gwsetup_template(fname)
     resp = make_response(html_str)
     resp.headers["Content-Type"] = "text/html; charset=utf-8"
     return resp

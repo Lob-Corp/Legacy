@@ -11,14 +11,14 @@ class TestBaseRoutes(unittest.TestCase):
 
     @patch('wserver.routes.gwsetup._template_service')
     def test_route_welcome(self, mock_service):
-        mock_service.render_setup_template.return_value = '<html>ok</html>'
+        mock_service.render_gwsetup_template.return_value = '<html>ok</html>'
         response = self.client.get('gwsetup/welcome/fr')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'ok', response.data)
 
     @patch('wserver.routes.gwsetup._template_service')
     def test_route_delete(self, mock_service):
-        mock_service.render_setup_template.return_value = '<html>ok</html>'
+        mock_service.render_gwsetup_template.return_value = '<html>ok</html>'
         response = self.client.get('gwsetup/delete/fr')
         self.assertEqual(response.status_code, 200)
         self.assertIn(b'ok', response.data)
