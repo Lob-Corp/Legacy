@@ -20,7 +20,7 @@ class TestTemplateService(unittest.TestCase):
 
     def test_render_gwsetup_template_file_not_found(self):
         with self.assertRaises(FileNotFoundError):
-            self.service.render_gwsetup_template('notfound.htm', 'fr')
+            self.service.render_gwsetup_template('notfound.htm')
 
 
 if __name__ == '__main__':
