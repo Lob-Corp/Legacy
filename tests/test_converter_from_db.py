@@ -7,6 +7,14 @@ from repositories.converter_from_db import (
     convert_divorce_status_from_db,
     convert_fam_event_from_db,
     convert_family_from_db,
+    convert_death_status_from_db,
+    convert_burial_status_from_db,
+    convert_title_name_from_db,
+    convert_title_from_db,
+    convert_relation_from_db,
+    convert_pers_event_name_from_db,
+    convert_personal_event_from_db,
+    convert_person_from_db,
 )
 
 import database.date
@@ -20,10 +28,17 @@ import database.descends  # Import Descends for the same reason
 import database.person  # Import Person for SQLAlchemy relationships
 import database.ascends  # Import Ascends for SQLAlchemy relationships
 import database.unions  # Import Unions for SQLAlchemy relationships
+import database.person_titles  # For title tests
+import database.relation  # For relation tests
+import database.personal_event  # For personal event tests
+import database.person_event_witness  # For event witness tests
 
 import libraries.date
 import libraries.family
 import libraries.events
+import libraries.person
+import libraries.death_info
+import libraries.title
 
 
 # ================== Precision Conversion Tests ==================
@@ -746,5 +761,637 @@ def test_convert_family_complete():
     assert result.family_events[0].witnesses[0] == (
         700, libraries.events.EventWitnessKind.WITNESS)
     assert result.comment == "Large family"
-    assert result.origin_file == "data.gw"
+
+
+# =================== Death Status Conversion Tests ===================
+
+
+def test_convert_death_status_not_dead():
+    """Test conversion of NotDead death status."""
+    result = convert_death_status_from_db(
+        database.person.DeathStatus.NOT_DEAD,
+        None,
+        None
+    )
+
+    assert isinstance(result, libraries.death_info.NotDead)
+
+
+def test_convert_death_status_dead():
+    """Test conversion of Dead death status with reason and date."""
+    db_date = create_mock_date(year=1950, month=5, day=10)
+
+    result = convert_death_status_from_db(
+        database.person.DeathStatus.DEAD,
+        database.person.DeathReason.KILLED,
+        db_date
+    )
+
+    assert isinstance(result, libraries.death_info.Dead)
+    assert result.death_reason == (
+        database.person.DeathReason.KILLED)
+    assert result.date_of_death is not None
+
+
+def test_convert_death_status_dead_no_date_raises_error():
+    """Test that Dead without date raises ValueError."""
+    try:
+        convert_death_status_from_db(
+            database.person.DeathStatus.DEAD,
+            database.person.DeathReason.KILLED,
+            None
+        )
+        assert False, "Should have raised ValueError"
+    except ValueError as e:
+        assert "death date" in str(e).lower()
+
+
+def test_convert_death_status_dead_no_reason_raises_error():
+    """Test that Dead without reason raises ValueError."""
+    db_date = create_mock_date(year=1950, month=5, day=10)
+
+    try:
+        convert_death_status_from_db(
+            database.person.DeathStatus.DEAD,
+            None,
+            db_date
+        )
+        assert False, "Should have raised ValueError"
+    except ValueError as e:
+        assert "death reason" in str(e).lower()
+
+
+def test_convert_death_status_dead_young():
+    """Test conversion of DeadYoung death status."""
+    result = convert_death_status_from_db(
+        database.person.DeathStatus.DEAD_YOUNG,
+        None,
+        None
+    )
+
+    assert isinstance(result, libraries.death_info.DeadYoung)
+
+
+def test_convert_death_status_dead_dont_know_when():
+    """Test conversion of DeadDontKnowWhen death status."""
+    result = convert_death_status_from_db(
+        database.person.DeathStatus.DEAD_DONT_KNOW_WHEN,
+        None,
+        None
+    )
+
+    assert isinstance(result,
+                      libraries.death_info.DeadDontKnowWhen)
+
+
+def test_convert_death_status_dont_know_if_dead():
+    """Test conversion of DontKnowIfDead death status."""
+    result = convert_death_status_from_db(
+        database.person.DeathStatus.DONT_KNOW_IF_DEAD,
+        None,
+        None
+    )
+
+    assert isinstance(result,
+                      libraries.death_info.DontKnowIfDead)
+
+
+def test_convert_death_status_of_course_dead():
+    """Test conversion of OfCourseDead death status."""
+    result = convert_death_status_from_db(
+        database.person.DeathStatus.OF_COURSE_DEAD,
+        None,
+        None
+    )
+
+    assert isinstance(result, libraries.death_info.OfCourseDead)
+
+
+# =================== Burial Status Conversion Tests ===================
+
+
+def test_convert_burial_status_unknown_burial():
+    """Test conversion of UnknownBurial burial status."""
+    result = convert_burial_status_from_db(
+        database.person.BurialStatus.UNKNOWN_BURIAL,
+        None
+    )
+
+    assert isinstance(result, libraries.death_info.UnknownBurial)
+
+
+def test_convert_burial_status_burial():
+    """Test conversion of Burial burial status with date."""
+    db_date = create_mock_date(year=1950, month=5, day=12)
+
+    result = convert_burial_status_from_db(
+        database.person.BurialStatus.BURIAL,
+        db_date
+    )
+
+    assert isinstance(result, libraries.death_info.Burial)
+    assert result.burial_date is not None
+
+
+def test_convert_burial_status_burial_no_date_raises_error():
+    """Test that Burial without date raises ValueError."""
+    try:
+        convert_burial_status_from_db(
+            database.person.BurialStatus.BURIAL,
+            None
+        )
+        assert False, "Should have raised ValueError"
+    except ValueError as e:
+        assert "burial date" in str(e).lower()
+
+
+def test_convert_burial_status_cremated():
+    """Test conversion of Cremated burial status with date."""
+    db_date = create_mock_date(year=1950, month=5, day=15)
+
+    result = convert_burial_status_from_db(
+        database.person.BurialStatus.CREMATED,
+        db_date
+    )
+
+    assert isinstance(result, libraries.death_info.Cremated)
+    assert result.cremation_date is not None
+
+
+def test_convert_burial_status_cremated_no_date_raises_error():
+    """Test that Cremated without date raises ValueError."""
+    try:
+        convert_burial_status_from_db(
+            database.person.BurialStatus.CREMATED,
+            None
+        )
+        assert False, "Should have raised ValueError"
+    except ValueError as e:
+        assert "burial date" in str(e).lower()
+
+
+# =================== Title Conversion Tests ===================
+
+
+def test_convert_title_name_no_title():
+    """Test conversion of empty string to NoTitle."""
+    result = convert_title_name_from_db("")
+
+    assert isinstance(result, libraries.title.NoTitle)
+
+
+def test_convert_title_name_use_main_title():
+    """Test conversion of 'main' to UseMainTitle."""
+    result = convert_title_name_from_db("main")
+
+    assert isinstance(result, libraries.title.UseMainTitle)
+
+
+def test_convert_title_name_title_name():
+    """Test conversion of custom name to TitleName."""
+    result = convert_title_name_from_db("Duke")
+
+    assert isinstance(result, libraries.title.TitleName)
+    assert result.title_name == "Duke"
+
+
+def test_convert_title_complete():
+    """Test conversion of complete Title with all fields."""
+    db_start_date = create_mock_date(year=1900, month=1, day=1)
+    db_end_date = create_mock_date(year=1950, month=12, day=31)
+
+    db_title = database.titles.Titles()
+    db_title.name = "Count"
+    db_title.ident = "of Paris"
+    db_title.place = "Paris"
+    db_title.date_start_obj = db_start_date
+    db_title.date_end_obj = db_end_date
+    db_title.nth = 3
+
+    result = convert_title_from_db(db_title)
+
+    assert isinstance(result, libraries.title.Title)
+    assert isinstance(result.title_name, libraries.title.TitleName)
+    assert result.title_name.title_name == "Count"
+    assert result.ident == "of Paris"
+    assert result.place == "Paris"
+    assert result.date_start is not None
+    assert result.date_end is not None
+    assert result.nth == 3
+
+
+# =================== Relation Conversion Tests ===================
+
+
+def test_convert_relation_basic():
+    """Test conversion of basic Relation."""
+    db_relation = database.relation.Relation()
+    db_relation.type = (
+        libraries.family.RelationToParentType.ADOPTION)
+    db_relation.father_id = 100
+    db_relation.mother_id = 200
+    db_relation.sources = "Adoption records"
+
+    result = convert_relation_from_db(db_relation)
+
+    assert isinstance(result, libraries.family.Relation)
+    assert result.father == 100
+    assert result.mother == 200
+    assert result.type == (
+        libraries.family.RelationToParentType.ADOPTION)
+    assert result.sources == "Adoption records"
+
+
+# =============== Personal Event Name Conversion Tests ================
+
+
+def test_convert_pers_event_name_baptism():
+    """Test conversion of Baptism event name."""
+    result = convert_pers_event_name_from_db(
+        database.personal_event.PersonalEventName.BAPTISM
+    )
+
+    assert isinstance(result, libraries.events.PersBaptism)
+
+
+def test_convert_pers_event_name_bar_mitzvah():
+    """Test conversion of BarMitzvah event name."""
+    result = convert_pers_event_name_from_db(
+        database.personal_event.PersonalEventName.BAR_MITZVAH
+    )
+
+    assert isinstance(result, libraries.events.PersBarMitzvah)
+
+
+def test_convert_pers_event_name_named_event():
+    """Test conversion of NamedEvent with name stored in value."""
+    result = convert_pers_event_name_from_db(
+        database.personal_event.PersonalEventName.NAMED_EVENT
+    )
+
+    assert isinstance(result, libraries.events.PersNamedEvent)
+    assert result.name == (
+        database.personal_event.PersonalEventName.NAMED_EVENT.value)
+
+
+# ============== Personal Event Conversion Tests ==============
+
+
+def test_convert_personal_event_basic():
+    """Test conversion of basic personal event."""
+    db_date = create_mock_date(year=1920, month=6, day=5)
+
+    db_event = database.personal_event.PersonalEvent()
+    db_event.name = (
+        database.personal_event.PersonalEventName.BAPTISM)
+    db_event.date_obj = db_date
+    db_event.place = "Church"
+    db_event.reason = ""
+    db_event.note = "Special ceremony"
+    db_event.src = "Parish register"
+
+    result = convert_personal_event_from_db(db_event, [])
+
+    assert isinstance(result, libraries.events.PersonalEvent)
+    assert isinstance(result.name, libraries.events.PersBaptism)
+    assert result.date is not None
+    assert result.place == "Church"
+    assert result.note == "Special ceremony"
+    assert result.src == "Parish register"
+
+
+def test_convert_personal_event_with_witnesses():
+    """Test conversion of personal event with witnesses."""
+    db_date = create_mock_date(year=1930, month=7, day=10)
+
+    db_witness = database.person_event_witness.PersonEventWitness()
+    db_witness.person_id = 300
+    db_witness.kind = (
+        libraries.events.EventWitnessKind.WITNESS)
+
+    db_event = database.personal_event.PersonalEvent()
+    db_event.name = (
+        database.personal_event.PersonalEventName.BAPTISM)
+    db_event.date_obj = db_date
+    db_event.place = "Cathedral"
+    db_event.reason = ""
+    db_event.note = ""
+    db_event.src = ""
+
+    result = convert_personal_event_from_db(
+        db_event, [db_witness]
+    )
+
+    assert len(result.witnesses) == 1
+    assert result.witnesses[0] == (
+        300, libraries.events.EventWitnessKind.WITNESS)
+
+
+# =================== Person Conversion Tests ===================
+
+
+def create_mock_person():
+    """Helper to create a basic mock Person."""
+    db_person = database.person.Person()
+    db_person.id = 1
+    db_person.first_name = "John"
+    db_person.surname = "Doe"
+    db_person.sex = libraries.person.Sex.MALE
+    db_person.death_status = (
+        database.person.DeathStatus.NOT_DEAD)
+    db_person.burial_status = (
+        database.person.BurialStatus.UNKNOWN_BURIAL)
+    db_person.occ = 0
+    db_person.image = ""
+    db_person.public_name = ""
+    db_person.qualifiers = ""
+    db_person.aliases = ""
+    db_person.first_names_aliases = ""
+    db_person.surname_aliases = ""
+    db_person.occupation = ""
+    db_person.src = ""
+    db_person.notes = ""
+    db_person.access_right = libraries.title.AccessRight.PUBLIC
+    db_person.birth_place = ""
+    db_person.birth_note = ""
+    db_person.birth_src = ""
+    db_person.baptism_place = ""
+    db_person.baptism_note = ""
+    db_person.baptism_src = ""
+    db_person.death_place = ""
+    db_person.death_note = ""
+    db_person.death_src = ""
+    db_person.burial_place = ""
+    db_person.burial_note = ""
+    db_person.burial_src = ""
+    return db_person
+
+
+def test_convert_person_minimal():
+    """Test conversion of person with minimal required fields."""
+    db_person = create_mock_person()
+
+    result = convert_person_from_db(
+        db_person, [], [], [], [], []
+    )
+
+    assert isinstance(result, libraries.person.Person)
+    assert result.index == 1
+    assert result.first_name == "John"
+    assert result.surname == "Doe"
+    assert result.sex == libraries.person.Sex.MALE
+    assert isinstance(result.death_status,
+                      libraries.death_info.NotDead)
+    assert isinstance(result.burial,
+                      libraries.death_info.UnknownBurial)
+
+
+def test_convert_person_with_birth_date():
+    """Test conversion of person with birth date."""
+    db_date = create_mock_date(year=1880, month=3, day=15)
+
+    db_person = create_mock_person()
+    db_person.birth_date_obj = db_date
+    db_person.birth_place = "London"
+    db_person.birth_note = "At home"
+    db_person.birth_src = "Birth certificate"
+
+    result = convert_person_from_db(
+        db_person, [], [], [], [], []
+    )
+
+    assert result.birth_date is not None
+    assert result.birth_place == "London"
+    assert result.birth_note == "At home"
+    assert result.birth_src == "Birth certificate"
+
+
+def test_convert_person_with_baptism_date():
+    """Test conversion of person with baptism date."""
+    db_date = create_mock_date(year=1880, month=3, day=20)
+
+    db_person = create_mock_person()
+    db_person.baptism_date_obj = db_date
+    db_person.baptism_place = "Church"
+    db_person.baptism_note = "Baptism ceremony"
+    db_person.baptism_src = "Church register"
+
+    result = convert_person_from_db(
+        db_person, [], [], [], [], []
+    )
+
+    assert result.baptism_date is not None
+    assert result.baptism_place == "Church"
+    assert result.baptism_note == "Baptism ceremony"
+    assert result.baptism_src == "Church register"
+
+
+def test_convert_person_with_titles():
+    """Test conversion of person with titles."""
+    db_start_date = create_mock_date(year=1900, month=1, day=1)
+    db_end_date = create_mock_date(year=1950, month=12, day=31)
+
+    db_title = database.titles.Titles()
+    db_title.name = "Sir"
+    db_title.ident = "Knight"
+    db_title.place = ""
+    db_title.date_start_obj = db_start_date
+    db_title.date_end_obj = db_end_date
+    db_title.nth = 0
+
+    db_person = create_mock_person()
+
+    result = convert_person_from_db(
+        db_person, [db_title], [], [], [], []
+    )
+
+    assert len(result.titles) == 1
+    assert isinstance(result.titles[0], libraries.title.Title)
+    assert result.titles[0].ident == "Knight"
+
+
+def test_convert_person_with_relations():
+    """Test conversion of person with relations."""
+    db_relation = database.relation.Relation()
+    db_relation.type = (
+        libraries.family.RelationToParentType.ADOPTION)
+    db_relation.father_id = 50
+    db_relation.mother_id = 51
+    db_relation.sources = "Adoption records"
+
+    db_person = create_mock_person()
+
+    result = convert_person_from_db(
+        db_person, [], [db_relation], [], [], []
+    )
+
+    assert len(result.non_native_parents_relation) == 1
+    assert result.non_native_parents_relation[0].father == 50
+    assert result.non_native_parents_relation[0].type == (
+        libraries.family.RelationToParentType.ADOPTION)
+
+
+def test_convert_person_with_personal_events():
+    """Test conversion of person with personal events."""
+    db_date = create_mock_date(year=1920, month=6, day=10)
+
+    db_event = database.personal_event.PersonalEvent()
+    db_event.name = (
+        database.personal_event.PersonalEventName.BAPTISM)
+    db_event.date_obj = db_date
+    db_event.place = "Cathedral"
+    db_event.reason = ""
+    db_event.note = ""
+    db_event.src = ""
+
+    db_person = create_mock_person()
+
+    result = convert_person_from_db(
+        db_person, [], [], [], [(db_event, [])], []
+    )
+
+    assert len(result.personal_events) == 1
+    assert isinstance(result.personal_events[0].name,
+                      libraries.events.PersBaptism)
+
+
+def test_convert_person_with_qualifiers():
+    """Test conversion of person with qualifiers."""
+    db_person = create_mock_person()
+    db_person.qualifiers = "qualifier1,qualifier2,qualifier3"
+
+    result = convert_person_from_db(
+        db_person, [], [], [], [], []
+    )
+
+    assert len(result.qualifiers) == 3
+    assert "qualifier1" in result.qualifiers
+    assert "qualifier2" in result.qualifiers
+    assert "qualifier3" in result.qualifiers
+
+
+def test_convert_person_with_aliases():
+    """Test conversion of person with aliases."""
+    db_person = create_mock_person()
+    db_person.aliases = "Johnny,Jack,J.D."
+
+    result = convert_person_from_db(
+        db_person, [], [], [], [], []
+    )
+
+    assert len(result.aliases) == 3
+    assert "Johnny" in result.aliases
+    assert "Jack" in result.aliases
+    assert "J.D." in result.aliases
+
+
+def test_convert_person_complete():
+    """Test conversion of person with many optional fields."""
+    # Create dates
+    db_birth_date = create_mock_date(year=1900, month=1, day=1)
+    db_baptism_date = create_mock_date(year=1900, month=1, day=8)
+    db_death_date = create_mock_date(year=1980, month=1, day=1)
+    db_burial_date = create_mock_date(year=1980, month=1, day=5)
+
+    # Create title
+    db_title_start = create_mock_date(year=1920, month=1, day=1)
+    db_title_end = create_mock_date(year=1970, month=1, day=1)
+    db_title = database.titles.Titles()
+    db_title.name = "Sir"
+    db_title.ident = "Knight"
+    db_title.place = ""
+    db_title.date_start_obj = db_title_start
+    db_title.date_end_obj = db_title_end
+    db_title.nth = 0
+
+    # Create relation
+    db_relation = database.relation.Relation()
+    db_relation.type = (
+        libraries.family.RelationToParentType.ADOPTION)
+    db_relation.father_id = 50
+    db_relation.mother_id = 51
+    db_relation.sources = ""
+
+    # Create personal event
+    db_event = database.personal_event.PersonalEvent()
+    db_event.name = (
+        database.personal_event.PersonalEventName.BAPTISM)
+    db_event.date_obj = db_baptism_date
+    db_event.place = ""
+    db_event.reason = ""
+    db_event.note = ""
+    db_event.src = ""
+
+    # Create person
+    db_person = database.person.Person()
+    db_person.id = 100
+    db_person.first_name = "John"
+    db_person.surname = "Smith"
+    db_person.sex = database.person.Sex.MALE
+    db_person.first_name_aliases = "Johnny,Jack"
+    db_person.surname_aliases = "Smithson"
+    db_person.public_name = "John Smith Sr."
+    db_person.qualifiers = "Jr,III"
+    db_person.aliases = "J.S.,Johnny"
+    db_person.first_names_aliases = "Johnny,Jack"
+    db_person.occ = 0
+    db_person.occupation = "Doctor"
+    db_person.image = "portrait.jpg"
+    db_person.access_right = libraries.title.AccessRight.PUBLIC
+    db_person.src = "Multiple sources"
+    db_person.birth_date_obj = db_birth_date
+    db_person.birth_place = "London"
+    db_person.birth_note = "Home birth"
+    db_person.birth_src = "Certificate"
+    db_person.baptism_date_obj = db_baptism_date
+    db_person.baptism_place = "Church"
+    db_person.baptism_note = "Ceremony"
+    db_person.baptism_src = "Church register"
+    db_person.death_status = database.person.DeathStatus.DEAD
+    db_person.death_reason = (
+        database.person.DeathReason.UNSPECIFIED)
+    db_person.death_date_obj = db_death_date
+    db_person.death_place = "Hospital"
+    db_person.death_note = "Peaceful"
+    db_person.death_src = "Death certificate"
+    db_person.burial_status = (
+        database.person.BurialStatus.BURIAL)
+    db_person.burial_date_obj = db_burial_date
+    db_person.burial_place = "Cemetery"
+    db_person.burial_note = "Family plot"
+    db_person.burial_src = "Burial record"
+    db_person.notes = "Important person"
+
+    result = convert_person_from_db(
+        db_person,
+        [db_title],
+        [db_relation],
+        [],
+        [(db_event, [])],
+        []
+    )
+
+    assert result.index == 100
+    assert result.first_name == "John"
+    assert result.surname == "Smith"
+    assert result.sex == libraries.person.Sex.MALE
+    assert result.public_name == "John Smith Sr."
+    assert len(result.qualifiers) == 2
+    assert len(result.aliases) == 2
+    assert result.occupation == "Doctor"
+    assert result.image == "portrait.jpg"
+    assert result.birth_date is not None
+    assert result.birth_place == "London"
+    assert result.baptism_date is not None
+    assert result.baptism_place == "Church"
+    assert isinstance(result.death_status,
+                      libraries.death_info.Dead)
+    assert result.death_place == "Hospital"
+    assert isinstance(result.burial,
+                      libraries.death_info.Burial)
+    assert result.burial_place == "Cemetery"
+    assert result.notes == "Important person"
     assert result.src == "Multiple sources"
+    assert len(result.titles) == 1
+    assert len(result.non_native_parents_relation) == 1
+    assert len(result.personal_events) == 1
