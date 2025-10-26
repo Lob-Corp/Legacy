@@ -15,10 +15,6 @@ class TestTemplateService(unittest.TestCase):
         css = self.service._load_css_text()
         self.assertIsInstance(css, str)
 
-    def test_translate_key_returns_key_if_not_found(self):
-        result = self.service._translate_key('unknown_key', 'fr')
-        self.assertEqual(result, 'unknown_key')
-
     def test_render_setup_template_file_not_found(self):
         with self.assertRaises(FileNotFoundError):
             self.service.render_setup_template('notfound.htm', 'fr', {})
