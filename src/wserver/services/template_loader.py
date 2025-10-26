@@ -8,23 +8,25 @@ class TemplateService:
     Template service for rendering templates.
     Notes:
     - need to support both gwsetup and gwd templates
-    - Searches for templates in sensible locations (src/wserver/templates/gwsetup) WE HAVE TO ADD THE GWD TEMPLATE
-    - Loads static/css/setup.css (if present) and injects it for %fsetup.css; (WORKO ONLY FOR GWSETUP HAVE TO BE CHANGED/IMPROVED for gwd)
+    - Searches for templates in sensible locations
+      (src/wserver/templates/gwsetup) WE HAVE TO ADD THE GWD TEMPLATE
+    - Loads static/css/setup.css (if present) and injects it for %fsetup.css;
+      (WORK ONLY FOR GWSETUP HAVE TO BE CHANGED/IMPROVED for gwd)
     """
 
     def __init__(self, repo_root: Optional[Path] = None):
         self.repo_root = Path(__file__).resolve(
         ).parents[3] if repo_root is None else Path(repo_root)
-        # primary template directory (where welcome.htm lives)
-        self.setup_lang_dir = self.repo_root / \
-            "src" / "wserver" / "templates" / "gwsetup"
-        # fallback/legacy locations (may not exist)
-        self.assets_dir = self.setup_lang_dir
+        self.setup_lang_dir = (self.repo_root /
+                               "src" / "wserver" / "templates" / "gwsetup")
         # css location requested: src/wserver/static/css (project layout)
-        self.static_css_dir = self.repo_root / "src" / "wserver" / "static" / "css"
+        self.static_css_dir = (
+            self.repo_root / "src" / "wserver" / "static" / "css"
+        )
         # handle all '%' that refer to template directives
 
-    def _resolve_template_file(self, fname: str) -> Tuple[Optional[Path], Optional[Path]]:
+    def _resolve_template_file(self, fname: str
+                               ) -> Tuple[Optional[Path], Optional[Path]]:
         """
         Try to find the template file and return (file_path,)
         TO BE MODIFIED FOR GWD AND FIX ODD SEARCH
@@ -103,5 +105,4 @@ class TemplateService:
         Render a GWD template
         TO BE IMPLEMENTED
         """
-        # Placeholder implementation; actual implementation would be similar to render_gwsetup_template
         raise NotImplementedError("GWD template rendering not yet implemented")
