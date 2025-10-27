@@ -22,7 +22,49 @@ GenewebPy is a reimplementation of Geneweb - originally written in OCaml - in Py
 
 ## Quick Start
 
-TBA
+### Creating a Database from .gw Files
+
+The `gwc` (GeneWeb Compiler) tool converts GeneWeb `.gw` files into SQLite databases:
+
+```bash
+# Basic usage
+python -m script.gwc -v -f -o family.db input.gw
+
+# Multiple files
+python -m script.gwc -v -f -o database.db file1.gw file2.gw file3.gw
+
+# With statistics
+python -m script.gwc -v -stats -f -o data.db genealogy.gw
+```
+
+**Options**:
+- `-v`: Verbose output with progress
+- `-f`: Force overwrite existing database
+- `-o <file>`: Output database file
+- `-stats`: Show compilation statistics
+- `-nofail`: Continue on errors
+
+**See**: [GWC Implementation Guide](docs/GWC_IMPLEMENTATION.md) for complete documentation.
+
+### Working with the Database
+
+```python
+from database.sqlite_database_service import SQLiteDatabaseService
+from repositories.person_repository import PersonRepository
+
+# Connect to database
+db_service = SQLiteDatabaseService("family.db")
+db_service.connect()
+
+# Use repositories
+person_repo = PersonRepository(db_service)
+all_persons = person_repo.get_all_persons()
+
+for person in all_persons:
+    print(f"{person.first_name} {person.surname}")
+```
+
+**See**: [Database Architecture](docs/DATABASE.md) for complete database documentation.
 
 ## Quality Insurance
 
