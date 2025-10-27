@@ -223,3 +223,4 @@ tests/golden_master/records
 #random files
 debug_parser.py
 *.gw
+!test_assets/*.gw

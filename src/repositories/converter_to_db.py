@@ -79,12 +79,32 @@ def convert_date_to_db(
     to_convert: libraries.date.CompressedDate
 ) -> Optional[database.date.Date]:
     """Convert date from library type to database model."""
+
+    def default_precision(
+        calendar: Optional[libraries.date.Calendar]
+    ) -> database.date.Precision:
+        if not calendar:
+            calendar = libraries.date.Calendar.GREGORIAN
+        db_precision = database.date.Precision()
+        db_precision.precision_level = database.date.DatePrecision.SURE
+        db_precision.iso_date = None
+        db_precision.delta = None
+        db_precision.calendar = calendar
+        return db_precision
+
     if to_convert is None:
         return None
 
     if isinstance(to_convert, str):
+        if to_convert == "":
+            db_date = database.date.Date()
+            db_date.iso_date = ""
+            db_date.calendar = libraries.date.Calendar.GREGORIAN
+            db_date.delta = 0
+            db_date.precision_obj = default_precision(None)
+            return db_date
         raise ValueError(
-            "Cannot convert free-form string date to database model"
+            "Cannot convert non empty free-form string date to database model"
         )
 
     if isinstance(to_convert, tuple):
@@ -93,6 +113,8 @@ def convert_date_to_db(
         )
 
     if isinstance(to_convert, libraries.date.CalendarDate):
+        if to_convert.dmy.year == 0:
+            return None
         db_date = database.date.Date()
         db_date.iso_date = date(
             to_convert.dmy.year,
@@ -108,13 +130,7 @@ def convert_date_to_db(
                 to_convert.cal
             )
         else:
-            db_precision = database.date.Precision()
-            db_precision.precision_level = database.date.DatePrecision.SURE
-            db_precision.iso_date = None
-            db_precision.delta = None
-            db_precision.calendar = to_convert.cal
-            db_date.precision_obj = db_precision
-
+            db_date.precision_obj = default_precision(None)
         return db_date
 
     raise ValueError(f"Unknown date type: {type(to_convert)}")
@@ -145,7 +161,7 @@ def convert_divorce_status_to_db(
 
 
 def convert_fam_event_name_to_db(
-    to_convert: libraries.events.FamEventNameBase
+    to_convert: libraries.events.FamEventNameBase[str]
 ) -> Tuple[database.family_event.FamilyEventName, Optional[str]]:
     """Convert family event name from library type to database enum.
 
@@ -192,7 +208,7 @@ def convert_fam_event_name_to_db(
 
 
 def convert_fam_event_to_db(
-    to_convert: libraries.family.FamilyEvent
+    to_convert: libraries.family.FamilyEvent[int, str]
 ) -> Tuple[
     database.family_event.FamilyEvent,
     List[database.family_event_witness.FamilyEventWitness]
@@ -225,7 +241,7 @@ def convert_fam_event_to_db(
 
 
 def convert_family_to_db(
-    to_convert: libraries.family.Family,
+    to_convert: libraries.family.Family[int, int, str],
     couple_id: int
 ) -> Tuple[
     database.family.Family,
@@ -353,7 +369,7 @@ def convert_burial_status_to_db(
 
 
 def convert_title_name_to_db(
-    to_convert: libraries.title.TitleNameBase
+    to_convert: libraries.title.TitleNameBase[str]
 ) -> str:
     """Convert title name from library type to database string."""
     match to_convert:
@@ -370,7 +386,7 @@ def convert_title_name_to_db(
 
 
 def convert_title_to_db(
-    to_convert: libraries.title.Title
+    to_convert: libraries.title.Title[str]
 ) -> database.titles.Titles:
     """Convert title from library type to database model."""
     db_title = database.titles.Titles()
@@ -386,7 +402,7 @@ def convert_title_to_db(
 
 
 def convert_relation_to_db(
-    to_convert: libraries.family.Relation
+    to_convert: libraries.family.Relation[int, str]
 ) -> database.relation.Relation:
     """Convert relation (non-native parent) from library to database."""
     db_relation = database.relation.Relation()
@@ -400,7 +416,7 @@ def convert_relation_to_db(
 
 
 def convert_pers_event_name_to_db(
-    to_convert: libraries.events.PersEventNameBase
+    to_convert: libraries.events.PersEventNameBase[str]
 ) -> Tuple[database.personal_event.PersonalEventName, Optional[str]]:
     """Convert personal event name from library type to database enum.
 
@@ -603,7 +619,7 @@ def convert_pers_event_name_to_db(
 
 
 def convert_personal_event_to_db(
-    to_convert: libraries.events.PersonalEvent
+    to_convert: libraries.events.PersonalEvent[int, str]
 ) -> Tuple[
     database.personal_event.PersonalEvent,
     List[database.person_event_witness.PersonEventWitness]
@@ -636,7 +652,7 @@ def convert_personal_event_to_db(
 
 
 def convert_person_to_db(
-    to_convert: libraries.person.Person,
+    to_convert: libraries.person.Person[int, int, str, int],
     ascend_id: Optional[int] = None,
     families_id: Optional[int] = None
 ) -> Tuple[

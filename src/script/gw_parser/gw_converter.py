@@ -239,7 +239,12 @@ class GwConverter:
             FamilyEvent[Person[int, int, str, int], str]
         ] = []
         for event, witness_sexes in gw_family.events:
-            converted_events.append(event)
+            resolved_witnesses = []
+            for witness_somebody, witness_kind in event.witnesses:
+                resolved_witness = self.resolve_somebody(witness_somebody)
+                resolved_witnesses.append((resolved_witness, witness_kind))
+            converted_event = replace(event, witnesses=resolved_witnesses)
+            converted_events.append(converted_event)
 
         family = gw_family.family
 
@@ -374,7 +379,12 @@ class GwConverter:
             PersonalEvent[Person[int, int, str, int], str]
         ] = []
         for event in gw_events.events:
-            converted_events.append(event)
+            resolved_witnesses = []
+            for witness_somebody, witness_kind in event.witnesses:
+                resolved_witness = self.resolve_somebody(witness_somebody)
+                resolved_witnesses.append((resolved_witness, witness_kind))
+            converted_event = replace(event, witnesses=resolved_witnesses)
+            converted_events.append(converted_event)
 
         self.personal_events[key_tuple] = converted_events
 

@@ -57,6 +57,8 @@ def convert_precision_from_db(
 
 def convert_date_from_db(
         to_convert: database.date.Date) -> libraries.date.CompressedDate:
+    if not to_convert.iso_date or to_convert.iso_date == '':
+        return None
     dateTime = date.fromisoformat(to_convert.iso_date)
 
     return libraries.date.CalendarDate(

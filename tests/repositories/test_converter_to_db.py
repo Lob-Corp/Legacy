@@ -162,7 +162,10 @@ def test_convert_date_none_to_db():
 
 def test_convert_date_string_raises_error():
     """Test that converting string date raises ValueError."""
-    with pytest.raises(ValueError, match="Cannot convert free-form string"):
+    with pytest.raises(
+        ValueError,
+        match="Cannot convert non empty free-form string"
+    ):
         convert_date_to_db("1990")
 
 
