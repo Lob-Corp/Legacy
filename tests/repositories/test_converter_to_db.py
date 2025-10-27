@@ -27,7 +27,7 @@ import database.ascends
 import database.descends
 import database.unions
 
-from src.repositories.converter_to_db import (
+from repositories.converter_to_db import (
     convert_precision_to_db,
     convert_date_to_db,
     convert_divorce_status_to_db,
@@ -983,7 +983,8 @@ def test_convert_person_with_birth_date_to_db():
             non_native_parents_relation=[],
             related_persons=[],
             occupation="", sex=database.person.Sex.FEMALE,
-            access_right=libraries.title.AccessRight.PUBLIC, birth_date=birth_date,
+            access_right=libraries.title.AccessRight.PUBLIC,
+            birth_date=birth_date,
             birth_place="New York", birth_note="Hospital birth",
             birth_src="Birth certificate", baptism_date=None, baptism_place="",
             baptism_note="", baptism_src="",
@@ -1027,18 +1028,30 @@ def test_convert_person_with_baptism_date_to_db():
             non_native_parents_relation=[],
             related_persons=[],
             occupation="", sex=database.person.Sex.MALE,
-            access_right=libraries.title.AccessRight.PUBLIC, birth_date=None,
-            birth_place="", birth_note="", birth_src="", baptism_date=baptism_date,
+            access_right=libraries.title.AccessRight.PUBLIC,
+            birth_date=None,
+            birth_place="",
+            birth_note="",
+            birth_src="",
+            baptism_date=baptism_date,
             baptism_place="St. Mary's", baptism_note="Family ceremony",
             baptism_src="Church register",
             death_status=libraries.death_info.NotDead(),
-            death_place="", death_note="", death_src="",
+            death_place="",
+            death_note="",
+            death_src="",
             burial=libraries.death_info.UnknownBurial(),
-            burial_place="", burial_note="", burial_src="", personal_events=[],
-            notes="", src="", ascend=libraries.family.Ascendants(
+            burial_place="",
+            burial_note="",
+            burial_src="",
+            personal_events=[],
+            notes="",
+            src="",
+            ascend=libraries.family.Ascendants(
                 parents=None,
                 consanguinity_rate=libraries.consanguinity_rate.ConsanguinityRate(
-                    0)),
+                    0)
+            ),
             families=[])
     )
 

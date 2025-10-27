@@ -83,13 +83,11 @@ def convert_date_to_db(
         return None
 
     if isinstance(to_convert, str):
-        # Free-form string dates are not supported in database
         raise ValueError(
             "Cannot convert free-form string date to database model"
         )
 
     if isinstance(to_convert, tuple):
-        # Tuple format (Calendar, int) is not directly convertible
         raise ValueError(
             "Cannot convert tuple date format to database model"
         )
@@ -104,14 +102,12 @@ def convert_date_to_db(
         db_date.calendar = to_convert.cal
         db_date.delta = to_convert.dmy.delta
 
-        # Convert precision
         if to_convert.dmy.prec:
             db_date.precision_obj = convert_precision_to_db(
                 to_convert.dmy.prec,
                 to_convert.cal
             )
         else:
-            # Default to SURE if no precision specified
             db_precision = database.date.Precision()
             db_precision.precision_level = database.date.DatePrecision.SURE
             db_precision.iso_date = None
@@ -208,20 +204,16 @@ def convert_fam_event_to_db(
     """
     db_event = database.family_event.FamilyEvent()
 
-    # Convert event name
     event_name, custom_name = convert_fam_event_name_to_db(to_convert.name)
     db_event.name = event_name
 
-    # Convert date
     db_event.date_obj = convert_date_to_db(to_convert.date)
 
-    # Set other fields
     db_event.place = to_convert.place
     db_event.reason = to_convert.reason
     db_event.note = to_convert.note
     db_event.src = to_convert.src
 
-    # Convert witnesses
     witnesses = []
     for person_id, witness_kind in to_convert.witnesses:
         db_witness = database.family_event_witness.FamilyEventWitness()
@@ -255,7 +247,6 @@ def convert_family_to_db(
     """
     db_family = database.family.Family()
 
-    # Set basic fields
     db_family.id = to_convert.index
     db_family.marriage_date_obj = convert_date_to_db(to_convert.marriage_date)
     db_family.marriage_place = to_convert.marriage_place
@@ -267,27 +258,23 @@ def convert_family_to_db(
     db_family.src = to_convert.src
     db_family.parents_id = couple_id
 
-    # Convert divorce status
     divorce_status, divorce_date = convert_divorce_status_to_db(
         to_convert.divorce_status
     )
     db_family.divorce_status = divorce_status
     db_family.divorce_date_obj = divorce_date
 
-    # Convert witnesses
     witnesses = []
     for person_id in to_convert.witnesses:
         db_witness = database.family_witness.FamilyWitness()
         db_witness.person_id = person_id
         witnesses.append(db_witness)
 
-    # Convert events
     events_and_witnesses = []
     for event in to_convert.family_events:
         db_event, db_witnesses = convert_fam_event_to_db(event)
         events_and_witnesses.append((db_event, db_witnesses))
 
-    # Convert children
     children = []
     for person_id in to_convert.children:
         db_child = database.descend_children.DescendChildren()
@@ -628,20 +615,16 @@ def convert_personal_event_to_db(
     """
     db_event = database.personal_event.PersonalEvent()
 
-    # Convert event name
     event_name, custom_name = convert_pers_event_name_to_db(to_convert.name)
     db_event.name = event_name
 
-    # Convert date
     db_event.date_obj = convert_date_to_db(to_convert.date)
 
-    # Set other fields
     db_event.place = to_convert.place
     db_event.reason = to_convert.reason
     db_event.note = to_convert.note
     db_event.src = to_convert.src
 
-    # Convert witnesses
     witnesses = []
     for person_id, witness_kind in to_convert.witnesses:
         db_witness = database.person_event_witness.PersonEventWitness()
@@ -679,7 +662,6 @@ def convert_person_to_db(
     """
     db_person = database.person.Person()
 
-    # Set basic fields
     db_person.id = to_convert.index
     db_person.first_name = to_convert.first_name
     db_person.surname = to_convert.surname
@@ -692,13 +674,11 @@ def convert_person_to_db(
     db_person.notes = to_convert.notes
     db_person.src = to_convert.src
 
-    # Convert lists to comma-separated strings
     db_person.qualifiers = ','.join(to_convert.qualifiers)
     db_person.aliases = ','.join(to_convert.aliases)
     db_person.first_names_aliases = ','.join(to_convert.first_names_aliases)
     db_person.surname_aliases = ','.join(to_convert.surname_aliases)
 
-    # Convert dates
     db_person.birth_date_obj = convert_date_to_db(to_convert.birth_date)
     db_person.birth_place = to_convert.birth_place
     db_person.birth_note = to_convert.birth_note
@@ -709,7 +689,6 @@ def convert_person_to_db(
     db_person.baptism_note = to_convert.baptism_note
     db_person.baptism_src = to_convert.baptism_src
 
-    # Convert death status
     death_status, death_reason, death_date = convert_death_status_to_db(
         to_convert.death_status
     )
@@ -720,7 +699,6 @@ def convert_person_to_db(
     db_person.death_note = to_convert.death_note
     db_person.death_src = to_convert.death_src
 
-    # Convert burial status
     burial_status, burial_date = convert_burial_status_to_db(
         to_convert.burial
     )
@@ -730,27 +708,22 @@ def convert_person_to_db(
     db_person.burial_note = to_convert.burial_note
     db_person.burial_src = to_convert.burial_src
 
-    # Set relationship IDs
     db_person.ascend_id = ascend_id
     db_person.families_id = families_id
 
-    # Convert titles
     titles = [convert_title_to_db(t) for t in to_convert.titles]
 
-    # Convert non-native parent relations
     non_native_relations = [
         convert_relation_to_db(r)
         for r in to_convert.non_native_parents_relation
     ]
 
-    # Convert related persons
     related_persons = []
     for person_id in to_convert.related_persons:
         db_relation = database.person_relations.PersonRelations()
         db_relation.related_person_id = person_id
         related_persons.append(db_relation)
 
-    # Convert personal events
     personal_events_and_witnesses = []
     for event in to_convert.personal_events:
         db_event, db_witnesses = convert_personal_event_to_db(event)

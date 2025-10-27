@@ -430,7 +430,7 @@ def convert_person_from_db(
 
     # Determine ascendants - if person has ascend, get family ID
     if to_convert.ascend:
-        ascend_family = to_convert.ascend.family_id
+        ascend_family = to_convert.ascend.parents
         consanguinity_rate = libraries.consanguinity_rate.ConsanguinityRate(
             to_convert.ascend.consang
         )

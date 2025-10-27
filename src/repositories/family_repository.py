@@ -24,31 +24,33 @@ class FamilyRepository:
         family = self.db_service.get(
             session, db_family.Family, {
                 "id": family_id})
+        if family is None:
+            session.close()
+            raise ValueError(f"Family with id {family_id} not found")
         witnesses = self.db_service.get_all(session=session,
                                             model=db_witness.FamilyWitness,
-                                            filters={"family_id": family_id})
+                                            query={"family_id": family_id})
         events = self.db_service.get_all(
             session=session,
             model=db_family_event.FamilyEvent,
-            filters={"family_id": family_id}
+            query={"family_id": family_id}
         )
         events_with_witnesses = [(event, self.db_service.get_all(
             session=session,
             model=db_family_event_witness.FamilyEventWitness,
-            filters={"event_id": event.id}
+            query={"event_id": event.id}
         )) for event in events]
         children = self.db_service.get_all(
             session=session,
             model=db_descend_children.DescendChildren,
-            filters={"descend_id": family.children_id}
+            query={"descend_id": family.children_id}
         )
-        session.close()
-        if family is None:
-            raise ValueError(f"Family with id {family_id} not found")
         if witnesses is None:
             witnesses = []
-        return convert_family_from_db(
+        result = convert_family_from_db(
             family, witnesses, events_with_witnesses, children)
+        session.close()
+        return result
 
     def get_all_families(self) -> List[app_family.Family[int, int, str]]:
         session = self.db_service.get_session()
@@ -57,24 +59,25 @@ class FamilyRepository:
         families = self.db_service.get_all(session, db_family.Family)
         result = []
         for family in families:
-            witnesses = self.db_service.get_all(session=session,
-                                                model=db_witness.FamilyWitness,
-                                                filters={"family_id":
-                                                         family.id})
+            witnesses = self.db_service.get_all(
+                session=session,
+                model=db_witness.FamilyWitness,
+                query={"family_id": family.id}
+            )
             events = self.db_service.get_all(
                 session=session,
                 model=db_family_event.FamilyEvent,
-                filters={"family_id": family.id}
+                query={"family_id": family.id}
             )
             events_with_witnesses = [(event, self.db_service.get_all(
                 session=session,
                 model=db_family_event_witness.FamilyEventWitness,
-                filters={"event_id": event.id}
+                query={"event_id": event.id}
             )) for event in events]
             children = self.db_service.get_all(
                 session=session,
                 model=db_descend_children.DescendChildren,
-                filters={"descend_id": family.children_id}
+                query={"descend_id": family.children_id}
             )
             if witnesses is None:
                 witnesses = []
@@ -118,7 +121,7 @@ class FamilyRepository:
                     event_witness.event_id = event.id
                     self.db_service.add(session, event_witness)
 
-            descend = db_descend.Descends(family_id=db_family_instance.id)
+            descend = db_descend.Descends()
             self.db_service.add(session, descend)
             session.flush()  # Get descend ID
 
@@ -175,7 +178,7 @@ class FamilyRepository:
 
             old_witnesses = self.db_service.get_all(
                 session, db_witness.FamilyWitness,
-                filters={"family_id": family.index}
+                query={"family_id": family.index}
             )
             for old_witness in old_witnesses:
                 self.db_service.delete(session, old_witness)
@@ -186,12 +189,12 @@ class FamilyRepository:
 
             old_events = self.db_service.get_all(
                 session, db_family_event.FamilyEvent,
-                filters={"family_id": family.index}
+                query={"family_id": family.index}
             )
             for old_event in old_events:
                 old_event_witnesses = self.db_service.get_all(
                     session, db_family_event_witness.FamilyEventWitness,
-                    filters={"event_id": old_event.id}
+                    query={"event_id": old_event.id}
                 )
                 for old_event_witness in old_event_witnesses:
                     self.db_service.delete(session, old_event_witness)
@@ -210,7 +213,7 @@ class FamilyRepository:
             if descend_id:
                 old_children = self.db_service.get_all(
                     session, db_descend_children.DescendChildren,
-                    filters={"descend_id": descend_id}
+                    query={"descend_id": descend_id}
                 )
                 for old_child in old_children:
                     self.db_service.delete(session, old_child)
