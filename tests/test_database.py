@@ -1,10 +1,71 @@
 # test_database_info.py
-from libraries.database import *
+from libraries.consanguinity_rate import ConsanguinityRate
 import pytest
+from libraries.database import (
+    BadSexOfMarriedPersonError,
+    BigAgeBetweenSpousesWarning,
+    BirthAfterDeathWarning,
+    ChangedOrderOfChildrenWarning,
+    ChangedOrderOfFamilyEventsWarning,
+    ChangedOrderOfMarriagesWarning,
+    ChangedOrderOfPersonEventsWarning,
+    ChildrenNotInOrderWarning,
+    CloseChildrenWarning,
+    DatabaseMiscInfoBase,
+    DatabaseUpdatedInfoBase,
+    DatabaseWarningBase,
+    DeadOldWarning,
+    DeadTooEarlyToBeFatherWarning,
+    DistantChildrenWarning,
+    FEventOrderWarning,
+    FWitnessEventAfterDeathWarning,
+    FWitnessEventBeforeBirthWarning,
+    IncoherentAncestorDateWarning,
+    IncoherentSexWarning,
+    MarriageDateAfterDeathWarning,
+    PersonAlreadyExistsError,
+    PersonIsOwnAncestorError,
+    MarriageDateBeforeBirthWarning,
+    MotherDeadBeforeChildBirthWarning,
+    ParentBornAfterChildWarning,
+    ParentTooOldWarning,
+    ParentTooYoungWarning,
+    PEventOrderWarning,
+    PossibleDuplicateFamWarning,
+    PossibleDuplicateFamHomonymousWarning,
+    PWitnessEventAfterDeathWarning,
+    PWitnessEventBeforeBirthWarning,
+    TitleDatesErrorWarning,
+    UndefinedSexWarning,
+    YoungForMarriageWarning,
+    OldForMarriageWarning,
+    PersonAddedInfo,
+    PersonModifiedInfo,
+    PersonDeletedInfo,
+    PersonMergedInfo,
+    SendImageInfo,
+    DeleteImageInfo,
+    FamilyAddedInfo,
+    FamilyDeletedInfo,
+    FamilyModifiedInfo,
+    FamilyMergedInfo,
+    FamilyInvertedInfo,
+    ChildrenNamesChangedInfo,
+    ParentAddedInfo,
+    AncestorsKilledInfo,
+    MultiPersonModified,
+    NotesUpdatedInfo,
+)
 from libraries.date import DateValue
 from libraries.death_info import NotDead, UnknownBurial
 from libraries.person import Person, Sex
-from libraries.family import Family, MaritalStatus
+from libraries.family import (
+    Ascendants,
+    Family,
+    MaritalStatus,
+    NotDivorced,
+    Parents,
+)
 from libraries.title import AccessRight, Title, UseMainTitle
 
 
@@ -14,7 +75,7 @@ def date_fixture() -> DateValue:
 
 
 @pytest.fixture
-def person_fixture(date_fixture) -> Person[int, str, str]:
+def person_fixture(date_fixture) -> Person[int, str, str, int]:
     return Person(
         index=1,
         first_name="John",
@@ -27,8 +88,8 @@ def person_fixture(date_fixture) -> Person[int, str, str]:
         first_names_aliases=[],
         surname_aliases=[],
         titles=[],
-        NonNativeParentsRelation=[],
-        RelatedPersons=[],
+        non_native_parents_relation=[],
+        related_persons=[],
         occupation="Worker",
         sex=Sex.MALE,
         access_right=AccessRight.PUBLIC,
@@ -40,7 +101,7 @@ def person_fixture(date_fixture) -> Person[int, str, str]:
         baptism_place="",
         baptism_note="",
         baptism_src="",
-        death=NotDead(),  # replace with DeathStatusBase if needed
+        death_status=NotDead(),  # replace with DeathStatusBase if needed
         death_place="",
         death_note="",
         death_src="",
@@ -50,7 +111,12 @@ def person_fixture(date_fixture) -> Person[int, str, str]:
         burial_src="",
         personal_events=[],
         notes="",
-        src=""
+        src="",
+        ascend=Ascendants(
+            parents=None,
+            consanguinity_rate=ConsanguinityRate.from_integer(-1)
+        ),
+        families=[],
     )
 
 
@@ -64,16 +130,22 @@ def family_fixture(date_fixture, person_fixture) -> Family[int, str, str]:
         marriage_src="",
         witnesses=[person_fixture],
         relation_kind=MaritalStatus.MARRIED,
+        divorce_status=NotDivorced(),
         family_events=[],
         comment="",
         origin_file="origin.gw",
-        src=""
+        src="",
+        parents=Parents(["1", "2"]),
+        children=[],
     )
 
 
 @pytest.fixture
 def title_fixture(date_fixture) -> Title[None]:
-    return Title(title_name=UseMainTitle(), ident="T1", place="Paris", date_start=date_fixture, date_end=date_fixture, nth=1)
+    return Title(
+        title_name=UseMainTitle(),
+        ident="T1", place="Paris", date_start=date_fixture,
+        date_end=date_fixture, nth=1)
 # ---- Tests for Database errors ----
 
 
@@ -167,11 +239,9 @@ def test_changed_order_of_family_events_warning(family_fixture):
 
 
 def test_changed_order_of_person_events_warning(person_fixture):
-    warning = ChangedOrderOfPersonEventsWarning[Person[int, str, str], None](
-        person=person_fixture,
-        old_order=[],
-        new_order=[]
-    )
+    warning = ChangedOrderOfPersonEventsWarning[Person[int, str, str, int],
+                                                None](
+        person=person_fixture, old_order=[], new_order=[])
     assert warning.person == person_fixture
     assert warning.old_order == []
     assert warning.new_order == []
@@ -302,7 +372,8 @@ def test_possible_duplicate_fam_warning(family_fixture):
     assert warning.family2 == family_fixture
 
 
-def test_possible_duplicate_fam_homonymous_warning(person_fixture, family_fixture):
+def test_possible_duplicate_fam_homonymous_warning(
+        person_fixture, family_fixture):
     warning = PossibleDuplicateFamHomonymousWarning(
         family1=family_fixture, family2=family_fixture, spouse=person_fixture)
     assert warning.family1 == family_fixture
@@ -338,7 +409,8 @@ def test_undefined_sex_warning(person_fixture):
     assert warning.person == person_fixture
 
 
-def test_young_for_marriage_warning(person_fixture, date_fixture, family_fixture):
+def test_young_for_marriage_warning(
+        person_fixture, date_fixture, family_fixture):
     warning = YoungForMarriageWarning(
         person=person_fixture, date=date_fixture, family=family_fixture)
     assert warning.person == person_fixture
@@ -346,7 +418,8 @@ def test_young_for_marriage_warning(person_fixture, date_fixture, family_fixture
     assert warning.family == family_fixture
 
 
-def test_old_for_marriage_warning(person_fixture, date_fixture, family_fixture):
+def test_old_for_marriage_warning(
+        person_fixture, date_fixture, family_fixture):
     warning = OldForMarriageWarning(
         person=person_fixture, date=date_fixture, family=family_fixture)
     assert warning.person == person_fixture
@@ -412,8 +485,11 @@ def test_family_modified_info(person_fixture, family_fixture):
 
 
 def test_family_merged_info(person_fixture, family_fixture):
-    info = FamilyMergedInfo(person=person_fixture, result_family=family_fixture,
-                            family1=family_fixture, family2=family_fixture)
+    info = FamilyMergedInfo(
+        person=person_fixture,
+        result_family=family_fixture,
+        family1=family_fixture,
+        family2=family_fixture)
     assert info.result_family == family_fixture
 
 
@@ -425,8 +501,8 @@ def test_family_inverted_info(person_fixture, family_fixture):
 
 def test_children_names_changed_info(person_fixture):
     change_tuple = ("old_first", "old_last", 1, person_fixture)
-    info = ChildrenNamesChangedInfo[int, Person[int, str, str], str](person=person_fixture, changes=[
-        (change_tuple, change_tuple)])
+    info = ChildrenNamesChangedInfo[int, Person[int, str, str, int], str](
+        person=person_fixture, changes=[(change_tuple, change_tuple)])
     assert info.person == person_fixture
     assert info.changes[0] == (change_tuple, change_tuple)
 
