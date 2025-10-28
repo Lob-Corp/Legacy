@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+
+<head>
+    {% block head %}
+    <title>{% block title %}{{ title|default('GeneWeb') }}{% endblock %}</title>
+    <meta name="robots" content="none">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon_gwd.png') }}">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon_gwd.png') }}">
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}?version=4.6.2">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}?version=6.5.1">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/css.css') }}">
+    {% block extra_css %}{% endblock %}
+    {% endblock head %}
+</head>
+
+<body>
+    <meta name="format-detection" content="telephone=no" />
+
+    {% block navigation %}
+    <!-- Navigation sidebar (peut être surchargé pour pages sans navigation) -->
+    <div class="d-flex flex-column fix_top fix_left">
+        <a tabindex="1" role="button" class="btn btn-sm btn-link p-0 border-0"
+            href="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}" title="Home">
+            <i class="fa fa-house fa-fw fa-sm" aria-hidden="true"></i>
+            <i class="sr-only">Home</i>
+        </a>
+        {% if previous_url %}
+        <a tabindex="2" role="button" class="btn btn-sm btn-link p-0 border-0" href="{{ previous_url }}" title="Back"><i
+                class="fa fa-arrow-left-long fa-fw fa-xs" aria-hidden="true"></i><span class="sr-only">Back</span></a>
+        {% endif %}
+        <a tabindex="3" role="button" class="btn btn-sm btn-link p-0 border-0" data-toggle="modal"
+            data-target="#searchmodal" accesskey="S" title="Search">
+            <i class="fa fa-magnifying-glass fa-fw fa-xs" aria-hidden="true"></i>
+            <span class="sr-only">Search</span>
+        </a>
+        <a role="button" class="btn btn-sm btn-link p-0 border-0" href="" title="Display a random individual">
+            <i class="fa fa-dice fa-fw fa-xs" aria-hidden="true"></i>
+            <span class="sr-only">Display a random individual</span>
+        </a>
+        <div class="btn btn-sm p-0 border-0" id="q_time">
+            <i class="fa fa-hourglass-half fa-fw fa-xs p-0"></i>
+        </div>
+        <div class="btn btn-sm p-0 border-0 d-none" id="nb_errors">
+            <i class="fa fa-bug fa-fw fa-xs p-0"></i>
+        </div>
+    </div>
+
+    <!-- Search Modal -->
+    <div class="modal" id="searchmodal" role="dialog" aria-labelledby="searchpopup" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-body" id="ModalSearch">
+                    <form id="collapse_search" method="get" action="">
+                        <input type="hidden" name="lang" value="{{ lang|default('en') }}">
+                        <input type="hidden" name="m" value="S">
+                        <div class="d-flex justify-content-center">
+                            <h5 class="rounded modal-title my-2 text-center w-50 align-self-center" id="searchpopup">
+                                Search individual
+                            </h5>
+                            <div class="col-8">
+                                <label class="sr-only" for="n">Search public name</label>
+                                <input type="search" id="n" class="form-control form-control-lg" name="n"
+                                    placeholder="Surname, public name, alias" autofocus>
+                                <label class="sr-only" for="p">Search firstname</label>
+                                <input type="search" id="p" class="form-control form-control-lg mt-2" name="p"
+                                    placeholder="First name">
+                            </div>
+                            <button class="btn btn-outline-primary" type="submit" title="Search">
+                                <i class="fa fa-magnifying-glass fa-lg mx-2"></i> Search
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endblock navigation %}
+
+    <!-- Main Content -->
+    {% block container_start %}<div class="container">{% endblock %}
+        {% block content %}
+        <!-- Page content goes here -->
+        {% endblock %}
+
+        {% block footer %}
+        <!-- Footer with copyright and language selector (moved inside container) -->
+        <div class="d-flex ml-auto justify-content-end m-2" id="copyr">
+            <div class="btn-group dropup align-self-center">
+                <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+                    aria-haspopup="true" aria-expanded="false" title="{{ lang_name|default('English') }}">
+                    <span class="sr-only">lang</span>
+                    <span class="text-uppercase" title="View in: {{ lang_name|default('English') }}">
+                        {{ lang }}
+                    </span>
+                    <span class="sr-only">, view in</span>
+                </button>
+                <div class="dropdown-menu scrollable-lang{% if not is_home_page %} short{% endif %}"
+                    aria-labelledby="dropdownMenu1">
+                    {# macro to build language-switch URL while preserving other query args and avoiding duplicate lang
+                    in view_args #}
+                    {% macro make_lang_href(lang_code) -%}
+                    {%- set raw_qs = request.environ.get('QUERY_STRING', '') -%}
+                    {%- set cleaned_pairs = [] -%}
+                    {%- if raw_qs -%}
+                    {%- for p in raw_qs.split('&') -%}
+                    {%- if p and not p.startswith('lang=') -%}
+                    {%- set _ = cleaned_pairs.append(p) -%}
+                    {%- endif -%}
+                    {%- endfor -%}
+                    {%- endif -%}
+                    {%- set cleaned_qs = cleaned_pairs | join('&') -%}
+                    {%- if 'lang' in (request.view_args or {}) -%}
+                    {# view arg contains lang: construct base URL with view_args but replace lang #}
+                    {%- set va = (request.view_args or {}).copy() -%}
+                    {%- set _ = va.pop('lang', None) -%}
+                    {%- set base = url_for(request.endpoint, lang=lang_code, **va) -%}
+                    {%- if cleaned_qs -%}
+                    {{- base ~ '?' ~ cleaned_qs -}}
+                    {%- else -%}
+                    {{- base -}}
+                    {%- endif -%}
+                    {%- else -%}
+                    {# lang not in path: put lang first in query string, then other params #}
+                    {%- if cleaned_qs -%}
+                    {{- request.path ~ '?lang=' ~ lang_code ~ '&' ~ cleaned_qs -}}
+                    {%- else -%}
+                    {{- request.path ~ '?lang=' ~ lang_code -}}
+                    {%- endif -%}
+                    {%- endif -%}
+                    {%- endmacro %}
+                    {% set languages = [
+                    ('af', 'Afrikaans'), ('ar', 'Arabic'), ('bg', 'Bulgarian'), ('br', 'Breton'),
+                    ('ca', 'Catalan'), ('co', 'Corsican'), ('cs', 'Czech'), ('da', 'Danish'),
+                    ('de', 'German'), ('en', 'English'), ('eo', 'Esperanto'), ('es', 'Spanish'),
+                    ('et', 'Estonian'), ('fi', 'Finnish'), ('fr', 'French'), ('he', 'Hebrew'),
+                    ('is', 'Icelandic'), ('it', 'Italian'), ('lt', 'Lithuanian'), ('lv', 'Latvian'),
+                    ('nl', 'Dutch'), ('no', 'Norwegian'), ('oc', 'Occitan'), ('pl', 'Polish'),
+                    ('pt', 'Portuguese'), ('pt-br', 'Brazilian Portuguese'), ('ro', 'Romanian'),
+                    ('ru', 'Russian'), ('sk', 'Slovak'), ('sl', 'Slovenian'), ('sv', 'Swedish'),
+                    ('tr', 'Turkish'), ('zh', 'Chinese')
+                    ] %}
+                    {% for lang_code, lang_name_item in languages %}
+                    <a class="dropdown-item" href="{{ make_lang_href(lang_code) }}">
+                        {{ lang_code }}{% if is_home_page %} - {{ lang_name_item }}{% endif %}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+            <div class="d-inline-flex flex-column justify-content-end align-self-center ml-3">
+                <div class="ml-auto">
+                    <a role="button" class="mr-1" href="" title="templm">
+                        <i class="fab fa-markdown" aria-hidden="true"></i>
+                        <span class="sr-only">switch to templm</span>
+                    </a>
+                    <a href="https://github.com/Lob-Corp/Legacy">
+                        GeneWebPy
+                    </a>
+                    <a>based on</a>
+                    <a href="https://github.com/geneweb/geneweb"
+                        title="Line tests/golden-master compiled on {{ compile_date|default('2025-09-08') }} from commit {{ git_commit|default('adcdf66') }} ({{ commit_date|default('2025-09-04') }})">
+                        GeneWeb v. {{ version|default('7.1-beta') }}
+                    </a>
+                </div>
+                <div class="btn-group">
+                    <span>&copy; <a href="https://www.inria.fr" target="_blank" rel="noreferrer, noopener">INRIA</a>
+                        1998-2007</span>
+                    <a href="https://geneweb.tuxfamily.org/wiki/GeneWeb" class="ml-1" target="_blank"
+                        rel="noreferrer, noopener" title="Documentation GeneWeb">
+                        <i class="fab fa-wikipedia-w"></i>
+                    </a>
+                    <a href="https://github.com/geneweb/geneweb" class="ml-1" target="_blank" rel="noreferrer, noopener"
+                        title="GeneWeb on Github">
+                        <i class="fab fa-github"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% endblock footer %}
+
+        {% block container_end %}
+    </div>{% endblock %}
+
+    <!-- Performance & Errors Script -->
+    <script>
+        var q_time = {{ query_time|default (0) | tojson }};
+        var nb_errors = {{ nb_errors|default (0) | tojson }};
+        var errors_list = {{ errors_list|default ("") | tojson }};
+        var home_time = document.getElementById('q_time');
+        var home_errors = document.getElementById('nb_errors');
+
+        if (home_time != null) {
+            home_time.title = "Query treated in " + q_time + " s";
+            if (q_time < 3) {
+                home_time.classList.add("text-success");
+            } else if (q_time < 8) {
+                home_time.classList.add("text-warning");
+            } else {
+                home_time.classList.add("text-danger");
+            }
+        }
+
+        if (home_errors != null) {
+            if (nb_errors > 0) {
+                home_errors.title = nb_errors + " error(s)!";
+                home_errors.classList.remove("d-none");
+            }
+            if (errors_list != "") {
+                home_errors.title = home_errors.title + errors_list + ".";
+            }
+        }
+    </script>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}?version=3.7.1"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}?version=4.6.1"></script>
+    <script>
+        $('#load_once_p_mod').one('click', function () {
+            $.getScript("{{ url_for('static', filename='js/p_mod.js') }}");
+        });
+        $('#load_once_copylink').one('click', function () {
+            $.getScript("{{ url_for('static', filename='js/copylink.js') }}");
+        });
+    </script>
+    <script>
+        // Focus on found autofocus input in opening BS modal
+        $('.modal').on('shown.bs.modal', function () {
+            $(this).find('[autofocus]').focus();
+        });
+    </script>
+    {% block extra_js %}{% endblock %}
+</body>
+
+</html>

@@ -1,0 +1,56 @@
+{% extends "gwd/base.html" %}
+
+{% block title %}{{ surname|default('?') }}{% endblock %}
+
+{% block content %}
+<h1>
+    <a href="{{ request.path }}?lang={{ lang|default('en') }}">
+        {{ surname|default('?') }}
+    </a>
+</h1>
+
+<table class="display_search">
+    <tr>
+        <td><b>Display by</b></td>
+        <td><img src="{{ url_for('static', filename='images/picto_branch.png') }}" alt="" title=""></td>
+        <td>line ({{ total_branches|default(0) }})</td>
+        <td><img src="{{ url_for('static', filename='images/picto_alphabetic_order.png') }}" alt="" title=""></td>
+        <td>
+            <a href="{{ request.path }}?lang={{ lang|default('en') }}&amp;order=alpha" rel="nofollow">
+                alphabetical order
+            </a>
+        </td>
+    </tr>
+</table>
+<br>
+
+<div id="surname_by_branch">
+    <dl>
+        {% for branch in branches %}
+        <dt>
+            <a href="{{ request.path }}?lang={{ lang|default('en') }}#branch{{ branch.number }}" rel="nofollow">
+                {{ branch.number }}.
+            </a>
+        </dt>
+        <dd>
+            <ul>
+                {% for person in branch.persons %}
+                <li>
+                    o <strong><a href="{{ request.path }}?lang={{ lang|default('en') }}#i{{ person.id }}"
+                            id="i{{ person.id }}">
+                            {{ person.name|default('?') }}
+                        </a></strong> <bdo dir="ltr">{{ person.dates|default('') }}</bdo>
+                    {% if person.spouse %}
+                    &amp;
+                    <strong><a href="{{ request.path }}?lang={{ lang|default('en') }}#i{{ person.id }}-spouse">
+                            {{ person.spouse.name|default('?') }}
+                        </a></strong> <bdo dir="ltr">{{ person.spouse.dates|default('') }}</bdo>
+                    {% endif %}
+                </li>
+                {% endfor %}
+            </ul>
+        </dd>
+        {% endfor %}
+    </dl>
+</div>
+{% endblock %}

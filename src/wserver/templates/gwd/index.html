@@ -1,0 +1,180 @@
+{% extends "gwd/base.html" %}
+
+{% set is_home_page = true %}
+
+{% block title %}GeneWeb – {{ database_name|default('base') }}{% endblock %}
+
+{% block navigation %}
+<!-- Page d'accueil sans navigation latérale -->
+{% endblock %}
+
+{% block container_start %}<div class="container">{% endblock %}
+
+    {% block content %}
+    <meta name="format-detection" content="telephone=no" />
+    <div class="d-flex flex-column flex-md-row justify-content-lg-center mt-lg-3">
+        <div class="d-none d-lg-block col-md-3 order-md-1"></div>
+        <div class="col-xs-12 col-md-3 order-md-3 ml-md-2 px-0">
+            <div class="d-flex flex-column">
+                <div class="btn-group btn-group-xs mt-1" role="group">
+                </div>
+            </div>
+        </div>
+        <div class="bg-white my-0 order-md-2 flex-fill text-lg-center align-self-md-center">
+            <img src="{{ url_for('static', filename='images/gwlogo.png') }}" alt="GeneWeb" title="GeneWeb">
+            <h1 class="font-weight-bolder">Base généalogique {{ database_name|default('base') }}</h1>
+            <div class="d-flex justify-content-center">
+                <span class="h2 font-weight-light">{{ nb_persons|default(0) }} personnes</span>
+                <!-- TODO: random individual -->
+                <a class="align-self-center" href="" title="Afficher un individu au hasard">
+                    <i class="fa-solid fa-dice ml-1 mb-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-1 mt-lg-3">
+        <div class="d-flex flex-column col-8">
+        </div>
+    </div>
+
+    <!-- Formulaire de recherche principal -->
+    <div class="flex-row justify-content-center">
+        <form class="mt-3 mt-xl-5" method="get" action="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}">
+            <input type="hidden" name="lang" value="{{ lang|default('en') }}">
+            <input type="hidden" name="m" value="S" class="has_validation">
+            <div class="d-flex justify-content-center">
+                <div class="d-flex flex-column justify-content-center col-xs-11 col-md-9 col-lg-7 w-75">
+                    <div class="d-flex">
+                        <div class="btn-group-vertical mr-2">
+                            <a role="button" href="" title="Patronymes, trier par ordre alphabétique">
+                                <i class="fa fa-arrow-down-a-z fa-fw"></i>
+                            </a>
+                            <a role="button" href="" title="Fréquence patronymes, trier par nombre d'individus">
+                                <i class="fa fa-arrow-down-wide-short fa-fw"></i>
+                            </a>
+                        </div>
+                        <label for="surname" class="sr-only col-form-label col-sm-2">Patronyme</label>
+                        <input type="search" id="surname" class="form-control form-control-lg" name="n"
+                            placeholder="Patronyme, nom public, alias" title="Rechercher patronyme, nom public, alias"
+                            autofocus tabindex="1">
+                    </div>
+                    <div class="d-flex mt-2">
+                        <div class="btn-group-vertical mr-2">
+                            <a role="button" href="" title="Prénoms, trier par ordre alphabétique">
+                                <i class="fa fa-arrow-down-a-z fa-fw"></i>
+                            </a>
+                            <a role="button" href="" title="Fréquence prénoms, trier par nombre d'individus">
+                                <i class="fa fa-arrow-down-wide-short fa-fw"></i>
+                            </a>
+                        </div>
+                        <label for="firstname" class="sr-only col-form-label col-sm-2">Prénom(s)</label>
+                        <input type="search" id="firstname" class="form-control form-control-lg border-top-0" name="p"
+                            placeholder="Prénom(s)" title="Rechercher prénom(s)" tabindex="2">
+                    </div>
+                </div>
+                <button class="btn btn-outline-primary align-self-center ml-2" type="submit">
+                    <i class="fa fa-magnifying-glass fa-fw fa-2x mt-1"></i><br>
+                    Rechercher<br>personne
+                </button>
+            </div>
+        </form>
+
+        <!-- Formulaire de recherche titres/domaines -->
+        <form class="mt-2 mt-md-3 mt-lg-4" method="get"
+            action="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}">
+            <input type="hidden" name="lang" value="{{ lang|default('en') }}">
+            <input type="hidden" name="m" value="TT">
+            <div class="d-flex justify-content-center mx-5">
+                <div class="d-flex flex-column justify-content-center col-xs-9 col-md-7 col-lg-5 w-75">
+                    <div class="d-flex">
+                        <a class="mr-2 align-self-center" role="button" href="" title="Tous les titres">
+                            <i class="fa fa-list-ul fa-fw"></i>
+                        </a>
+                        <label for="titles" class="sr-only col-form-label col-sm-2">Titre</label>
+                        <input type="search" class="form-control border-top-0 border-right-0 border-left-0" name="t"
+                            id="titles" placeholder="Titre" tabindex="3">
+                    </div>
+                    <div class="d-flex mt-2">
+                        <a class="mr-2 align-self-center" role="button" href="" title="Tous les domaines">
+                            <i class="fa fa-list-ul fa-fw"></i>
+                        </a>
+                        <label for="estates" class="sr-only col-form-label col-sm-2">Domaine</label>
+                        <input type="search" class="form-control border-top-0 border-right-0 border-left-0" name="p"
+                            id="estates" placeholder="Domaine" tabindex="4">
+                    </div>
+                </div>
+                <button class="btn btn-outline-primary btn-sm align-self-center ml-2 px-0 py-3" type="submit"
+                    title="Rechercher titre/domaine">
+                    <i class="fa fa-magnifying-glass fa-fw fa-2x mx-3"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Section Outils -->
+    <div class="d-flex flex-column justify-items-lg-center mt-3 mt-lg-4">
+        <div class="h4 text-lg-center">
+            <i class="fas fa-screwdriver-wrench fa-sm fa-fw text-secondary mr-1"></i>Outils
+        </div>
+        <div class="d-inline-flex justify-content-lg-center">
+            <a role="button" class="btn btn-outline-primary mr-1" href="">
+                <i class="far fa-file-lines fa-fw mr-1" aria-hidden="true"></i>Notes
+            </a>
+            <a role="button" class="btn btn-outline-primary mr-1" href="">
+                <i class="far fa-chart-bar fa-fw mr-1" aria-hidden="true"></i>Statistiques
+            </a>
+            <a role="button" class="btn btn-outline-primary" href="">
+                <i class="fa fa-cake-candles fa-fw mr-1" aria-hidden="true"></i>Anniversaires
+            </a>
+        </div>
+        <div class="d-inline-flex justify-content-lg-center mt-1 mt-lg-2">
+            <a role="button" class="btn btn-outline-success mr-1" href="" title="Ajouter famille (magicien)">
+                <i class="fas fa-user-plus mr-1" aria-hidden="true"></i>Ajouter famille
+            </a>
+            <a role="button" class="btn btn-outline-primary mr-1" href="">
+                <i class="fas fa-globe fa-fw mr-1" aria-hidden="true"></i>Lieux/patronyme
+            </a>
+            <a role="button" class="btn btn-outline-primary mr-1" href="">
+                <i class="far fa-calendar-days fa-fw mr-1" aria-hidden="true"></i>Calendriers
+            </a>
+            <a role="button" class="btn btn-outline-success mr-1" href="">
+                <i class="fas fa-gear fa-fw mr-1" aria-hidden="true"></i>Configuration
+            </a>
+        </div>
+    </div>
+
+    <!-- Section Dictionnaires -->
+    <div class="d-flex flex-column flex-lg-row justify-content-lg-center mt-2 mt-lg-4">
+        <div class="h4 align-self-lg-center mr-lg-2">
+            <i class="fas fa-book fa-sm fa-fw text-muted mr-1"></i>Dictionnaires
+        </div>
+        <div class="d-inline-flex justify-content-lg-center">
+            <a role="button" class="btn btn-outline-success mr-1" href=""
+                title="Modifier dictionnaire des prénoms (magicien)">
+                <i class="fa fa-child fa-fw mr-1"></i>Prénoms
+            </a>
+            <a role="button" class="btn btn-outline-success mr-1" href=""
+                title="Modifier dictionnaire des patronymes (magicien)">
+                <i class="fa fa-signature fa-fw mr-1"></i>Patronymes
+            </a>
+            <a role="button" class="btn btn-outline-success mr-1" href=""
+                title="Modifier dictionnaire des lieux (magicien)">
+                <i class="fa fa-map-location-dot fa-fw mr-1"></i>Lieux
+            </a>
+            <a role="button" class="btn btn-outline-success mr-1" href=""
+                title="Modifier dictionnaire des professions (magicien)">
+                <i class="fa fa-user-doctor fa-fw mr-1"></i>Professions
+            </a>
+            <a role="button" class="btn btn-outline-success" href=""
+                title="Modifier dictionnaire des sources (magicien)">
+                <i class="fa fa-box-archive fa-fw mr-1"></i>Sources
+            </a>
+        </div>
+    </div>
+
+    <div class="row mt-2 mt-lg-4">
+        <div class="col text-lg-center">
+        </div>
+    </div>
+    {% endblock %}

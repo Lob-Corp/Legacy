@@ -1,4 +1,8 @@
-from flask import Blueprint
+from flask import Blueprint, redirect, render_template, request, url_for
+
+from libraries.death_info import DontKnowIfDead, UnknownBurial
+from libraries.person import Person, Sex
+from libraries.title import AccessRight
 
 gwd_bp = Blueprint('gwd', __name__, url_prefix='/gwd')
 """
@@ -10,6 +14,89 @@ Each mode from request.ml is exposed as two Flask routes:
 Handlers are explicit functions and currently raise NotImplementedError..
 """
 
+
+@gwd_bp.route('<base>', methods=['GET', 'POST'])
+def gwd_base_only(base, lang='en'):
+    lang = request.args.get("lang", "en")
+    module = request.args.get("m", None)
+    surname = request.args.get("n", None)
+    firstname = request.args.get("p", None)
+    previous_url = request.referrer
+
+    branches = [
+        {
+            "number": 1,
+            "persons": [
+                {"id": 101, "name": "Smith, John", "dates": "1900-1975",
+                 "spouse": {"name": "Smith, Mary", "dates": "1905-1980"}},
+                {"id": 102, "name": "Smith, Alice",
+                    "dates": "1930-2010", "spouse": None},
+            ],
+        },
+        {
+            "number": 2,
+            "persons": [
+                {"id": 201, "name": "Smith, Robert", "dates": "1925-1999",
+                 "spouse": {"name": "Brown, Anna", "dates": "1930-2015"}},
+                {"id": 202, "name": "Smith, Clara", "dates": "1950-"},
+                {"id": 203, "name": "Smith, Tom", "dates": "1975-"},
+            ],
+        },
+        {
+            "number": 3,
+            "persons": [
+                {"id": 301, "name": "Smith, Émile", "dates": "1880-1942"},
+            ],
+        },
+    ]
+    if module == "S" and surname:
+        return render_template("gwd/search_surname.html", base=base, lang=lang, surname=surname,
+                               branches=branches, total_branches=len(branches), previous_url=previous_url)
+    person = Person(
+        index=1,
+        first_name="Jean",
+        surname="Dupont",
+        occ=1,
+        image="jean.png",
+        public_name="Jean D.",
+        qualifiers=["qual1"],
+        aliases=["alias1"],
+        first_names_aliases=["J"],
+        surname_aliases=["Du."],
+        titles=[],
+        NonNativeParentsRelation=[],
+        RelatedPersons=[],
+        occupation="Farmer",
+        sex=Sex.MALE,
+        access_right=AccessRight.PUBLIC,
+        birth_date="2025-01-01",
+        birth_place="Paris",
+        birth_note="note",
+        birth_src="src",
+        baptism_date="2025-01-01",
+        baptism_place="Church",
+        baptism_note="bap note",
+        baptism_src="bap src",
+        death=DontKnowIfDead(),
+        death_place="Paris",
+        death_note="death note",
+        death_src="death src",
+        burial=UnknownBurial(),
+        burial_place="Cemetery",
+        burial_note="burial note",
+        burial_src="burial src",
+        personal_events=[],
+        notes="general note",
+        src="src file"
+    )
+    persons = [
+        person
+    ]
+    if module == "S" and firstname:
+        return render_template("gwd/search_firstname.html", base=base, lang=lang, firstname=firstname,
+                               persons=persons, total_persons=len(persons), previous_url=previous_url)
+    return render_template("gwd/index.html", base=base, lang=lang)
+
 # DEFAULT / ROOT (already present)
 
 
@@ -19,15 +106,6 @@ Handlers are explicit functions and currently raise NotImplementedError..
 def gwd_root(lang):
     raise NotImplementedError(
         f"GWD root route not implemented yet (lang={lang})")
-
-# BASE-ONLY (no mode) - corresponds to empty "" mode
-
-
-@gwd_bp.route('<base>/', methods=['GET', 'POST'])
-@gwd_bp.route('<base>/<lang>', methods=['GET', 'POST'])
-def gwd_base_only(base, lang='en'):
-    raise NotImplementedError(
-        f"Route base={base}, no action yet (lang={lang})")
 
 # Explicit action routes (one function per legacy "m" value)
 
