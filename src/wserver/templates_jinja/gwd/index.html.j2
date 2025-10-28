@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="{{ lang | default('en') }}">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>{{ title | default('Base') }}</title>
+  <meta name="robots" content="{{ robots | default('none') }}">
+  <link rel="shortcut icon" href="{{ images_prefix | default('/static/images/') }}favicon_gwd.png">
+  {# Included css from original template; replace with actual CSS include or macro #}
+  {% if css %}
+    {{ css | safe }}
+  {% endif %}
+</head>
+<body{{ body_prop | default('') }}>
+<div class="container text-center">
+  <h1 class="mt-5">{{ _('choose a genealogy') }}</h1>
+
+  <div class="my-3">
+    <span>{{ _('input database') }}:</span>
+
+    <form class="form-inline d-flex justify-content-center my-2" method="get" action="{{ prefix | default('/') }}">
+      <input type="hidden" name="lang" value="{{ lang | default('en') }}">
+      <input name="b" placeholder="{{ bases_list | default('') }}" class="form-control col-4">
+      <button type="submit" class="btn btn-outline-secondary ml-2">Ok</button>
+    </form>
+
+    <p>{{ _('available genealogies') }}:</p>
+    <div>{{ bases_list_links | safe }}</div>
+  </div>
+
+  <h3 class="text-center mt-5">{{ _('select lang') }}</h3>
+  <div class="d-flex flex-wrap justify-content-center col-11 mt-2 mx-auto">
+    {% for code, name in languages %}
+      <a class="btn btn-outline-secondary" href="?lang={{ code }}{% if templ %}&templ={{ templ }}{% endif %}" title="{{ code }}">{{ name }}</a>
+    {% endfor %}
+  </div>
+
+  <div class="btn-group float-right mt-5 mr-5">
+    <span class="align-self-center">GeneWeb v. {{ version }} &copy; <a href="https://www.inria.fr/">INRIA</a> 1998-2017
+      {{ connections }}</span>
+    <a href="https://github.com/geneweb/geneweb" class="ml-1" target="_blank" title="GeneWeb sources on GitHub">
+      <img src="{{ images_prefix | default('/static/images/') }}logo_bas.png" alt="Logo GeneWeb"></a>
+    <a href="{{ doc_link }}" target="_blank">
+      <img src="{{ images_prefix | default('/static/images/') }}logo_bas_mw.png" alt="Logo GeneWeb Mediawiki"></a>
+  </div>
+</div>
+</body>
+</html>

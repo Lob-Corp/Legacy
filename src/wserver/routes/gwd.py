@@ -1,4 +1,10 @@
-from flask import Blueprint
+from flask import Blueprint, render_template, url_for
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+import os
+from flask import request
+from ..i18n import get_translator
+
+
 
 gwd_bp = Blueprint('gwd', __name__, url_prefix='/gwd')
 """
@@ -17,11 +23,42 @@ Handlers are explicit functions and currently raise NotImplementedError..
               methods=['GET', 'POST'], strict_slashes=False)
 @gwd_bp.route('<lang>', methods=['GET', 'POST'])
 def gwd_root(lang):
-    raise NotImplementedError(
-        f"GWD root route not implemented yet (lang={lang})")
+    req_lang = request.args.get('lang') or lang or 'en'
+    translator = get_translator()
+    def _(key):
+        return translator.gettext(key, req_lang)
 
-# BASE-ONLY (no mode) - corresponds to empty "" mode
-
+    data = {
+        'lang': lang,
+        'title': 'Base',
+        'robots': 'none',
+        'images_prefix': '/static/images/',
+        'css': (
+            f'<link rel="stylesheet" href="{url_for("static", filename="css/bootstrap.min.css")}">'
+            f'<link rel="stylesheet" href="{url_for("static", filename="css/all.min.css")}">'
+            f'<link rel="stylesheet" href="{url_for("static", filename="css/css.css")}">'
+        ),
+        'prefix': '/',
+        'bases_list': '',
+        'bases_list_links': '',
+        'languages': [
+            ('en', 'English'),
+            ('fr', 'français'),
+            ('es', 'Español'),
+        ],
+        'templ': '',
+        'version': 'dev',
+        'connections': '',
+        'doc_link': 'https://geneweb.tuxfamily.org/wiki',
+        '_': _,
+    }
+    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates_jinja'))
+    env = Environment(
+        loader=FileSystemLoader(base_dir),
+        autoescape=select_autoescape(['html', 'xml'])
+    )
+    tmpl = env.get_template('gwd/index.html.j2')
+    return tmpl.render(**data)
 
 @gwd_bp.route('<base>/', methods=['GET', 'POST'])
 @gwd_bp.route('<base>/<lang>', methods=['GET', 'POST'])
