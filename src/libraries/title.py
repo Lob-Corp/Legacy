@@ -15,6 +15,7 @@ class AccessRight(Enum):
 
 # Type variable for title descriptors (strings, identifiers, etc.)
 TitleDescriptorT = TypeVar("TitleDescriptorT")
+TitleDescriptorT2 = TypeVar("TitleDescriptorT2")
 
 
 class TitleNameBase(Generic[TitleDescriptorT]):
@@ -99,9 +100,9 @@ class Title(Generic[TitleDescriptorT]):
 
     def map_title(
         self,
-        string_mapper: Callable[[TitleDescriptorT], TitleDescriptorT],
+        string_mapper: Callable[[TitleDescriptorT], TitleDescriptorT2],
         date_mapper: Optional[Callable[[Date], Date]] = None,
-    ) -> "Title[Any]":
+    ) -> "Title[TitleDescriptorT2]":
         """Transform string and date fields using provided mapper functions.
 
         Args:
@@ -118,11 +119,16 @@ class Title(Generic[TitleDescriptorT]):
             def date_mapper(x: Date) -> Date:
                 return x
 
-        title_name: TitleNameBase[Any]
-        if isinstance(self.title_name, (NoTitle, UseMainTitle)):
-            title_name = self.title_name
-        if isinstance(self.title_name, TitleName):
+        title_name: TitleNameBase[TitleDescriptorT2]
+        if isinstance(self.title_name, NoTitle):
+            title_name = NoTitle()
+        elif isinstance(self.title_name, UseMainTitle):
+            title_name = UseMainTitle()
+        elif isinstance(self.title_name, TitleName):
             title_name = TitleName(string_mapper(self.title_name.title_name))
+        else:
+            # This should never happen, but provides a safety fallback
+            raise TypeError(f"Unknown TitleNameBase type: {type(self.title_name)}")
 
         return Title(
             title_name=title_name,

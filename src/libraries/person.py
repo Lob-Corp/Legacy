@@ -38,11 +38,14 @@ class Place:
 
 # Type variables for genealogical data structures
 IdxT = TypeVar("IdxT")
+IdxT2 = TypeVar("IdxT2")
 
 # Person reference type (e.g., Person or PersonId)
 PersonT = TypeVar("PersonT")
+PersonT2 = TypeVar("PersonT2")
 # String descriptors (names, notes, etc.)
 PersonDescriptorT = TypeVar("PersonDescriptorT")
+PersonDescriptorT2 = TypeVar("PersonDescriptorT2")
 
 
 @dataclass(frozen=True)
@@ -100,10 +103,11 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
 
     def map_person(
         self,
-        string_mapper: Callable[[PersonDescriptorT], PersonDescriptorT],
-        person_mapper: Callable[[PersonT], PersonT],
+        string_mapper: Callable[[PersonDescriptorT], PersonDescriptorT2],
+        person_mapper: Callable[[PersonT], PersonT2],
         date_mapper: Callable[[Date], Date],
-    ) -> "Person[IdxT, PersonT, PersonDescriptorT]":
+        index_mapper: Callable[[IdxT], IdxT2],
+    ) -> "Person[IdxT2, PersonT2, PersonDescriptorT2]":
         """Transform all fields using provided mapper functions.
 
         This creates a new Person instance with all string descriptors,
@@ -115,12 +119,13 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
             string_mapper: Function to transform string descriptors
             person_mapper: Function to transform person references
             date_mapper: Function to transform dates
+            index_mapper: Function to transform the person index
 
         Returns:
             New Person instance with all fields transformed
         """
         return Person(
-            index=self.index,
+            index=index_mapper(self.index),
             first_name=string_mapper(self.first_name),
             surname=string_mapper(self.surname),
             occ=self.occ,

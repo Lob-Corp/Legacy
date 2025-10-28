@@ -95,6 +95,8 @@ class RelationToParentType(Enum):
 
 
 RelationDescriptorT = TypeVar("RelationDescriptorT")
+PersonT2 = TypeVar("PersonT2")
+RelationDescriptorT2 = TypeVar("RelationDescriptorT2")
 
 
 @dataclass(frozen=True)
@@ -106,9 +108,9 @@ class Relation(Generic[PersonT, RelationDescriptorT]):
 
     def map_relation_strings(
         self,
-        string_mapper: Callable[[RelationDescriptorT], RelationDescriptorT],
-        person_mapper: Callable[[PersonT], PersonT],
-    ) -> "Relation[PersonT, RelationDescriptorT]":
+        string_mapper: Callable[[RelationDescriptorT], RelationDescriptorT2],
+        person_mapper: Callable[[PersonT], PersonT2],
+    ) -> "Relation[PersonT2, RelationDescriptorT2]":
         return Relation(
             type=self.type,
             father=person_mapper(self.father) if self.father else None,
@@ -118,6 +120,7 @@ class Relation(Generic[PersonT, RelationDescriptorT]):
 
 
 FamilyT = TypeVar("FamilyT")
+FamilyT2 = TypeVar("FamilyT2")
 
 
 @dataclass(frozen=True)
@@ -126,8 +129,8 @@ class Ascendants(Generic[FamilyT]):
     consanguinity_rate: ConsanguinityRate
 
     def map_ascendants(
-        self, family_mapper: Callable[[FamilyT], FamilyT]
-    ) -> "Ascendants[FamilyT]":
+        self, family_mapper: Callable[[FamilyT], FamilyT2]
+    ) -> "Ascendants[FamilyT2]":
         return Ascendants(
             parents=family_mapper(self.parents) if self.parents else None,
             consanguinity_rate=self.consanguinity_rate,
@@ -139,15 +142,17 @@ class Descendants(Generic[PersonT]):
     children: List[PersonT]
 
     def map_descendants(
-        self, family_mapper: Callable[[PersonT], PersonT]
-    ) -> "Descendants[PersonT]":
+        self, person_mapper: Callable[[PersonT], PersonT2]
+    ) -> "Descendants[PersonT2]":
         return Descendants(
-            children=[family_mapper(child) for child in self.children]
+            children=[person_mapper(child) for child in self.children]
         )
 
 
 IdxT = TypeVar("IdxT")
+IdxT2 = TypeVar("IdxT2")
 FamilyDescriptorT = TypeVar("FamilyDescriptorT")
+FamilyDescriptorT2 = TypeVar("FamilyDescriptorT2")
 
 
 @dataclass(frozen=True)
@@ -167,11 +172,11 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
 
     def map_family(
         self,
-        string_mapper: Callable[[FamilyDescriptorT], FamilyDescriptorT],
-        person_mapper: Callable[[PersonT], PersonT],
+        string_mapper: Callable[[FamilyDescriptorT], FamilyDescriptorT2],
+        person_mapper: Callable[[PersonT], PersonT2],
         date_mapper: Callable[[Date], Date],
-        index_mapper: Callable[[IdxT], IdxT],
-    ) -> "Family[IdxT, PersonT, FamilyDescriptorT]":
+        index_mapper: Callable[[IdxT], IdxT2],
+    ) -> "Family[IdxT2, PersonT2, FamilyDescriptorT2]":
         return Family(
             index=index_mapper(self.index),
             marriage_date=self.marriage_date.map_cdate(date_mapper),
