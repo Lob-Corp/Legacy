@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, Text, Enum, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Integer, Text, Enum, ForeignKey
+from sqlalchemy.orm import relationship, mapped_column
 from database import Base
 import enum
 
@@ -61,14 +61,14 @@ class PersonalEventName(enum.Enum):
 class PersonalEvent(Base):
     __tablename__ = "PersonalEvent"
 
-    id = Column(Integer, primary_key=True, nullable=False)
-    person_id = Column(Integer, ForeignKey("Person.id"), nullable=False)
-    name = Column(Enum(PersonalEventName), nullable=False)
-    date = Column(Integer, ForeignKey("Date.id"), nullable=False)
-    place = Column(Text, nullable=False)
-    reason = Column(Text, nullable=False)
-    note = Column(Text, nullable=False)
-    src = Column(Text, nullable=False)
+    id = mapped_column(Integer, primary_key=True, nullable=False)
+    person_id = mapped_column(Integer, ForeignKey("Person.id"), nullable=False)
+    name = mapped_column(Enum(PersonalEventName), nullable=False)
+    date = mapped_column(Integer, ForeignKey("Date.id"), nullable=False)
+    place = mapped_column(Text, nullable=False)
+    reason = mapped_column(Text, nullable=False)
+    note = mapped_column(Text, nullable=False)
+    src = mapped_column(Text, nullable=False)
 
     person_obj = relationship("Person", foreign_keys=[person_id])
     date_obj = relationship(

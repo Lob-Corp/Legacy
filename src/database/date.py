@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, Text, Enum, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Integer, Text, Enum, ForeignKey
+from sqlalchemy.orm import relationship, mapped_column
 from database import Base
 from libraries.date import Calendar
 import enum
@@ -18,21 +18,22 @@ class DatePrecision(enum.Enum):
 class Precision(Base):
     __tablename__ = "Precision"
 
-    id = Column(Integer, primary_key=True, nullable=False)
-    precision_level = Column(Enum(DatePrecision), nullable=False)
-    iso_date = Column(Text, nullable=True)
-    calendar = Column(Enum(Calendar), nullable=True)
-    delta = Column(Integer, nullable=True)
+    id = mapped_column(Integer, primary_key=True, nullable=False)
+    precision_level = mapped_column(Enum(DatePrecision), nullable=False)
+    iso_date = mapped_column(Text, nullable=True)
+    calendar = mapped_column(Enum(Calendar), nullable=True)
+    delta = mapped_column(Integer, nullable=True)
 
 
 class Date(Base):
     __tablename__ = "Date"
 
-    id = Column(Integer, primary_key=True, nullable=False)
-    iso_date = Column(Text, nullable=False)
-    calendar = Column(Enum(Calendar), nullable=False)
-    precision_id = Column(Integer, ForeignKey("Precision.id"), nullable=False)
-    delta = Column(Integer, nullable=False)
+    id = mapped_column(Integer, primary_key=True, nullable=False)
+    iso_date = mapped_column(Text, nullable=False)
+    calendar = mapped_column(Enum(Calendar), nullable=False)
+    precision_id = mapped_column(Integer,
+                                 ForeignKey("Precision.id"), nullable=False)
+    delta = mapped_column(Integer, nullable=False)
 
     precision_obj = relationship(
         "Precision",

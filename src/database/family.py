@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, Text, Enum, ForeignKey
-from sqlalchemy.orm import relationship
+from sqlalchemy import Integer, Text, Enum, ForeignKey
+from sqlalchemy.orm import relationship, mapped_column
 from database import Base
 from libraries.family import MaritalStatus
 import enum
@@ -14,19 +14,19 @@ class DivorceStatus(enum.Enum):
 class Family(Base):
     __tablename__ = "Family"
 
-    id = Column(Integer, primary_key=True, nullable=False)
-    marriage_date = Column(Integer, ForeignKey("Date.id"), nullable=False)
-    marriage_place = Column(Text, nullable=False)
-    marriage_note = Column(Text, nullable=False)
-    marriage_src = Column(Text, nullable=False)
-    relation_kind = Column(Enum(MaritalStatus), nullable=False)
-    divorce_status = Column(Enum(DivorceStatus), nullable=False)
-    divorce_date = Column(Integer, ForeignKey("Date.id"))
-    parents_id = Column(Integer, ForeignKey("Couple.id"))
-    children_id = Column(Integer, ForeignKey("Descends.id"))
-    comment = Column(Text, nullable=False)
-    origin_file = Column(Text, nullable=False)
-    src = Column(Text, nullable=False)
+    id = mapped_column(Integer, primary_key=True, nullable=False)
+    marriage_date = mapped_column(Integer, ForeignKey("Date.id"))
+    marriage_place = mapped_column(Text, nullable=False)
+    marriage_note = mapped_column(Text, nullable=False)
+    marriage_src = mapped_column(Text, nullable=False)
+    relation_kind = mapped_column(Enum(MaritalStatus), nullable=False)
+    divorce_status = mapped_column(Enum(DivorceStatus), nullable=False)
+    divorce_date = mapped_column(Integer, ForeignKey("Date.id"))
+    parents_id = mapped_column(Integer, ForeignKey("Couple.id"))
+    children_id = mapped_column(Integer, ForeignKey("Descends.id"))
+    comment = mapped_column(Text, nullable=False)
+    origin_file = mapped_column(Text, nullable=False)
+    src = mapped_column(Text, nullable=False)
 
     parents = relationship(
         "Couple",
