@@ -2,15 +2,16 @@
 
 ## Table of Contents
 1. [Overview](#overview)
-2. [Technology Stack](#technology-stack)
-3. [Database Service](#database-service)
-4. [Data Models](#data-models)
-5. [Relationships](#relationships)
-6. [Enumerations](#enumerations)
-7. [Usage Examples](#usage-examples)
-8. [Schema Reference](#schema-reference)
-9. [Visual Diagrams](#visual-diagrams)
-10. [Quick Reference](#quick-reference)
+2. [Populating the Database](#populating-the-database)
+3. [Technology Stack](#technology-stack)
+4. [Database Service](#database-service)
+5. [Data Models](#data-models)
+6. [Relationships](#relationships)
+7. [Enumerations](#enumerations)
+8. [Usage Examples](#usage-examples)
+9. [Schema Reference](#schema-reference)
+10. [Visual Diagrams](#visual-diagrams)
+11. [Quick Reference](#quick-reference)
 
 ---
 
@@ -29,6 +30,87 @@ The GenewebPy database is a genealogical data management system built with SQLAl
 
 ### Database Schema
 The complete SQL schema is available here: [database_schema.sql](assets/database_schema.sql)
+
+---
+
+## Populating the Database
+
+### Using gwc (GeneWeb Compiler)
+
+The primary way to populate the database is using the `gwc` tool, which parses GeneWeb `.gw` files and creates a SQLite database.
+
+**See**: [GWC_IMPLEMENTATION.md](GWC_IMPLEMENTATION.md) for complete gwc documentation.
+
+#### Quick Start
+
+```bash
+# Create database from .gw file
+python -m script.gwc -v -f -o family.db family.gw
+
+# Multiple files
+python -m script.gwc -v -f -o database.db file1.gw file2.gw
+```
+
+#### Options
+
+- `-v`: Verbose output with progress information
+- `-f`: Force overwrite if database exists
+- `-o <file>`: Output database file (default: a.sql)
+- `-stats`: Show compilation statistics
+- `-nofail`: Continue on errors
+- `-bnotes <mode>`: Control base notes merging (merge/erase/first/drop)
+
+### Using Repositories (Programmatic)
+
+For programmatic access, use the repository pattern:
+
+```python
+from database.sqlite_database_service import SQLiteDatabaseService
+from repositories.person_repository import PersonRepository
+from repositories.family_repository import FamilyRepository
+
+# Initialize
+db_service = SQLiteDatabaseService("family.db")
+db_service.connect()
+
+person_repo = PersonRepository(db_service)
+family_repo = FamilyRepository(db_service)
+
+# Add a person
+person = Person(...)  # See Usage Examples below
+person_repo.add_person(person)
+
+# Retrieve persons
+all_persons = person_repo.get_all_persons()
+person = person_repo.get_person_by_id(1)
+```
+
+#### Repository Methods
+
+**PersonRepository**:
+- `add_person(person)`: Add a new person
+- `edit_person(person)`: Update existing person
+- `get_person_by_id(id)`: Retrieve by ID
+- `get_all_persons()`: Get all persons
+
+**FamilyRepository**:
+- `add_family(family)`: Add a new family
+- `edit_family(family)`: Update existing family
+- `get_family_by_id(id)`: Retrieve by ID
+- `get_all_families()`: Get all families
+
+#### Converters
+
+The repositories use converters to transform between application types and database models:
+
+- **`converter_to_db.py`**: Converts application types (Person, Family) to database models
+- **`converter_from_db.py`**: Converts database models back to application types
+
+These handle all the complexity of:
+- Converting dates with precision and calendars
+- Managing relationship tables (Couple, Ascends, Unions, Descends)
+- Handling events and witnesses
+- Managing titles and relations
 
 ---
 
