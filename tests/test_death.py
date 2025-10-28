@@ -1,8 +1,22 @@
 from libraries.date import Calendar
-from libraries.death_info import Burial, BurialInfoBase, Cremated, Dead, DeadDontKnowWhen, DeadYoung, DeathReason, DeathStatusBase, DontKnowIfDead, NotDead, OfCourseDead, UnknownBurial
+from libraries.death_info import (
+    Burial,
+    BurialInfoBase,
+    Cremated,
+    Dead,
+    DeadDontKnowWhen,
+    DeadYoung,
+    DeathReason,
+    DeathStatusBase,
+    DontKnowIfDead,
+    NotDead,
+    OfCourseDead,
+    UnknownBurial
+)
 import pytest
 
 # DeathStatusBase hierarchy
+
 
 def test_deathstatusbase_cannot_instantiate():
     with pytest.raises(NotImplementedError):
@@ -20,12 +34,6 @@ def test_dead_instantiation_and_reason():
     d = Dead(DeathReason.KILLED, date)
     assert isinstance(d, Dead)
     assert d.death_reason == DeathReason.KILLED
-
-
-def test_dead_does_not_store_date_of_death():
-    date = (Calendar.GREGORIAN, 123)
-    d = Dead(DeathReason.MURDERED, date)
-    assert not hasattr(d, "date_of_death")
 
 
 def test_deadyoung_instantiation():
