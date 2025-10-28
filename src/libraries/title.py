@@ -6,9 +6,9 @@ from libraries.date import CompressedDate
 
 
 class AccessRight(Enum):
-    IFTITLES = "IfTitles"
-    PUBLIC = "Public"
-    PRIVATE = "Private"
+    IFTITLES = "IFTITLES"
+    PUBLIC = "PUBLIC"
+    PRIVATE = "PRIVATE"
 
 
 TitleDescriptorT = TypeVar("TitleDescriptorT")

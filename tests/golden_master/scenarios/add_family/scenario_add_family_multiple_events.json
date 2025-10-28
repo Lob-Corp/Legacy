@@ -1,0 +1,61 @@
+{
+	"name": "scenario_add_family_multiple_events",
+	"actions": [
+		{ "type": "Get", "url": "http://localhost:2317/tests" },
+		{ "type": "Click", "by": "css", "value": "div.d-inline-flex:nth-child(3) > a:nth-child(1)" },
+
+		{ "type": "Type", "by": "css", "value": "#pa1_fn", "text": "Quinn" },
+        { "type": "Type", "by": "css", "value": "#pa1_sn", "text": "Wallace" },
+        { "type": "Type", "by": "css", "value": "#pa1b_mm", "text": "05" },
+        { "type": "Type", "by": "css", "value": "#pa1b_dd", "text": "12" },
+        { "type": "Type", "by": "css", "value": "#pa1b_yyyy", "text": "1997" },
+        { "type": "Type", "by": "css", "value": "#pa1b_pl", "text": "Glasgow, Scotland" },
+        { "type": "Type", "by": "css", "value": "#pa1_occu", "text": "Actor" },
+
+        { "type": "Type", "by": "css", "value": "#pa2_fn", "text": "Rosa" },
+        { "type": "Type", "by": "css", "value": "#pa2_sn", "text": "Fernandez" },
+        { "type": "Type", "by": "css", "value": "#pa2b_mm", "text": "02" },
+        { "type": "Type", "by": "css", "value": "#pa2b_dd", "text": "01" },
+        { "type": "Type", "by": "css", "value": "#pa2b_yyyy", "text": "1985" },
+        { "type": "Type", "by": "css", "value": "#pa2b_pl", "text": "Madrid, Spain" },
+        { "type": "Type", "by": "css", "value": "#pa2_occu", "text": "Historian" },
+
+        { "type": "Select", "by": "css", "value": "#ins_event1_n", "option": 0 },
+        { "type": "Click", "by": "css", "value": "div.row:nth-child(9) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > label:nth-child(1)" },
+        { "type": "Click", "by": "css", "value": "div.row:nth-child(9) > div:nth-child(2) > div:nth-child(1) > div:nth-child(2) > button:nth-child(2)" },
+
+        { "type": "Type", "by": "css", "value": "#e_place1", "text": "Sydney, Australia" },
+        { "type": "Type", "by": "css", "value": "#e_date1_mm_sel > input:nth-child(1)", "text": "9" },
+        { "type": "Type", "by": "css", "value": "div.card:nth-child(4) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2) > label:nth-child(2) > input:nth-child(1)", "text": "15" },
+        { "type": "Type", "by": "css", "value": "div.card:nth-child(4) > div:nth-child(2) > div:nth-child(3) > div:nth-child(2) > label:nth-child(3) > input:nth-child(1)", "text": "2010" },
+
+        { "type": "Type", "by": "css", "value": "#e_note1", "text": "All the family was here." },
+        { "type": "Type", "by": "css", "value": "#e_src1", "text": "Marriage certificate" },
+
+        { "type": "Select", "by": "css", "value": "#fevent_select2", "option": 11 },
+
+        { "type": "Type", "by": "css", "value": "#e_place2", "text": "Sydney, Australia" },
+        { "type": "Type", "by": "css", "value": "#e_date2_mm_sel > input:nth-child(1)", "text": "9" },
+        { "type": "Type", "by": "css", "value": "div.row:nth-child(11) > div:nth-child(2) > label:nth-child(2) > input:nth-child(1)", "text": "16" },
+        { "type": "Type", "by": "css", "value": "div.row:nth-child(11) > div:nth-child(2) > label:nth-child(3) > input:nth-child(1)", "text": "2020" },
+
+        { "type": "Type", "by": "css", "value": "#e_note2", "text": "Everyone is here." },
+        { "type": "Type", "by": "css", "value": "#e_src2", "text": "Divorce certificate" },
+
+		{ "type": "Click", "by": "css", "value": "button.btn-primary:nth-child(3)" },
+		{
+            "type": "SaveHTML",
+            "filename": "records/add_family/scenario_add_family_multiple_events.html",
+            "clean_rules": [
+                {
+                    "pattern": "(<div class=\"btn btn-sm p-0 border-0 text-success\" id=\"q_time\" title=\"Query treated in )[0-9.]+(&nbsp;s\">)",
+                    "replacement": "\\g<1>0.0\\g<2>"
+                },
+                {
+                    "pattern": "var q_time = [0-9.]+;",
+                    "replacement": "var q_time = 0.0;"
+                }
+            ]
+        }
+	]
+}

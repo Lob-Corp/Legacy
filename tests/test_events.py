@@ -1,4 +1,13 @@
-from libraries.events import EventWitnessKind, FamEventNameBase, FamMarriage, FamNamedEvent, FamilyEvent, PersBirth, PersEventNameBase, PersNamedEvent, PersonalEvent
+from libraries.events import (
+    EventWitnessKind,
+    FamEventNameBase,
+    FamMarriage,
+    FamNamedEvent,
+    FamilyEvent,
+    PersBirth,
+    PersEventNameBase,
+    PersNamedEvent,
+    PersonalEvent)
 import pytest
 
 # --- Personal Events ---

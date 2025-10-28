@@ -1,0 +1,43 @@
+{
+	"name": "scenario_add_family_parent_already_exists",
+	"actions": [
+		{ "type": "Get", "url": "http://localhost:2317/tests" },
+		{ "type": "Click", "by": "css", "value": "div.d-inline-flex:nth-child(3) > a:nth-child(1)" },
+
+		{ "type": "Type", "by": "css", "value": "#pa1_fn", "text": "Maria" },
+        { "type": "Type", "by": "css", "value": "#pa1_sn", "text": "Santos" },
+        { "type": "Type", "by": "css", "value": "#pa1b_mm", "text": "01" },
+        { "type": "Type", "by": "css", "value": "#pa1b_dd", "text": "10" },
+        { "type": "Type", "by": "css", "value": "#pa1b_yyyy", "text": "1984" },
+        { "type": "Type", "by": "css", "value": "#pa1b_pl", "text": "Lisbon, Portugal" },
+        { "type": "Type", "by": "css", "value": "#pa1_occu", "text": "Translator" },
+
+		{ "type": "Click", "by": "css", "value": "button.btn-primary:nth-child(3)" },
+		{ "type": "Click", "by": "css", "value": "a.btn:nth-child(1)" },
+		{ "type": "Click", "by": "css", "value": "div.d-inline-flex:nth-child(3) > a:nth-child(1)" },
+
+		{ "type": "Type", "by": "css", "value": "#pa1_fn", "text": "Maria" },
+        { "type": "Type", "by": "css", "value": "#pa1_sn", "text": "Santos" },
+        { "type": "Type", "by": "css", "value": "#pa1b_mm", "text": "01" },
+        { "type": "Type", "by": "css", "value": "#pa1b_dd", "text": "10" },
+        { "type": "Type", "by": "css", "value": "#pa1b_yyyy", "text": "1984" },
+        { "type": "Type", "by": "css", "value": "#pa1b_pl", "text": "Lisbon, Portugal" },
+        { "type": "Type", "by": "css", "value": "#pa1_occu", "text": "Translator" },
+
+        { "type": "Click", "by": "css", "value": "button.btn-primary:nth-child(3)" },
+		{
+            "type": "SaveHTML",
+            "filename": "records/add_family/scenario_add_family_parent_already_exists.html",
+            "clean_rules": [
+                {
+                    "pattern": "(<div class=\"btn btn-sm p-0 border-0 text-success\" id=\"q_time\" title=\"Query treated in )[0-9.]+(&nbsp;s\">)",
+                    "replacement": "\\g<1>0.0\\g<2>"
+                },
+                {
+                    "pattern": "var q_time = [0-9.]+;",
+                    "replacement": "var q_time = 0.0;"
+                }
+            ]
+        }
+	]
+}

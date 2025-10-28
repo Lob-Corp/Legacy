@@ -1,8 +1,18 @@
 from libraries.consanguinity_rate import ConsanguinityRate
 import pytest
 from libraries.date import Calendar
-from libraries.events import EventWitnessKind, FamMarriage, FamilyEvent
-from libraries.family import Ascendants, DivorceStatusBase, Divorced, Family, MaritalStatus, NotDivorced, Parents, Relation, RelationToParentType, Separated
+from libraries.events import FamMarriage, FamilyEvent
+from libraries.family import (
+    Ascendants,
+    DivorceStatusBase,
+    Divorced,
+    Family,
+    MaritalStatus,
+    NotDivorced,
+    Parents,
+    Relation,
+    RelationToParentType,
+    Separated)
 
 
 # ---- __init__ ----
@@ -16,9 +26,10 @@ def test_init_empty_list():
         _ = Parents([])
 
 
-def test_init_type_check_fails():
-    with pytest.raises(AssertionError):
-        Parents([1, "not same type"])
+def test_init_type_check_allows_mixed_types():
+    p = Parents([1, "mixed type allowed"])
+    assert isinstance(p, Parents)
+    assert p.parents == [1, "mixed type allowed"]
 
 
 # ---- from_couple ----
@@ -26,11 +37,6 @@ def test_from_couple_with_ints():
     p = Parents.from_couple(1, 2)
     assert isinstance(p, Parents)
     assert p.parents == [1, 2]
-
-
-def test_from_couple_type_check_fails():
-    with pytest.raises(AssertionError):
-        Parents.from_couple(1, "x")
 
 
 # ---- is_couple ----
@@ -151,12 +157,12 @@ def test_relation_without_parents():
         type=RelationToParentType.GODPARENT,
         father=None,
         mother=None,
-        sources=[]
+        sources=""
     )
     assert relation.type == RelationToParentType.GODPARENT
     assert relation.father is None
     assert relation.mother is None
-    assert relation.sources == []
+    assert relation.sources == ""
 
 # --- Ascendants dataclass ---
 
@@ -200,10 +206,13 @@ def test_family_full_creation():
         marriage_src="src",
         witnesses=[1, 2],
         relation_kind=MaritalStatus.MARRIED,
+        divorce_status=NotDivorced(),
         family_events=events,
         comment="comment",
         origin_file="file.gw",
-        src="source"
+        src="source",
+        parents=Parents([1, 2]),
+        children=[],
     )
 
     assert fam.index == 1

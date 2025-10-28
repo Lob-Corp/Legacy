@@ -4,10 +4,10 @@ from typing import Tuple, TypeAlias
 
 
 class Calendar(Enum):
-    GREGORIAN = "gregorian"
-    JULIAN = "julian"
-    FRENCH = "french"
-    HEBREW = "hebrew"
+    GREGORIAN = "GREGORIAN"
+    JULIAN = "JULIAN"
+    FRENCH = "FRENCH"
+    HEBREW = "HEBREW"
 
 
 class PrecisionBase:

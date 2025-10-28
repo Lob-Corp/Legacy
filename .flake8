@@ -1,0 +1,10 @@
+[flake8]
+# Exclude test data files from linting
+exclude =
+    .git,
+    __pycache__,
+    venv,
+    .venv,
+    tests/import_tests/gw/test_data.py
+
+
