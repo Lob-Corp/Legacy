@@ -1,0 +1,42 @@
+{
+	"name": "scenario_add_family_sources",
+	"actions": [
+		{ "type": "Get", "url": "http://localhost:2317/tests" },
+		{ "type": "Click", "by": "css", "value": "div.d-inline-flex:nth-child(3) > a:nth-child(1)" },
+
+		{ "type": "Type", "by": "css", "value": "#pa1_fn", "text": "Ethan" },
+        { "type": "Type", "by": "css", "value": "#pa1_sn", "text": "Cooper" },
+        { "type": "Type", "by": "css", "value": "#pa1b_mm", "text": "04" },
+        { "type": "Type", "by": "css", "value": "#pa1b_dd", "text": "04" },
+        { "type": "Type", "by": "css", "value": "#pa1b_yyyy", "text": "1988" },
+        { "type": "Type", "by": "css", "value": "#pa1b_pl", "text": "Los Angeles, USA" },
+        { "type": "Type", "by": "css", "value": "#pa1_occu", "text": "Screenwriter" },
+
+        { "type": "Type", "by": "css", "value": "#pa2_fn", "text": "Hannah" },
+        { "type": "Type", "by": "css", "value": "#pa2_sn", "text": "Bell" },
+        { "type": "Type", "by": "css", "value": "#pa2b_mm", "text": "11" },
+        { "type": "Type", "by": "css", "value": "#pa2b_dd", "text": "13" },
+        { "type": "Type", "by": "css", "value": "#pa2b_yyyy", "text": "1983" },
+        { "type": "Type", "by": "css", "value": "#pa2b_pl", "text": "Edinburgh, Scotland" },
+        { "type": "Type", "by": "css", "value": "#pa2_occu", "text": "Psychologist" },
+
+        { "type": "Type", "by": "css", "value": "#psrc", "text": "Family story book" },
+        { "type": "Type", "by": "css", "value": "#src", "text": "Family story book" },
+
+		{ "type": "Click", "by": "css", "value": "button.btn-primary:nth-child(3)" },
+		{
+            "type": "SaveHTML",
+            "filename": "records/add_family/scenario_add_family_sources.html",
+            "clean_rules": [
+                {
+                    "pattern": "(<div class=\"btn btn-sm p-0 border-0 text-success\" id=\"q_time\" title=\"Query treated in )[0-9.]+(&nbsp;s\">)",
+                    "replacement": "\\g<1>0.0\\g<2>"
+                },
+                {
+                    "pattern": "var q_time = [0-9.]+;",
+                    "replacement": "var q_time = 0.0;"
+                }
+            ]
+        }
+	]
+}

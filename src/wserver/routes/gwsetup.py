@@ -14,7 +14,7 @@ def _render_setup(fname: str, lang: str):
     # build params dict for TemplateService (host/port/o)
     host = request.host.split(':')[0]
     port = request.host.split(':')[1] if ':' in request.host else ""
-    params = {
+    params = {  # noqa: F841
         "host": host,
         "port": port,
         "o": request.args.get("o", "")

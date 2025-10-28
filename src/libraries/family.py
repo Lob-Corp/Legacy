@@ -8,17 +8,17 @@ from libraries.events import FamilyEvent
 
 
 class MaritalStatus(Enum):
-    MARRIED = "Married"
-    NOT_MARRIED = "NotMarried"
-    ENGAGED = "Engaged"
-    NO_SEXES_CHECK_NOT_MARRIED = "NoSexesCheckNotMarried"
-    NO_MENTION = "NoMention"
-    NO_SEXES_CHECK_MARRIED = "NoSexesCheckMarried"
-    MARRIAGE_BANN = "MarriageBann"
-    MARRIAGE_CONTRACT = "MarriageContract"
-    MARRIAGE_LICENSE = "MarriageLicense"
-    PACS = "Pacs"
-    RESIDENCE = "Residence"
+    MARRIED = "MARRIED"
+    NOT_MARRIED = "NOT_MARRIED"
+    ENGAGED = "ENGAGED"
+    NO_SEXES_CHECK_NOT_MARRIED = "NO_SEXES_CHECK_NOT_MARRIED"
+    NO_MENTION = "NO_MENTION"
+    NO_SEXES_CHECK_MARRIED = "NO_SEXES_CHECK_MARRIED"
+    MARRIAGE_BANN = "MARRIAGE_BANN"
+    MARRIAGE_CONTRACT = "MARRIAGE_CONTRACT"
+    MARRIAGE_LICENSE = "MARRIAGE_LICENSE"
+    PACS = "PACS"
+    RESIDENCE = "RESIDENCE"
 
 
 PersonT = TypeVar('PersonT')
@@ -27,8 +27,6 @@ PersonT = TypeVar('PersonT')
 class Parents(Generic[PersonT]):
     def __init__(self, parents: List[PersonT]):
         assert len(parents) != 0, "Parents List cannot be empty"
-        assert all(isinstance(p, type(parents[0]))
-                   for p in parents), "All parents must be of the same type"
         self.parents = parents
 
     @staticmethod
@@ -43,10 +41,18 @@ class Parents(Generic[PersonT]):
         return (self.parents[0], self.parents[1])
 
     def father(self) -> PersonT:
+        """
+        Get first parent.
+        Warning: homophobic and heteronormative
+        assumption, use with caution"""
         assert len(self.parents) >= 1
         return self.parents[0]
 
     def mother(self) -> PersonT:
+        """
+        Get second parent.
+        Warning: homophobic and heteronormative
+        assumption, use with caution"""
         assert len(self.parents) >= 2
         return self.parents[1]
 
@@ -93,7 +99,7 @@ class Relation(Generic[PersonT, RelationDescriptorT]):
     type: RelationToParentType
     father: PersonT | None
     mother: PersonT | None
-    sources: List[RelationDescriptorT]
+    sources: RelationDescriptorT
 
 
 FamilyT = TypeVar('FamilyT')
@@ -118,7 +124,10 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
     marriage_src: FamilyDescriptorT
     witnesses: List[PersonT]
     relation_kind: MaritalStatus
+    divorce_status: DivorceStatusBase
     family_events: List[FamilyEvent[PersonT, FamilyDescriptorT]]
     comment: FamilyDescriptorT
     origin_file: FamilyDescriptorT  # .gw filename
     src: FamilyDescriptorT
+    parents: Parents[PersonT]  # equivalent to OCaml's gen_couple
+    children: List[PersonT]

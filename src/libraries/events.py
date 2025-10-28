@@ -6,14 +6,14 @@ from libraries.date import CompressedDate
 
 
 class EventWitnessKind(Enum):
-    WITNESS = "Witness"
-    WITNESS_GODPARENT = "Witness_GodParent"
-    WITNESS_CIVILOFFICER = "Witness_CivilOfficer"
-    WITNESS_RELIGIOUSOFFICER = "Witness_ReligiousOfficer"
-    WITNESS_INFORMANT = "Witness_Informant"
-    WITNESS_ATTENDING = "Witness_Attending"
-    WITNESS_MENTIONED = "Witness_Mentioned"
-    WITNESS_OTHER = "Witness_Other"
+    WITNESS = "WITNESS"
+    WITNESS_GODPARENT = "WITNESS_GODPARENT"
+    WITNESS_CIVILOFFICER = "WITNESS_CIVILOFFICER"
+    WITNESS_RELIGIOUSOFFICER = "WITNESS_RELIGIOUSOFFICER"
+    WITNESS_INFORMANT = "WITNESS_INFORMANT"
+    WITNESS_ATTENDING = "WITNESS_ATTENDING"
+    WITNESS_MENTIONED = "WITNESS_MENTIONED"
+    WITNESS_OTHER = "WITNESS_OTHER"
 
 
 EventDescriptorT = TypeVar('EventDescriptorT')

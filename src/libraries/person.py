@@ -5,14 +5,14 @@ from typing import Generic, List, TypeVar
 from libraries.date import CompressedDate
 from libraries.death_info import BurialInfoBase, DeathStatusBase
 from libraries.events import PersonalEvent
-from libraries.family import Relation
+from libraries.family import Ascendants, Relation
 from libraries.title import AccessRight, Title
 
 
 class Sex(Enum):
-    MALE = "Male"
-    FEMALE = "Female"
-    NEUTER = "Neuter"
+    MALE = "MALE"
+    FEMALE = "FEMALE"
+    NEUTER = "NEUTER"
 
 
 @dataclass(frozen=True)
@@ -29,11 +29,12 @@ class Place:
 
 IdxT = TypeVar('IdxT')
 PersonT = TypeVar('PersonT')
+FamilyT = TypeVar('FamilyT')
 PersonDescriptorT = TypeVar('PersonDescriptorT')
 
 
 @dataclass(frozen=True)
-class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
+class Person(Generic[IdxT, PersonT, PersonDescriptorT, FamilyT]):
     index: IdxT
     first_name: PersonDescriptorT
     surname: PersonDescriptorT
@@ -45,8 +46,8 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     first_names_aliases: List[PersonDescriptorT]
     surname_aliases: List[PersonDescriptorT]
     titles: List[Title[PersonDescriptorT]]
-    NonNativeParentsRelation: List[Relation[PersonT, PersonDescriptorT]]
-    RelatedPersons: List[PersonT]
+    non_native_parents_relation: List[Relation[PersonT, PersonDescriptorT]]
+    related_persons: List[PersonT]
     occupation: PersonDescriptorT
     sex: Sex
     access_right: AccessRight
@@ -58,7 +59,7 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     baptism_place: PersonDescriptorT
     baptism_note: PersonDescriptorT
     baptism_src: PersonDescriptorT
-    death: DeathStatusBase
+    death_status: DeathStatusBase
     death_place: PersonDescriptorT
     death_note: PersonDescriptorT
     death_src: PersonDescriptorT
@@ -69,3 +70,5 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     personal_events: List[PersonalEvent[PersonT, PersonDescriptorT]]
     notes: PersonDescriptorT
     src: PersonDescriptorT
+    ascend: Ascendants[FamilyT]
+    families: List[FamilyT]
