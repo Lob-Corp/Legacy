@@ -175,6 +175,40 @@ def test_convert_date_tuple_raises_error():
         convert_date_to_db((libraries.date.Calendar.GREGORIAN, 1990))
 
 
+def test_convert_date_with_year_zero_returns_none():
+    """Test that dates with year 0 return None."""
+    lib_date = libraries.date.CalendarDate(
+        dmy=libraries.date.DateValue(
+            day=1, month=1, year=0,
+            prec=libraries.date.Sure(), delta=0
+        ),
+        cal=libraries.date.Calendar.GREGORIAN
+    )
+
+    result = convert_date_to_db(lib_date)
+
+    assert result is None
+
+
+def test_convert_date_without_precision():
+    """Test converting date without precision object."""
+    lib_date = libraries.date.CalendarDate(
+        dmy=libraries.date.DateValue(
+            day=15, month=3, year=2020,
+            prec=None, delta=0
+        ),
+        cal=libraries.date.Calendar.JULIAN
+    )
+
+    result = convert_date_to_db(lib_date)
+
+    assert result is not None
+    assert result.iso_date == "2020-03-15"
+    assert result.calendar == libraries.date.Calendar.JULIAN
+    precision_level = result.precision_obj.precision_level
+    assert precision_level == database.date.DatePrecision.SURE
+
+
 # ============================================================================
 # DIVORCE STATUS CONVERSION TESTS
 # ============================================================================
@@ -259,6 +293,34 @@ def test_convert_fam_event_name_pacs_to_db():
 
     assert event_name == database.family_event.FamilyEventName.PACS
     assert custom_name is None
+
+
+def test_convert_all_fam_event_names_to_db():
+    """Test converting all family event types to database."""
+    FEN = database.family_event.FamilyEventName
+    event_mapping = {
+        libraries.events.FamMarriage(): FEN.MARRIAGE,
+        libraries.events.FamNoMarriage(): FEN.NO_MARRIAGE,
+        libraries.events.FamNoMention(): FEN.NO_MENTION,
+        libraries.events.FamDivorce(): FEN.DIVORCE,
+        libraries.events.FamEngage(): FEN.ENGAGE,
+        libraries.events.FamSeparated(): FEN.SEPARATED,
+        libraries.events.FamAnnulation(): FEN.ANNULATION,
+        libraries.events.FamMarriageBann(): FEN.MARRIAGE_BANN,
+        libraries.events.FamMarriageContract(): FEN.MARRIAGE_CONTRACT,
+        libraries.events.FamMarriageLicense(): FEN.MARRIAGE_LICENSE,
+        libraries.events.FamPACS(): FEN.PACS,
+        libraries.events.FamResidence(): FEN.RESIDENCE,
+    }
+
+    for lib_event, expected_db_event in event_mapping.items():
+        event_name, custom_name = convert_fam_event_name_to_db(lib_event)
+        assert event_name == expected_db_event, (
+            f"Failed for {type(lib_event).__name__}"
+        )
+        assert custom_name is None, (
+            f"Expected no custom name for {type(lib_event).__name__}"
+        )
 
 
 # ============================================================================
@@ -848,6 +910,74 @@ def test_convert_pers_event_name_named_event_to_db():
 
     assert event_name == database.personal_event.PersonalEventName.NAMED_EVENT
     assert custom_name == "Graduation"
+
+
+def test_convert_all_pers_event_names_to_db():
+    """Test converting all personal event types to database."""
+    PEN = database.personal_event.PersonalEventName
+    event_mapping = {
+        libraries.events.PersBirth(): PEN.BIRTH,
+        libraries.events.PersBaptism(): PEN.BAPTISM,
+        libraries.events.PersDeath(): PEN.DEATH,
+        libraries.events.PersBurial(): PEN.BURIAL,
+        libraries.events.PersCremation(): PEN.CREMATION,
+        libraries.events.PersAccomplishment(): PEN.ACCOMPLISHMENT,
+        libraries.events.PersAcquisition(): PEN.ACQUISITION,
+        libraries.events.PersAdhesion(): PEN.ADHESION,
+        libraries.events.PersBaptismLDS(): PEN.BAPTISM_LDS,
+        libraries.events.PersBarMitzvah(): PEN.BAR_MITZVAH,
+        libraries.events.PersBatMitzvah(): PEN.BAT_MITZVAH,
+        libraries.events.PersBenediction(): PEN.BENEDICTION,
+        libraries.events.PersChangeName(): PEN.CHANGE_NAME,
+        libraries.events.PersCircumcision(): PEN.CIRCUMCISION,
+        libraries.events.PersConfirmation(): PEN.CONFIRMATION,
+        libraries.events.PersConfirmationLDS(): PEN.CONFIRMATION_LDS,
+        libraries.events.PersDecoration(): PEN.DECORATION,
+        libraries.events.PersDemobilisationMilitaire():
+            PEN.DEMOBILISATION_MILITAIRE,
+        libraries.events.PersDiploma(): PEN.DIPLOMA,
+        libraries.events.PersDistinction(): PEN.DISTINCTION,
+        libraries.events.PersDotation(): PEN.DOTATION,
+        libraries.events.PersDotationLDS(): PEN.DOTATION_LDS,
+        libraries.events.PersEducation(): PEN.EDUCATION,
+        libraries.events.PersElection(): PEN.ELECTION,
+        libraries.events.PersEmigration(): PEN.EMIGRATION,
+        libraries.events.PersExcommunication(): PEN.EXCOMMUNICATION,
+        libraries.events.PersFamilyLinkLDS(): PEN.FAMILY_LINK_LDS,
+        libraries.events.PersFirstCommunion(): PEN.FIRST_COMMUNION,
+        libraries.events.PersFuneral(): PEN.FUNERAL,
+        libraries.events.PersGraduate(): PEN.GRADUATE,
+        libraries.events.PersHospitalisation(): PEN.HOSPITALISATION,
+        libraries.events.PersIllness(): PEN.ILLNESS,
+        libraries.events.PersImmigration(): PEN.IMMIGRATION,
+        libraries.events.PersListePassenger(): PEN.LISTE_PASSENGER,
+        libraries.events.PersMilitaryDistinction(): PEN.MILITARY_DISTINCTION,
+        libraries.events.PersMilitaryPromotion(): PEN.MILITARY_PROMOTION,
+        libraries.events.PersMilitaryService(): PEN.MILITARY_SERVICE,
+        libraries.events.PersMobilisationMilitaire():
+            PEN.MOBILISATION_MILITAIRE,
+        libraries.events.PersNaturalisation(): PEN.NATURALISATION,
+        libraries.events.PersOccupation(): PEN.OCCUPATION,
+        libraries.events.PersOrdination(): PEN.ORDINATION,
+        libraries.events.PersProperty(): PEN.PROPERTY,
+        libraries.events.PersRecensement(): PEN.RECENSEMENT,
+        libraries.events.PersResidence(): PEN.RESIDENCE,
+        libraries.events.PersRetired(): PEN.RETIRED,
+        libraries.events.PersScellentChildLDS(): PEN.SCELLENT_CHILD_LDS,
+        libraries.events.PersScellentParentLDS(): PEN.SCELLENT_PARENT_LDS,
+        libraries.events.PersScellentSpouseLDS(): PEN.SCELLENT_SPOUSE_LDS,
+        libraries.events.PersVenteBien(): PEN.VENTE_BIEN,
+        libraries.events.PersWill(): PEN.WILL,
+    }
+
+    for lib_event, expected_db_event in event_mapping.items():
+        event_name, custom_name = convert_pers_event_name_to_db(lib_event)
+        assert event_name == expected_db_event, (
+            f"Failed for {type(lib_event).__name__}"
+        )
+        assert custom_name is None, (
+            f"Expected no custom name for {type(lib_event).__name__}"
+        )
 
 
 # ============================================================================

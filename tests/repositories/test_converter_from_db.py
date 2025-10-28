@@ -1032,6 +1032,71 @@ def test_convert_pers_event_name_named_event():
         database.personal_event.PersonalEventName.NAMED_EVENT.value)
 
 
+def test_convert_all_pers_event_names_from_db():
+    """Test conversion of all personal event name types from database."""
+    PEN = database.personal_event.PersonalEventName
+    event_mapping = {
+        PEN.BIRTH: libraries.events.PersBirth,
+        PEN.BAPTISM: libraries.events.PersBaptism,
+        PEN.DEATH: libraries.events.PersDeath,
+        PEN.BURIAL: libraries.events.PersBurial,
+        PEN.CREMATION: libraries.events.PersCremation,
+        PEN.ACCOMPLISHMENT: libraries.events.PersAccomplishment,
+        PEN.ACQUISITION: libraries.events.PersAcquisition,
+        PEN.ADHESION: libraries.events.PersAdhesion,
+        PEN.BAPTISM_LDS: libraries.events.PersBaptismLDS,
+        PEN.BAR_MITZVAH: libraries.events.PersBarMitzvah,
+        PEN.BAT_MITZVAH: libraries.events.PersBatMitzvah,
+        PEN.BENEDICTION: libraries.events.PersBenediction,
+        PEN.CHANGE_NAME: libraries.events.PersChangeName,
+        PEN.CIRCUMCISION: libraries.events.PersCircumcision,
+        PEN.CONFIRMATION: libraries.events.PersConfirmation,
+        PEN.CONFIRMATION_LDS: libraries.events.PersConfirmationLDS,
+        PEN.DECORATION: libraries.events.PersDecoration,
+        PEN.DEMOBILISATION_MILITAIRE:
+            libraries.events.PersDemobilisationMilitaire,
+        PEN.DIPLOMA: libraries.events.PersDiploma,
+        PEN.DISTINCTION: libraries.events.PersDistinction,
+        PEN.DOTATION: libraries.events.PersDotation,
+        PEN.DOTATION_LDS: libraries.events.PersDotationLDS,
+        PEN.EDUCATION: libraries.events.PersEducation,
+        PEN.ELECTION: libraries.events.PersElection,
+        PEN.EMIGRATION: libraries.events.PersEmigration,
+        PEN.EXCOMMUNICATION: libraries.events.PersExcommunication,
+        PEN.FAMILY_LINK_LDS: libraries.events.PersFamilyLinkLDS,
+        PEN.FIRST_COMMUNION: libraries.events.PersFirstCommunion,
+        PEN.FUNERAL: libraries.events.PersFuneral,
+        PEN.GRADUATE: libraries.events.PersGraduate,
+        PEN.HOSPITALISATION: libraries.events.PersHospitalisation,
+        PEN.ILLNESS: libraries.events.PersIllness,
+        PEN.IMMIGRATION: libraries.events.PersImmigration,
+        PEN.LISTE_PASSENGER: libraries.events.PersListePassenger,
+        PEN.MILITARY_DISTINCTION: libraries.events.PersMilitaryDistinction,
+        PEN.MILITARY_PROMOTION: libraries.events.PersMilitaryPromotion,
+        PEN.MILITARY_SERVICE: libraries.events.PersMilitaryService,
+        PEN.MOBILISATION_MILITAIRE:
+            libraries.events.PersMobilisationMilitaire,
+        PEN.NATURALISATION: libraries.events.PersNaturalisation,
+        PEN.OCCUPATION: libraries.events.PersOccupation,
+        PEN.ORDINATION: libraries.events.PersOrdination,
+        PEN.PROPERTY: libraries.events.PersProperty,
+        PEN.RECENSEMENT: libraries.events.PersRecensement,
+        PEN.RESIDENCE: libraries.events.PersResidence,
+        PEN.RETIRED: libraries.events.PersRetired,
+        PEN.SCELLENT_CHILD_LDS: libraries.events.PersScellentChildLDS,
+        PEN.SCELLENT_PARENT_LDS: libraries.events.PersScellentParentLDS,
+        PEN.SCELLENT_SPOUSE_LDS: libraries.events.PersScellentSpouseLDS,
+        PEN.VENTE_BIEN: libraries.events.PersVenteBien,
+        PEN.WILL: libraries.events.PersWill,
+    }
+
+    for db_event_name, expected_class in event_mapping.items():
+        result = convert_pers_event_name_from_db(db_event_name)
+        assert isinstance(result, expected_class), (
+            f"Failed for {db_event_name.name}"
+        )
+
+
 # ============== Personal Event Conversion Tests ==============
 
 
