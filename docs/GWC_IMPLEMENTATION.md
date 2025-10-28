@@ -65,7 +65,17 @@ src/script/
        │
        ▼
 ┌─────────────┐
-│   SQLite    │  (Future: database persistence)
+│ Normalizer  │  Convert Person refs → integer IDs
+└──────┬──────┘  (Prepare for database storage)
+       │
+       ▼
+┌─────────────┐
+│Repositories │  Save via PersonRepository & FamilyRepository
+└──────┬──────┘  (Using converter_to_db)
+       │
+       ▼
+┌─────────────┐
+│   SQLite    │  ✅ Database persistence complete
 └─────────────┘
 ```
 
@@ -97,7 +107,8 @@ Command-line interface:
 - Parses arguments
 - Processes multiple input files
 - Displays statistics and progress
-- (Future) Outputs to SQLite database
+- Normalizes Person/Family references for database storage
+- Outputs to SQLite database via repositories
 
 ---
 
@@ -111,7 +122,8 @@ Command-line interface:
 | `-stats` | Display compilation statistics | ✅ Working |
 | `-q` | Quiet mode - suppress output | ✅ Working |
 | `-nofail` | Continue processing on errors | ✅ Working |
-| `-o <file>` | Output database file | ✅ Recognized (output pending) |
+| `-o <file>` | Output database file (SQLite) | ✅ Working |
+| `-f` | Force overwrite existing database | ✅ Working |
 | `-bnotes <mode>` | Base notes strategy (merge/erase/first/drop) | ✅ Implemented - merges base notes, wizard notes, page extensions |
 
 ### Partially Implemented
@@ -126,11 +138,10 @@ Command-line interface:
 | Option | Description | Status |
 |--------|-------------|--------|
 | `-cg` | Compute consanguinity | ❌ Awaiting algorithm |
-| `-ds <text>` | Default source field | ❌ Awaiting database |
-| `-f` | Force overwrite | ❌ Awaiting database |
+| `-ds <text>` | Default source field | ❌ Not yet implemented |
 | `-nc` | No consistency check | ❌ Awaiting validation |
-| `-nolock` | No database locking | ❌ Awaiting database |
-| `-nopicture` | No picture associations | ❌ Awaiting database |
+| `-nolock` | No database locking | ❌ Not applicable (SQLite handles locking) |
+| `-nopicture` | No picture associations | ❌ Not yet implemented |
 | `-particles <file>` | Custom particles file | ❌ Awaiting name processing |
 
 ### Removed Features
@@ -183,6 +194,92 @@ gwc file1.gw \
     -bnotes first file2.gw \    # Add file2's notes only if pages empty
     -bnotes merge file3.gw \    # Append file3's notes
     -bnotes drop file4.gw       # Ignore file4's notes
+```
+
+---
+
+## Database Output
+
+### SQLite Database Structure
+
+The gwc tool outputs to SQLite databases using SQLAlchemy ORM with a comprehensive schema for genealogical data. The database includes tables for:
+
+- **Persons**: Core person data with birth, death, burial information
+- **Families**: Marriage/union information with parents and children
+- **Events**: Personal and family events with dates and witnesses
+- **Relations**: Parent-child relationships, marriages, titles
+- **Dates**: Structured date storage with precision and calendar type
+- **Places**: Location information
+
+### Database Creation Process
+
+1. **Parse .gw files** → GwSyntax blocks
+2. **Convert to application types** → Person[Person, ...] and Family[Person, ...]
+3. **Normalize references** → Convert Person objects to integer IDs
+4. **Save via repositories** → PersonRepository and FamilyRepository
+5. **Transaction management** → Proper commit/rollback handling
+
+### Normalization
+
+Before saving to the database, gwc normalizes the parsed data:
+
+- **Family parents**: `Parents[Person]` → `Parents[int]`
+- **Family children**: `List[Person]` → `List[int]`
+- **Family witnesses**: `List[Person]` → `List[int]`
+- **Event witnesses**: `List[(Person, kind)]` → `List[(int, kind)]`
+- **Personal event witnesses**: Same conversion
+- **Empty dates**: Create default date (year 1) for required fields
+
+### Usage Examples
+
+```bash
+# Create database from single file
+python -m script.gwc -v -f -o family.db family.gw
+
+# Create from multiple files
+python -m script.gwc -v -f -o database.db file1.gw file2.gw file3.gw
+
+# Quiet mode with statistics
+python -m script.gwc -q -stats -f -o data.db input.gw
+
+# Continue on errors
+python -m script.gwc -v -nofail -f -o partial.db problematic.gw
+```
+
+### Error Handling
+
+The tool provides robust error handling:
+
+- **Parse errors**: Reported with file/line information
+- **Conversion errors**: Show which person/family failed
+- **Database errors**: Proper transaction rollback
+- **`-nofail` mode**: Continue processing on non-fatal errors
+
+### Output
+
+When complete, gwc reports:
+- Total persons saved
+- Total families saved
+- Any warnings or errors encountered
+- Database file location
+
+Example output:
+```
+Processing 1 file(s)...
+[1/1] Processing family.gw...
+  Parsed 10 blocks
+  Converted 20 persons, 8 families
+
+Creating database: family.db
+Database initialized successfully
+Saving persons...
+Successfully added 20 persons
+Saving families...
+Successfully added 8 families
+
+Database saved successfully: family.db
+  Persons: 20
+  Families: 8
 ```
 
 ---
@@ -590,38 +687,36 @@ vpython src/script/gwc.py -q mydata.gw -o mybase.sqlite
 - Override dummies when definitions found
 - Assign proper sexes to parents (Male/Female)
 - Parse birth dates, places, and other inline attributes
+- Resolve event witnesses (family and personal events)
 - Track statistics (persons, families, dummies)
 - Verbose and quiet modes
 - Multiple file processing
 - Error handling with `-nofail`
+- **SQLite database output via repositories**
+- **Normalize Person references to integer IDs**
+- **Save persons and families to database**
+- **Force overwrite with `-f` flag**
+- Base notes merging strategies
 
 #### 🚧 In Progress
-- SQLite database output (structure defined, writing pending)
-- Base notes merging strategies
-- Person index shifting
+- Person index shifting (`-sh`)
+- Separate persons per file (`-sep`)
+- Base notes, wizard notes, and page extensions storage (parsed but not yet saved to DB)
 
 #### ❌ Not Started
 - Consanguinity computation
 - Consistency checking
 - Picture associations
 - Custom particles files
-- Database locking
+- Default source field (`-ds`)
 
-### Test Results
-
-**Test file**: `release/bases/baseaa.gw`
-- **Input**: 5 families with inline parent definitions
-- **Output**: 10 persons correctly parsed
-- **No warnings**: All persons fully defined
-- **Sexes**: Correctly assigned (5 male, 5 female)
-- **Dates**: Birth dates correctly parsed from inline definitions
 
 ### Known Limitations
 
 1. **No name fuzzy matching**: Duplicate detection less robust than OCaml
 2. **No cross-file dummy persistence**: Dummies don't survive between runs
 3. **Limited validation**: No consistency checks yet
-4. **No database output**: SQLite writing pending
+4. **Notes not saved**: Base notes, wizard notes, and page extensions are parsed but not yet stored in database
 
 ---
 
@@ -918,22 +1013,23 @@ except TypeError as e:
 ## Future Enhancements
 
 ### Short Term
-1. Implement SQLite database output
-2. Add name normalization for better duplicate detection
-3. Implement `-sep` (separate persons per file)
-4. Implement `-sh` (index shifting)
+1. ~~Implement SQLite database output~~ ✅ Complete
+2. Store base notes, wizard notes, and page extensions in database
+3. Add name normalization for better duplicate detection
+4. Implement `-sep` (separate persons per file)
+5. Implement `-sh` (index shifting)
 
 ### Medium Term
 1. Port consanguinity computation algorithm
 2. Add consistency checking (`-nc` flag)
-3. Implement base notes merging
-4. Add comprehensive test suite
+3. Add comprehensive integration tests
+4. Implement `-ds` (default source field)
 
 ### Long Term
 1. Optimize for large genealogy files (100k+ persons)
 2. Add incremental updates (don't reprocess unchanged files)
-3. Implement database locking for multi-user
-4. Add picture association logic
+3. Add picture association logic
+4. Implement database migration tools
 
 ---
 

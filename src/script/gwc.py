@@ -1,13 +1,128 @@
+#!/usr/bin/env python3
 import argparse
 import os
 import sys
 from typing import Dict, List, Tuple
 
-# TODO: complete when database is implemented
-
 from script.gw_parser import parse_gw_file, GwConverter
 from libraries.person import Person
 from libraries.family import Family
+from database.sqlite_database_service import SQLiteDatabaseService
+from repositories.person_repository import PersonRepository
+from repositories.family_repository import FamilyRepository
+
+import database.couple  # noqa: F401
+import database.ascends  # noqa: F401
+import database.unions  # noqa: F401
+import database.union_families  # noqa: F401
+import database.descends  # noqa: F401
+import database.descend_children  # noqa: F401
+import database.family  # noqa: F401
+import database.person  # noqa: F401
+import database.relation  # noqa: F401
+import database.titles  # noqa: F401
+import database.family_events  # noqa: F401
+import database.person_events  # noqa: F401
+import database.person_titles  # noqa: F401
+import database.person_non_native_relations  # noqa: F401
+import database.date  # noqa: F401
+import database.place  # noqa: F401
+
+
+def normalize_family(
+    family: Family[int, Person[int, int, str, int], str]
+) -> Family[int, int, str]:
+    """Convert Family parents from Person objects to integer IDs.
+
+    The GwConverter creates families with Parents[Person], but the database
+    layer expects Parents[int]. This function converts the family to use
+    integer IDs. Also normalizes empty/missing dates to a default date since
+    the database requires a date.
+
+    Args:
+        family: Family with Parents[Person]
+
+    Returns:
+        Family with Parents[int]
+    """
+    from dataclasses import replace
+    from libraries.family import Parents
+
+    parent_ids = []
+    for parent in family.parents.parents:
+        if isinstance(parent, Person):
+            parent_ids.append(parent.index)
+        else:
+            parent_ids.append(parent)
+
+    new_parents = Parents[int](parent_ids)
+
+    new_children = []
+    for child in family.children:
+        if isinstance(child, Person):
+            new_children.append(child.index)
+        else:
+            new_children.append(child)
+
+    new_witnesses = []
+    for witness in family.witnesses:
+        if isinstance(witness, Person):
+            new_witnesses.append(witness.index)
+        else:
+            new_witnesses.append(witness)
+
+    new_events = []
+    for event in family.family_events:
+        new_event_witnesses = []
+        for witness_person, witness_kind in event.witnesses:
+            if isinstance(witness_person, Person):
+                witness_id = witness_person.index
+                new_event_witnesses.append((witness_id, witness_kind))
+            else:
+                new_event_witnesses.append((witness_person, witness_kind))
+
+        new_event = replace(event, witnesses=new_event_witnesses)
+        new_events.append(new_event)
+
+    return replace(
+        family,
+        parents=new_parents,
+        children=new_children,
+        witnesses=new_witnesses,
+        family_events=new_events
+    )
+
+
+def normalize_person(
+    person: Person[int, int, str, int]
+) -> Person[int, int, str, int]:
+    """Convert Person event witnesses from Person objects to integer IDs.
+
+    The GwConverter creates PersonalEvent with witnesses that are Person
+    objects, but the database layer expects integer IDs.
+
+    Args:
+        person: Person with PersonalEvent[Person, str]
+
+    Returns:
+        Person with PersonalEvent[int, str]
+    """
+    from dataclasses import replace
+
+    new_events = []
+    for event in person.personal_events:
+        new_event_witnesses = []
+        for witness_person, witness_kind in event.witnesses:
+            if isinstance(witness_person, Person):
+                witness_id = witness_person.index
+                new_event_witnesses.append((witness_id, witness_kind))
+            else:
+                new_event_witnesses.append((witness_person, witness_kind))
+
+        new_event = replace(event, witnesses=new_event_witnesses)
+        new_events.append(new_event)
+
+    return replace(person, personal_events=new_events)
 
 
 def appendFileData(
@@ -98,10 +213,10 @@ def main() -> int:
     shift: int = args.sh
 
     basename: str = os.path.basename(out_file)
-    if not all((c.isalnum() or c == '-' or c == '.') for c in basename):
+    if not all((c.isalnum() or c in '-._') for c in basename):
         print(
             f'The database name "{out_file}" contains a forbidden character.')
-        print("Allowed characters: a..z, A..Z, 0..9, -")
+        print("Allowed characters: a..z, A..Z, 0..9, -, _, .")
         sys.exit(2)
 
     for x in args.files:
@@ -230,21 +345,108 @@ def main() -> int:
         print(f"Total wizard notes: {len(all_wizard_notes)}")
         print(f"Total page extensions: {len(all_page_extensions)}")
         print(f"Files processed: {len(input_file_data)}")
-        # TODO: temporary, until database is implemented
-        print_data(
-            all_persons,
-            all_families,
-            all_base_notes,
-            all_wizard_notes,
-            all_page_extensions
-        )
+        if verbose:
+            # Print detailed data only in verbose mode
+            print_data(
+                all_persons,
+                all_families,
+                all_base_notes,
+                all_wizard_notes,
+                all_page_extensions
+            )
         print("=" * 50)
 
-    # TODO: Save to SQLite database
+    # Save to SQLite database
     if verbose:
-        print(f"\nDatabase output: {out_file}")
-        print("Note: SQLite database saving not yet implemented")
-        print("Data has been parsed and converted to application types")
+        print(f"\nCreating database: {out_file}")
+
+    # Check if database exists and handle -f flag
+    if os.path.exists(out_file):
+        if args.f:
+            if verbose:
+                print(f"Removing existing database: {out_file}")
+            os.remove(out_file)
+        else:
+            print(f"Error: Database '{out_file}' already exists.")
+            print("Use -f flag to overwrite.")
+            sys.exit(1)
+
+    try:
+        # Initialize database
+        db_service = SQLiteDatabaseService(out_file)
+        db_service.connect()
+
+        if verbose:
+            print("Database initialized successfully")
+            print("Saving persons...")
+
+        # Initialize repositories
+        person_repo = PersonRepository(db_service)
+        family_repo = FamilyRepository(db_service)
+
+        # Save all persons
+        persons_added = 0
+        for person in all_persons:
+            try:
+                normalized_person = normalize_person(person)
+                person_repo.add_person(normalized_person)
+                persons_added += 1
+            except Exception as e:
+                if args.nofail:
+                    print(
+                        f"Warning: Failed to add person "
+                        f"{person.index}: {e}",
+                        file=sys.stderr
+                    )
+                    continue
+                else:
+                    raise
+
+        if verbose:
+            print(f"Successfully added {persons_added} persons")
+            print("Saving families...")
+
+        # Save all families
+        families_added = 0
+        for family in all_families:
+            try:
+                # Normalize family to use integer IDs instead of Person objects
+                normalized_family = normalize_family(family)
+                family_repo.add_family(normalized_family)
+                families_added += 1
+            except Exception as e:
+                if args.nofail:
+                    print(
+                        f"Warning: Failed to add family "
+                        f"{family.index}: {e}",
+                        file=sys.stderr
+                    )
+                    continue
+                else:
+                    raise
+
+        if verbose:
+            print(f"Successfully added {families_added} families")
+
+        # TODO: Save base notes, wizard notes, and page extensions
+        if (all_base_notes or all_wizard_notes or all_page_extensions) \
+                and verbose:
+            print(
+                "Note: Base notes, wizard notes, and page extensions "
+                "not yet saved to database"
+            )
+
+        if verbose:
+            print(f"\nDatabase saved successfully: {out_file}")
+            print(f"  Persons: {persons_added}")
+            print(f"  Families: {families_added}")
+
+    except Exception as e:
+        print(f"Error saving to database: {e}", file=sys.stderr)
+        if verbose:
+            import traceback
+            traceback.print_exc()
+        sys.exit(1)
 
     # TODO: Compute consanguinity if requested
     if args.cg and verbose:

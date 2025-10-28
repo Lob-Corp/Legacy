@@ -15,8 +15,7 @@ class Family(Base):
     __tablename__ = "Family"
 
     id = mapped_column(Integer, primary_key=True, nullable=False)
-    marriage_date = mapped_column(Integer, ForeignKey("Date.id"),
-                                  nullable=False)
+    marriage_date = mapped_column(Integer, ForeignKey("Date.id"))
     marriage_place = mapped_column(Text, nullable=False)
     marriage_note = mapped_column(Text, nullable=False)
     marriage_src = mapped_column(Text, nullable=False)
