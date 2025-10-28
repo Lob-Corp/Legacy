@@ -205,4 +205,3 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
             parents=Parents([person_mapper(p) for p in self.parents.parents]),
             children=[person_mapper(child) for child in self.children],
         )
-

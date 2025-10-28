@@ -128,7 +128,8 @@ class Title(Generic[TitleDescriptorT]):
             title_name = TitleName(string_mapper(self.title_name.title_name))
         else:
             # This should never happen, but provides a safety fallback
-            raise TypeError(f"Unknown TitleNameBase type: {type(self.title_name)}")
+            raise TypeError(f"Unknown TitleNameBase type: \
+                {type(self.title_name)}")
 
         return Title(
             title_name=title_name,

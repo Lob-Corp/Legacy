@@ -184,4 +184,3 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT, FamilyT]):
             ascend=self.ascend.map_ascendants(family_mapper),
             families=[family_mapper(f) for f in self.families],
         )
-
