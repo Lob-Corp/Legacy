@@ -7,10 +7,10 @@ if TYPE_CHECKING:
 
 
 class Calendar(Enum):
-    GREGORIAN = "gregorian"
-    JULIAN = "julian"
-    FRENCH = "french"
-    HEBREW = "hebrew"
+    GREGORIAN = "GREGORIAN"
+    JULIAN = "JULIAN"
+    FRENCH = "FRENCH"
+    HEBREW = "HEBREW"
 
 
 @dataclass(frozen=True)
