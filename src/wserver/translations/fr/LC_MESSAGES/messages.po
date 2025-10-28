@@ -1,0 +1,2451 @@
+# French translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-10-28 23:56+0100\n"
+"PO-Revision-Date: 2025-10-28 15:55+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: src/wserver/templates/gwd/add_family.html:13
+#: src/wserver/templates/gwd/add_family.html:86
+msgid "Add family"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:100
+#: src/wserver/templates/gwd/add_family.html:103
+#: src/wserver/templates/gwd/add_family.html:137
+#: src/wserver/templates/gwd/add_family.html:139
+msgid "Parents"
+msgstr "Parents"
+
+#: src/wserver/templates/gwd/add_family.html:106
+#: src/wserver/templates/gwd/add_family.html:108
+#: src/wserver/templates/gwd/add_family.html:593
+#: src/wserver/templates/gwd/add_family.html:595
+msgid "Events"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:111
+#: src/wserver/templates/gwd/add_family.html:113
+#: src/wserver/templates/gwd/add_family.html:948
+#: src/wserver/templates/gwd/add_family.html:950
+msgid "Children"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:116
+#: src/wserver/templates/gwd/add_family.html:118
+#: src/wserver/templates/gwd/add_family.html:1213
+msgid "Sources"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:121
+#: src/wserver/templates/gwd/add_family.html:123
+#: src/wserver/templates/gwd/add_family.html:1257
+msgid "Comment"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:146
+#: src/wserver/templates/gwd/add_family.html:158
+#: src/wserver/templates/gwd/add_family.html:354
+#: src/wserver/templates/gwd/add_family.html:366
+#: src/wserver/templates/gwd/add_family.html:965
+#: src/wserver/templates/gwd/add_family.html:973
+#: src/wserver/templates/gwd/add_family.html:3952
+#: src/wserver/templates/gwd/add_family.html:3954
+#: src/wserver/templates/gwd/add_family.html:4228
+#: src/wserver/templates/gwd/add_family.html:4230
+msgid "First name"
+msgstr "Prénom"
+
+#: src/wserver/templates/gwd/add_family.html:148
+#: src/wserver/templates/gwd/add_family.html:1015
+#: src/wserver/templates/gwd/add_family.html:1033
+#: src/wserver/templates/gwd/add_family.html:3978
+#: src/wserver/templates/gwd/add_family.html:4247
+msgid "M"
+msgstr "M"
+
+#: src/wserver/templates/gwd/add_family.html:165
+#: src/wserver/templates/gwd/add_family.html:373
+#: src/wserver/templates/gwd/add_family.html:979
+#: src/wserver/templates/gwd/add_family.html:3956
+#: src/wserver/templates/gwd/add_family.html:4232
+msgid "Number"
+msgstr "Numéro"
+
+#: src/wserver/templates/gwd/add_family.html:175
+msgid "Number (occurrence)"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:181
+#: src/wserver/templates/gwd/add_family.html:190
+#: src/wserver/templates/gwd/add_family.html:389
+#: src/wserver/templates/gwd/add_family.html:398
+#: src/wserver/templates/gwd/add_family.html:994
+#: src/wserver/templates/gwd/add_family.html:3962
+#: src/wserver/templates/gwd/add_family.html:4238
+#: src/wserver/templates/gwd/add_family.html:4240
+msgid "Surname"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:197
+#: src/wserver/templates/gwd/add_family.html:405
+#: src/wserver/templates/gwd/add_family.html:960
+#: src/wserver/templates/gwd/add_family.html:3946
+#: src/wserver/templates/gwd/add_family.html:4205
+msgid "Create"
+msgstr "Créer"
+
+#: src/wserver/templates/gwd/add_family.html:198
+#: src/wserver/templates/gwd/add_family.html:406
+#: src/wserver/templates/gwd/add_family.html:959
+#: src/wserver/templates/gwd/add_family.html:3945
+#: src/wserver/templates/gwd/add_family.html:4206
+msgid "Link"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:204
+#: src/wserver/templates/gwd/add_family.html:412
+#, fuzzy
+msgid "Modify person"
+msgstr "précision"
+
+#: src/wserver/templates/gwd/add_family.html:210
+#: src/wserver/templates/gwd/add_family.html:418
+#: src/wserver/templates/gwd/add_family.html:1063
+#: src/wserver/templates/gwd/add_family.html:3997
+msgid "Birth"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:213
+#: src/wserver/templates/gwd/add_family.html:275
+#: src/wserver/templates/gwd/add_family.html:421
+#: src/wserver/templates/gwd/add_family.html:483
+#: src/wserver/templates/gwd/add_family.html:675
+#: src/wserver/templates/gwd/add_family.html:677
+#: src/wserver/templates/gwd/add_family.html:756
+#: src/wserver/templates/gwd/add_family.html:1066
+#: src/wserver/templates/gwd/add_family.html:1128
+#: src/wserver/templates/gwd/add_family.html:3999
+#: src/wserver/templates/gwd/add_family.html:4014
+#: src/wserver/templates/gwd/add_family.html:4105
+#: src/wserver/templates/gwd/add_family.html:4142
+msgid "day"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:221
+#: src/wserver/templates/gwd/add_family.html:283
+#: src/wserver/templates/gwd/add_family.html:429
+#: src/wserver/templates/gwd/add_family.html:491
+#: src/wserver/templates/gwd/add_family.html:1074
+#: src/wserver/templates/gwd/add_family.html:1136
+#: src/wserver/templates/gwd/add_family.html:4000
+#: src/wserver/templates/gwd/add_family.html:4015
+msgid "dd"
+msgstr "dd"
+
+#: src/wserver/templates/gwd/add_family.html:227
+#: src/wserver/templates/gwd/add_family.html:289
+#: src/wserver/templates/gwd/add_family.html:435
+#: src/wserver/templates/gwd/add_family.html:497
+#: src/wserver/templates/gwd/add_family.html:692
+#: src/wserver/templates/gwd/add_family.html:771
+#: src/wserver/templates/gwd/add_family.html:1080
+#: src/wserver/templates/gwd/add_family.html:1142
+#: src/wserver/templates/gwd/add_family.html:4001
+#: src/wserver/templates/gwd/add_family.html:4016
+#: src/wserver/templates/gwd/add_family.html:4111
+#: src/wserver/templates/gwd/add_family.html:4148
+msgid "month"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:235
+#: src/wserver/templates/gwd/add_family.html:297
+#: src/wserver/templates/gwd/add_family.html:443
+#: src/wserver/templates/gwd/add_family.html:505
+#: src/wserver/templates/gwd/add_family.html:1088
+#: src/wserver/templates/gwd/add_family.html:1150
+#: src/wserver/templates/gwd/add_family.html:4002
+#: src/wserver/templates/gwd/add_family.html:4017
+msgid "mm"
+msgstr "mm"
+
+#: src/wserver/templates/gwd/add_family.html:241
+#: src/wserver/templates/gwd/add_family.html:303
+#: src/wserver/templates/gwd/add_family.html:449
+#: src/wserver/templates/gwd/add_family.html:511
+#: src/wserver/templates/gwd/add_family.html:705
+#: src/wserver/templates/gwd/add_family.html:784
+#: src/wserver/templates/gwd/add_family.html:1094
+#: src/wserver/templates/gwd/add_family.html:1156
+#: src/wserver/templates/gwd/add_family.html:4003
+#: src/wserver/templates/gwd/add_family.html:4018
+#: src/wserver/templates/gwd/add_family.html:4115
+#: src/wserver/templates/gwd/add_family.html:4152
+msgid "year"
+msgstr "année"
+
+#: src/wserver/templates/gwd/add_family.html:249
+#: src/wserver/templates/gwd/add_family.html:311
+#: src/wserver/templates/gwd/add_family.html:457
+#: src/wserver/templates/gwd/add_family.html:519
+#: src/wserver/templates/gwd/add_family.html:1102
+#: src/wserver/templates/gwd/add_family.html:1164
+#: src/wserver/templates/gwd/add_family.html:4004
+#: src/wserver/templates/gwd/add_family.html:4019
+msgid "yyyy"
+msgstr "yyyy"
+
+#: src/wserver/templates/gwd/add_family.html:256
+#: src/wserver/templates/gwd/add_family.html:267
+#: src/wserver/templates/gwd/add_family.html:318
+#: src/wserver/templates/gwd/add_family.html:329
+#: src/wserver/templates/gwd/add_family.html:464
+#: src/wserver/templates/gwd/add_family.html:475
+#: src/wserver/templates/gwd/add_family.html:526
+#: src/wserver/templates/gwd/add_family.html:537
+#: src/wserver/templates/gwd/add_family.html:658
+#: src/wserver/templates/gwd/add_family.html:1109
+#: src/wserver/templates/gwd/add_family.html:1120
+#: src/wserver/templates/gwd/add_family.html:1171
+#: src/wserver/templates/gwd/add_family.html:1182
+#: src/wserver/templates/gwd/add_family.html:4006
+#: src/wserver/templates/gwd/add_family.html:4008
+#: src/wserver/templates/gwd/add_family.html:4021
+#: src/wserver/templates/gwd/add_family.html:4023
+#: src/wserver/templates/gwd/add_family.html:4097
+msgid "place"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:265
+#: src/wserver/templates/gwd/add_family.html:327
+#: src/wserver/templates/gwd/add_family.html:473
+#: src/wserver/templates/gwd/add_family.html:535
+#: src/wserver/templates/gwd/add_family.html:648
+#: src/wserver/templates/gwd/add_family.html:656
+#: src/wserver/templates/gwd/add_family.html:1118
+#: src/wserver/templates/gwd/add_family.html:1180
+#: src/wserver/templates/gwd/add_family.html:4008
+#: src/wserver/templates/gwd/add_family.html:4023
+#: src/wserver/templates/gwd/add_family.html:4095
+#: src/wserver/templates/gwd/add_family.html:4097
+msgid "Place"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:272
+#: src/wserver/templates/gwd/add_family.html:480
+#: src/wserver/templates/gwd/add_family.html:1125
+#: src/wserver/templates/gwd/add_family.html:4012
+msgid "Death"
+msgstr "Décès"
+
+#: src/wserver/templates/gwd/add_family.html:335
+#: src/wserver/templates/gwd/add_family.html:342
+#: src/wserver/templates/gwd/add_family.html:543
+#: src/wserver/templates/gwd/add_family.html:550
+#: src/wserver/templates/gwd/add_family.html:1188
+#: src/wserver/templates/gwd/add_family.html:1197
+#: src/wserver/templates/gwd/add_family.html:4027
+#: src/wserver/templates/gwd/add_family.html:4029
+#: src/wserver/templates/gwd/add_family.html:4264
+#: src/wserver/templates/gwd/add_family.html:4266
+msgid "Occupation"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:568
+msgid "Same-sex relationship (no sex validation)"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:574
+#: src/wserver/templates/gwd/add_family.html:575
+#: src/wserver/templates/gwd/add_family.html:578
+#: src/wserver/templates/gwd/add_family.html:1694
+#: src/wserver/templates/gwd/add_family.html:1695
+#: src/wserver/templates/gwd/add_family.html:1697
+msgid "Validate"
+msgstr "VALIDER"
+
+#: src/wserver/templates/gwd/add_family.html:600
+msgid "Event 1"
+msgstr "Événement 1"
+
+#: src/wserver/templates/gwd/add_family.html:609
+#: src/wserver/templates/gwd/add_family.html:4068
+msgid "Choose an event"
+msgstr "Choisir un événement"
+
+#: src/wserver/templates/gwd/add_family.html:612
+#: src/wserver/templates/gwd/add_family.html:4070
+msgid "Marriage"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:613
+#: src/wserver/templates/gwd/add_family.html:4071
+msgid "Not married"
+msgstr "Non mariés"
+
+#: src/wserver/templates/gwd/add_family.html:614
+#: src/wserver/templates/gwd/add_family.html:4072
+msgid "Engaged"
+msgstr "Fiançailles"
+
+#: src/wserver/templates/gwd/add_family.html:615
+#: src/wserver/templates/gwd/add_family.html:4073
+msgid "No mention"
+msgstr "Pas de mention"
+
+#: src/wserver/templates/gwd/add_family.html:616
+#: src/wserver/templates/gwd/add_family.html:4074
+msgid "Marriage banns"
+msgstr "Bans de mariage"
+
+#: src/wserver/templates/gwd/add_family.html:617
+#: src/wserver/templates/gwd/add_family.html:4075
+msgid "Marriage contract"
+msgstr "Contrat de mariage"
+
+#: src/wserver/templates/gwd/add_family.html:618
+#: src/wserver/templates/gwd/add_family.html:4076
+msgid "Marriage license"
+msgstr "Licence de mariage"
+
+#: src/wserver/templates/gwd/add_family.html:619
+#: src/wserver/templates/gwd/add_family.html:4077
+msgid "Civil union"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:620
+#: src/wserver/templates/gwd/add_family.html:4078
+msgid "Divorce"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:621
+#: src/wserver/templates/gwd/add_family.html:4079
+msgid "Separation"
+msgstr "Séparation"
+
+#: src/wserver/templates/gwd/add_family.html:622
+#: src/wserver/templates/gwd/add_family.html:4080
+msgid "Annulment"
+msgstr "Annulation"
+
+#: src/wserver/templates/gwd/add_family.html:623
+#: src/wserver/templates/gwd/add_family.html:4081
+msgid "Residence"
+msgstr "Résidence"
+
+#: src/wserver/templates/gwd/add_family.html:625
+#: src/wserver/templates/gwd/add_family.html:4083
+msgid "Custom event"
+msgstr "Événement personnalisé"
+
+#: src/wserver/templates/gwd/add_family.html:627
+#: src/wserver/templates/gwd/add_family.html:4085
+msgid "Delete event"
+msgstr "Supprimer l'événement"
+
+#: src/wserver/templates/gwd/add_family.html:642
+#: src/wserver/templates/gwd/add_family.html:4064
+#: src/wserver/templates/gwd/add_family.html:4090
+msgid "Event"
+msgstr "Événement"
+
+#: src/wserver/templates/gwd/add_family.html:663
+#: src/wserver/templates/gwd/add_family.html:4101
+msgid "Date"
+msgstr "Date"
+
+#: src/wserver/templates/gwd/add_family.html:710
+#: src/wserver/templates/gwd/etc/updfam.html:106
+msgid "precision"
+msgstr "précision"
+
+#: src/wserver/templates/gwd/add_family.html:726
+msgid "calendar"
+msgstr "calendrier"
+
+#: src/wserver/templates/gwd/add_family.html:737
+#: src/wserver/templates/gwd/add_family.html:4132
+msgid "French Republican"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:738
+#: src/wserver/templates/gwd/add_family.html:4133
+msgid "Hebrew"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:799
+#: src/wserver/templates/gwd/add_family.html:4157
+msgid "…or text"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:804
+#: src/wserver/templates/gwd/add_family.html:811
+#: src/wserver/templates/gwd/add_family.html:4161
+#: src/wserver/templates/gwd/add_family.html:4163
+msgid "Notes"
+msgstr "Notes"
+
+#: src/wserver/templates/gwd/add_family.html:816
+#: src/wserver/templates/gwd/add_family.html:824
+#: src/wserver/templates/gwd/add_family.html:4167
+#: src/wserver/templates/gwd/add_family.html:4169
+msgid "Source"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:835
+#: src/wserver/templates/gwd/add_family.html:891
+#: src/wserver/templates/gwd/add_family.html:4044
+#: src/wserver/templates/gwd/add_family.html:4051
+#: src/wserver/templates/gwd/add_family.html:4175
+msgid "Insert"
+msgstr "Insérer"
+
+#: src/wserver/templates/gwd/add_family.html:867
+#: src/wserver/templates/gwd/add_family.html:4184
+msgid "witness(es)"
+msgstr "témoin(s)"
+
+#: src/wserver/templates/gwd/add_family.html:923
+msgid "event(s)"
+msgstr "événement(s)"
+
+#: src/wserver/templates/gwd/add_family.html:956
+msgid "1st Child"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:1019
+msgid "Edit 1st child"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:1024
+#: src/wserver/templates/gwd/add_family.html:3974
+#: src/wserver/templates/gwd/add_family.html:4244
+msgid "Sex"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:1044
+#: src/wserver/templates/gwd/add_family.html:3983
+#: src/wserver/templates/gwd/add_family.html:4252
+msgid "?"
+msgstr "?"
+
+#: src/wserver/templates/gwd/add_family.html:1054
+#: src/wserver/templates/gwd/add_family.html:3988
+#: src/wserver/templates/gwd/add_family.html:4257
+msgid "F"
+msgstr "F"
+
+#: src/wserver/templates/gwd/add_family.html:1218
+#, fuzzy
+msgid "Persons"
+msgstr "précision"
+
+#: src/wserver/templates/gwd/add_family.html:1226
+msgid "People sources"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:1232
+msgid "Family"
+msgstr "Famille"
+
+#: src/wserver/templates/gwd/add_family.html:1407
+msgid "h1"
+msgstr "h1"
+
+#: src/wserver/templates/gwd/add_family.html:1456
+msgid "Format"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:1507
+msgid "ul ol dl pre"
+msgstr "ul ol dl pre"
+
+#: src/wserver/templates/gwd/add_family.html:1555
+msgid "Various notes"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:1614
+msgid "Summary"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:1648
+#, fuzzy
+msgid "Person"
+msgstr "précision"
+
+#: src/wserver/templates/gwd/add_family.html:3682
+#: src/wserver/templates/gwd/add_family.html:3924
+msgid "1st"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:3682
+#: src/wserver/templates/gwd/add_family.html:3924
+msgid "2nd"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:3682
+#: src/wserver/templates/gwd/add_family.html:3924
+msgid "3rd"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:3682
+#: src/wserver/templates/gwd/add_family.html:3924
+msgid "4th"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:3682
+#: src/wserver/templates/gwd/add_family.html:3924
+msgid "5th"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:3682
+#: src/wserver/templates/gwd/add_family.html:3924
+msgid "6th"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:3682
+#: src/wserver/templates/gwd/add_family.html:3924
+msgid "7th"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:3682
+#: src/wserver/templates/gwd/add_family.html:3924
+msgid "8th"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:3682
+#: src/wserver/templates/gwd/add_family.html:3924
+msgid "9th"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:3682
+#: src/wserver/templates/gwd/add_family.html:3924
+msgid "10th"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:3691
+#: src/wserver/templates/gwd/add_family.html:3925
+#: src/wserver/templates/gwd/add_family.html:3942
+msgid "Child"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:3931
+msgid "Swap with previous child"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:3969
+msgid "Modify child"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4051
+msgid "Insert child(ren)"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4120
+#: src/wserver/templates/gwd/etc/updfam.html:109
+msgid "exact"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4121
+msgid "about"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4122
+msgid "maybe"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4123
+msgid "before"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4124
+msgid "after"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4125
+msgid "…or…"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4126
+msgid "…between…"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4130
+msgid "Gregorian"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4131
+msgid "Julian"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4187
+msgid "Insert witness(es)"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4202
+#: src/wserver/templates/gwd/add_family.html:4217
+msgid "Witness"
+msgstr "Témoin"
+
+#: src/wserver/templates/gwd/add_family.html:4212
+#, fuzzy
+msgid "Modify witness"
+msgstr "Témoin"
+
+#: src/wserver/templates/gwd/add_family.html:4218
+msgid "Informant"
+msgstr "Déclarant"
+
+#: src/wserver/templates/gwd/add_family.html:4219
+#, fuzzy
+msgid "Present"
+msgstr "précision"
+
+#: src/wserver/templates/gwd/add_family.html:4220
+msgid "Mentioned"
+msgstr "Mentionné"
+
+#: src/wserver/templates/gwd/add_family.html:4221
+msgid "Civil registrar"
+msgstr "Officier d'état civil"
+
+#: src/wserver/templates/gwd/add_family.html:4222
+msgid "Minister of worship"
+msgstr "Ministre du culte"
+
+#: src/wserver/templates/gwd/add_family.html:4223
+msgid "Other"
+msgstr ""
+
+#: src/wserver/templates/gwd/add_family.html:4271
+msgid "Obviously deceased"
+msgstr "Bien entendu décédé"
+
+#: src/wserver/templates/gwd/add_family.html:4275
+msgid "Public"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/annivmenu.html:22
+#: src/wserver/templates/gwd/etc/welcome.html:234
+msgid "anniversaries"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/annivmenu.html:27
+msgid "anniversaries of birth"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/annivmenu.html:30
+msgid "anniversaries of dead people"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/annivmenu.html:33
+msgid "anniversaries of marriage"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_fnames.html:11
+msgid "v7 show others"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_fnames.html:11
+msgid "v7 hide others"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_fnames.html:15
+msgid "v7 exact match"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_fnames.html:15
+msgid "v7 approxim match"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_fnames.html:19
+msgid "v7 word boundaries"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_fnames.html:19
+msgid "v7 anywhere"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_fnames.html:23
+msgid "v7 refresh fnames cache"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_rel.html:18
+#: src/wserver/templates/gwd/etc/buttons_rel.html:25
+#: src/wserver/templates/gwd/etc/relmenu.html:133
+msgid "shortest path"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_rel.html:18
+#: src/wserver/templates/gwd/etc/buttons_rel.html:40
+#: src/wserver/templates/gwd/etc/buttons_rel.html:48
+#: src/wserver/templates/gwd/etc/buttons_rel.html:49
+#: src/wserver/templates/gwd/etc/buttons_rel.html:53
+#: src/wserver/templates/gwd/etc/buttons_rel.html:54
+#: src/wserver/templates/gwd/etc/relmenu.html:154
+#: src/wserver/templates/gwd/etc/relmenu.html:158
+#: src/wserver/templates/gwd/etc/summary.html:13
+#: src/wserver/templates/gwd/etc/summary.html:14
+msgid "visualize/show/hide/summary"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_rel.html:19
+msgid "next relationship path"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_rel.html:31
+msgid "relationship link/relationship links"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_rel.html:35
+#: src/wserver/templates/gwd/etc/relmenu.html:141
+msgid "relationship by marriage"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_rel.html:39
+#: src/wserver/templates/gwd/etc/buttons_rel.html:40
+#: src/wserver/templates/gwd/etc/relmenu.html:150
+msgid "long display"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_rel.html:49
+#: src/wserver/templates/gwd/etc/carrousel.html:35
+#: src/wserver/templates/gwd/etc/carrousel.html:93
+#: src/wserver/templates/gwd/etc/carrousel.html:116
+#: src/wserver/templates/gwd/etc/carrousel.html:209
+#: src/wserver/templates/gwd/etc/carrousel.html:213
+#: src/wserver/templates/gwd/etc/carrousel.html:220
+#: src/wserver/templates/gwd/etc/carrousel.html:261
+#: src/wserver/templates/gwd/etc/carrousel_display.html:14
+#: src/wserver/templates/gwd/etc/carrousel_display.html:63
+#: src/wserver/templates/gwd/etc/relmenu.html:158
+msgid "image/images"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_rel.html:54
+#: src/wserver/templates/gwd/etc/relmenu.html:61
+#: src/wserver/templates/gwd/etc/relmenu.html:154
+msgid "spouse/spouses"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_rel.html:58
+#: src/wserver/templates/gwd/etc/buttons_rel.html:61
+#: src/wserver/templates/gwd/etc/updfam.html:674
+msgid "invert"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_rel.html:61
+#: src/wserver/templates/gwd/etc/home.html:51
+#: src/wserver/templates/gwd/etc/updfam.html:783
+#: src/wserver/templates/gwd/etc/updfam.html:785
+#: src/wserver/templates/gwd/etc/welcome.html:103
+#: src/wserver/templates/gwd/etc/welcome.html:172
+msgid "person/persons"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_rel.html:63
+msgid "dag"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/buttons_rel.html:64
+msgid "cancel GeneWeb links"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:10
+#: src/wserver/templates/gwd/etc/carrousel_display.html:14
+msgid "add"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:10
+msgid "delete::image/images"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:32
+#: src/wserver/templates/gwd/etc/js.html:72
+msgid "image received"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:32
+msgid "with note"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:33
+#: src/wserver/templates/gwd/etc/js.html:73
+msgid "image deleted"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:34
+#: src/wserver/templates/gwd/etc/carrousel.html:37
+#: src/wserver/templates/gwd/etc/relmenu.html:13
+#: src/wserver/templates/gwd/etc/relmenu.html:32
+#: src/wserver/templates/gwd/etc/updfam.html:674
+msgid "and"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:34
+#: src/wserver/templates/gwd/etc/carrousel.html:37
+msgid "saved"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:35
+#: src/wserver/templates/gwd/etc/carrousel.html:37
+msgid "restored"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:37
+msgid "note"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:37
+msgid "update"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:37
+#: src/wserver/templates/gwd/etc/carrousel.html:156
+#: src/wserver/templates/gwd/etc/carrousel_display.html:14
+#: src/wserver/templates/gwd/etc/carrousel_display.html:43
+#: src/wserver/templates/gwd/etc/carrousel_display.html:46
+msgid "portrait"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:37
+msgid "uploaded"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:37
+msgid "deleted"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:81
+msgid "modify portrait"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:81
+msgid "add portrait"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:92
+#: src/wserver/templates/gwd/etc/carrousel.html:116
+msgid "browse"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:93
+#: src/wserver/templates/gwd/etc/carrousel.html:116
+msgid "select"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:96
+#: src/wserver/templates/gwd/etc/carrousel.html:118
+msgid "send"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:98
+msgid "previous portrait"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:101
+#: src/wserver/templates/gwd/etc/carrousel.html:203
+#: src/wserver/templates/gwd/etc/carrousel.html:293
+msgid "add image"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:121
+msgid "previous image"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:124
+msgid "url"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:127
+msgid "name"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:132
+#: src/wserver/templates/gwd/etc/carrousel.html:136
+#: src/wserver/templates/gwd/etc/carrousel_display.html:66
+#: src/wserver/templates/gwd/etc/updfam.html:40
+#: src/wserver/templates/gwd/etc/updfam.html:198
+#: src/wserver/templates/gwd/etc/updfam.html:527
+#: src/wserver/templates/gwd/etc/updfam.html:530
+#: src/wserver/templates/gwd/etc/updfam.html:532
+#: src/wserver/templates/gwd/etc/updfam.html:785
+#: src/wserver/templates/gwd/etc/updfam.html:794
+#: src/wserver/templates/gwd/etc/updfam.html:796
+#: src/wserver/templates/gwd/etc/welcome.html:294
+msgid "source/sources"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:141
+#: src/wserver/templates/gwd/etc/carrousel.html:147
+#: src/wserver/templates/gwd/etc/carrousel_display.html:68
+#: src/wserver/templates/gwd/etc/updfam.html:209
+#: src/wserver/templates/gwd/etc/updfam.html:521
+#: src/wserver/templates/gwd/etc/updfam.html:523
+msgid "note/notes"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:150
+msgid "send image with note and source"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:163
+#: src/wserver/templates/gwd/etc/carrousel.html:184
+msgid "see portrait"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:172
+msgid "delete portrait"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:190
+msgid "restore portrait saved"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:196
+msgid "delete portrait saved"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:205
+#: src/wserver/templates/gwd/etc/carrousel.html:295
+msgid "warning refresh"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:220
+#: src/wserver/templates/gwd/etc/carrousel.html:268
+msgid "see"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:231
+msgid "add source"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:231
+msgid "modify source"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:238
+msgid "add note"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:238
+msgid "modify note"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:246
+#: src/wserver/templates/gwd/etc/carrousel.html:293
+msgid "delete image"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:257
+#: src/wserver/templates/gwd/etc/carrousel.html:268
+msgid "saved images"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:276
+msgid "restore image saved"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:283
+msgid "delete image saved"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:371
+msgid "update image note"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel.html:380
+msgid "update image source"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel_display.html:14
+msgid "delete"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel_display.html:22
+#: src/wserver/templates/gwd/etc/carrousel_display.html:23
+msgid "previous"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/carrousel_display.html:25
+#: src/wserver/templates/gwd/etc/carrousel_display.html:26
+msgid "next"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/conf.html:24
+msgid "geneweb parameters"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/conf.html:25
+#: src/wserver/templates/gwd/etc/conf.html:26
+#: src/wserver/templates/gwd/etc/copyr.html:84
+#: src/wserver/templates/gwd/etc/copyr.html:85
+#: src/wserver/templates/gwd/etc/copyr.html:90
+#: src/wserver/templates/gwd/etc/copyr.html:91
+#: src/wserver/templates/gwd/etc/welcome.html:55
+#: src/wserver/templates/gwd/etc/welcome.html:68
+#: src/wserver/templates/gwd/etc/welcome.html:71
+#: src/wserver/templates/gwd/etc/welcome.html:77
+#: src/wserver/templates/gwd/etc/welcome.html:80
+#: src/wserver/templates/gwd/etc/welcome.html:85
+#: src/wserver/templates/gwd/etc/welcome.html:248
+msgid "wizard/wizards/friend/friends/exterior"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/conf.html:28
+msgid "build information"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/conf.html:35
+msgid "user and language variables"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/conf.html:47
+msgid "launch arguments of Gwd server"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/conf.html:57
+msgid "configuration parameters"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/copyr.html:38
+#: src/wserver/templates/gwd/etc/index.html:36
+msgid "select lang"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/copyr.html:95
+#: src/wserver/templates/gwd/etc/copyr.html:96
+msgid "connection/connections"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/copyr.html:108
+msgid "branch/branches"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/copyr.html:108
+msgid "compiled on"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/copyr.html:108
+msgid "from commit"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/destree.html:11
+msgid "descendants tree"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/home.html:27
+#: src/wserver/templates/gwd/etc/home.html:28
+msgid "home"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/home.html:30
+msgid "back"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/home.html:33
+#: src/wserver/templates/gwd/etc/home.html:51
+#: src/wserver/templates/gwd/etc/home.html:62
+#: src/wserver/templates/gwd/etc/relmenu.html:112
+#: src/wserver/templates/gwd/etc/welcome.html:153
+#: src/wserver/templates/gwd/etc/welcome.html:166
+#: src/wserver/templates/gwd/etc/welcome.html:172
+#: src/wserver/templates/gwd/etc/welcome.html:200
+msgid "search/case sensitive"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/home.html:37
+msgid "random individual"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/home.html:37
+msgid "stay on the current tool"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/home.html:57
+#: src/wserver/templates/gwd/etc/relmenu.html:119
+#: src/wserver/templates/gwd/etc/relmenu.html:120
+#: src/wserver/templates/gwd/etc/tp0_updDAG.html:124
+#: src/wserver/templates/gwd/etc/tp0_updRLM.html:79
+#: src/wserver/templates/gwd/etc/updfam.html:294
+#: src/wserver/templates/gwd/etc/updfam.html:296
+#: src/wserver/templates/gwd/etc/updfam.html:440
+#: src/wserver/templates/gwd/etc/updfam.html:443
+#: src/wserver/templates/gwd/etc/updfam.html:708
+#: src/wserver/templates/gwd/etc/welcome.html:146
+#: src/wserver/templates/gwd/etc/welcome.html:148
+#: src/wserver/templates/gwd/etc/welcome.html:150
+#: src/wserver/templates/gwd/etc/welcome.html:152
+#: src/wserver/templates/gwd/etc/welcome.html:153
+#: src/wserver/templates/gwd/etc/welcome.html:253
+#: src/wserver/templates/gwd/etc/welcome.html:282
+msgid "surname/surnames"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/home.html:57
+#: src/wserver/templates/gwd/etc/relmenu.html:115
+#: src/wserver/templates/gwd/etc/relmenu.html:116
+#: src/wserver/templates/gwd/etc/welcome.html:152
+#: src/wserver/templates/gwd/etc/welcome.html:153
+msgid "public name"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/home.html:57
+#: src/wserver/templates/gwd/etc/relmenu.html:115
+#: src/wserver/templates/gwd/etc/relmenu.html:116
+#: src/wserver/templates/gwd/etc/welcome.html:152
+#: src/wserver/templates/gwd/etc/welcome.html:153
+msgid "alias"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/home.html:60
+#: src/wserver/templates/gwd/etc/relmenu.html:117
+#: src/wserver/templates/gwd/etc/relmenu.html:118
+#: src/wserver/templates/gwd/etc/tp0_updDAG.html:123
+#: src/wserver/templates/gwd/etc/tp0_updRLM.html:78
+#: src/wserver/templates/gwd/etc/updfam.html:282
+#: src/wserver/templates/gwd/etc/updfam.html:286
+#: src/wserver/templates/gwd/etc/updfam.html:428
+#: src/wserver/templates/gwd/etc/updfam.html:431
+#: src/wserver/templates/gwd/etc/updfam.html:698
+#: src/wserver/templates/gwd/etc/updfam.html:700
+#: src/wserver/templates/gwd/etc/welcome.html:158
+#: src/wserver/templates/gwd/etc/welcome.html:160
+#: src/wserver/templates/gwd/etc/welcome.html:162
+#: src/wserver/templates/gwd/etc/welcome.html:165
+#: src/wserver/templates/gwd/etc/welcome.html:166
+#: src/wserver/templates/gwd/etc/welcome.html:278
+msgid "first name/first names"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/index.html:20
+msgid "choose a genealogy"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/index.html:23
+msgid "input database"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/index.html:32
+msgid "available genealogies"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/js.html:56
+#: src/wserver/templates/gwd/etc/js.html:74
+msgid "modification successful"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/js.html:57
+msgid "no modification"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/js.html:70
+msgid "person modified"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/js.html:71
+msgid "person added"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/js.html:77
+msgid "family modified"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/js.html:78
+msgid "family added"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/js.html:79
+msgid "family deleted"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/js.html:106
+msgid "autofocus"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/js.html:134
+#: src/wserver/templates/gwd/etc/js.html:143
+msgid "data-surname"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/js.html:155
+msgid "data-index"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/lexcheck.html:8
+#: src/wserver/templates/gwd/etc/lexcheck.html:9
+msgid "cousins.xx.yy"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/lexcheck.html:12
+msgid "cousins.xx.yy tt"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/relmenu.html:11
+#: src/wserver/templates/gwd/etc/relmenu.html:27
+msgid "link between"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/relmenu.html:48
+msgid "relationship shortcut"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/relmenu.html:53
+msgid "Sosa"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/relmenu.html:91
+#: src/wserver/templates/gwd/etc/updfam.html:417
+msgid "witness/witnesses"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/relmenu.html:112
+msgid "any individual in the base"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/relmenu.html:124
+#: src/wserver/templates/gwd/etc/updfam.html:628
+#: src/wserver/templates/gwd/etc/updfam.html:629
+#: src/wserver/templates/gwd/etc/updfam.html:818
+#: src/wserver/templates/gwd/etc/updfam.html:819
+msgid "validate/delete"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/relmenu.html:129
+msgid "relationship computing mode"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/relmenu.html:137
+msgid "relationship by ancestors"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/relmenu.html:146
+msgid "relationship display options"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/stats.html:11
+#: src/wserver/templates/gwd/etc/stats.html:24
+#: src/wserver/templates/gwd/etc/welcome.html:232
+msgid "statistics"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/tp0_updDAG.html:9
+#: src/wserver/templates/gwd/etc/tp0_updRLM.html:9
+msgid "modify::tree"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/tp0_updDAG.html:110
+#: src/wserver/templates/gwd/etc/tp0_updRLM.html:65
+msgid "edit tree"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/tp0_updDAG.html:125
+#: src/wserver/templates/gwd/etc/tp0_updRLM.html:80
+msgid "birth"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/tp0_updDAG.html:125
+#: src/wserver/templates/gwd/etc/tp0_updRLM.html:80
+msgid "death"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/tp0_updRLM.html:81
+#: src/wserver/templates/gwd/etc/updfam.html:189
+msgid "text"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/upddatamenu.html:11
+msgid "lists"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:16
+#: src/wserver/templates/gwd/etc/updfam.html:561
+#: src/wserver/templates/gwd/etc/welcome.html:248
+msgid "add::family/families"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:16
+#: src/wserver/templates/gwd/etc/updfam.html:563
+msgid "add::parents"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:17
+#: src/wserver/templates/gwd/etc/updfam.html:565
+#: src/wserver/templates/gwd/etc/updfamevt.html:10
+msgid "modify::family/families"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:20
+#: src/wserver/templates/gwd/etc/updfam.html:568
+msgid "merge::family/families"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:37
+#: src/wserver/templates/gwd/etc/updfam.html:328
+msgid "parents"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:38
+#: src/wserver/templates/gwd/etc/updfam.html:331
+#: src/wserver/templates/gwd/etc/updfam.html:371
+#: src/wserver/templates/gwd/etc/updfam.html:374
+#: src/wserver/templates/gwd/etc/updfam.html:503
+#: src/wserver/templates/gwd/etc/updfam.html:509
+msgid "event/events"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:39
+#: src/wserver/templates/gwd/etc/updfam.html:660
+#: src/wserver/templates/gwd/etc/updfam.html:663
+#: src/wserver/templates/gwd/etc/updfam.html:674
+#: src/wserver/templates/gwd/etc/updfam.html:689
+#: src/wserver/templates/gwd/etc/updfam.html:718
+msgid "child/children"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:41
+msgid "comment"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:61
+#: src/wserver/templates/gwd/etc/updfam.html:67
+#: src/wserver/templates/gwd/etc/updfam.html:71
+#: src/wserver/templates/gwd/etc/updfam.html:78
+#: src/wserver/templates/gwd/etc/updfam.html:82
+#: src/wserver/templates/gwd/etc/updfam.html:86
+#: src/wserver/templates/gwd/etc/updfam.html:91
+#: src/wserver/templates/gwd/etc/updfam.html:97
+#: src/wserver/templates/gwd/etc/updfam.html:101
+#: src/wserver/templates/gwd/etc/updfam.html:143
+#: src/wserver/templates/gwd/etc/updfam.html:149
+#: src/wserver/templates/gwd/etc/updfam.html:153
+#: src/wserver/templates/gwd/etc/updfam.html:160
+#: src/wserver/templates/gwd/etc/updfam.html:164
+#: src/wserver/templates/gwd/etc/updfam.html:168
+#: src/wserver/templates/gwd/etc/updfam.html:173
+#: src/wserver/templates/gwd/etc/updfam.html:179
+#: src/wserver/templates/gwd/etc/updfam.html:183
+#: src/wserver/templates/gwd/etc/updfam.html:226
+#: src/wserver/templates/gwd/etc/updfam.html:228
+#: src/wserver/templates/gwd/etc/updfam.html:230
+#: src/wserver/templates/gwd/etc/updfam.html:233
+#: src/wserver/templates/gwd/etc/updfam.html:235
+#: src/wserver/templates/gwd/etc/updfam.html:237
+#: src/wserver/templates/gwd/etc/updfam.html:240
+#: src/wserver/templates/gwd/etc/updfam.html:242
+#: src/wserver/templates/gwd/etc/updfam.html:244
+msgid "year/month/day"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:117
+#: src/wserver/templates/gwd/etc/welcome.html:262
+msgid "calendar/calendars"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:123
+#: src/wserver/templates/gwd/etc/updfam.html:126
+#: src/wserver/templates/gwd/etc/updfam.html:129
+#: src/wserver/templates/gwd/etc/updfam.html:132
+msgid "gregorian/julian/french/hebrew"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:223
+msgid "kind"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:227
+#: src/wserver/templates/gwd/etc/updfam.html:229
+#: src/wserver/templates/gwd/etc/updfam.html:231
+#: src/wserver/templates/gwd/etc/updfam.html:234
+#: src/wserver/templates/gwd/etc/updfam.html:236
+#: src/wserver/templates/gwd/etc/updfam.html:238
+#: src/wserver/templates/gwd/etc/updfam.html:241
+#: src/wserver/templates/gwd/etc/updfam.html:243
+#: src/wserver/templates/gwd/etc/updfam.html:245
+msgid "dd/mm/yyyy"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:248
+#: src/wserver/templates/gwd/etc/updfam.html:249
+#: src/wserver/templates/gwd/etc/updfam.html:514
+#: src/wserver/templates/gwd/etc/updfam.html:516
+#: src/wserver/templates/gwd/etc/welcome.html:253
+#: src/wserver/templates/gwd/etc/welcome.html:286
+msgid "place/places"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:288
+#: src/wserver/templates/gwd/etc/updfam.html:290
+#: src/wserver/templates/gwd/etc/updfam.html:433
+#: src/wserver/templates/gwd/etc/updfam.html:702
+msgid "number"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:300
+#: src/wserver/templates/gwd/etc/updfam.html:411
+#: src/wserver/templates/gwd/etc/updfam.html:693
+msgid "create"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:301
+#: src/wserver/templates/gwd/etc/updfam.html:412
+#: src/wserver/templates/gwd/etc/updfam.html:692
+msgid "link"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:309
+#: src/wserver/templates/gwd/etc/updfam.html:311
+#: src/wserver/templates/gwd/etc/updfam.html:480
+#: src/wserver/templates/gwd/etc/updfam.html:483
+#: src/wserver/templates/gwd/etc/updfam.html:751
+#: src/wserver/templates/gwd/etc/updfam.html:753
+#: src/wserver/templates/gwd/etc/welcome.html:290
+msgid "occupation/occupations"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:321
+#: src/wserver/templates/gwd/etc/updfam.html:364
+#: src/wserver/templates/gwd/etc/updfam.html:385
+#: src/wserver/templates/gwd/etc/updfam.html:653
+msgid "insert"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:331
+#: src/wserver/templates/gwd/etc/updfam.html:374
+msgid "insert::event/events"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:342
+msgid "custom event"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:345
+msgid "marriage event"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:346
+msgid "no marriage event"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:347
+msgid "engage event"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:348
+msgid "no mention"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:349
+msgid "marriage bann"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:350
+msgid "marriage contract"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:351
+msgid "marriage licence"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:352
+msgid "PACS"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:353
+msgid "divorce event"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:354
+msgid "separate event"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:355
+msgid "annulation"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:356
+msgid "residence"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:392
+#: src/wserver/templates/gwd/etc/updfam.html:395
+#: src/wserver/templates/gwd/etc/updfam.html:408
+#: src/wserver/templates/gwd/etc/updfam.html:451
+msgid "witness/witness/witnesses"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:395
+msgid "insert::witness/witness/witnesses"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:418
+msgid "informant/informant/informant"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:419
+msgid "present/present/present"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:420
+msgid "mentioned/mentioned/mentioned"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:421
+msgid "civil registrar/civil registrar/civil registrar"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:422
+msgid "parrish registrar/parrish registrar/parrish registrar"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:423
+msgid "other/other/other"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:447
+#: src/wserver/templates/gwd/etc/updfam.html:714
+msgid "modify::person/persons"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:451
+#: src/wserver/templates/gwd/etc/updfam.html:718
+#: src/wserver/templates/gwd/etc/welcome.html:277
+#: src/wserver/templates/gwd/etc/welcome.html:281
+#: src/wserver/templates/gwd/etc/welcome.html:285
+#: src/wserver/templates/gwd/etc/welcome.html:289
+#: src/wserver/templates/gwd/etc/welcome.html:293
+msgid "modify"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:457
+#: src/wserver/templates/gwd/etc/updfam.html:723
+msgid "sex"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:461
+#: src/wserver/templates/gwd/etc/updfam.html:473
+#: src/wserver/templates/gwd/etc/updfam.html:728
+#: src/wserver/templates/gwd/etc/updfam.html:740
+msgid "M/F"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:488
+msgid "of course dead"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:492
+msgid "public"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:519
+msgid "date/dates"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:556
+msgid "yy"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:624
+msgid "no sexes check"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:663
+msgid "insert::child/children"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfam.html:791
+#: src/wserver/templates/gwd/etc/updfam.html:794
+#: src/wserver/templates/gwd/etc/updfam.html:796
+msgid "family/families"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/updfamevt.html:28
+#: src/wserver/templates/gwd/etc/updfamevt.html:30
+msgid "move up/down"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:35
+msgid "restricted access"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:56
+msgid "user/password/cancel"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:88
+msgid "disconnect"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:146
+#: src/wserver/templates/gwd/etc/welcome.html:148
+#: src/wserver/templates/gwd/etc/welcome.html:158
+#: src/wserver/templates/gwd/etc/welcome.html:160
+msgid "sort by/date begin/alphabetic order/nb individuals/nb events"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:146
+#: src/wserver/templates/gwd/etc/welcome.html:158
+msgid "display by/branch/alphabetic order"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:148
+#: src/wserver/templates/gwd/etc/welcome.html:160
+msgid "frequency"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:184
+msgid "all the titles"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:185
+#: src/wserver/templates/gwd/etc/welcome.html:187
+#: src/wserver/templates/gwd/etc/welcome.html:200
+msgid "title/titles"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:191
+msgid "all the estates"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:193
+#: src/wserver/templates/gwd/etc/welcome.html:196
+#: src/wserver/templates/gwd/etc/welcome.html:200
+msgid "estate"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:208
+msgid "tools"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:212
+msgid "add base notes"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:218
+msgid "base notes"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:224
+msgid "base index notes"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:229
+msgid "base wizard notes"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:237
+msgid "history"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:241
+msgid "forum"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:258
+msgid "advanced request"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:266
+msgid "configuration"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:273
+msgid "book/books"
+msgstr ""
+
+#: src/wserver/templates/gwd/etc/welcome.html:301
+msgid "plugins"
+msgstr ""
+
+#~ msgid "Same-sex relationship (no sex verification)"
+#~ msgstr "Relation homosexuelle (pas de vérification des sexes)"
+
+#~ msgid "Date"
+#~ msgstr "Date"
+
+#~ msgid "calendar"
+#~ msgstr "calendrier"
+
+#~ msgid "Persons"
+#~ msgstr "Personnes"
+
+#~ msgid "1st Child"
+#~ msgstr "1ᵉʳ Enfant"
+
+#~ msgid "Edit 1st child"
+#~ msgstr "1ᵉʳ Enfant"
+
+#~ msgid "Sex"
+#~ msgstr "Sexe"
+
+#~ msgid "F"
+#~ msgstr ""
+
+#~ msgid "Submit"
+#~ msgstr "Valider"
+
+#~ msgid "Event 1"
+#~ msgstr "Événement 1"
+
+#~ msgid "Marriage"
+#~ msgstr "Mariage"
+
+#~ msgid "Not married"
+#~ msgstr ""
+
+#~ msgid "Engagement"
+#~ msgstr "Fiançailles"
+
+#~ msgid "No mention"
+#~ msgstr ""
+
+#~ msgid "Marriage banns"
+#~ msgstr ""
+
+#~ msgid "Marriage contract"
+#~ msgstr ""
+
+#~ msgid "Marriage license"
+#~ msgstr ""
+
+#~ msgid "Civil union"
+#~ msgstr ""
+
+#~ msgid "Separation"
+#~ msgstr "Séparation"
+
+#~ msgid "Annulment"
+#~ msgstr "Annulation"
+
+#~ msgid "Residence"
+#~ msgstr "Résidence"
+
+#~ msgid "Custom event"
+#~ msgstr ""
+
+#~ msgid "Event"
+#~ msgstr "Événement"
+
+#~ msgid "about"
+#~ msgstr ""
+
+#~ msgid "maybe"
+#~ msgstr ""
+
+#~ msgid "before"
+#~ msgstr ""
+
+#~ msgid "after"
+#~ msgstr ""
+
+#~ msgid "Gregorian"
+#~ msgstr ""
+
+#~ msgid "Julian"
+#~ msgstr ""
+
+#~ msgid "Republican"
+#~ msgstr ""
+
+#~ msgid "Hebrew"
+#~ msgstr ""
+
+#~ msgid "…or text"
+#~ msgstr "…ou texte"
+
+#~ msgid "Insert witness/witnesses"
+#~ msgstr ""
+
+#~ msgid "Insert event/events"
+#~ msgstr ""
+
+#~ msgid "Person sources"
+#~ msgstr "Sources personnes"
+
+#~ msgid "Family"
+#~ msgstr "Famille"
+
+#~ msgid "Family sources"
+#~ msgstr "Sources famille"
+
+#~ msgid "Latin Small Letter A with Breve"
+#~ msgstr ""
+
+#~ msgid "French – Select language"
+#~ msgstr ""
+
+#~ msgid ", select language"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Master branch compiled on 2025-09-05<br>from"
+#~ " commit id 2ce17dddc (2025-08-24)"
+#~ msgstr ""
+
+#~ msgid "January"
+#~ msgstr "janvier"
+
+#~ msgid "February"
+#~ msgstr "février"
+
+#~ msgid "March"
+#~ msgstr "mars"
+
+#~ msgid "April"
+#~ msgstr "avril"
+
+#~ msgid "May"
+#~ msgstr "mai"
+
+#~ msgid "June"
+#~ msgstr "juin"
+
+#~ msgid "July"
+#~ msgstr "juillet"
+
+#~ msgid "August"
+#~ msgstr "août"
+
+#~ msgid "September"
+#~ msgstr "septembre"
+
+#~ msgid "October"
+#~ msgstr "octobre"
+
+#~ msgid "November"
+#~ msgstr "novembre"
+
+#~ msgid "December"
+#~ msgstr "décembre"
+
+#~ msgid "Vendémiaire"
+#~ msgstr ""
+
+#~ msgid "Brumaire"
+#~ msgstr ""
+
+#~ msgid "Frimaire"
+#~ msgstr ""
+
+#~ msgid "Nivôse"
+#~ msgstr ""
+
+#~ msgid "Pluviôse"
+#~ msgstr ""
+
+#~ msgid "Ventôse"
+#~ msgstr ""
+
+#~ msgid "Germinal"
+#~ msgstr ""
+
+#~ msgid "Floréal"
+#~ msgstr ""
+
+#~ msgid "Prairial"
+#~ msgstr ""
+
+#~ msgid "Messidor"
+#~ msgstr ""
+
+#~ msgid "Thermidor"
+#~ msgstr ""
+
+#~ msgid "Fructidor"
+#~ msgstr ""
+
+#~ msgid "Complementary"
+#~ msgstr ""
+
+#~ msgid "Tishrei"
+#~ msgstr ""
+
+#~ msgid "Marcheshvan"
+#~ msgstr ""
+
+#~ msgid "Kislev"
+#~ msgstr ""
+
+#~ msgid "Tevet"
+#~ msgstr ""
+
+#~ msgid "Shevat"
+#~ msgstr ""
+
+#~ msgid "Adar I"
+#~ msgstr ""
+
+#~ msgid "Adar II"
+#~ msgstr ""
+
+#~ msgid "Nisan"
+#~ msgstr ""
+
+#~ msgid "Iyar"
+#~ msgstr ""
+
+#~ msgid "Sivan"
+#~ msgstr ""
+
+#~ msgid "Tammuz"
+#~ msgstr ""
+
+#~ msgid "Av"
+#~ msgstr ""
+
+#~ msgid "Elul"
+#~ msgstr ""
+
+#~ msgid "Swap with previous child"
+#~ msgstr ""
+
+#~ msgid "Insert"
+#~ msgstr "Insérer"
+
+#~ msgid "Insert child(ren)"
+#~ msgstr ""
+
+#~ msgid "Choose an event"
+#~ msgstr ""
+
+#~ msgid "Delete event"
+#~ msgstr ""
+
+#~ msgid "Witness"
+#~ msgstr ""
+
+#~ msgid "Informant"
+#~ msgstr ""
+
+#~ msgid "Present"
+#~ msgstr ""
+
+#~ msgid "Mentioned"
+#~ msgstr ""
+
+#~ msgid "Civil registrar"
+#~ msgstr ""
+
+#~ msgid "Minister of worship"
+#~ msgstr ""
+
+#~ msgid "Other"
+#~ msgstr ""
+
+#~ msgid "Of course deceased"
+#~ msgstr ""
+
+#~ msgid "Notes"
+#~ msgstr "Notes"
+
+#~ msgid "Source"
+#~ msgstr "Source"
+
+#~ msgid "= shift + enter"
+#~ msgstr ""
+
+#~ msgid "En Dash"
+#~ msgstr ""
+
+#~ msgid "Em Dash"
+#~ msgstr ""
+
+#~ msgid "Left Double Angle Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "No-Break Space"
+#~ msgstr ""
+
+#~ msgid "Right Double Angle Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Left Single Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Right Single Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Double Low-9 Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Left Double Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Right Double Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Clear field"
+#~ msgstr "Effacer le champ"
+
+#~ msgid "Narrow No-Break Space"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Macron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Macron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Breve"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Ring Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Ring Above"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter AE"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter AE"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Macron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Macron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Dotless I"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Double Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Double Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Stroke"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Stroke"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Ring Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Ring Above"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Double Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Double Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Y with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Y with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Y with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Y with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Y with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Y with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter C with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter C with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter C with Cedilla"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter C with Cedilla"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter C with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter C with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter D with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter D with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Eth"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Eth"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter N with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter N with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter N with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter N with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter R with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter R with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter R with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter R with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter S with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter S with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter S with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter S with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Sharp S"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter T with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter T with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter T with Cedilla"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter T with Cedilla"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Thorn"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Thorn"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Z with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Z with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Z with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Z with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Z with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Z with Dot Above"
+#~ msgstr ""
+
+#~ msgid "died"
+#~ msgstr ""
+
+#~ msgid "alive"
+#~ msgstr ""
+
+#~ msgid "maybe alive"
+#~ msgstr ""
+
+#~ msgid "married"
+#~ msgstr ""
+
+#~ msgid "Y/N"
+#~ msgstr ""
+
+#~ msgid "search type"
+#~ msgstr ""
+
+#~ msgid "male/female/neuter"
+#~ msgstr ""
+
+#~ msgid "maximum"
+#~ msgstr ""
+
+#~ msgid "Add family"
+#~ msgstr "Ajouter famille"
+
+#~ msgid "Parents"
+#~ msgstr "Parents"
+
+#~ msgid "Events"
+#~ msgstr "Événements"
+
+#~ msgid "Children"
+#~ msgstr "Enfants"
+
+#~ msgid "Sources"
+#~ msgstr "Sources"
+
+#~ msgid "Comment"
+#~ msgstr "Commentaire"
+
+#~ msgid "First name"
+#~ msgstr "Prénom"
+
+#~ msgid "M"
+#~ msgstr "mm"
+
+#~ msgid "Number"
+#~ msgstr "Numéro"
+
+#~ msgid "Number (occurrence)"
+#~ msgstr "Numéro (occurrence)"
+
+#~ msgid "Surname"
+#~ msgstr "Patronyme"
+
+#~ msgid "Create"
+#~ msgstr "Créer"
+
+#~ msgid "Link"
+#~ msgstr "Relier"
+
+#~ msgid "Birth"
+#~ msgstr "Naissance"
+
+#~ msgid "day"
+#~ msgstr "jour"
+
+#~ msgid "dd"
+#~ msgstr "jj"
+
+#~ msgid "month"
+#~ msgstr "mois"
+
+#~ msgid "mm"
+#~ msgstr "mm"
+
+#~ msgid "year"
+#~ msgstr "année"
+
+#~ msgid "yyyy"
+#~ msgstr "aaaa"
+
+#~ msgid "place"
+#~ msgstr "lieu"
+
+#~ msgid "Place"
+#~ msgstr "Lieu"
+
+#~ msgid "Death"
+#~ msgstr "Décès"
+
+#~ msgid "Occupation"
+#~ msgstr "Profession"
+
+#~ msgid "Same-sex relationship (no sex validation)"
+#~ msgstr ""
+
+#~ msgid "Validate"
+#~ msgstr ""
+

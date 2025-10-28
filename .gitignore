@@ -216,3 +216,5 @@ release
 # coverage files
 *lcov
 lcov.*.info
+
+tools/

@@ -1,0 +1,2294 @@
+# English translations for GenewebPy.
+# Copyright (C) 2025
+# This file is distributed under the same license as the GenewebPy project.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: GenewebPy 0.1.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2025-10-28 23:45+0100\n"
+"PO-Revision-Date: 2025-10-28 12:00+0000\n"
+"Last-Translator: \n"
+"Language: en\n"
+"Language-Team: en <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+#: templates/gwd/add_family.html:13 templates/gwd/add_family.html:86
+#, fuzzy
+msgid "Add family"
+msgstr "Add family"
+
+#: templates/gwd/add_family.html:100 templates/gwd/add_family.html:103
+#: templates/gwd/add_family.html:137 templates/gwd/add_family.html:139
+#, fuzzy
+msgid "Parents"
+msgstr "Parents"
+
+#: templates/gwd/add_family.html:106 templates/gwd/add_family.html:108
+#: templates/gwd/add_family.html:593 templates/gwd/add_family.html:595
+#, fuzzy
+msgid "Events"
+msgstr "Events"
+
+#: templates/gwd/add_family.html:111 templates/gwd/add_family.html:113
+#: templates/gwd/add_family.html:948 templates/gwd/add_family.html:950
+#, fuzzy
+msgid "Children"
+msgstr "Children"
+
+#: templates/gwd/add_family.html:116 templates/gwd/add_family.html:118
+#: templates/gwd/add_family.html:1213
+#, fuzzy
+msgid "Sources"
+msgstr "Source"
+
+#: templates/gwd/add_family.html:121 templates/gwd/add_family.html:123
+#: templates/gwd/add_family.html:1257
+#, fuzzy
+msgid "Comment"
+msgstr "Comment"
+
+#: templates/gwd/add_family.html:146 templates/gwd/add_family.html:158
+#: templates/gwd/add_family.html:354 templates/gwd/add_family.html:366
+#: templates/gwd/add_family.html:965 templates/gwd/add_family.html:973
+#: templates/gwd/add_family.html:3952 templates/gwd/add_family.html:3954
+#: templates/gwd/add_family.html:4228 templates/gwd/add_family.html:4230
+#, fuzzy
+msgid "First name"
+msgstr "First name"
+
+#: templates/gwd/add_family.html:148 templates/gwd/add_family.html:1015
+#: templates/gwd/add_family.html:1033 templates/gwd/add_family.html:3978
+#: templates/gwd/add_family.html:4247
+msgid "M"
+msgstr ""
+
+#: templates/gwd/add_family.html:165 templates/gwd/add_family.html:373
+#: templates/gwd/add_family.html:979 templates/gwd/add_family.html:3956
+#: templates/gwd/add_family.html:4232
+#, fuzzy
+msgid "Number"
+msgstr "Number"
+
+#: templates/gwd/add_family.html:175
+msgid "Number (occurrence)"
+msgstr ""
+
+#: templates/gwd/add_family.html:181 templates/gwd/add_family.html:190
+#: templates/gwd/add_family.html:389 templates/gwd/add_family.html:398
+#: templates/gwd/add_family.html:994 templates/gwd/add_family.html:3962
+#: templates/gwd/add_family.html:4238 templates/gwd/add_family.html:4240
+#, fuzzy
+msgid "Surname"
+msgstr "Surname"
+
+#: templates/gwd/add_family.html:197 templates/gwd/add_family.html:405
+#: templates/gwd/add_family.html:960 templates/gwd/add_family.html:3946
+#: templates/gwd/add_family.html:4205
+#, fuzzy
+msgid "Create"
+msgstr "Create"
+
+#: templates/gwd/add_family.html:198 templates/gwd/add_family.html:406
+#: templates/gwd/add_family.html:959 templates/gwd/add_family.html:3945
+#: templates/gwd/add_family.html:4206
+#, fuzzy
+msgid "Link"
+msgstr "Link"
+
+#: templates/gwd/add_family.html:204 templates/gwd/add_family.html:412
+#, fuzzy
+msgid "Modify person"
+msgstr "Family sources"
+
+#: templates/gwd/add_family.html:210 templates/gwd/add_family.html:418
+#: templates/gwd/add_family.html:1063 templates/gwd/add_family.html:3997
+msgid "Birth"
+msgstr ""
+
+#: templates/gwd/add_family.html:213 templates/gwd/add_family.html:275
+#: templates/gwd/add_family.html:421 templates/gwd/add_family.html:483
+#: templates/gwd/add_family.html:675 templates/gwd/add_family.html:677
+#: templates/gwd/add_family.html:756 templates/gwd/add_family.html:1066
+#: templates/gwd/add_family.html:1128 templates/gwd/add_family.html:3999
+#: templates/gwd/add_family.html:4014 templates/gwd/add_family.html:4105
+#: templates/gwd/add_family.html:4142
+msgid "day"
+msgstr ""
+
+#: templates/gwd/add_family.html:221 templates/gwd/add_family.html:283
+#: templates/gwd/add_family.html:429 templates/gwd/add_family.html:491
+#: templates/gwd/add_family.html:1074 templates/gwd/add_family.html:1136
+#: templates/gwd/add_family.html:4000 templates/gwd/add_family.html:4015
+msgid "dd"
+msgstr ""
+
+#: templates/gwd/add_family.html:227 templates/gwd/add_family.html:289
+#: templates/gwd/add_family.html:435 templates/gwd/add_family.html:497
+#: templates/gwd/add_family.html:692 templates/gwd/add_family.html:771
+#: templates/gwd/add_family.html:1080 templates/gwd/add_family.html:1142
+#: templates/gwd/add_family.html:4001 templates/gwd/add_family.html:4016
+#: templates/gwd/add_family.html:4111 templates/gwd/add_family.html:4148
+msgid "month"
+msgstr ""
+
+#: templates/gwd/add_family.html:235 templates/gwd/add_family.html:297
+#: templates/gwd/add_family.html:443 templates/gwd/add_family.html:505
+#: templates/gwd/add_family.html:1088 templates/gwd/add_family.html:1150
+#: templates/gwd/add_family.html:4002 templates/gwd/add_family.html:4017
+msgid "mm"
+msgstr ""
+
+#: templates/gwd/add_family.html:241 templates/gwd/add_family.html:303
+#: templates/gwd/add_family.html:449 templates/gwd/add_family.html:511
+#: templates/gwd/add_family.html:705 templates/gwd/add_family.html:784
+#: templates/gwd/add_family.html:1094 templates/gwd/add_family.html:1156
+#: templates/gwd/add_family.html:4003 templates/gwd/add_family.html:4018
+#: templates/gwd/add_family.html:4115 templates/gwd/add_family.html:4152
+msgid "year"
+msgstr ""
+
+#: templates/gwd/add_family.html:249 templates/gwd/add_family.html:311
+#: templates/gwd/add_family.html:457 templates/gwd/add_family.html:519
+#: templates/gwd/add_family.html:1102 templates/gwd/add_family.html:1164
+#: templates/gwd/add_family.html:4004 templates/gwd/add_family.html:4019
+msgid "yyyy"
+msgstr ""
+
+#: templates/gwd/add_family.html:256 templates/gwd/add_family.html:267
+#: templates/gwd/add_family.html:318 templates/gwd/add_family.html:329
+#: templates/gwd/add_family.html:464 templates/gwd/add_family.html:475
+#: templates/gwd/add_family.html:526 templates/gwd/add_family.html:537
+#: templates/gwd/add_family.html:658 templates/gwd/add_family.html:1109
+#: templates/gwd/add_family.html:1120 templates/gwd/add_family.html:1171
+#: templates/gwd/add_family.html:1182 templates/gwd/add_family.html:4006
+#: templates/gwd/add_family.html:4008 templates/gwd/add_family.html:4021
+#: templates/gwd/add_family.html:4023 templates/gwd/add_family.html:4097
+#, fuzzy
+msgid "place"
+msgstr "Place"
+
+#: templates/gwd/add_family.html:265 templates/gwd/add_family.html:327
+#: templates/gwd/add_family.html:473 templates/gwd/add_family.html:535
+#: templates/gwd/add_family.html:648 templates/gwd/add_family.html:656
+#: templates/gwd/add_family.html:1118 templates/gwd/add_family.html:1180
+#: templates/gwd/add_family.html:4008 templates/gwd/add_family.html:4023
+#: templates/gwd/add_family.html:4095 templates/gwd/add_family.html:4097
+#, fuzzy
+msgid "Place"
+msgstr "Place"
+
+#: templates/gwd/add_family.html:272 templates/gwd/add_family.html:480
+#: templates/gwd/add_family.html:1125 templates/gwd/add_family.html:4012
+msgid "Death"
+msgstr ""
+
+#: templates/gwd/add_family.html:335 templates/gwd/add_family.html:342
+#: templates/gwd/add_family.html:543 templates/gwd/add_family.html:550
+#: templates/gwd/add_family.html:1188 templates/gwd/add_family.html:1197
+#: templates/gwd/add_family.html:4027 templates/gwd/add_family.html:4029
+#: templates/gwd/add_family.html:4264 templates/gwd/add_family.html:4266
+#, fuzzy
+msgid "Occupation"
+msgstr "Occupation"
+
+#: templates/gwd/add_family.html:568
+msgid "Same-sex relationship (no sex validation)"
+msgstr ""
+
+#: templates/gwd/add_family.html:574 templates/gwd/add_family.html:575
+#: templates/gwd/add_family.html:578 templates/gwd/add_family.html:1694
+#: templates/gwd/add_family.html:1695 templates/gwd/add_family.html:1697
+msgid "Validate"
+msgstr ""
+
+#: templates/gwd/add_family.html:600
+msgid "Event 1"
+msgstr ""
+
+#: templates/gwd/add_family.html:609 templates/gwd/add_family.html:4068
+#, fuzzy
+msgid "Choose an event"
+msgstr "Insert event(s)"
+
+#: templates/gwd/add_family.html:612 templates/gwd/add_family.html:4070
+msgid "Marriage"
+msgstr ""
+
+#: templates/gwd/add_family.html:613 templates/gwd/add_family.html:4071
+msgid "Not married"
+msgstr ""
+
+#: templates/gwd/add_family.html:614 templates/gwd/add_family.html:4072
+msgid "Engaged"
+msgstr ""
+
+#: templates/gwd/add_family.html:615 templates/gwd/add_family.html:4073
+#, fuzzy
+msgid "No mention"
+msgstr "Mentioned"
+
+#: templates/gwd/add_family.html:616 templates/gwd/add_family.html:4074
+msgid "Marriage banns"
+msgstr ""
+
+#: templates/gwd/add_family.html:617 templates/gwd/add_family.html:4075
+msgid "Marriage contract"
+msgstr ""
+
+#: templates/gwd/add_family.html:618 templates/gwd/add_family.html:4076
+msgid "Marriage license"
+msgstr ""
+
+#: templates/gwd/add_family.html:619 templates/gwd/add_family.html:4077
+msgid "Civil union"
+msgstr ""
+
+#: templates/gwd/add_family.html:620 templates/gwd/add_family.html:4078
+#, fuzzy
+msgid "Divorce"
+msgstr "Family sources"
+
+#: templates/gwd/add_family.html:621 templates/gwd/add_family.html:4079
+#, fuzzy
+msgid "Separation"
+msgstr "Insert event(s)"
+
+#: templates/gwd/add_family.html:622 templates/gwd/add_family.html:4080
+#, fuzzy
+msgid "Annulment"
+msgstr "Occupation"
+
+#: templates/gwd/add_family.html:623 templates/gwd/add_family.html:4081
+#, fuzzy
+msgid "Residence"
+msgstr "Present"
+
+#: templates/gwd/add_family.html:625 templates/gwd/add_family.html:4083
+#, fuzzy
+msgid "Custom event"
+msgstr "Comment"
+
+#: templates/gwd/add_family.html:627 templates/gwd/add_family.html:4085
+#, fuzzy
+msgid "Delete event"
+msgstr "Insert event(s)"
+
+#: templates/gwd/add_family.html:642 templates/gwd/add_family.html:4064
+#: templates/gwd/add_family.html:4090
+msgid "Event"
+msgstr ""
+
+#: templates/gwd/add_family.html:663 templates/gwd/add_family.html:4101
+#, fuzzy
+msgid "Date"
+msgstr "Create"
+
+#: templates/gwd/add_family.html:710 templates/gwd/etc/updfam.html:106
+#, fuzzy
+msgid "precision"
+msgstr "Present"
+
+#: templates/gwd/add_family.html:726
+msgid "calendar"
+msgstr ""
+
+#: templates/gwd/add_family.html:737 templates/gwd/add_family.html:4132
+msgid "French Republican"
+msgstr ""
+
+#: templates/gwd/add_family.html:738 templates/gwd/add_family.html:4133
+msgid "Hebrew"
+msgstr ""
+
+#: templates/gwd/add_family.html:799 templates/gwd/add_family.html:4157
+msgid "…or text"
+msgstr ""
+
+#: templates/gwd/add_family.html:804 templates/gwd/add_family.html:811
+#: templates/gwd/add_family.html:4161 templates/gwd/add_family.html:4163
+#, fuzzy
+msgid "Notes"
+msgstr "Notes"
+
+#: templates/gwd/add_family.html:816 templates/gwd/add_family.html:824
+#: templates/gwd/add_family.html:4167 templates/gwd/add_family.html:4169
+#, fuzzy
+msgid "Source"
+msgstr "Source"
+
+#: templates/gwd/add_family.html:835 templates/gwd/add_family.html:891
+#: templates/gwd/add_family.html:4044 templates/gwd/add_family.html:4051
+#: templates/gwd/add_family.html:4175
+#, fuzzy
+msgid "Insert"
+msgstr "Insert"
+
+#: templates/gwd/add_family.html:867 templates/gwd/add_family.html:4184
+msgid "witness(es)"
+msgstr ""
+
+#: templates/gwd/add_family.html:923
+#, fuzzy
+msgid "event(s)"
+msgstr "Events"
+
+#: templates/gwd/add_family.html:956
+msgid "1st Child"
+msgstr ""
+
+#: templates/gwd/add_family.html:1019
+msgid "Edit 1st child"
+msgstr ""
+
+#: templates/gwd/add_family.html:1024 templates/gwd/add_family.html:3974
+#: templates/gwd/add_family.html:4244
+#, fuzzy
+msgid "Sex"
+msgstr "Sex"
+
+#: templates/gwd/add_family.html:1044 templates/gwd/add_family.html:3983
+#: templates/gwd/add_family.html:4252
+msgid "?"
+msgstr ""
+
+#: templates/gwd/add_family.html:1054 templates/gwd/add_family.html:3988
+#: templates/gwd/add_family.html:4257
+msgid "F"
+msgstr ""
+
+#: templates/gwd/add_family.html:1218
+#, fuzzy
+msgid "Persons"
+msgstr "Person sources"
+
+#: templates/gwd/add_family.html:1226
+#, fuzzy
+msgid "People sources"
+msgstr "Sources"
+
+#: templates/gwd/add_family.html:1232
+#, fuzzy
+msgid "Family"
+msgstr "Family"
+
+#: templates/gwd/add_family.html:1407
+msgid "h1"
+msgstr ""
+
+#: templates/gwd/add_family.html:1456
+msgid "Format"
+msgstr ""
+
+#: templates/gwd/add_family.html:1507
+msgid "ul ol dl pre"
+msgstr ""
+
+#: templates/gwd/add_family.html:1555
+#, fuzzy
+msgid "Various notes"
+msgstr "Notes"
+
+#: templates/gwd/add_family.html:1614
+msgid "Summary"
+msgstr ""
+
+#: templates/gwd/add_family.html:1648
+#, fuzzy
+msgid "Person"
+msgstr "Present"
+
+#: templates/gwd/add_family.html:3682 templates/gwd/add_family.html:3924
+msgid "1st"
+msgstr ""
+
+#: templates/gwd/add_family.html:3682 templates/gwd/add_family.html:3924
+#, fuzzy
+msgid "2nd"
+msgstr "2nd"
+
+#: templates/gwd/add_family.html:3682 templates/gwd/add_family.html:3924
+msgid "3rd"
+msgstr ""
+
+#: templates/gwd/add_family.html:3682 templates/gwd/add_family.html:3924
+msgid "4th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3682 templates/gwd/add_family.html:3924
+msgid "5th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3682 templates/gwd/add_family.html:3924
+msgid "6th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3682 templates/gwd/add_family.html:3924
+msgid "7th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3682 templates/gwd/add_family.html:3924
+msgid "8th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3682 templates/gwd/add_family.html:3924
+msgid "9th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3682 templates/gwd/add_family.html:3924
+msgid "10th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3691 templates/gwd/add_family.html:3925
+#: templates/gwd/add_family.html:3942
+#, fuzzy
+msgid "Child"
+msgstr "Children"
+
+#: templates/gwd/add_family.html:3931
+msgid "Swap with previous child"
+msgstr ""
+
+#: templates/gwd/add_family.html:3969
+#, fuzzy
+msgid "Modify child"
+msgstr "Family sources"
+
+#: templates/gwd/add_family.html:4051
+#, fuzzy
+msgid "Insert child(ren)"
+msgstr "Children"
+
+#: templates/gwd/add_family.html:4120 templates/gwd/etc/updfam.html:109
+msgid "exact"
+msgstr ""
+
+#: templates/gwd/add_family.html:4121
+msgid "about"
+msgstr ""
+
+#: templates/gwd/add_family.html:4122
+msgid "maybe"
+msgstr ""
+
+#: templates/gwd/add_family.html:4123
+msgid "before"
+msgstr ""
+
+#: templates/gwd/add_family.html:4124
+#, fuzzy
+msgid "after"
+msgstr "Create"
+
+#: templates/gwd/add_family.html:4125
+msgid "…or…"
+msgstr ""
+
+#: templates/gwd/add_family.html:4126
+msgid "…between…"
+msgstr ""
+
+#: templates/gwd/add_family.html:4130
+msgid "Gregorian"
+msgstr ""
+
+#: templates/gwd/add_family.html:4131
+#, fuzzy
+msgid "Julian"
+msgstr "Link"
+
+#: templates/gwd/add_family.html:4187
+msgid "Insert witness(es)"
+msgstr ""
+
+#: templates/gwd/add_family.html:4202 templates/gwd/add_family.html:4217
+#, fuzzy
+msgid "Witness"
+msgstr "Witness"
+
+#: templates/gwd/add_family.html:4212
+#, fuzzy
+msgid "Modify witness"
+msgstr "Witness"
+
+#: templates/gwd/add_family.html:4218
+#, fuzzy
+msgid "Informant"
+msgstr "Informant"
+
+#: templates/gwd/add_family.html:4219
+#, fuzzy
+msgid "Present"
+msgstr "Parents"
+
+#: templates/gwd/add_family.html:4220
+#, fuzzy
+msgid "Mentioned"
+msgstr "Mentioned"
+
+#: templates/gwd/add_family.html:4221
+msgid "Civil registrar"
+msgstr ""
+
+#: templates/gwd/add_family.html:4222
+msgid "Minister of worship"
+msgstr ""
+
+#: templates/gwd/add_family.html:4223
+#, fuzzy
+msgid "Other"
+msgstr "Notes"
+
+#: templates/gwd/add_family.html:4271
+msgid "Obviously deceased"
+msgstr ""
+
+#: templates/gwd/add_family.html:4275
+#, fuzzy
+msgid "Public"
+msgstr "Public"
+
+#: templates/gwd/etc/annivmenu.html:22 templates/gwd/etc/welcome.html:234
+msgid "anniversaries"
+msgstr ""
+
+#: templates/gwd/etc/annivmenu.html:27
+msgid "anniversaries of birth"
+msgstr ""
+
+#: templates/gwd/etc/annivmenu.html:30
+msgid "anniversaries of dead people"
+msgstr ""
+
+#: templates/gwd/etc/annivmenu.html:33
+msgid "anniversaries of marriage"
+msgstr ""
+
+#: templates/gwd/etc/buttons_fnames.html:11
+msgid "v7 show others"
+msgstr ""
+
+#: templates/gwd/etc/buttons_fnames.html:11
+msgid "v7 hide others"
+msgstr ""
+
+#: templates/gwd/etc/buttons_fnames.html:15
+msgid "v7 exact match"
+msgstr ""
+
+#: templates/gwd/etc/buttons_fnames.html:15
+msgid "v7 approxim match"
+msgstr ""
+
+#: templates/gwd/etc/buttons_fnames.html:19
+msgid "v7 word boundaries"
+msgstr ""
+
+#: templates/gwd/etc/buttons_fnames.html:19
+msgid "v7 anywhere"
+msgstr ""
+
+#: templates/gwd/etc/buttons_fnames.html:23
+msgid "v7 refresh fnames cache"
+msgstr ""
+
+#: templates/gwd/etc/buttons_rel.html:18 templates/gwd/etc/buttons_rel.html:25
+#: templates/gwd/etc/relmenu.html:133
+msgid "shortest path"
+msgstr ""
+
+#: templates/gwd/etc/buttons_rel.html:18 templates/gwd/etc/buttons_rel.html:40
+#: templates/gwd/etc/buttons_rel.html:48 templates/gwd/etc/buttons_rel.html:49
+#: templates/gwd/etc/buttons_rel.html:53 templates/gwd/etc/buttons_rel.html:54
+#: templates/gwd/etc/relmenu.html:154 templates/gwd/etc/relmenu.html:158
+#: templates/gwd/etc/summary.html:13 templates/gwd/etc/summary.html:14
+msgid "visualize/show/hide/summary"
+msgstr ""
+
+#: templates/gwd/etc/buttons_rel.html:19
+msgid "next relationship path"
+msgstr ""
+
+#: templates/gwd/etc/buttons_rel.html:31
+msgid "relationship link/relationship links"
+msgstr ""
+
+#: templates/gwd/etc/buttons_rel.html:35 templates/gwd/etc/relmenu.html:141
+msgid "relationship by marriage"
+msgstr ""
+
+#: templates/gwd/etc/buttons_rel.html:39 templates/gwd/etc/buttons_rel.html:40
+#: templates/gwd/etc/relmenu.html:150
+msgid "long display"
+msgstr ""
+
+#: templates/gwd/etc/buttons_rel.html:49 templates/gwd/etc/carrousel.html:35
+#: templates/gwd/etc/carrousel.html:93 templates/gwd/etc/carrousel.html:116
+#: templates/gwd/etc/carrousel.html:209 templates/gwd/etc/carrousel.html:213
+#: templates/gwd/etc/carrousel.html:220 templates/gwd/etc/carrousel.html:261
+#: templates/gwd/etc/carrousel_display.html:14
+#: templates/gwd/etc/carrousel_display.html:63
+#: templates/gwd/etc/relmenu.html:158
+msgid "image/images"
+msgstr ""
+
+#: templates/gwd/etc/buttons_rel.html:54 templates/gwd/etc/relmenu.html:61
+#: templates/gwd/etc/relmenu.html:154
+msgid "spouse/spouses"
+msgstr ""
+
+#: templates/gwd/etc/buttons_rel.html:58 templates/gwd/etc/buttons_rel.html:61
+#: templates/gwd/etc/updfam.html:674
+#, fuzzy
+msgid "invert"
+msgstr "Insert"
+
+#: templates/gwd/etc/buttons_rel.html:61 templates/gwd/etc/home.html:51
+#: templates/gwd/etc/updfam.html:783 templates/gwd/etc/updfam.html:785
+#: templates/gwd/etc/welcome.html:103 templates/gwd/etc/welcome.html:172
+#, fuzzy
+msgid "person/persons"
+msgstr "Person sources"
+
+#: templates/gwd/etc/buttons_rel.html:63
+msgid "dag"
+msgstr ""
+
+#: templates/gwd/etc/buttons_rel.html:64
+msgid "cancel GeneWeb links"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:10
+#: templates/gwd/etc/carrousel_display.html:14
+msgid "add"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:10
+msgid "delete::image/images"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:32 templates/gwd/etc/js.html:72
+msgid "image received"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:32
+#, fuzzy
+msgid "with note"
+msgstr "Witness"
+
+#: templates/gwd/etc/carrousel.html:33 templates/gwd/etc/js.html:73
+msgid "image deleted"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:34 templates/gwd/etc/carrousel.html:37
+#: templates/gwd/etc/relmenu.html:13 templates/gwd/etc/relmenu.html:32
+#: templates/gwd/etc/updfam.html:674
+#, fuzzy
+msgid "and"
+msgstr "2nd"
+
+#: templates/gwd/etc/carrousel.html:34 templates/gwd/etc/carrousel.html:37
+msgid "saved"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:35 templates/gwd/etc/carrousel.html:37
+msgid "restored"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:37
+#, fuzzy
+msgid "note"
+msgstr "Notes"
+
+#: templates/gwd/etc/carrousel.html:37
+msgid "update"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:37 templates/gwd/etc/carrousel.html:156
+#: templates/gwd/etc/carrousel_display.html:14
+#: templates/gwd/etc/carrousel_display.html:43
+#: templates/gwd/etc/carrousel_display.html:46
+msgid "portrait"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:37
+#, fuzzy
+msgid "uploaded"
+msgstr "Place"
+
+#: templates/gwd/etc/carrousel.html:37
+msgid "deleted"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:81
+msgid "modify portrait"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:81
+msgid "add portrait"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:92 templates/gwd/etc/carrousel.html:116
+msgid "browse"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:93 templates/gwd/etc/carrousel.html:116
+msgid "select"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:96 templates/gwd/etc/carrousel.html:118
+msgid "send"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:98
+msgid "previous portrait"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:101 templates/gwd/etc/carrousel.html:203
+#: templates/gwd/etc/carrousel.html:293
+msgid "add image"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:121
+msgid "previous image"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:124
+msgid "url"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:127
+#, fuzzy
+msgid "name"
+msgstr "Surname"
+
+#: templates/gwd/etc/carrousel.html:132 templates/gwd/etc/carrousel.html:136
+#: templates/gwd/etc/carrousel_display.html:66 templates/gwd/etc/updfam.html:40
+#: templates/gwd/etc/updfam.html:198 templates/gwd/etc/updfam.html:527
+#: templates/gwd/etc/updfam.html:530 templates/gwd/etc/updfam.html:532
+#: templates/gwd/etc/updfam.html:785 templates/gwd/etc/updfam.html:794
+#: templates/gwd/etc/updfam.html:796 templates/gwd/etc/welcome.html:294
+#, fuzzy
+msgid "source/sources"
+msgstr "Sources"
+
+#: templates/gwd/etc/carrousel.html:141 templates/gwd/etc/carrousel.html:147
+#: templates/gwd/etc/carrousel_display.html:68
+#: templates/gwd/etc/updfam.html:209 templates/gwd/etc/updfam.html:521
+#: templates/gwd/etc/updfam.html:523
+#, fuzzy
+msgid "note/notes"
+msgstr "Notes"
+
+#: templates/gwd/etc/carrousel.html:150
+msgid "send image with note and source"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:163 templates/gwd/etc/carrousel.html:184
+msgid "see portrait"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:172
+msgid "delete portrait"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:190
+msgid "restore portrait saved"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:196
+msgid "delete portrait saved"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:205 templates/gwd/etc/carrousel.html:295
+msgid "warning refresh"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:220 templates/gwd/etc/carrousel.html:268
+#, fuzzy
+msgid "see"
+msgstr "Sex"
+
+#: templates/gwd/etc/carrousel.html:231
+#, fuzzy
+msgid "add source"
+msgstr "Source"
+
+#: templates/gwd/etc/carrousel.html:231
+#, fuzzy
+msgid "modify source"
+msgstr "Family sources"
+
+#: templates/gwd/etc/carrousel.html:238
+#, fuzzy
+msgid "add note"
+msgstr "Notes"
+
+#: templates/gwd/etc/carrousel.html:238
+msgid "modify note"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:246 templates/gwd/etc/carrousel.html:293
+msgid "delete image"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:257 templates/gwd/etc/carrousel.html:268
+msgid "saved images"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:276
+msgid "restore image saved"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:283
+msgid "delete image saved"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:371
+msgid "update image note"
+msgstr ""
+
+#: templates/gwd/etc/carrousel.html:380
+msgid "update image source"
+msgstr ""
+
+#: templates/gwd/etc/carrousel_display.html:14
+msgid "delete"
+msgstr ""
+
+#: templates/gwd/etc/carrousel_display.html:22
+#: templates/gwd/etc/carrousel_display.html:23
+msgid "previous"
+msgstr ""
+
+#: templates/gwd/etc/carrousel_display.html:25
+#: templates/gwd/etc/carrousel_display.html:26
+#, fuzzy
+msgid "next"
+msgstr "Insert"
+
+#: templates/gwd/etc/conf.html:24
+msgid "geneweb parameters"
+msgstr ""
+
+#: templates/gwd/etc/conf.html:25 templates/gwd/etc/conf.html:26
+#: templates/gwd/etc/copyr.html:84 templates/gwd/etc/copyr.html:85
+#: templates/gwd/etc/copyr.html:90 templates/gwd/etc/copyr.html:91
+#: templates/gwd/etc/welcome.html:55 templates/gwd/etc/welcome.html:68
+#: templates/gwd/etc/welcome.html:71 templates/gwd/etc/welcome.html:77
+#: templates/gwd/etc/welcome.html:80 templates/gwd/etc/welcome.html:85
+#: templates/gwd/etc/welcome.html:248
+msgid "wizard/wizards/friend/friends/exterior"
+msgstr ""
+
+#: templates/gwd/etc/conf.html:28
+#, fuzzy
+msgid "build information"
+msgstr "Informant"
+
+#: templates/gwd/etc/conf.html:35
+msgid "user and language variables"
+msgstr ""
+
+#: templates/gwd/etc/conf.html:47
+msgid "launch arguments of Gwd server"
+msgstr ""
+
+#: templates/gwd/etc/conf.html:57
+msgid "configuration parameters"
+msgstr ""
+
+#: templates/gwd/etc/copyr.html:38 templates/gwd/etc/index.html:36
+msgid "select lang"
+msgstr ""
+
+#: templates/gwd/etc/copyr.html:95 templates/gwd/etc/copyr.html:96
+msgid "connection/connections"
+msgstr ""
+
+#: templates/gwd/etc/copyr.html:108
+msgid "branch/branches"
+msgstr ""
+
+#: templates/gwd/etc/copyr.html:108
+msgid "compiled on"
+msgstr ""
+
+#: templates/gwd/etc/copyr.html:108
+msgid "from commit"
+msgstr ""
+
+#: templates/gwd/etc/destree.html:11
+msgid "descendants tree"
+msgstr ""
+
+#: templates/gwd/etc/home.html:27 templates/gwd/etc/home.html:28
+msgid "home"
+msgstr ""
+
+#: templates/gwd/etc/home.html:30
+msgid "back"
+msgstr ""
+
+#: templates/gwd/etc/home.html:33 templates/gwd/etc/home.html:51
+#: templates/gwd/etc/home.html:62 templates/gwd/etc/relmenu.html:112
+#: templates/gwd/etc/welcome.html:153 templates/gwd/etc/welcome.html:166
+#: templates/gwd/etc/welcome.html:172 templates/gwd/etc/welcome.html:200
+msgid "search/case sensitive"
+msgstr ""
+
+#: templates/gwd/etc/home.html:37
+msgid "random individual"
+msgstr ""
+
+#: templates/gwd/etc/home.html:37
+msgid "stay on the current tool"
+msgstr ""
+
+#: templates/gwd/etc/home.html:57 templates/gwd/etc/relmenu.html:119
+#: templates/gwd/etc/relmenu.html:120 templates/gwd/etc/tp0_updDAG.html:124
+#: templates/gwd/etc/tp0_updRLM.html:79 templates/gwd/etc/updfam.html:294
+#: templates/gwd/etc/updfam.html:296 templates/gwd/etc/updfam.html:440
+#: templates/gwd/etc/updfam.html:443 templates/gwd/etc/updfam.html:708
+#: templates/gwd/etc/welcome.html:146 templates/gwd/etc/welcome.html:148
+#: templates/gwd/etc/welcome.html:150 templates/gwd/etc/welcome.html:152
+#: templates/gwd/etc/welcome.html:153 templates/gwd/etc/welcome.html:253
+#: templates/gwd/etc/welcome.html:282
+#, fuzzy
+msgid "surname/surnames"
+msgstr "Surname"
+
+#: templates/gwd/etc/home.html:57 templates/gwd/etc/relmenu.html:115
+#: templates/gwd/etc/relmenu.html:116 templates/gwd/etc/welcome.html:152
+#: templates/gwd/etc/welcome.html:153
+#, fuzzy
+msgid "public name"
+msgstr "Public"
+
+#: templates/gwd/etc/home.html:57 templates/gwd/etc/relmenu.html:115
+#: templates/gwd/etc/relmenu.html:116 templates/gwd/etc/welcome.html:152
+#: templates/gwd/etc/welcome.html:153
+msgid "alias"
+msgstr ""
+
+#: templates/gwd/etc/home.html:60 templates/gwd/etc/relmenu.html:117
+#: templates/gwd/etc/relmenu.html:118 templates/gwd/etc/tp0_updDAG.html:123
+#: templates/gwd/etc/tp0_updRLM.html:78 templates/gwd/etc/updfam.html:282
+#: templates/gwd/etc/updfam.html:286 templates/gwd/etc/updfam.html:428
+#: templates/gwd/etc/updfam.html:431 templates/gwd/etc/updfam.html:698
+#: templates/gwd/etc/updfam.html:700 templates/gwd/etc/welcome.html:158
+#: templates/gwd/etc/welcome.html:160 templates/gwd/etc/welcome.html:162
+#: templates/gwd/etc/welcome.html:165 templates/gwd/etc/welcome.html:166
+#: templates/gwd/etc/welcome.html:278
+#, fuzzy
+msgid "first name/first names"
+msgstr "First name"
+
+#: templates/gwd/etc/index.html:20
+msgid "choose a genealogy"
+msgstr ""
+
+#: templates/gwd/etc/index.html:23
+msgid "input database"
+msgstr ""
+
+#: templates/gwd/etc/index.html:32
+msgid "available genealogies"
+msgstr ""
+
+#: templates/gwd/etc/js.html:56 templates/gwd/etc/js.html:74
+msgid "modification successful"
+msgstr ""
+
+#: templates/gwd/etc/js.html:57
+msgid "no modification"
+msgstr ""
+
+#: templates/gwd/etc/js.html:70
+#, fuzzy
+msgid "person modified"
+msgstr "Person sources"
+
+#: templates/gwd/etc/js.html:71
+#, fuzzy
+msgid "person added"
+msgstr "Person sources"
+
+#: templates/gwd/etc/js.html:77
+#, fuzzy
+msgid "family modified"
+msgstr "Family sources"
+
+#: templates/gwd/etc/js.html:78
+#, fuzzy
+msgid "family added"
+msgstr "Family"
+
+#: templates/gwd/etc/js.html:79
+#, fuzzy
+msgid "family deleted"
+msgstr "Family"
+
+#: templates/gwd/etc/js.html:106
+msgid "autofocus"
+msgstr ""
+
+#: templates/gwd/etc/js.html:134 templates/gwd/etc/js.html:143
+#, fuzzy
+msgid "data-surname"
+msgstr "Surname"
+
+#: templates/gwd/etc/js.html:155
+msgid "data-index"
+msgstr ""
+
+#: templates/gwd/etc/lexcheck.html:8 templates/gwd/etc/lexcheck.html:9
+msgid "cousins.xx.yy"
+msgstr ""
+
+#: templates/gwd/etc/lexcheck.html:12
+msgid "cousins.xx.yy tt"
+msgstr ""
+
+#: templates/gwd/etc/relmenu.html:11 templates/gwd/etc/relmenu.html:27
+msgid "link between"
+msgstr ""
+
+#: templates/gwd/etc/relmenu.html:48
+msgid "relationship shortcut"
+msgstr ""
+
+#: templates/gwd/etc/relmenu.html:53
+msgid "Sosa"
+msgstr ""
+
+#: templates/gwd/etc/relmenu.html:91 templates/gwd/etc/updfam.html:417
+msgid "witness/witnesses"
+msgstr ""
+
+#: templates/gwd/etc/relmenu.html:112
+msgid "any individual in the base"
+msgstr ""
+
+#: templates/gwd/etc/relmenu.html:124 templates/gwd/etc/updfam.html:628
+#: templates/gwd/etc/updfam.html:629 templates/gwd/etc/updfam.html:818
+#: templates/gwd/etc/updfam.html:819
+msgid "validate/delete"
+msgstr ""
+
+#: templates/gwd/etc/relmenu.html:129
+msgid "relationship computing mode"
+msgstr ""
+
+#: templates/gwd/etc/relmenu.html:137
+msgid "relationship by ancestors"
+msgstr ""
+
+#: templates/gwd/etc/relmenu.html:146
+msgid "relationship display options"
+msgstr ""
+
+#: templates/gwd/etc/stats.html:11 templates/gwd/etc/stats.html:24
+#: templates/gwd/etc/welcome.html:232
+msgid "statistics"
+msgstr ""
+
+#: templates/gwd/etc/tp0_updDAG.html:9 templates/gwd/etc/tp0_updRLM.html:9
+msgid "modify::tree"
+msgstr ""
+
+#: templates/gwd/etc/tp0_updDAG.html:110 templates/gwd/etc/tp0_updRLM.html:65
+#, fuzzy
+msgid "edit tree"
+msgstr "Edit person"
+
+#: templates/gwd/etc/tp0_updDAG.html:125 templates/gwd/etc/tp0_updRLM.html:80
+msgid "birth"
+msgstr ""
+
+#: templates/gwd/etc/tp0_updDAG.html:125 templates/gwd/etc/tp0_updRLM.html:80
+msgid "death"
+msgstr ""
+
+#: templates/gwd/etc/tp0_updRLM.html:81 templates/gwd/etc/updfam.html:189
+msgid "text"
+msgstr ""
+
+#: templates/gwd/etc/upddatamenu.html:11
+msgid "lists"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:16 templates/gwd/etc/updfam.html:561
+#: templates/gwd/etc/welcome.html:248
+#, fuzzy
+msgid "add::family/families"
+msgstr "Add family"
+
+#: templates/gwd/etc/updfam.html:16 templates/gwd/etc/updfam.html:563
+#, fuzzy
+msgid "add::parents"
+msgstr "Parents"
+
+#: templates/gwd/etc/updfam.html:17 templates/gwd/etc/updfam.html:565
+#: templates/gwd/etc/updfamevt.html:10
+msgid "modify::family/families"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:20 templates/gwd/etc/updfam.html:568
+msgid "merge::family/families"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:37 templates/gwd/etc/updfam.html:328
+#, fuzzy
+msgid "parents"
+msgstr "Parents"
+
+#: templates/gwd/etc/updfam.html:38 templates/gwd/etc/updfam.html:331
+#: templates/gwd/etc/updfam.html:371 templates/gwd/etc/updfam.html:374
+#: templates/gwd/etc/updfam.html:503 templates/gwd/etc/updfam.html:509
+#, fuzzy
+msgid "event/events"
+msgstr "Events"
+
+#: templates/gwd/etc/updfam.html:39 templates/gwd/etc/updfam.html:660
+#: templates/gwd/etc/updfam.html:663 templates/gwd/etc/updfam.html:674
+#: templates/gwd/etc/updfam.html:689 templates/gwd/etc/updfam.html:718
+#, fuzzy
+msgid "child/children"
+msgstr "Children"
+
+#: templates/gwd/etc/updfam.html:41
+#, fuzzy
+msgid "comment"
+msgstr "Comment"
+
+#: templates/gwd/etc/updfam.html:61 templates/gwd/etc/updfam.html:67
+#: templates/gwd/etc/updfam.html:71 templates/gwd/etc/updfam.html:78
+#: templates/gwd/etc/updfam.html:82 templates/gwd/etc/updfam.html:86
+#: templates/gwd/etc/updfam.html:91 templates/gwd/etc/updfam.html:97
+#: templates/gwd/etc/updfam.html:101 templates/gwd/etc/updfam.html:143
+#: templates/gwd/etc/updfam.html:149 templates/gwd/etc/updfam.html:153
+#: templates/gwd/etc/updfam.html:160 templates/gwd/etc/updfam.html:164
+#: templates/gwd/etc/updfam.html:168 templates/gwd/etc/updfam.html:173
+#: templates/gwd/etc/updfam.html:179 templates/gwd/etc/updfam.html:183
+#: templates/gwd/etc/updfam.html:226 templates/gwd/etc/updfam.html:228
+#: templates/gwd/etc/updfam.html:230 templates/gwd/etc/updfam.html:233
+#: templates/gwd/etc/updfam.html:235 templates/gwd/etc/updfam.html:237
+#: templates/gwd/etc/updfam.html:240 templates/gwd/etc/updfam.html:242
+#: templates/gwd/etc/updfam.html:244
+msgid "year/month/day"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:117 templates/gwd/etc/welcome.html:262
+msgid "calendar/calendars"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:123 templates/gwd/etc/updfam.html:126
+#: templates/gwd/etc/updfam.html:129 templates/gwd/etc/updfam.html:132
+msgid "gregorian/julian/french/hebrew"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:223
+msgid "kind"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:227 templates/gwd/etc/updfam.html:229
+#: templates/gwd/etc/updfam.html:231 templates/gwd/etc/updfam.html:234
+#: templates/gwd/etc/updfam.html:236 templates/gwd/etc/updfam.html:238
+#: templates/gwd/etc/updfam.html:241 templates/gwd/etc/updfam.html:243
+#: templates/gwd/etc/updfam.html:245
+msgid "dd/mm/yyyy"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:248 templates/gwd/etc/updfam.html:249
+#: templates/gwd/etc/updfam.html:514 templates/gwd/etc/updfam.html:516
+#: templates/gwd/etc/welcome.html:253 templates/gwd/etc/welcome.html:286
+msgid "place/places"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:288 templates/gwd/etc/updfam.html:290
+#: templates/gwd/etc/updfam.html:433 templates/gwd/etc/updfam.html:702
+#, fuzzy
+msgid "number"
+msgstr "Number"
+
+#: templates/gwd/etc/updfam.html:300 templates/gwd/etc/updfam.html:411
+#: templates/gwd/etc/updfam.html:693
+#, fuzzy
+msgid "create"
+msgstr "Create"
+
+#: templates/gwd/etc/updfam.html:301 templates/gwd/etc/updfam.html:412
+#: templates/gwd/etc/updfam.html:692
+#, fuzzy
+msgid "link"
+msgstr "Link"
+
+#: templates/gwd/etc/updfam.html:309 templates/gwd/etc/updfam.html:311
+#: templates/gwd/etc/updfam.html:480 templates/gwd/etc/updfam.html:483
+#: templates/gwd/etc/updfam.html:751 templates/gwd/etc/updfam.html:753
+#: templates/gwd/etc/welcome.html:290
+#, fuzzy
+msgid "occupation/occupations"
+msgstr "Occupation"
+
+#: templates/gwd/etc/updfam.html:321 templates/gwd/etc/updfam.html:364
+#: templates/gwd/etc/updfam.html:385 templates/gwd/etc/updfam.html:653
+#, fuzzy
+msgid "insert"
+msgstr "Insert"
+
+#: templates/gwd/etc/updfam.html:331 templates/gwd/etc/updfam.html:374
+#, fuzzy
+msgid "insert::event/events"
+msgstr "Insert event(s)"
+
+#: templates/gwd/etc/updfam.html:342
+#, fuzzy
+msgid "custom event"
+msgstr "Comment"
+
+#: templates/gwd/etc/updfam.html:345
+msgid "marriage event"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:346
+msgid "no marriage event"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:347
+msgid "engage event"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:348
+#, fuzzy
+msgid "no mention"
+msgstr "Mentioned"
+
+#: templates/gwd/etc/updfam.html:349
+msgid "marriage bann"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:350
+msgid "marriage contract"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:351
+msgid "marriage licence"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:352
+#, fuzzy
+msgid "PACS"
+msgstr "Place"
+
+#: templates/gwd/etc/updfam.html:353
+msgid "divorce event"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:354
+#, fuzzy
+msgid "separate event"
+msgstr "Insert event(s)"
+
+#: templates/gwd/etc/updfam.html:355
+#, fuzzy
+msgid "annulation"
+msgstr "Occupation"
+
+#: templates/gwd/etc/updfam.html:356
+#, fuzzy
+msgid "residence"
+msgstr "Present"
+
+#: templates/gwd/etc/updfam.html:392 templates/gwd/etc/updfam.html:395
+#: templates/gwd/etc/updfam.html:408 templates/gwd/etc/updfam.html:451
+msgid "witness/witness/witnesses"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:395
+msgid "insert::witness/witness/witnesses"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:418
+msgid "informant/informant/informant"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:419
+msgid "present/present/present"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:420
+msgid "mentioned/mentioned/mentioned"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:421
+msgid "civil registrar/civil registrar/civil registrar"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:422
+msgid "parrish registrar/parrish registrar/parrish registrar"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:423
+msgid "other/other/other"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:447 templates/gwd/etc/updfam.html:714
+msgid "modify::person/persons"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:451 templates/gwd/etc/updfam.html:718
+#: templates/gwd/etc/welcome.html:277 templates/gwd/etc/welcome.html:281
+#: templates/gwd/etc/welcome.html:285 templates/gwd/etc/welcome.html:289
+#: templates/gwd/etc/welcome.html:293
+msgid "modify"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:457 templates/gwd/etc/updfam.html:723
+#, fuzzy
+msgid "sex"
+msgstr "Sex"
+
+#: templates/gwd/etc/updfam.html:461 templates/gwd/etc/updfam.html:473
+#: templates/gwd/etc/updfam.html:728 templates/gwd/etc/updfam.html:740
+msgid "M/F"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:488
+msgid "of course dead"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:492
+#, fuzzy
+msgid "public"
+msgstr "Public"
+
+#: templates/gwd/etc/updfam.html:519
+msgid "date/dates"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:556
+msgid "yy"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:624
+msgid "no sexes check"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:663
+msgid "insert::child/children"
+msgstr ""
+
+#: templates/gwd/etc/updfam.html:791 templates/gwd/etc/updfam.html:794
+#: templates/gwd/etc/updfam.html:796
+msgid "family/families"
+msgstr ""
+
+#: templates/gwd/etc/updfamevt.html:28 templates/gwd/etc/updfamevt.html:30
+msgid "move up/down"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:35
+msgid "restricted access"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:56
+msgid "user/password/cancel"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:88
+msgid "disconnect"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:146 templates/gwd/etc/welcome.html:148
+#: templates/gwd/etc/welcome.html:158 templates/gwd/etc/welcome.html:160
+msgid "sort by/date begin/alphabetic order/nb individuals/nb events"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:146 templates/gwd/etc/welcome.html:158
+msgid "display by/branch/alphabetic order"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:148 templates/gwd/etc/welcome.html:160
+msgid "frequency"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:184
+msgid "all the titles"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:185 templates/gwd/etc/welcome.html:187
+#: templates/gwd/etc/welcome.html:200
+msgid "title/titles"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:191
+msgid "all the estates"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:193 templates/gwd/etc/welcome.html:196
+#: templates/gwd/etc/welcome.html:200
+#, fuzzy
+msgid "estate"
+msgstr "Create"
+
+#: templates/gwd/etc/welcome.html:208
+msgid "tools"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:212
+msgid "add base notes"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:218
+#, fuzzy
+msgid "base notes"
+msgstr "Notes"
+
+#: templates/gwd/etc/welcome.html:224
+msgid "base index notes"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:229
+msgid "base wizard notes"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:237
+msgid "history"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:241
+msgid "forum"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:258
+msgid "advanced request"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:266
+#, fuzzy
+msgid "configuration"
+msgstr "Occupation"
+
+#: templates/gwd/etc/welcome.html:273
+msgid "book/books"
+msgstr ""
+
+#: templates/gwd/etc/welcome.html:301
+msgid "plugins"
+msgstr ""
+
+#~ msgid "F"
+#~ msgstr ""
+
+#~ msgid "1st"
+#~ msgstr "1st"
+
+#~ msgid "3rd"
+#~ msgstr "3rd"
+
+#~ msgid "4th"
+#~ msgstr "4th"
+
+#~ msgid "5th"
+#~ msgstr "5th"
+
+#~ msgid "6th"
+#~ msgstr "6th"
+
+#~ msgid "7th"
+#~ msgstr "7th"
+
+#~ msgid "8th"
+#~ msgstr "8th"
+
+#~ msgid "9th"
+#~ msgstr "9th"
+
+#~ msgid "10th"
+#~ msgstr "10th"
+
+#~ msgid "Do not auto-complete"
+#~ msgstr "Do not auto-complete"
+
+#~ msgid "Same-sex relationship (no sex verification)"
+#~ msgstr ""
+
+#~ msgid "Date"
+#~ msgstr "Create"
+
+#~ msgid "calendar"
+#~ msgstr ""
+
+#~ msgid "Persons"
+#~ msgstr "Person sources"
+
+#~ msgid "1st Child"
+#~ msgstr "Child"
+
+#~ msgid "Edit 1st child"
+#~ msgstr "Edit 1st child"
+
+#~ msgid "Sex"
+#~ msgstr "Sex"
+
+#~ msgid "Submit"
+#~ msgstr "Submit"
+
+#~ msgid "Event 1"
+#~ msgstr "Event"
+
+#~ msgid "Marriage"
+#~ msgstr ""
+
+#~ msgid "Not married"
+#~ msgstr ""
+
+#~ msgid "Engagement"
+#~ msgstr ""
+
+#~ msgid "No mention"
+#~ msgstr "Mentioned"
+
+#~ msgid "Marriage banns"
+#~ msgstr ""
+
+#~ msgid "Marriage contract"
+#~ msgstr ""
+
+#~ msgid "Marriage license"
+#~ msgstr ""
+
+#~ msgid "Civil union"
+#~ msgstr ""
+
+#~ msgid "Separation"
+#~ msgstr "Occupation"
+
+#~ msgid "Annulment"
+#~ msgstr ""
+
+#~ msgid "Residence"
+#~ msgstr "Present"
+
+#~ msgid "Custom event"
+#~ msgstr "Comment"
+
+#~ msgid "Event"
+#~ msgstr "Event"
+
+#~ msgid "about"
+#~ msgstr ""
+
+#~ msgid "maybe"
+#~ msgstr ""
+
+#~ msgid "before"
+#~ msgstr ""
+
+#~ msgid "after"
+#~ msgstr "Other"
+
+#~ msgid "Gregorian"
+#~ msgstr ""
+
+#~ msgid "Julian"
+#~ msgstr "Link"
+
+#~ msgid "Republican"
+#~ msgstr "Public"
+
+#~ msgid "Hebrew"
+#~ msgstr ""
+
+#~ msgid "…or text"
+#~ msgstr ""
+
+#~ msgid "Insert witness/witnesses"
+#~ msgstr "Insert witness(es)"
+
+#~ msgid "Insert event/events"
+#~ msgstr "Insert event(s)"
+
+#~ msgid "Person sources"
+#~ msgstr "Person sources"
+
+#~ msgid "Family"
+#~ msgstr "Family"
+
+#~ msgid "Family sources"
+#~ msgstr "Family sources"
+
+#~ msgid "Latin Small Letter A with Breve"
+#~ msgstr ""
+
+#~ msgid "French – Select language"
+#~ msgstr ""
+
+#~ msgid ", select language"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Master branch compiled on 2025-09-05<br>from"
+#~ " commit id 2ce17dddc (2025-08-24)"
+#~ msgstr ""
+
+#~ msgid "January"
+#~ msgstr ""
+
+#~ msgid "February"
+#~ msgstr ""
+
+#~ msgid "March"
+#~ msgstr ""
+
+#~ msgid "April"
+#~ msgstr ""
+
+#~ msgid "May"
+#~ msgstr ""
+
+#~ msgid "June"
+#~ msgstr ""
+
+#~ msgid "July"
+#~ msgstr ""
+
+#~ msgid "August"
+#~ msgstr ""
+
+#~ msgid "September"
+#~ msgstr ""
+
+#~ msgid "October"
+#~ msgstr "Other"
+
+#~ msgid "November"
+#~ msgstr "Number"
+
+#~ msgid "December"
+#~ msgstr ""
+
+#~ msgid "Vendémiaire"
+#~ msgstr ""
+
+#~ msgid "Brumaire"
+#~ msgstr ""
+
+#~ msgid "Frimaire"
+#~ msgstr ""
+
+#~ msgid "Nivôse"
+#~ msgstr ""
+
+#~ msgid "Pluviôse"
+#~ msgstr ""
+
+#~ msgid "Ventôse"
+#~ msgstr "Events"
+
+#~ msgid "Germinal"
+#~ msgstr ""
+
+#~ msgid "Floréal"
+#~ msgstr ""
+
+#~ msgid "Prairial"
+#~ msgstr ""
+
+#~ msgid "Messidor"
+#~ msgstr ""
+
+#~ msgid "Thermidor"
+#~ msgstr ""
+
+#~ msgid "Fructidor"
+#~ msgstr ""
+
+#~ msgid "Complementary"
+#~ msgstr "Comment"
+
+#~ msgid "Tishrei"
+#~ msgstr ""
+
+#~ msgid "Marcheshvan"
+#~ msgstr ""
+
+#~ msgid "Kislev"
+#~ msgstr ""
+
+#~ msgid "Tevet"
+#~ msgstr "Event"
+
+#~ msgid "Shevat"
+#~ msgstr ""
+
+#~ msgid "Adar I"
+#~ msgstr ""
+
+#~ msgid "Adar II"
+#~ msgstr ""
+
+#~ msgid "Nisan"
+#~ msgstr ""
+
+#~ msgid "Iyar"
+#~ msgstr ""
+
+#~ msgid "Sivan"
+#~ msgstr ""
+
+#~ msgid "Tammuz"
+#~ msgstr ""
+
+#~ msgid "Av"
+#~ msgstr ""
+
+#~ msgid "Elul"
+#~ msgstr ""
+
+#~ msgid "Swap with previous child"
+#~ msgstr "Swap with previous child"
+
+#~ msgid "Insert"
+#~ msgstr "Insert"
+
+#~ msgid "Clear field"
+#~ msgstr "Clear field"
+
+#~ msgid "Insert child(ren)"
+#~ msgstr "Children"
+
+#~ msgid "Choose an event"
+#~ msgstr ""
+
+#~ msgid "Delete event"
+#~ msgstr ""
+
+#~ msgid "Witness"
+#~ msgstr "Witness"
+
+#~ msgid "Informant"
+#~ msgstr "Informant"
+
+#~ msgid "Present"
+#~ msgstr "Present"
+
+#~ msgid "Mentioned"
+#~ msgstr "Mentioned"
+
+#~ msgid "Civil registrar"
+#~ msgstr "Civil registrar"
+
+#~ msgid "Minister of worship"
+#~ msgstr "Minister of worship"
+
+#~ msgid "Other"
+#~ msgstr "Other"
+
+#~ msgid "Of course deceased"
+#~ msgstr "Obviously deceased"
+
+#~ msgid "Notes"
+#~ msgstr "Notes"
+
+#~ msgid "Source"
+#~ msgstr "Source"
+
+#~ msgid "= shift + enter"
+#~ msgstr ""
+
+#~ msgid "En Dash"
+#~ msgstr ""
+
+#~ msgid "Em Dash"
+#~ msgstr ""
+
+#~ msgid "Left Double Angle Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "No-Break Space"
+#~ msgstr ""
+
+#~ msgid "Right Double Angle Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Left Single Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Right Single Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Double Low-9 Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Left Double Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Right Double Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Narrow No-Break Space"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Macron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Macron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Breve"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Ring Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Ring Above"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter AE"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter AE"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Macron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Macron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Dotless I"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Double Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Double Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Stroke"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Stroke"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Ring Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Ring Above"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Double Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Double Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Y with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Y with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Y with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Y with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Y with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Y with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter C with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter C with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter C with Cedilla"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter C with Cedilla"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter C with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter C with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter D with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter D with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Eth"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Eth"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter N with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter N with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter N with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter N with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter R with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter R with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter R with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter R with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter S with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter S with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter S with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter S with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Sharp S"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter T with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter T with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter T with Cedilla"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter T with Cedilla"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Thorn"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Thorn"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Z with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Z with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Z with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Z with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Z with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Z with Dot Above"
+#~ msgstr ""
+
+#~ msgid "died"
+#~ msgstr ""
+
+#~ msgid "alive"
+#~ msgstr ""
+
+#~ msgid "maybe alive"
+#~ msgstr ""
+
+#~ msgid "married"
+#~ msgstr ""
+
+#~ msgid "Y/N"
+#~ msgstr ""
+
+#~ msgid "search type"
+#~ msgstr ""
+
+#~ msgid "male/female/neuter"
+#~ msgstr ""
+
+#~ msgid "maximum"
+#~ msgstr ""
+
+#~ msgid "Add family"
+#~ msgstr "Add family"
+
+#~ msgid "Parents"
+#~ msgstr "Parents"
+
+#~ msgid "Events"
+#~ msgstr "Events"
+
+#~ msgid "Children"
+#~ msgstr "Children"
+
+#~ msgid "Sources"
+#~ msgstr "Sources"
+
+#~ msgid "Comment"
+#~ msgstr "Comment"
+
+#~ msgid "First name"
+#~ msgstr "First name"
+
+#~ msgid "M"
+#~ msgstr "M"
+
+#~ msgid "Number"
+#~ msgstr "Number"
+
+#~ msgid "Number (occurrence)"
+#~ msgstr "Number (occurrence)"
+
+#~ msgid "Surname"
+#~ msgstr "Surname"
+
+#~ msgid "Create"
+#~ msgstr "Create"
+
+#~ msgid "Link"
+#~ msgstr "Link"
+
+#~ msgid "Birth"
+#~ msgstr "Birth"
+
+#~ msgid "day"
+#~ msgstr "day"
+
+#~ msgid "dd"
+#~ msgstr "dd"
+
+#~ msgid "month"
+#~ msgstr "month"
+
+#~ msgid "mm"
+#~ msgstr "M"
+
+#~ msgid "year"
+#~ msgstr "year"
+
+#~ msgid "yyyy"
+#~ msgstr "yyyy"
+
+#~ msgid "place"
+#~ msgstr "place"
+
+#~ msgid "Place"
+#~ msgstr "Place"
+
+#~ msgid "Death"
+#~ msgstr "Death"
+
+#~ msgid "Occupation"
+#~ msgstr "Occupation"
+
+#~ msgid "Same-sex relationship (no sex validation)"
+#~ msgstr ""
+
+#~ msgid "Validate"
+#~ msgstr ""
+
