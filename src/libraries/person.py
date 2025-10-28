@@ -6,16 +6,16 @@ from libraries.date import CompressedDate, Date
 from libraries.death_info import DeathStatusBase
 from libraries.burial_info import BurialInfoBase
 from libraries.events import PersonalEvent
-from libraries.family import Relation
+from libraries.family import Ascendants, Relation
 from libraries.title import AccessRight, Title
 
 
 class Sex(Enum):
     """Biological sex classification for genealogical records."""
 
-    MALE = "Male"
-    FEMALE = "Female"
-    NEUTER = "Neuter"
+    MALE = "MALE"
+    FEMALE = "FEMALE"
+    NEUTER = "NEUTER"
 
 
 @dataclass(frozen=True)
@@ -43,13 +43,18 @@ IdxT2 = TypeVar("IdxT2")
 # Person reference type (e.g., Person or PersonId)
 PersonT = TypeVar("PersonT")
 PersonT2 = TypeVar("PersonT2")
+
+# Family reference type
+FamilyT = TypeVar("FamilyT")
+FamilyT2 = TypeVar("FamilyT2")
+
 # String descriptors (names, notes, etc.)
 PersonDescriptorT = TypeVar("PersonDescriptorT")
 PersonDescriptorT2 = TypeVar("PersonDescriptorT2")
 
 
 @dataclass(frozen=True)
-class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
+class Person(Generic[IdxT, PersonT, PersonDescriptorT, FamilyT]):
     """Complete genealogical record for an individual person.
 
     Contains all biographical information typically tracked in genealogy:
@@ -85,9 +90,7 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     baptism_place: PersonDescriptorT
     baptism_note: PersonDescriptorT
     baptism_src: PersonDescriptorT
-
-    # Death information
-    death: DeathStatusBase
+    death_status: DeathStatusBase
     death_place: PersonDescriptorT
     death_note: PersonDescriptorT
     death_src: PersonDescriptorT
@@ -101,13 +104,17 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
     notes: PersonDescriptorT
     src: PersonDescriptorT
 
+    ascend: Ascendants[FamilyT]
+    families: List[FamilyT]
+
     def map_person(
         self,
         string_mapper: Callable[[PersonDescriptorT], PersonDescriptorT2],
         person_mapper: Callable[[PersonT], PersonT2],
         date_mapper: Callable[[Date], Date],
         index_mapper: Callable[[IdxT], IdxT2],
-    ) -> "Person[IdxT2, PersonT2, PersonDescriptorT2]":
+        family_mapper: Callable[[FamilyT], FamilyT2],
+    ) -> "Person[IdxT2, PersonT2, PersonDescriptorT2, FamilyT2]":
         """Transform all fields using provided mapper functions.
 
         This creates a new Person instance with all string descriptors,
@@ -120,6 +127,7 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
             person_mapper: Function to transform person references
             date_mapper: Function to transform dates
             index_mapper: Function to transform the person index
+            family_mapper: Function to transform family references
 
         Returns:
             New Person instance with all fields transformed
@@ -157,7 +165,7 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
             baptism_place=string_mapper(self.baptism_place),
             baptism_note=string_mapper(self.baptism_note),
             baptism_src=string_mapper(self.baptism_src),
-            death=self.death.map_death(date_mapper),
+            death_status=self.death_status.map_death(date_mapper),
             death_place=string_mapper(self.death_place),
             death_note=string_mapper(self.death_note),
             death_src=string_mapper(self.death_src),
@@ -173,4 +181,7 @@ class Person(Generic[IdxT, PersonT, PersonDescriptorT]):
             ],
             notes=string_mapper(self.notes),
             src=string_mapper(self.src),
+            ascend=self.ascend.map_ascendants(family_mapper),
+            families=[family_mapper(f) for f in self.families],
         )
+

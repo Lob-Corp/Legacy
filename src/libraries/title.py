@@ -8,9 +8,9 @@ from libraries.date import CompressedDate, Date
 class AccessRight(Enum):
     """Defines the visibility/access level for genealogical information."""
 
-    IFTITLES = "IfTitles"  # Visible only if person has titles
-    PUBLIC = "Public"  # Publicly visible
-    PRIVATE = "Private"  # Private, restricted access
+    IFTITLES = "IFTITLES"
+    PUBLIC = "PUBLIC"
+    PRIVATE = "PRIVATE"
 
 
 # Type variable for title descriptors (strings, identifiers, etc.)

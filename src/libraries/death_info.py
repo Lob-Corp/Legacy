@@ -5,13 +5,11 @@ from libraries.date import CompressedDate, Date
 
 
 class DeathReason(Enum):
-    """Specific cause or manner of death for genealogical records."""
-
-    KILLED = "Killed"
-    MURDERED = "Murdered"
-    EXECUTED = "Executed"
-    DISAPPEARED = "Disappeared"
-    UNSPECIFIED = "Unspecified"
+    KILLED = "KILLED"
+    MURDERED = "MURDERED"
+    EXECUTED = "EXECUTED"
+    DISAPPEARED = "DISAPPEARED"
+    UNSPECIFIED = "UNSPECIFIED"
 
 
 class DeathStatusBase:

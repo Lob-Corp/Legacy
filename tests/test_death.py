@@ -1,4 +1,7 @@
 from libraries.date import Calendar
+from libraries.burial_info import (
+    Burial, BurialInfoBase, Cremated, UnknownBurial
+)
 from libraries.death_info import (
     Dead,
     DeadDontKnowWhen,
@@ -9,7 +12,6 @@ from libraries.death_info import (
     NotDead,
     OfCourseDead,
 )
-from libraries.burial_info import Burial, BurialInfoBase, Cremated, UnknownBurial
 import pytest
 
 # DeathStatusBase hierarchy
@@ -31,16 +33,6 @@ def test_dead_instantiation_and_reason():
     d = Dead(DeathReason.KILLED, date)
     assert isinstance(d, Dead)
     assert d.death_reason == DeathReason.KILLED
-
-
-### A REVOIR
-
-# def test_dead_does_not_store_date_of_death():
-#     date = (Calendar.GREGORIAN, 123)
-#     d = Dead(DeathReason.MURDERED, date)
-#     assert not hasattr(d, "date_of_death")
-
-###
 
 
 def test_deadyoung_instantiation():

@@ -3,9 +3,10 @@ import pytest
 from libraries.burial_info import UnknownBurial
 from libraries.death_info import DontKnowIfDead, NotDead
 from libraries.events import EventWitnessKind, PersBirth, PersonalEvent
-from libraries.family import Relation, RelationToParentType
+from libraries.family import Relation, RelationToParentType, Ascendants
 from libraries.title import AccessRight, Title, TitleName
 from libraries.date import CompressedDate
+from libraries.consanguinity_rate import ConsanguinityRate
 
 
 @pytest.fixture
@@ -13,16 +14,13 @@ def compressed_date_fixture() -> CompressedDate:
     return CompressedDate("2025-01-01")
 
 
+
 @pytest.fixture
 def title_fixture(compressed_date_fixture) -> Title[str]:
-    return Title[str](
-        title_name=TitleName[str]("name"),
-        ident="t1",
-        place="Paris",
-        date_start=compressed_date_fixture,
-        date_end=compressed_date_fixture,
-        nth=1,
-    )
+    return Title[str](title_name=TitleName[str]("name"),
+                      ident="t1", place="Paris",
+                      date_start=compressed_date_fixture,
+                      date_end=compressed_date_fixture, nth=1)
 
 
 @pytest.fixture
@@ -66,11 +64,10 @@ def test_place_full_creation():
 
 
 def test_person_minimal_stubs(
-    compressed_date_fixture, title_fixture, pers_event_fixture
-):
+        compressed_date_fixture, title_fixture, pers_event_fixture):
     fake_relation = Relation[int, str](
-        type=RelationToParentType.ADOPTION, father=None, mother=None, sources=[]
-    )
+        type=RelationToParentType.ADOPTION, father=None, mother=None,
+        sources="")
     person = Person(
         index=1,
         first_name="Jean",
@@ -96,7 +93,7 @@ def test_person_minimal_stubs(
         baptism_place="Church",
         baptism_note="bap note",
         baptism_src="bap src",
-        death=DontKnowIfDead(),
+        death_status=DontKnowIfDead(),
         death_place="Paris",
         death_note="death note",
         death_src="death src",
@@ -107,6 +104,11 @@ def test_person_minimal_stubs(
         personal_events=[pers_event_fixture],
         notes="general note",
         src="src file",
+        ascend=Ascendants[int](
+            parents=None,
+            consanguinity_rate=ConsanguinityRate.from_integer(-1)
+        ),
+        families=[],
     )
 
     # Check key fields
@@ -122,7 +124,7 @@ def test_person_minimal_stubs(
 
 
 def test_person_with_empty_lists(compressed_date_fixture):
-    person = Person[int, str, str](
+    person = Person[int, str, str, int](
         index=2,
         first_name="Alice",
         surname="Smith",
@@ -147,7 +149,7 @@ def test_person_with_empty_lists(compressed_date_fixture):
         baptism_place="",
         baptism_note="",
         baptism_src="",
-        death=NotDead(),
+        death_status=NotDead(),
         death_place="",
         death_note="",
         death_src="",
@@ -158,6 +160,11 @@ def test_person_with_empty_lists(compressed_date_fixture):
         personal_events=[],
         notes="",
         src="",
+        ascend=Ascendants(
+            parents=None,
+            consanguinity_rate=ConsanguinityRate.from_integer(-1)
+        ),
+        families=[],
     )
 
     assert person.index == 2

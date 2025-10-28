@@ -8,17 +8,17 @@ from libraries.events import FamilyEvent
 
 
 class MaritalStatus(Enum):
-    MARRIED = "Married"
-    NOT_MARRIED = "NotMarried"
-    ENGAGED = "Engaged"
-    NO_SEXES_CHECK_NOT_MARRIED = "NoSexesCheckNotMarried"
-    NO_MENTION = "NoMention"
-    NO_SEXES_CHECK_MARRIED = "NoSexesCheckMarried"
-    MARRIAGE_BANN = "MarriageBann"
-    MARRIAGE_CONTRACT = "MarriageContract"
-    MARRIAGE_LICENSE = "MarriageLicense"
-    PACS = "Pacs"
-    RESIDENCE = "Residence"
+    MARRIED = "MARRIED"
+    NOT_MARRIED = "NOT_MARRIED"
+    ENGAGED = "ENGAGED"
+    NO_SEXES_CHECK_NOT_MARRIED = "NO_SEXES_CHECK_NOT_MARRIED"
+    NO_MENTION = "NO_MENTION"
+    NO_SEXES_CHECK_MARRIED = "NO_SEXES_CHECK_MARRIED"
+    MARRIAGE_BANN = "MARRIAGE_BANN"
+    MARRIAGE_CONTRACT = "MARRIAGE_CONTRACT"
+    MARRIAGE_LICENSE = "MARRIAGE_LICENSE"
+    PACS = "PACS"
+    RESIDENCE = "RESIDENCE"
 
 
 PersonT = TypeVar("PersonT")
@@ -27,9 +27,6 @@ PersonT = TypeVar("PersonT")
 class Parents(Generic[PersonT]):
     def __init__(self, parents: List[PersonT]):
         assert len(parents) != 0, "Parents List cannot be empty"
-        assert all(
-            isinstance(p, type(parents[0])) for p in parents
-        ), "All parents must be of the same type"
         self.parents = parents
 
     @staticmethod
@@ -44,10 +41,18 @@ class Parents(Generic[PersonT]):
         return (self.parents[0], self.parents[1])
 
     def father(self) -> PersonT:
+        """
+        Get first parent.
+        Warning: homophobic and heteronormative
+        assumption, use with caution"""
         assert len(self.parents) >= 1
         return self.parents[0]
 
     def mother(self) -> PersonT:
+        """
+        Get second parent.
+        Warning: homophobic and heteronormative
+        assumption, use with caution"""
         assert len(self.parents) >= 2
         return self.parents[1]
 
@@ -104,7 +109,7 @@ class Relation(Generic[PersonT, RelationDescriptorT]):
     type: RelationToParentType
     father: PersonT | None
     mother: PersonT | None
-    sources: List[RelationDescriptorT]
+    sources: RelationDescriptorT
 
     def map_relation_strings(
         self,
@@ -115,7 +120,7 @@ class Relation(Generic[PersonT, RelationDescriptorT]):
             type=self.type,
             father=person_mapper(self.father) if self.father else None,
             mother=person_mapper(self.mother) if self.mother else None,
-            sources=[string_mapper(s) for s in self.sources],
+            sources=string_mapper(self.sources),
         )
 
 
@@ -163,12 +168,14 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
     marriage_note: FamilyDescriptorT
     marriage_src: FamilyDescriptorT
     witnesses: List[PersonT]
-    divorce: DivorceStatusBase
     relation_kind: MaritalStatus
+    divorce_status: DivorceStatusBase
     family_events: List[FamilyEvent[PersonT, FamilyDescriptorT]]
     comment: FamilyDescriptorT
     origin_file: FamilyDescriptorT  # .gw filename
     src: FamilyDescriptorT
+    parents: Parents[PersonT]  # equivalent to OCaml's gen_couple
+    children: List[PersonT]
 
     def map_family(
         self,
@@ -185,7 +192,7 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
             marriage_src=string_mapper(self.marriage_src),
             witnesses=[person_mapper(witness) for witness in self.witnesses],
             relation_kind=self.relation_kind,
-            divorce=self.divorce.map_divorce(date_mapper),
+            divorce_status=self.divorce_status.map_divorce(date_mapper),
             family_events=[
                 family_event.map_family_event(
                     string_mapper, date_mapper, person_mapper
@@ -195,4 +202,7 @@ class Family(Generic[IdxT, PersonT, FamilyDescriptorT]):
             comment=string_mapper(self.comment),
             origin_file=string_mapper(self.origin_file),
             src=string_mapper(self.src),
+            parents=Parents([person_mapper(p) for p in self.parents.parents]),
+            children=[person_mapper(child) for child in self.children],
         )
+

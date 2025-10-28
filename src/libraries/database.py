@@ -337,52 +337,52 @@ class DatabaseUpdatedInfoBase(
 class PersonAddedInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, None, DatabaseDescriptorT]):
-    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
 
 
 @dataclass(frozen=True)
 class PersonModifiedInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, None, DatabaseDescriptorT]):
-    old_person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
-    new_person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    old_person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
+    new_person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
 
 
 @dataclass(frozen=True)
 class PersonDeletedInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, None, DatabaseDescriptorT]):
-    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
 
 
 @dataclass(frozen=True)
 class PersonMergedInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, None, DatabaseDescriptorT]):
-    result_person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
-    person1: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
-    person2: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    result_person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
+    person1: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
+    person2: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
 
 
 @dataclass(frozen=True)
 class SendImageInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, None, DatabaseDescriptorT]):
-    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
 
 
 @dataclass(frozen=True)
 class DeleteImageInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, None, DatabaseDescriptorT]):
-    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
 
 
 @dataclass(frozen=True)
 class FamilyAddedInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, FamilyT, DatabaseDescriptorT]):
-    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
     family: Family[PersonT, FamilyT, DatabaseDescriptorT]
 
 
@@ -390,7 +390,7 @@ class FamilyAddedInfo(
 class FamilyDeletedInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, FamilyT, DatabaseDescriptorT]):
-    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
     family: Family[PersonT, FamilyT, DatabaseDescriptorT]
 
 
@@ -398,7 +398,7 @@ class FamilyDeletedInfo(
 class FamilyModifiedInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, FamilyT, DatabaseDescriptorT]):
-    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
     old_family: Family[PersonT, FamilyT, DatabaseDescriptorT]
     new_family: Family[PersonT, FamilyT, DatabaseDescriptorT]
 
@@ -407,7 +407,7 @@ class FamilyModifiedInfo(
 class FamilyMergedInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, FamilyT, DatabaseDescriptorT]):
-    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
     result_family: Family[PersonT, FamilyT, DatabaseDescriptorT]
     family1: Family[PersonT, FamilyT, DatabaseDescriptorT]
     family2: Family[PersonT, FamilyT, DatabaseDescriptorT]
@@ -417,7 +417,7 @@ class FamilyMergedInfo(
 class FamilyInvertedInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, FamilyT, DatabaseDescriptorT]):
-    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
     iverted_family: FamilyT
 
 
@@ -428,7 +428,7 @@ ChildrenNamesChangedInfoChanges: TypeAlias = Tuple[str, str, int, PersonT]
 class ChildrenNamesChangedInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, None, DatabaseDescriptorT]):
-    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
     changes: List[Tuple[ChildrenNamesChangedInfoChanges,
                         ChildrenNamesChangedInfoChanges]]
 
@@ -437,7 +437,7 @@ class ChildrenNamesChangedInfo(
 class ParentAddedInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, FamilyT, DatabaseDescriptorT]):
-    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
     family: Family[PersonT, FamilyT, DatabaseDescriptorT]
 
 
@@ -445,15 +445,15 @@ class ParentAddedInfo(
 class AncestorsKilledInfo(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, None, DatabaseDescriptorT]):
-    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
 
 
 @dataclass(frozen=True)
 class MultiPersonModified(
         DatabaseUpdatedInfoBase
         [PersonIndexT, PersonT, None, DatabaseDescriptorT]):
-    old_person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
-    new_person: Person[PersonIndexT, PersonT, DatabaseDescriptorT]
+    old_person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
+    new_person: Person[PersonIndexT, PersonT, DatabaseDescriptorT, FamilyT]
     multi: bool
 
 
