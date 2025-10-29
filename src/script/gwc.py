@@ -1,5 +1,7 @@
 #!/usr/bin/env python3
 import argparse
+from collections.abc import Callable
+from dataclasses import dataclass
 import os
 import sys
 from typing import Dict, List, Tuple
@@ -27,6 +29,24 @@ import database.person_titles  # noqa: F401
 import database.person_non_native_relations  # noqa: F401
 import database.date  # noqa: F401
 import database.place  # noqa: F401
+
+
+@dataclass(frozen=False)
+class GwdArguments:
+    out_file: str
+    input_file_data: list[tuple[str, bool, str, int]]
+    separate: bool
+    bnotes: str
+    shift: int
+    files: list[str]
+    verbose: bool
+    no_fail: bool
+    stats: bool
+    f: bool
+    cg: bool
+    ds: str
+    particles: str
+    nc: bool
 
 
 def normalize_family(
@@ -211,46 +231,79 @@ def main() -> int:
     separate: bool = args.sep
     bnotes: str = args.bnotes
     shift: int = args.sh
+    files: list[str] = args.files
+    verbose: bool = args.v and not args.q
+    no_fail: bool = args.nofail
+    stats: bool = args.stats
+    f: bool = args.f
+    cg: bool = args.cg
+    ds: str = args.ds
+    particles: str = args.particles
+    nc: bool = args.nc
 
-    basename: str = os.path.basename(out_file)
+    return gwc_main(GwdArguments(
+        out_file=out_file,
+        input_file_data=input_file_data,
+        separate=separate,
+        bnotes=bnotes,
+        shift=shift,
+        files=files,
+        verbose=verbose,
+        no_fail=no_fail,
+        stats=stats,
+        f=f,
+        cg=cg,
+        ds=ds,
+        particles=particles,
+        nc=nc), parser.print_help)
+
+
+def gwc_main(args: GwdArguments, print_help: Callable) -> int:
+    basename: str = os.path.basename(args.out_file)
     if not all((c.isalnum() or c in '-._') for c in basename):
         print(
-            f'The database name "{out_file}" contains a forbidden character.')
+            f'The database name '
+            f'"{args.out_file}" contains a forbidden character.')
         print("Allowed characters: a..z, A..Z, 0..9, -, _, .")
         sys.exit(2)
 
     for x in args.files:
-        appendFileData(input_file_data, x, separate, bnotes, shift)
-        separate = False
-        bnotes = "merge"
+        appendFileData(
+            args.input_file_data,
+            x,
+            args.separate,
+            args.bnotes,
+            args.shift)
+        args.separate = False
+        args.bnotes = "merge"
 
-    if not input_file_data:
-        parser.print_help()
+    if not args.input_file_data:
+        print_help()
         sys.exit(1)
 
-    verbose: bool = args.v and not args.q
     all_persons: list[Person] = []
     all_families: list[Family] = []
     all_base_notes: list[tuple[str, str]] = []
     all_wizard_notes: dict[str, str] = {}
     all_page_extensions: dict[str, str] = {}
 
-    if verbose:
-        print(f"Processing {len(input_file_data)} file(s)...")
+    if args.verbose:
+        print(f"Processing {len(args.input_file_data)} file(s)...")
 
     for idx, (filename, separate, bnotes_mode, shift) in enumerate(
-        input_file_data, 1
+        args.input_file_data, 1
     ):
-        if verbose:
-            print(f"\n[{idx}/{len(input_file_data)}] Processing {filename}...")
-
+        if args.verbose:
+            print(
+                f"\n[{idx}/{len(args.input_file_data)}]"
+                f" Processing {filename}...")
         try:
-            if verbose:
+            if args.verbose:
                 print(f"  Parsing {filename}...")
 
             gw_syntax_blocks = parse_gw_file(filename)
 
-            if verbose:
+            if args.verbose:
                 print(f"  Parsed {len(gw_syntax_blocks)} blocks")
                 print("  Converting to application types...")
 
@@ -263,7 +316,7 @@ def main() -> int:
             page_extensions = converter.get_page_extensions()
             stats = converter.get_statistics()
 
-            if verbose:
+            if args.verbose:
                 print(
                     f"  Converted {stats['defined_persons']} persons, "
                     f"{stats['families']} families"
@@ -284,11 +337,11 @@ def main() -> int:
                     )
 
             # TODO: Apply shift if specified
-            if shift != 0 and verbose:
+            if shift != 0 and args.verbose:
                 print(f"  Note: -sh {shift} specified but not yet implemented")
 
             # TODO: Apply separate if specified
-            if separate and verbose:
+            if separate and args.verbose:
                 print("  Note: -sep specified but not yet implemented")
 
             from dataclasses import replace
@@ -315,27 +368,27 @@ def main() -> int:
                     all_wizard_notes = dict(wizard_notes)
                     all_page_extensions = dict(page_extensions)
 
-            if bnotes_mode != "merge" and verbose:
+            if bnotes_mode != "merge" and args.verbose:
                 print(
                     f"  Applied -bnotes {bnotes_mode} "
                     f"for database-level data"
                 )
 
         except Exception as e:
-            if args.nofail:
+            if args.no_fail:
                 print(f"Error processing {filename}: {e}", file=sys.stderr)
-                if verbose:
+                if args.verbose:
                     import traceback
                     traceback.print_exc()
                 continue
             else:
                 print(f"Error processing {filename}: {e}", file=sys.stderr)
-                if verbose:
+                if args.verbose:
                     import traceback
                     traceback.print_exc()
                 sys.exit(1)
 
-    if args.stats or verbose:
+    if stats or args.verbose:
         print("\n" + "=" * 50)
         print("Parsing Statistics:")
         print("=" * 50)
@@ -344,8 +397,8 @@ def main() -> int:
         print(f"Total base notes: {len(all_base_notes)}")
         print(f"Total wizard notes: {len(all_wizard_notes)}")
         print(f"Total page extensions: {len(all_page_extensions)}")
-        print(f"Files processed: {len(input_file_data)}")
-        if verbose:
+        print(f"Files processed: {len(args.input_file_data)}")
+        if args.verbose:
             # Print detailed data only in verbose mode
             print_data(
                 all_persons,
@@ -357,26 +410,26 @@ def main() -> int:
         print("=" * 50)
 
     # Save to SQLite database
-    if verbose:
-        print(f"\nCreating database: {out_file}")
+    if args.verbose:
+        print(f"\nCreating database: {args.out_file}")
 
     # Check if database exists and handle -f flag
-    if os.path.exists(out_file):
+    if os.path.exists(args.out_file):
         if args.f:
-            if verbose:
-                print(f"Removing existing database: {out_file}")
-            os.remove(out_file)
+            if args.verbose:
+                print(f"Removing existing database: {args.out_file}")
+            os.remove(args.out_file)
         else:
-            print(f"Error: Database '{out_file}' already exists.")
+            print(f"Error: Database '{args.out_file}' already exists.")
             print("Use -f flag to overwrite.")
             sys.exit(1)
 
     try:
         # Initialize database
-        db_service = SQLiteDatabaseService(out_file)
+        db_service = SQLiteDatabaseService(args.out_file)
         db_service.connect()
 
-        if verbose:
+        if args.verbose:
             print("Database initialized successfully")
             print("Saving persons...")
 
@@ -392,7 +445,7 @@ def main() -> int:
                 person_repo.add_person(normalized_person)
                 persons_added += 1
             except Exception as e:
-                if args.nofail:
+                if args.no_fail:
                     print(
                         f"Warning: Failed to add person "
                         f"{person.index}: {e}",
@@ -402,7 +455,7 @@ def main() -> int:
                 else:
                     raise
 
-        if verbose:
+        if args.verbose:
             print(f"Successfully added {persons_added} persons")
             print("Saving families...")
 
@@ -415,7 +468,7 @@ def main() -> int:
                 family_repo.add_family(normalized_family)
                 families_added += 1
             except Exception as e:
-                if args.nofail:
+                if args.no_fail:
                     print(
                         f"Warning: Failed to add family "
                         f"{family.index}: {e}",
@@ -425,49 +478,49 @@ def main() -> int:
                 else:
                     raise
 
-        if verbose:
+        if args.verbose:
             print(f"Successfully added {families_added} families")
 
         # TODO: Save base notes, wizard notes, and page extensions
         if (all_base_notes or all_wizard_notes or all_page_extensions) \
-                and verbose:
+                and args.verbose:
             print(
                 "Note: Base notes, wizard notes, and page extensions "
                 "not yet saved to database"
             )
 
-        if verbose:
-            print(f"\nDatabase saved successfully: {out_file}")
+        if args.verbose:
+            print(f"\nDatabase saved successfully: {args.out_file}")
             print(f"  Persons: {persons_added}")
             print(f"  Families: {families_added}")
 
     except Exception as e:
         print(f"Error saving to database: {e}", file=sys.stderr)
-        if verbose:
+        if args.verbose:
             import traceback
             traceback.print_exc()
         sys.exit(1)
 
     # TODO: Compute consanguinity if requested
-    if args.cg and verbose:
+    if args.cg and args.verbose:
         print("Note: -cg (consanguinity) not yet implemented")
 
     # TODO: Handle default source
-    if args.ds and verbose:
+    if args.ds and args.verbose:
         print(f"Note: -ds '{args.ds}' (default source) not yet implemented")
 
     # TODO: Handle particles file
-    if args.particles and verbose:
+    if args.particles and args.verbose:
         print(
             f"Note: -particles '{args.particles}' "
             f"not yet implemented"
         )
 
     # TODO: No consistency check
-    if args.nc and verbose:
+    if args.nc and args.verbose:
         print("Note: -nc (no consistency check) not yet implemented")
 
-    if verbose:
+    if args.verbose:
         print("\nProcessing complete!")
 
     return 0
