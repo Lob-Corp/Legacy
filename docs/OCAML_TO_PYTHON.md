@@ -95,6 +95,7 @@ elif isinstance(somebody, SomebodyDefined):
 type somebody =
   | Undefined of key
   | Defined of person
+
 type death_status =
   | NotDead
   | Dead
@@ -186,6 +187,7 @@ death_place: Optional[str] = None
 type 'a list = 
   | [] 
   | (::) of 'a * 'a list
+
 type ('idx, 'person, 'string) gen_person = {
   index : 'idx;
   first_name : 'string;
@@ -429,6 +431,7 @@ type 'family gen_ascend = {
 type 'family gen_union = { 
   family : 'family array         (* Spouse families *)
 }
+
 (* Family linking *)
 type 'person gen_descend = { 
   children : 'person array       (* Child persons *)
@@ -449,6 +452,7 @@ type 'person gen_descend = {
 (* Get person's parent family *)
 let ascend = ascends.(person_index) in
 Option.map (fun fam_idx -> families.(fam_idx)) ascend.parents
+
 (* Get person's spouse families *)
 let union = unions.(person_index) in
 Array.map (fun fam_idx -> families.(fam_idx)) union.family
@@ -534,8 +538,10 @@ children = family.children
 
 ```ocaml
 let g_names : (int, person) Hashtbl.t = Hashtbl.create 5003
+
 (* Insert *)
 Hashtbl.add g_names (person_hash key) person
+
 (* Lookup *)
 let persons = Hashtbl.find_all g_names hash
 ```
@@ -606,6 +612,7 @@ first = witnesses[0]
 output_char oc 'D';  (* Defined marker *)
 output_binary_int oc person.index;
 output_value oc person;
+
 (* Write dummy *)
 output_char oc 'U';  (* Undefined marker *)
 output_binary_int oc key_hash;
@@ -661,8 +668,10 @@ The bidirectional linking architecture affects how the converter builds the data
 ```ocaml
 (* Add person to persons array, get index *)
 let person_idx = add_person person in
+
 (* Add family to families array, get index *)  
 let family_idx = add_family family in
+
 (* Store parent/child relationships using indices *)
 ascends.(person_idx) <- { parents = Some family_idx; consang = rate };
 unions.(father_idx) <- { family = Array.append unions.(father_idx).family [|family_idx|] };
@@ -723,10 +732,12 @@ child2 = replace(child2, ascend=Ascendants(parents=family, ...))
 **Format Example:**
 ```gw
 encoding: utf-8
+
 fam John DOE 1/1/1950 + Jane SMITH 1/2/1952
 beg
 - m: Bob DOE 1/1/1980
 end
+
 pevt Bob DOE
 #birt 1/1/1980 #p Paris
 end pevt
