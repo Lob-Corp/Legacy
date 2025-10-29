@@ -18,11 +18,27 @@
   <div class="my-3">
     <span>{{ _('input database') }}:</span>
 
-    <form class="form-inline d-flex justify-content-center my-2" method="get" action="{{ prefix | default('/') }}">
+    <form id="gwd-select-form" class="form-inline d-flex justify-content-center my-2" action="#">
       <input type="hidden" name="lang" value="{{ lang | default('en') }}">
       <input name="b" placeholder="{{ bases_list | default('') }}" class="form-control col-4">
       <button type="submit" class="btn btn-outline-secondary ml-2">Ok</button>
     </form>
+
+    <script>
+      (function(){
+        var form = document.getElementById('gwd-select-form');
+        if(!form) return;
+        form.addEventListener('submit', function(e){
+          e.preventDefault();
+          var b = form.elements['b'].value || '';
+          if(!b) return;
+          var lang = form.elements['lang'].value || 'en';
+          var url = '/gwd/' + encodeURIComponent(b) + '?lang=' + encodeURIComponent(lang);
+          {% if templ %}url += '&templ={{ templ }}';{% endif %}
+          window.location.href = url;
+        });
+      })();
+    </script>
 
     <p>{{ _('available genealogies') }}:</p>
     <div>{{ bases_list_links | safe }}</div>
@@ -31,7 +47,7 @@
   <h3 class="text-center mt-5">{{ _('select lang') }}</h3>
   <div class="d-flex flex-wrap justify-content-center col-11 mt-2 mx-auto">
     {% for code, name in languages %}
-      <a class="btn btn-outline-secondary" href="?lang={{ code }}{% if templ %}&templ={{ templ }}{% endif %}" title="{{ code }}">{{ name }}</a>
+      <a class="btn btn-outline-secondary" href="/gwd?lang={{ code }}{% if templ %}&templ={{ templ }}{% endif %}" title="{{ code }}">{{ name }}</a>
     {% endfor %}
   </div>
 

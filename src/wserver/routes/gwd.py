@@ -5,31 +5,29 @@ from flask import request
 from ..i18n import get_translator
 
 
-
 gwd_bp = Blueprint('gwd', __name__, url_prefix='/gwd')
 """
 GWD ROUTES MODULE - Explicit placeholder routes for legacy 'm' modes.
-
-Each mode from request.ml is exposed as two Flask routes:
- - <base>/<MODE>/
- - <base>/<MODE>/<lang>
 Handlers are explicit functions and currently raise NotImplementedError..
 """
-
-# DEFAULT / ROOT (already present)
-
-
 @gwd_bp.route('', defaults={'lang': 'en'},
               methods=['GET', 'POST'], strict_slashes=False)
-@gwd_bp.route('<lang>', methods=['GET', 'POST'])
 def gwd_root(lang):
     req_lang = request.args.get('lang') or lang or 'en'
     translator = get_translator()
     def _(key):
         return translator.gettext(key, req_lang)
+    bases = ['demo', 'test', 'sample']  # TODO
+    bases_list = ', '.join(bases)
+    bases_list_links = []
+    for b in bases:
+        href = f"/gwd/{b}"
+        if req_lang:
+            href = f"{href}?lang={req_lang}"
+        bases_list_links.append(f'<a href="{href}">{b}</a>')
 
     data = {
-        'lang': lang,
+        'lang': req_lang,
         'title': 'Base',
         'robots': 'none',
         'images_prefix': '/static/images/',
@@ -38,9 +36,9 @@ def gwd_root(lang):
             f'<link rel="stylesheet" href="{url_for("static", filename="css/all.min.css")}">'
             f'<link rel="stylesheet" href="{url_for("static", filename="css/css.css")}">'
         ),
-        'prefix': '/',
-        'bases_list': '',
-        'bases_list_links': '',
+        'prefix': '',
+        'bases_list': bases_list,
+        'bases_list_links': ', '.join(bases_list_links),
         'languages': [
             ('en', 'English'),
             ('fr', 'français'),
@@ -52,7 +50,8 @@ def gwd_root(lang):
         'doc_link': 'https://geneweb.tuxfamily.org/wiki',
         '_': _,
     }
-    base_dir = os.path.abspath(os.path.join(os.path.dirname(__file__), '..', 'templates_jinja'))
+    base_dir = os.path.abspath(os.path.join(
+        os.path.dirname(__file__), '..', 'templates_jinja'))
     env = Environment(
         loader=FileSystemLoader(base_dir),
         autoescape=select_autoescape(['html', 'xml'])
@@ -60,8 +59,9 @@ def gwd_root(lang):
     tmpl = env.get_template('gwd/index.html.j2')
     return tmpl.render(**data)
 
-@gwd_bp.route('<base>/', methods=['GET', 'POST'])
-@gwd_bp.route('<base>/<lang>', methods=['GET', 'POST'])
+
+@gwd_bp.route('<base>', defaults={'lang': 'en'},
+              methods=['GET', 'POST'], strict_slashes=False)
 def gwd_base_only(base, lang='en'):
     raise NotImplementedError(
         f"Route base={base}, no action yet (lang={lang})")
