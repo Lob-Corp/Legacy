@@ -6,8 +6,7 @@ testing form submission, database persistence, and various edge cases.
 import unittest
 import tempfile
 import os
-import shutil
-from unittest.mock import patch, MagicMock
+from unittest.mock import patch
 from flask import Flask
 from wserver.routes.gwd import gwd_bp
 
@@ -17,7 +16,12 @@ class TestAddFamilyRoute(unittest.TestCase):
 
     def setUp(self):
         """Set up test client."""
-        self.app = Flask(__name__)
+        # Get the path to the templates directory
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        template_folder = os.path.join(
+            test_dir, '..', 'src', 'wserver', 'templates'
+        )
+        self.app = Flask(__name__, template_folder=template_folder)
         self.app.config['TESTING'] = True
         self.app.register_blueprint(gwd_bp)
         self.client = self.app.test_client()
@@ -70,7 +74,12 @@ class TestAddFamilyWithDatabase(unittest.TestCase):
 
     def setUp(self):
         """Set up test client and temporary database."""
-        self.app = Flask(__name__)
+        # Get the path to the templates directory
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        template_folder = os.path.join(
+            test_dir, '..', 'src', 'wserver', 'templates'
+        )
+        self.app = Flask(__name__, template_folder=template_folder)
         self.app.config['TESTING'] = True
         self.app.register_blueprint(gwd_bp)
         self.client = self.app.test_client()
@@ -78,10 +87,11 @@ class TestAddFamilyWithDatabase(unittest.TestCase):
         # Create temporary database
         self.db_fd, self.db_path = tempfile.mkstemp(suffix='.db')
         # Use a predictable base name and path for the test DB
-        bases_dir = os.path.join(
-            os.path.dirname(os.path.dirname(__file__)),
-            'src', 'wserver', 'bases'
-        )
+        # The Flask app looks for databases relative to src/wserver/bases
+        # So we need to put it in the ACTUAL src directory, not tests/src
+        project_root = os.path.dirname(
+            os.path.dirname(os.path.dirname(__file__)))
+        bases_dir = os.path.join(project_root, 'src', 'wserver', 'bases')
         os.makedirs(bases_dir, exist_ok=True)
         self.base_name = 'testdb'
         self.test_db_path = os.path.join(bases_dir, f'{self.base_name}.db')
@@ -91,29 +101,34 @@ class TestAddFamilyWithDatabase(unittest.TestCase):
         with open(self.test_db_path, 'wb') as f:
             pass  # Just create the file
 
-        # Import all models before creating database to register all tables
-        from database.person import Person
-        from database.family import Family
-        from database.couple import Couple
-        from database.family_event import FamilyEvent
-        from database.family_event_witness import FamilyEventWitness
-        from database.family_witness import FamilyWitness
-        from database.personal_event import PersonalEvent
-        from database.person_event_witness import PersonEventWitness
-        from database.titles import Titles
-        from database.relation import Relation
-        from database.place import Place
-        from database.date import Date
-        from database.ascends import Ascends
-        from database.descends import Descends
-        from database.unions import Unions
-        from database.person_relations import PersonRelations
-        from database.person_non_native_relations import PersonNonNativeRelations
-        from database.person_titles import PersonTitles
-        from database.union_families import UnionFamilies
-        from database.descend_children import DescendChildren
-        from database.family_events import FamilyEvents
-        from database.person_events import PersonEvents
+        # Import ALL models before creating database to register all tables
+        # This is critical - SQLAlchemy needs all models imported
+        # before Base.metadata.create_all() is called
+        from database import Base  # noqa
+        from database.person import Person  # noqa
+        from database.family import Family  # noqa
+        from database.couple import Couple  # noqa
+        from database.family_event import FamilyEvent  # noqa
+        from database.family_event_witness import FamilyEventWitness  # noqa
+        from database.family_witness import FamilyWitness  # noqa
+        from database.personal_event import PersonalEvent  # noqa
+        from database.person_event_witness import PersonEventWitness  # noqa
+        from database.titles import Titles  # noqa
+        from database.family import Family  # noqa
+        from database.couple import Couple  # noqa
+        from database.relation import Relation  # noqa
+        from database.place import Place  # noqa
+        from database.date import Date  # noqa
+        from database.ascends import Ascends  # noqa
+        from database.descends import Descends  # noqa
+        from database.unions import Unions  # noqa
+        from database.person_relations import PersonRelations  # noqa
+        from database.person_non_native_relations import PersonNonNativeRelations  # noqa
+        from database.person_titles import PersonTitles  # noqa
+        from database.union_families import UnionFamilies  # noqa
+        from database.descend_children import DescendChildren  # noqa
+        from database.family_events import FamilyEvents  # noqa
+        from database.person_events import PersonEvents  # noqa
 
         from database.sqlite_database_service import SQLiteDatabaseService
         db_service = SQLiteDatabaseService(self.test_db_path)
@@ -124,6 +139,70 @@ class TestAddFamilyWithDatabase(unittest.TestCase):
         """Clean up temporary database."""
         if hasattr(self, 'test_db_path') and os.path.exists(self.test_db_path):
             os.unlink(self.test_db_path)
+
+    def verify_person_in_db(self, first_name, surname, occ=0):
+        """Helper method to verify a person exists in the database."""
+        # Import all models first (required for SQLAlchemy metadata)
+        from database.person import Person  # noqa
+        from database.family import Family  # noqa
+        from database.couple import Couple  # noqa
+        from database.relation import Relation  # noqa
+        from database.place import Place  # noqa
+        from database.date import Date  # noqa
+        from database.ascends import Ascends  # noqa
+        from database.descends import Descends  # noqa
+        from database.unions import Unions  # noqa
+        from database.person_relations import PersonRelations  # noqa
+        from database.person_non_native_relations import PersonNonNativeRelations  # noqa
+        from database.person_titles import PersonTitles  # noqa
+        from database.union_families import UnionFamilies  # noqa
+        from database.descend_children import DescendChildren  # noqa
+        from database.family_events import FamilyEvents  # noqa
+        from database.person_events import PersonEvents  # noqa
+
+        from database.sqlite_database_service import SQLiteDatabaseService
+        db_service = SQLiteDatabaseService(self.test_db_path)
+        db_service.connect()
+        session = db_service.get_session()
+
+        person = session.query(Person).filter_by(
+            first_name=first_name,
+            surname=surname,
+            occ=occ
+        ).first()
+
+        session.close()
+        db_service.disconnect()
+        return person
+
+    def verify_family_in_db(self):
+        """Helper method to verify a family exists in the database."""
+        from database.family import Family  # noqa
+        from database.couple import Couple  # noqa
+        from database.relation import Relation  # noqa
+        from database.place import Place  # noqa
+        from database.date import Date  # noqa
+        from database.ascends import Ascends  # noqa
+        from database.descends import Descends  # noqa
+        from database.unions import Unions  # noqa
+        from database.person_relations import PersonRelations  # noqa
+        from database.person_non_native_relations import PersonNonNativeRelations  # noqa
+        from database.person_titles import PersonTitles  # noqa
+        from database.union_families import UnionFamilies  # noqa
+        from database.descend_children import DescendChildren  # noqa
+        from database.family_events import FamilyEvents  # noqa
+        from database.person_events import PersonEvents  # noqa
+
+        from database.sqlite_database_service import SQLiteDatabaseService
+        db_service = SQLiteDatabaseService(self.test_db_path)
+        db_service.connect()
+        session = db_service.get_session()
+
+        families = session.query(Family).all()
+
+        session.close()
+        db_service.disconnect()
+        return families
 
     def test_create_family_with_two_parents(self):
         """Test creating a family with two parents."""
@@ -150,6 +229,14 @@ class TestAddFamilyWithDatabase(unittest.TestCase):
         self.assertEqual(response.status_code, 302)
         self.assertIn('/gwd/', response.location)
 
+        # Verify both persons and family were created in database
+        john = self.verify_person_in_db('John', 'Doe', 0)
+        self.assertIsNotNone(john, "Father 'John Doe' not found in database")
+        jane = self.verify_person_in_db('Jane', 'Smith', 0)
+        self.assertIsNotNone(jane, "Mother 'Jane Smith' not found in database")
+        families = self.verify_family_in_db()
+        self.assertGreater(len(families), 0, "No families found in database")
+
     def test_create_family_with_dead_parent(self):
         """Test creating a family with a deceased parent."""
         response = self.client.post(f'/gwd/{self.base_name}/ADD_FAM/', data={
@@ -171,8 +258,25 @@ class TestAddFamilyWithDatabase(unittest.TestCase):
 
         # Verify death status was set correctly by checking database
         try:
+            # Import all models first (required for SQLAlchemy metadata)
+            from database.person import Person  # noqa
+            from database.family import Family  # noqa
+            from database.couple import Couple  # noqa
+            from database.relation import Relation  # noqa
+            from database.place import Place  # noqa
+            from database.date import Date  # noqa
+            from database.ascends import Ascends  # noqa
+            from database.descends import Descends  # noqa
+            from database.unions import Unions  # noqa
+            from database.person_relations import PersonRelations  # noqa
+            from database.person_non_native_relations import PersonNonNativeRelations  # noqa
+            from database.person_titles import PersonTitles  # noqa
+            from database.union_families import UnionFamilies  # noqa
+            from database.descend_children import DescendChildren  # noqa
+            from database.family_events import FamilyEvents  # noqa
+            from database.person_events import PersonEvents  # noqa
+
             from database.sqlite_database_service import SQLiteDatabaseService
-            from database.person import Person
             db_service = SQLiteDatabaseService(self.test_db_path)
             db_service.connect()
             session = db_service.get_session()
@@ -180,12 +284,15 @@ class TestAddFamilyWithDatabase(unittest.TestCase):
             # Find the person we just created
             person = session.query(Person).filter_by(
                 first_name='Robert',
-                surname='Johnson'
+                surname='Johnson',
+                occ=0
             ).first()
 
-            self.assertIsNotNone(person)
+            self.assertIsNotNone(
+                person, "Person 'Robert Johnson' not found in database")
             # Death status should be set (not None or NotDead)
-            self.assertIsNotNone(person.death_status)
+            self.assertIsNotNone(
+                person.death_status, "Death status should be set for deceased person")
 
             session.close()
             db_service.disconnect()
@@ -217,6 +324,20 @@ class TestAddFamilyWithDatabase(unittest.TestCase):
             'ch2b_yyyy': '2012',
         })
         self.assertEqual(response.status_code, 302)
+
+        # Verify parents and children were created in database
+        thomas = self.verify_person_in_db('Thomas', 'Anderson', 0)
+        self.assertIsNotNone(
+            thomas, "Father 'Thomas Anderson' not found in database")
+        sarah = self.verify_person_in_db('Sarah', 'Connor', 0)
+        self.assertIsNotNone(
+            sarah, "Mother 'Sarah Connor' not found in database")
+        emily = self.verify_person_in_db('Emily', 'Anderson', 0)
+        self.assertIsNotNone(
+            emily, "Child 'Emily Anderson' not found in database")
+        michael = self.verify_person_in_db('Michael', 'Anderson', 0)
+        self.assertIsNotNone(
+            michael, "Child 'Michael Anderson' not found in database")
 
     def test_create_family_with_events(self):
         """Test creating a family with events (marriage)."""
@@ -264,6 +385,20 @@ class TestAddFamilyWithDatabase(unittest.TestCase):
         })
         self.assertEqual(response.status_code, 302)
 
+        # Verify parents and witnesses were created in database
+        james = self.verify_person_in_db('James', 'Wilson', 0)
+        self.assertIsNotNone(
+            james, "Father 'James Wilson' not found in database")
+        patricia = self.verify_person_in_db('Patricia', 'Taylor', 0)
+        self.assertIsNotNone(
+            patricia, "Mother 'Patricia Taylor' not found in database")
+        richard = self.verify_person_in_db('Richard', 'Moore', 0)
+        self.assertIsNotNone(
+            richard, "Witness 'Richard Moore' not found in database")
+        jennifer = self.verify_person_in_db('Jennifer', 'Garcia', 0)
+        self.assertIsNotNone(
+            jennifer, "Witness 'Jennifer Garcia' not found in database")
+
     def test_create_family_minimal_data(self):
         """Test creating a family with minimal required data."""
         response = self.client.post(f'/gwd/{self.base_name}/ADD_FAM/', data={
@@ -273,6 +408,14 @@ class TestAddFamilyWithDatabase(unittest.TestCase):
             'pa2_sn': 'Mother',
         })
         self.assertEqual(response.status_code, 302)
+
+        # Verify persons were created in database
+        father = self.verify_person_in_db('Min', 'Father', 0)
+        self.assertIsNotNone(
+            father, "Father 'Min Father' not found in database")
+        mother = self.verify_person_in_db('Min', 'Mother', 0)
+        self.assertIsNotNone(
+            mother, "Mother 'Min Mother' not found in database")
 
     def test_json_response_includes_family_id(self):
         """Test JSON response includes the created family ID."""
@@ -395,7 +538,12 @@ class TestAddFamilyEdgeCases(unittest.TestCase):
 
     def setUp(self):
         """Set up test client."""
-        self.app = Flask(__name__)
+        # Get the path to the templates directory
+        test_dir = os.path.dirname(os.path.abspath(__file__))
+        template_folder = os.path.join(
+            test_dir, '..', 'src', 'wserver', 'templates'
+        )
+        self.app = Flask(__name__, template_folder=template_folder)
         self.app.config['TESTING'] = True
         self.app.register_blueprint(gwd_bp)
         self.client = self.app.test_client()
@@ -405,20 +553,6 @@ class TestAddFamilyEdgeCases(unittest.TestCase):
         response = self.client.post('/gwd/testbase/ADD_FAM/', data={})
         # Should return 404 (database doesn't exist) or handle gracefully
         self.assertIn(response.status_code, [400, 404])
-
-    def test_malformed_date_data(self):
-        """Test handling of malformed date inputs."""
-        # These should be handled gracefully
-        pass
-
-    def test_special_characters_in_names(self):
-        """Test handling of special characters in person names."""
-        # Test names with accents, hyphens, apostrophes, etc.
-        pass
-
-    def test_very_long_names(self):
-        """Test handling of very long name inputs."""
-        pass
 
 
 if __name__ == '__main__':

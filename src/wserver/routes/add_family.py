@@ -100,7 +100,7 @@ def ensure_person(form_data, db_service, person_repo, pa_idx: int) -> int:
     lib_person = LibPerson[
         int, int, str, int
     ](
-        index=0,
+        index=None,
         first_name=fn,
         surname=sn,
         occ=occ,
@@ -194,7 +194,7 @@ def ensure_child(form_data,
     birth_date = parse_calendar_date(form_data, f"ch{ch_idx}b")
     birth_place = get_first(form_data, f"ch{ch_idx}b_pl")
     lib_person = LibPerson[int, int, str, int](
-        index=0,
+        index=None,
         first_name=fn,
         surname=sn,
         occ=occ,
@@ -302,7 +302,7 @@ def parse_witness(form_data,
     finally:
         session.close()
     lib_person = LibPerson[int, int, str, int](
-        index=0,
+        index=None,
         first_name=fn,
         surname=sn,
         occ=occ,
@@ -508,18 +508,6 @@ def implem_route_ADD_FAM(base, lang='en'):
         elif raw_event == 'residence':
             rel_kind = MaritalStatus.RESIDENCE
 
-        # Compute a new family index (next id) by querying max existing id
-        from database.family import Family as DBFamily
-        session = db_service.get_session()
-        try:
-            max_id = 0
-            q = session.query(DBFamily).order_by(DBFamily.id.desc()).first()
-            if q is not None and q.id is not None:
-                max_id = int(q.id)
-        finally:
-            session.close()
-        new_family_id = max_id + 1
-
         # Parse marriage date and place (from first event if it's a marriage)
         marriage_date = None
         marriage_place = ""
@@ -532,7 +520,7 @@ def implem_route_ADD_FAM(base, lang='en'):
         lib_family = LibFamily[
             int, int, str
         ](
-            index=new_family_id,
+            index=None,
             marriage_date=marriage_date,
             marriage_place=marriage_place,
             marriage_note="",
@@ -551,6 +539,19 @@ def implem_route_ADD_FAM(base, lang='en'):
         # Persist family
         try:
             family_repo.add_family(lib_family)
+
+            # Get the created family ID by querying back
+            # The family should be the most recent one for this couple
+            from database.family import Family as DBFamily
+            session = db_service.get_session()
+            try:
+                created_family = (session.query(DBFamily)
+                                  .order_by(DBFamily.id.desc())
+                                  .first())
+                created_family_id = \
+                    created_family.id if created_family else None
+            finally:
+                session.close()
         except Exception as e:
             if request.accept_mimetypes.best == 'application/json':
                 return jsonify({'ok': False, 'error': str(e)}), 400
@@ -581,7 +582,7 @@ def implem_route_ADD_FAM(base, lang='en'):
                 'lang': lang,
                 'fields': form_data,
                 'files': files_info,
-                'family_id': new_family_id,
+                'family_id': created_family_id,
             })
 
         return redirect(
