@@ -1,3 +1,4 @@
+from .add_family import implem_route_ADD_FAM
 from flask import Blueprint, render_template, url_for
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import os
@@ -78,7 +79,7 @@ def route_A(base, lang='en'):
 @gwd_bp.route('<base>/ADD_FAM/', methods=['GET', 'POST'])
 @gwd_bp.route('<base>/ADD_FAM/<lang>', methods=['GET', 'POST'])
 def route_ADD_FAM(base, lang='en'):
-    raise NotImplementedError("Route ADD_FAM not implemented yet")
+    return implem_route_ADD_FAM(base, lang)
 
 
 @gwd_bp.route('<base>/ADD_FAM_OK/', methods=['GET', 'POST'])

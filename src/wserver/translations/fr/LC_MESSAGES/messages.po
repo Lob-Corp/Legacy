@@ -1,0 +1,1804 @@
+# French translations for PROJECT.
+# Copyright (C) 2025 ORGANIZATION
+# This file is distributed under the same license as the PROJECT project.
+# FIRST AUTHOR <EMAIL@ADDRESS>, 2025.
+#
+msgid ""
+msgstr ""
+"Project-Id-Version: PROJECT VERSION\n"
+"Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
+"POT-Creation-Date: 2025-10-28 23:45+0100\n"
+"PO-Revision-Date: 2025-10-28 15:55+0100\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language: fr\n"
+"Language-Team: fr <LL@li.org>\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Generated-By: Babel 2.17.0\n"
+
+msgid "Add family"
+msgstr "Ajouter une famille"
+
+msgid "Parents"
+msgstr "Parents"
+
+msgid "Events"
+msgstr "Evénements"
+
+msgid "Children"
+msgstr "Enfants"
+
+msgid "Sources"
+msgstr "Sources"
+
+msgid "Comment"
+msgstr "Commentaire"
+
+msgid "First name"
+msgstr "Prénom"
+
+msgid "M"
+msgstr "M"
+
+msgid "Number"
+msgstr "Numéro"
+
+msgid "Number (occurrence)"
+msgstr "Numéro (occurrence)"
+
+msgid "Surname"
+msgstr "Nom"
+
+msgid "Create"
+msgstr "Créer"
+
+msgid "Link"
+msgstr "Lien"
+
+msgid "Modify person"
+msgstr "précision"
+
+msgid "Birth"
+msgstr "Naissance"
+
+msgid "day"
+msgstr "jour"
+
+msgid "dd"
+msgstr "dd"
+
+msgid "month"
+msgstr "mois"
+
+msgid "mm"
+msgstr "mm"
+
+msgid "year"
+msgstr "année"
+
+msgid "yyyy"
+msgstr "yyyy"
+
+msgid "place"
+msgstr "lieu"
+
+msgid "Place"
+msgstr ""
+
+msgid "Death"
+msgstr "Décès"
+
+msgid "Occupation"
+msgstr "Profession"
+
+msgid "Same-sex relationship (no sex validation)"
+msgstr "Relation homosexuelle (pas de vérification des sexes)"
+
+msgid "Validate"
+msgstr "VALIDER"
+
+msgid "Event 1"
+msgstr "Événement 1"
+
+msgid "Choose an event"
+msgstr "Choisir un événement"
+
+msgid "Marriage"
+msgstr "Mariage"
+
+msgid "Not married"
+msgstr "Non mariés"
+
+msgid "Engaged"
+msgstr "Fiançailles"
+
+msgid "No mention"
+msgstr "Pas de mention"
+
+msgid "Marriage banns"
+msgstr "Bans de mariage"
+
+msgid "Marriage contract"
+msgstr "Contrat de mariage"
+
+msgid "Marriage license"
+msgstr "Licence de mariage"
+
+msgid "Civil union"
+msgstr ""
+
+msgid "Divorce"
+msgstr ""
+
+msgid "Separation"
+msgstr "Séparation"
+
+msgid "Annulment"
+msgstr "Annulation"
+
+msgid "Residence"
+msgstr "Résidence"
+
+msgid "Custom event"
+msgstr "Événement personnalisé"
+
+msgid "Delete event"
+msgstr "Supprimer l'événement"
+
+msgid "Event"
+msgstr "Événement"
+
+msgid "Date"
+msgstr "Date"
+
+msgid "precision"
+msgstr "précision"
+
+msgid "calendar"
+msgstr "calendrier"
+
+msgid "French Republican"
+msgstr "Républicain"
+
+msgid "Hebrew"
+msgstr "Hébreu"
+
+msgid "…or text"
+msgstr "…ou texte"
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "Source"
+msgstr ""
+
+msgid "Insert"
+msgstr "Insérer"
+
+msgid "witness(es)"
+msgstr "témoin(s)"
+
+msgid "event(s)"
+msgstr "événement(s)"
+
+msgid "1st Child"
+msgstr "1er Enfant"
+
+msgid "Edit 1st child"
+msgstr "Modifier 1er Enfant"
+
+msgid "Sex"
+msgstr "Sexe"
+
+msgid "?"
+msgstr "?"
+
+msgid "F"
+msgstr "F"
+
+msgid "Persons"
+msgstr "précision"
+
+msgid "People sources"
+msgstr "Source personne"
+
+msgid "Family"
+msgstr "Famille"
+
+msgid "h1"
+msgstr "h1"
+
+msgid "Format"
+msgstr ""
+
+msgid "ul ol dl pre"
+msgstr "ul ol dl pre"
+
+msgid "Various notes"
+msgstr ""
+
+msgid "Summary"
+msgstr "Résumé"
+
+msgid "Person"
+msgstr "précision"
+
+msgid "1st"
+msgstr "1er"
+
+msgid "2nd"
+msgstr "2e"
+
+msgid "3rd"
+msgstr "3e"
+
+msgid "4th"
+msgstr ""
+
+msgid "5th"
+msgstr ""
+
+msgid "6th"
+msgstr ""
+
+msgid "7th"
+msgstr ""
+
+msgid "8th"
+msgstr ""
+
+msgid "9th"
+msgstr ""
+
+msgid "10th"
+msgstr ""
+
+msgid "Child"
+msgstr "Enfant"
+
+msgid "Swap with previous child"
+msgstr "Echanger avec l'enfant précédent"
+
+msgid "Modify child"
+msgstr "Modifier l'enfant"
+
+msgid "Insert child(ren)"
+msgstr "Insérer enfant"
+
+msgid "exact"
+msgstr "exacte"
+
+msgid "about"
+msgstr "vers"
+
+msgid "maybe"
+msgstr "peut être"
+
+msgid "before"
+msgstr "avant"
+
+msgid "after"
+msgstr "après"
+
+msgid "…or…"
+msgstr "…ou…"
+
+msgid "…between…"
+msgstr "…entre…"
+
+msgid "Gregorian"
+msgstr "Grégorien"
+
+msgid "Julian"
+msgstr "Julien"
+
+msgid "Insert witness(es)"
+msgstr "Insérer témoin(s)"
+
+msgid "Witness"
+msgstr "Témoin"
+
+msgid "Modify witness"
+msgstr "Modifier Témoin"
+
+msgid "Informant"
+msgstr "Déclarant"
+
+msgid "Present"
+msgstr "précision"
+
+msgid "Mentioned"
+msgstr "Mentionné"
+
+msgid "Civil registrar"
+msgstr "Officier d'état civil"
+
+msgid "Minister of worship"
+msgstr "Ministre du culte"
+
+msgid "Other"
+msgstr "Autre"
+
+msgid "Obviously deceased"
+msgstr "Bien entendu décédé"
+
+msgid "Public"
+msgstr ""
+
+msgid "anniversaries"
+msgstr "anniversaires"
+
+msgid "anniversaries of birth"
+msgstr ""
+
+msgid "anniversaries of dead people"
+msgstr ""
+
+msgid "anniversaries of marriage"
+msgstr ""
+
+msgid "v7 show others"
+msgstr ""
+
+msgid "v7 hide others"
+msgstr ""
+
+msgid "v7 exact match"
+msgstr ""
+
+msgid "v7 approxim match"
+msgstr ""
+
+msgid "v7 word boundaries"
+msgstr ""
+
+msgid "v7 anywhere"
+msgstr ""
+
+msgid "v7 refresh fnames cache"
+msgstr ""
+
+msgid "shortest path"
+msgstr ""
+
+msgid "visualize/show/hide/summary"
+msgstr ""
+
+msgid "next relationship path"
+msgstr ""
+
+msgid "relationship link/relationship links"
+msgstr ""
+
+msgid "relationship by marriage"
+msgstr ""
+
+msgid "long display"
+msgstr ""
+
+msgid "image/images"
+msgstr ""
+
+msgid "spouse/spouses"
+msgstr ""
+
+msgid "invert"
+msgstr ""
+
+msgid "person/persons"
+msgstr ""
+
+msgid "dag"
+msgstr ""
+
+msgid "cancel GeneWeb links"
+msgstr ""
+
+msgid "add"
+msgstr ""
+
+msgid "delete::image/images"
+msgstr ""
+
+msgid "image received"
+msgstr ""
+
+msgid "with note"
+msgstr ""
+
+msgid "image deleted"
+msgstr ""
+
+msgid "and"
+msgstr ""
+
+msgid "saved"
+msgstr ""
+
+msgid "restored"
+msgstr ""
+
+msgid "note"
+msgstr ""
+
+msgid "update"
+msgstr ""
+
+msgid "portrait"
+msgstr ""
+
+msgid "uploaded"
+msgstr ""
+
+msgid "deleted"
+msgstr ""
+
+msgid "modify portrait"
+msgstr ""
+
+msgid "add portrait"
+msgstr ""
+
+msgid "browse"
+msgstr ""
+
+msgid "select"
+msgstr ""
+
+msgid "send"
+msgstr ""
+
+msgid "previous portrait"
+msgstr ""
+
+msgid "add image"
+msgstr ""
+
+msgid "previous image"
+msgstr ""
+
+msgid "url"
+msgstr ""
+
+msgid "name"
+msgstr ""
+
+msgid "source/sources"
+msgstr ""
+
+msgid "note/notes"
+msgstr ""
+
+msgid "send image with note and source"
+msgstr ""
+
+msgid "see portrait"
+msgstr ""
+
+msgid "delete portrait"
+msgstr ""
+
+msgid "restore portrait saved"
+msgstr ""
+
+msgid "delete portrait saved"
+msgstr ""
+
+msgid "warning refresh"
+msgstr ""
+
+msgid "see"
+msgstr ""
+
+msgid "add source"
+msgstr ""
+
+msgid "modify source"
+msgstr ""
+
+msgid "add note"
+msgstr ""
+
+msgid "modify note"
+msgstr ""
+
+msgid "delete image"
+msgstr ""
+
+msgid "saved images"
+msgstr ""
+
+msgid "restore image saved"
+msgstr ""
+
+msgid "delete image saved"
+msgstr ""
+
+msgid "update image note"
+msgstr ""
+
+msgid "update image source"
+msgstr ""
+
+msgid "delete"
+msgstr ""
+
+msgid "previous"
+msgstr ""
+
+msgid "next"
+msgstr ""
+
+msgid "geneweb parameters"
+msgstr ""
+
+msgid "wizard/wizards/friend/friends/exterior"
+msgstr ""
+
+msgid "build information"
+msgstr ""
+
+msgid "user and language variables"
+msgstr ""
+
+msgid "launch arguments of Gwd server"
+msgstr ""
+
+msgid "configuration parameters"
+msgstr ""
+
+msgid "select lang"
+msgstr ""
+
+msgid "connection/connections"
+msgstr ""
+
+msgid "branch/branches"
+msgstr ""
+
+msgid "compiled on"
+msgstr ""
+
+msgid "from commit"
+msgstr ""
+
+msgid "descendants tree"
+msgstr ""
+
+msgid "home"
+msgstr ""
+
+msgid "back"
+msgstr ""
+
+msgid "search/case sensitive"
+msgstr ""
+
+msgid "random individual"
+msgstr ""
+
+msgid "stay on the current tool"
+msgstr ""
+
+msgid "surname/surnames"
+msgstr ""
+
+msgid "public name"
+msgstr ""
+
+msgid "alias"
+msgstr ""
+
+msgid "first name/first names"
+msgstr ""
+
+msgid "choose a genealogy"
+msgstr ""
+
+msgid "input database"
+msgstr ""
+
+msgid "available genealogies"
+msgstr ""
+
+msgid "modification successful"
+msgstr ""
+
+msgid "no modification"
+msgstr ""
+
+msgid "person modified"
+msgstr ""
+
+msgid "person added"
+msgstr ""
+
+msgid "family modified"
+msgstr ""
+
+msgid "family added"
+msgstr ""
+
+msgid "family deleted"
+msgstr ""
+
+msgid "autofocus"
+msgstr ""
+
+msgid "data-surname"
+msgstr ""
+
+msgid "data-index"
+msgstr ""
+
+msgid "cousins.xx.yy"
+msgstr ""
+
+msgid "cousins.xx.yy tt"
+msgstr ""
+
+msgid "link between"
+msgstr ""
+
+msgid "relationship shortcut"
+msgstr ""
+
+msgid "Sosa"
+msgstr ""
+
+msgid "witness/witnesses"
+msgstr ""
+
+msgid "any individual in the base"
+msgstr ""
+
+msgid "validate/delete"
+msgstr ""
+
+msgid "relationship computing mode"
+msgstr ""
+
+msgid "relationship by ancestors"
+msgstr ""
+
+msgid "relationship display options"
+msgstr ""
+
+msgid "statistics"
+msgstr ""
+
+msgid "modify::tree"
+msgstr ""
+
+msgid "edit tree"
+msgstr ""
+
+msgid "birth"
+msgstr ""
+
+msgid "death"
+msgstr ""
+
+msgid "text"
+msgstr ""
+
+msgid "lists"
+msgstr ""
+
+msgid "add::family/families"
+msgstr ""
+
+msgid "add::parents"
+msgstr ""
+
+msgid "modify::family/families"
+msgstr ""
+
+msgid "merge::family/families"
+msgstr ""
+
+msgid "parents"
+msgstr ""
+
+msgid "event/events"
+msgstr ""
+
+msgid "child/children"
+msgstr ""
+
+msgid "comment"
+msgstr ""
+
+msgid "year/month/day"
+msgstr ""
+
+msgid "calendar/calendars"
+msgstr ""
+
+msgid "gregorian/julian/french/hebrew"
+msgstr ""
+
+msgid "kind"
+msgstr ""
+
+msgid "dd/mm/yyyy"
+msgstr ""
+
+msgid "place/places"
+msgstr ""
+
+msgid "number"
+msgstr ""
+
+msgid "create"
+msgstr ""
+
+msgid "link"
+msgstr ""
+
+msgid "occupation/occupations"
+msgstr ""
+
+msgid "insert"
+msgstr ""
+
+msgid "insert::event/events"
+msgstr ""
+
+msgid "custom event"
+msgstr ""
+
+msgid "marriage event"
+msgstr ""
+
+msgid "no marriage event"
+msgstr ""
+
+msgid "engage event"
+msgstr ""
+
+msgid "no mention"
+msgstr ""
+
+msgid "marriage bann"
+msgstr ""
+
+msgid "marriage contract"
+msgstr ""
+
+msgid "marriage licence"
+msgstr ""
+
+msgid "PACS"
+msgstr ""
+
+msgid "divorce event"
+msgstr ""
+
+msgid "separate event"
+msgstr ""
+
+msgid "annulation"
+msgstr ""
+
+msgid "residence"
+msgstr ""
+
+msgid "witness/witness/witnesses"
+msgstr ""
+
+msgid "insert::witness/witness/witnesses"
+msgstr ""
+
+msgid "informant/informant/informant"
+msgstr ""
+
+msgid "present/present/present"
+msgstr ""
+
+msgid "mentioned/mentioned/mentioned"
+msgstr ""
+
+msgid "civil registrar/civil registrar/civil registrar"
+msgstr ""
+
+msgid "parrish registrar/parrish registrar/parrish registrar"
+msgstr ""
+
+msgid "other/other/other"
+msgstr ""
+
+msgid "modify::person/persons"
+msgstr ""
+
+msgid "modify"
+msgstr ""
+
+msgid "sex"
+msgstr ""
+
+msgid "M/F"
+msgstr ""
+
+msgid "of course dead"
+msgstr ""
+
+msgid "public"
+msgstr ""
+
+msgid "date/dates"
+msgstr ""
+
+msgid "yy"
+msgstr ""
+
+msgid "no sexes check"
+msgstr ""
+
+msgid "insert::child/children"
+msgstr ""
+
+msgid "family/families"
+msgstr ""
+
+msgid "move up/down"
+msgstr ""
+
+msgid "restricted access"
+msgstr ""
+
+msgid "user/password/cancel"
+msgstr ""
+
+msgid "disconnect"
+msgstr ""
+
+msgid "sort by/date begin/alphabetic order/nb individuals/nb events"
+msgstr ""
+
+msgid "display by/branch/alphabetic order"
+msgstr ""
+
+msgid "frequency"
+msgstr ""
+
+msgid "all the titles"
+msgstr ""
+
+msgid "title/titles"
+msgstr ""
+
+msgid "all the estates"
+msgstr ""
+
+msgid "estate"
+msgstr ""
+
+msgid "tools"
+msgstr ""
+
+msgid "add base notes"
+msgstr ""
+
+msgid "base notes"
+msgstr ""
+
+msgid "base index notes"
+msgstr ""
+
+msgid "base wizard notes"
+msgstr ""
+
+msgid "history"
+msgstr ""
+
+msgid "forum"
+msgstr ""
+
+msgid "advanced request"
+msgstr ""
+
+msgid "configuration"
+msgstr ""
+
+msgid "book/books"
+msgstr ""
+
+msgid "plugins"
+msgstr ""
+
+#~ msgid "Same-sex relationship (no sex verification)"
+#~ msgstr "Relation homosexuelle (pas de vérification des sexes)"
+
+#~ msgid "Date"
+#~ msgstr "Date"
+
+#~ msgid "calendar"
+#~ msgstr "calendrier"
+
+#~ msgid "Persons"
+#~ msgstr "Personnes"
+
+#~ msgid "1st Child"
+#~ msgstr "1ᵉʳ Enfant"
+
+#~ msgid "Edit 1st child"
+#~ msgstr "1ᵉʳ Enfant"
+
+#~ msgid "Sex"
+#~ msgstr "Sexe"
+
+#~ msgid "F"
+#~ msgstr ""
+
+#~ msgid "Submit"
+#~ msgstr "Valider"
+
+#~ msgid "Event 1"
+#~ msgstr "Événement 1"
+
+#~ msgid "Marriage"
+#~ msgstr "Mariage"
+
+#~ msgid "Not married"
+#~ msgstr ""
+
+#~ msgid "Engagement"
+#~ msgstr "Fiançailles"
+
+#~ msgid "No mention"
+#~ msgstr ""
+
+#~ msgid "Marriage banns"
+#~ msgstr ""
+
+#~ msgid "Marriage contract"
+#~ msgstr ""
+
+#~ msgid "Marriage license"
+#~ msgstr ""
+
+#~ msgid "Civil union"
+#~ msgstr ""
+
+#~ msgid "Separation"
+#~ msgstr "Séparation"
+
+#~ msgid "Annulment"
+#~ msgstr "Annulation"
+
+#~ msgid "Residence"
+#~ msgstr "Résidence"
+
+#~ msgid "Custom event"
+#~ msgstr ""
+
+#~ msgid "Event"
+#~ msgstr "Événement"
+
+#~ msgid "about"
+#~ msgstr ""
+
+#~ msgid "maybe"
+#~ msgstr ""
+
+#~ msgid "before"
+#~ msgstr ""
+
+#~ msgid "after"
+#~ msgstr ""
+
+#~ msgid "Gregorian"
+#~ msgstr ""
+
+#~ msgid "Julian"
+#~ msgstr ""
+
+#~ msgid "Republican"
+#~ msgstr ""
+
+#~ msgid "Hebrew"
+#~ msgstr ""
+
+#~ msgid "…or text"
+#~ msgstr "…ou texte"
+
+#~ msgid "Insert witness/witnesses"
+#~ msgstr ""
+
+#~ msgid "Insert event/events"
+#~ msgstr ""
+
+#~ msgid "Person sources"
+#~ msgstr "Sources personnes"
+
+#~ msgid "Family"
+#~ msgstr "Famille"
+
+#~ msgid "Family sources"
+#~ msgstr "Sources famille"
+
+#~ msgid "Latin Small Letter A with Breve"
+#~ msgstr ""
+
+#~ msgid "French – Select language"
+#~ msgstr ""
+
+#~ msgid ", select language"
+#~ msgstr ""
+
+#~ msgid ""
+#~ "Master branch compiled on 2025-09-05<br>from"
+#~ " commit id 2ce17dddc (2025-08-24)"
+#~ msgstr ""
+
+#~ msgid "January"
+#~ msgstr "janvier"
+
+#~ msgid "February"
+#~ msgstr "février"
+
+#~ msgid "March"
+#~ msgstr "mars"
+
+#~ msgid "April"
+#~ msgstr "avril"
+
+#~ msgid "May"
+#~ msgstr "mai"
+
+#~ msgid "June"
+#~ msgstr "juin"
+
+#~ msgid "July"
+#~ msgstr "juillet"
+
+#~ msgid "August"
+#~ msgstr "août"
+
+#~ msgid "September"
+#~ msgstr "septembre"
+
+#~ msgid "October"
+#~ msgstr "octobre"
+
+#~ msgid "November"
+#~ msgstr "novembre"
+
+#~ msgid "December"
+#~ msgstr "décembre"
+
+#~ msgid "Vendémiaire"
+#~ msgstr ""
+
+#~ msgid "Brumaire"
+#~ msgstr ""
+
+#~ msgid "Frimaire"
+#~ msgstr ""
+
+#~ msgid "Nivôse"
+#~ msgstr ""
+
+#~ msgid "Pluviôse"
+#~ msgstr ""
+
+#~ msgid "Ventôse"
+#~ msgstr ""
+
+#~ msgid "Germinal"
+#~ msgstr ""
+
+#~ msgid "Floréal"
+#~ msgstr ""
+
+#~ msgid "Prairial"
+#~ msgstr ""
+
+#~ msgid "Messidor"
+#~ msgstr ""
+
+#~ msgid "Thermidor"
+#~ msgstr ""
+
+#~ msgid "Fructidor"
+#~ msgstr ""
+
+#~ msgid "Complementary"
+#~ msgstr ""
+
+#~ msgid "Tishrei"
+#~ msgstr ""
+
+#~ msgid "Marcheshvan"
+#~ msgstr ""
+
+#~ msgid "Kislev"
+#~ msgstr ""
+
+#~ msgid "Tevet"
+#~ msgstr ""
+
+#~ msgid "Shevat"
+#~ msgstr ""
+
+#~ msgid "Adar I"
+#~ msgstr ""
+
+#~ msgid "Adar II"
+#~ msgstr ""
+
+#~ msgid "Nisan"
+#~ msgstr ""
+
+#~ msgid "Iyar"
+#~ msgstr ""
+
+#~ msgid "Sivan"
+#~ msgstr ""
+
+#~ msgid "Tammuz"
+#~ msgstr ""
+
+#~ msgid "Av"
+#~ msgstr ""
+
+#~ msgid "Elul"
+#~ msgstr ""
+
+#~ msgid "Swap with previous child"
+#~ msgstr ""
+
+#~ msgid "Insert"
+#~ msgstr "Insérer"
+
+#~ msgid "Insert child(ren)"
+#~ msgstr ""
+
+#~ msgid "Choose an event"
+#~ msgstr ""
+
+#~ msgid "Delete event"
+#~ msgstr ""
+
+#~ msgid "Witness"
+#~ msgstr ""
+
+#~ msgid "Informant"
+#~ msgstr ""
+
+#~ msgid "Present"
+#~ msgstr ""
+
+#~ msgid "Mentioned"
+#~ msgstr ""
+
+#~ msgid "Civil registrar"
+#~ msgstr ""
+
+#~ msgid "Minister of worship"
+#~ msgstr ""
+
+#~ msgid "Other"
+#~ msgstr ""
+
+#~ msgid "Of course deceased"
+#~ msgstr ""
+
+#~ msgid "Notes"
+#~ msgstr "Notes"
+
+#~ msgid "Source"
+#~ msgstr "Source"
+
+#~ msgid "= shift + enter"
+#~ msgstr ""
+
+#~ msgid "En Dash"
+#~ msgstr ""
+
+#~ msgid "Em Dash"
+#~ msgstr ""
+
+#~ msgid "Left Double Angle Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "No-Break Space"
+#~ msgstr ""
+
+#~ msgid "Right Double Angle Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Left Single Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Right Single Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Double Low-9 Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Left Double Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Right Double Quotation Mark"
+#~ msgstr ""
+
+#~ msgid "Clear field"
+#~ msgstr "Effacer le champ"
+
+#~ msgid "Narrow No-Break Space"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Macron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Macron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Breve"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter A with Ring Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter A with Ring Above"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter AE"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter AE"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter E with Macron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter E with Macron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Dotless I"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter I with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter I with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Double Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Double Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter O with Stroke"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter O with Stroke"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Grave"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Ring Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Ring Above"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter U with Double Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter U with Double Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Y with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Y with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Y with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Y with Circumflex"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Y with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Y with Diaeresis"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter C with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter C with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter C with Cedilla"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter C with Cedilla"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter C with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter C with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter D with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter D with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Eth"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Eth"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter N with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter N with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter N with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter N with Tilde"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter R with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter R with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter R with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter R with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter S with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter S with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter S with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter S with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Sharp S"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter T with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter T with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter T with Cedilla"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter T with Cedilla"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Thorn"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Thorn"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Z with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Z with Acute"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Z with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Z with Caron"
+#~ msgstr ""
+
+#~ msgid "Latin Capital Letter Z with Dot Above"
+#~ msgstr ""
+
+#~ msgid "Latin Small Letter Z with Dot Above"
+#~ msgstr ""
+
+#~ msgid "died"
+#~ msgstr ""
+
+#~ msgid "alive"
+#~ msgstr ""
+
+#~ msgid "maybe alive"
+#~ msgstr ""
+
+#~ msgid "married"
+#~ msgstr ""
+
+#~ msgid "Y/N"
+#~ msgstr ""
+
+#~ msgid "search type"
+#~ msgstr ""
+
+#~ msgid "male/female/neuter"
+#~ msgstr ""
+
+#~ msgid "maximum"
+#~ msgstr ""
+
+#~ msgid "Add family"
+#~ msgstr "Ajouter famille"
+
+#~ msgid "Parents"
+#~ msgstr "Parents"
+
+#~ msgid "Events"
+#~ msgstr "Événements"
+
+#~ msgid "Children"
+#~ msgstr "Enfants"
+
+#~ msgid "Sources"
+#~ msgstr "Sources"
+
+#~ msgid "Comment"
+#~ msgstr "Commentaire"
+
+#~ msgid "First name"
+#~ msgstr "Prénom"
+
+#~ msgid "M"
+#~ msgstr "mm"
+
+#~ msgid "Number"
+#~ msgstr "Numéro"
+
+#~ msgid "Number (occurrence)"
+#~ msgstr "Numéro (occurrence)"
+
+#~ msgid "Surname"
+#~ msgstr "Patronyme"
+
+#~ msgid "Create"
+#~ msgstr "Créer"
+
+#~ msgid "Link"
+#~ msgstr "Relier"
+
+#~ msgid "Birth"
+#~ msgstr "Naissance"
+
+#~ msgid "day"
+#~ msgstr "jour"
+
+#~ msgid "dd"
+#~ msgstr "jj"
+
+#~ msgid "month"
+#~ msgstr "mois"
+
+#~ msgid "mm"
+#~ msgstr "mm"
+
+#~ msgid "year"
+#~ msgstr "année"
+
+#~ msgid "yyyy"
+#~ msgstr "aaaa"
+
+#~ msgid "place"
+#~ msgstr "lieu"
+
+#~ msgid "Place"
+#~ msgstr "Lieu"
+
+#~ msgid "Death"
+#~ msgstr "Décès"
+
+#~ msgid "Occupation"
+#~ msgstr "Profession"
+
+msgid "January"
+msgstr "janvier"
+
+msgid "February"
+msgstr "février"
+
+msgid "March"
+msgstr "mars"
+
+msgid "April"
+msgstr "avril"
+
+msgid "May"
+msgstr "mai"
+
+msgid "June"
+msgstr "juin"
+
+msgid "July"
+msgstr "juillet"
+
+msgid "August"
+msgstr "août"
+
+msgid "September"
+msgstr "septembre"
+
+msgid "October"
+msgstr "octobre"
+
+msgid "November"
+msgstr "novembre"
+
+msgid "December"
+msgstr "décembre"
+
+msgid "Vendémiaire"
+msgstr "vendémiaire"
+
+msgid "Brumaire"
+msgstr "brumaire"
+
+msgid "Frimaire"
+msgstr "frimaire"
+
+msgid "Nivôse"
+msgstr "nivôse"
+
+msgid "Pluviôse"
+msgstr "pluviôse"
+
+msgid "Ventôse"
+msgstr "ventôse"
+
+msgid "Germinal"
+msgstr "germinal"
+
+msgid "Floréal"
+msgstr "floréal"
+
+msgid "Prairial"
+msgstr "prairial"
+
+msgid "Messidor"
+msgstr "messidor"
+
+msgid "Thermidor"
+msgstr "thermidor"
+
+msgid "Fructidor"
+msgstr "fructidor"
+
+msgid "Complémentaire"
+msgstr "complémentaire"
+
+msgid "Tichri"
+msgstr "tichri"
+
+msgid "Marhechvan"
+msgstr "marhechvan"
+
+msgid "Kislev"
+msgstr "kislev"
+
+msgid "Tevet"
+msgstr "tevet"
+
+msgid "Chevat"
+msgstr "chevat"
+
+msgid "Adar 1"
+msgstr "adar 1"
+
+msgid "Adar 2"
+msgstr "adar 2"
+
+msgid "Nissan"
+msgstr "nissan"
+
+msgid "Iyar"
+msgstr "iyar"
+
+msgid "Sivan"
+msgstr "sivan"
+
+msgid "Tamouz"
+msgstr "tamouz"
+
+msgid "Av"
+msgstr "av"
+
+msgid "Eloul"
+msgstr "eloul"
+
+#~ msgid "Same-sex relationship (no sex validation)"
+#~ msgstr ""
+
+#~ msgid "Validate"
+#~ msgstr ""
+
