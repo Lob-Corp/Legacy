@@ -1,0 +1,47 @@
+{
+	"name": "scenario_add_family_one_child",
+	"actions": [
+		{ "type": "Get", "url": "http://localhost:2317/tests" },
+		{ "type": "Click", "by": "css", "value": "div.d-inline-flex:nth-child(3) > a:nth-child(1)" },
+
+		{ "type": "Type", "by": "css", "value": "#pa1_fn", "text": "Samuel" },
+        { "type": "Type", "by": "css", "value": "#pa1_sn", "text": "Becker" },
+        { "type": "Type", "by": "css", "value": "#pa1b_mm", "text": "12" },
+        { "type": "Type", "by": "css", "value": "#pa1b_dd", "text": "07" },
+        { "type": "Type", "by": "css", "value": "#pa1b_yyyy", "text": "1992" },
+        { "type": "Type", "by": "css", "value": "#pa1b_pl", "text": "Zurich, Switzerland" },
+        { "type": "Type", "by": "css", "value": "#pa1_occu", "text": "Banker" },
+
+        { "type": "Type", "by": "css", "value": "#pa2_fn", "text": "Tara" },
+        { "type": "Type", "by": "css", "value": "#pa2_sn", "text": "Ivanova" },
+        { "type": "Type", "by": "css", "value": "#pa2b_mm", "text": "04" },
+        { "type": "Type", "by": "css", "value": "#pa2b_dd", "text": "17" },
+        { "type": "Type", "by": "css", "value": "#pa2b_yyyy", "text": "1981" },
+        { "type": "Type", "by": "css", "value": "#pa2b_pl", "text": "Moscow, Russia" },
+        { "type": "Type", "by": "css", "value": "#pa2_occu", "text": "Engineer" },
+
+        { "type": "Type", "by": "css", "value": "#ch1_fn", "text": "Martin" },
+        { "type": "Type", "by": "css", "value": "#ch1_sn", "text": "Becker" },
+        { "type": "Type", "by": "css", "value": "#ch1b_mm", "text": "09" },
+        { "type": "Type", "by": "css", "value": "#ch1b_dd", "text": "20" },
+        { "type": "Type", "by": "css", "value": "#ch1b_yyyy", "text": "2016" },
+        { "type": "Click", "by": "css", "value": "div.form-check:nth-child(1) > label:nth-child(1)" },
+        { "type": "Type", "by": "css", "value": "#ch1_occu", "text": "Schoolchild" },
+
+		{ "type": "Click", "by": "css", "value": "button.btn-primary:nth-child(3)" },
+		{
+            "type": "SaveHTML",
+            "filename": "records/add_family/scenario_add_family_one_child.html",
+            "clean_rules": [
+                {
+                    "pattern": "(<div class=\"btn btn-sm p-0 border-0 text-success\" id=\"q_time\" title=\"Query treated in )[0-9.]+(&nbsp;s\">)",
+                    "replacement": "\\g<1>0.0\\g<2>"
+                },
+                {
+                    "pattern": "var q_time = [0-9.]+;",
+                    "replacement": "var q_time = 0.0;"
+                }
+            ]
+        }
+	]
+}

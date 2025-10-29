@@ -22,6 +22,11 @@ jobs:
         run: pip install -r requirements-test.txt
       - name: Install GenewebPy package
         run: pip install -e .
+      - name: Create test databases
+        run: |
+          ./src/script/gwc.py -v -f -o test_minimal.db test_assets/minimal.gw
+          ./src/script/gwc.py -v -f -o test_medium.db test_assets/medium.gw
+          ./src/script/gwc.py -v -f -o test_big.db test_assets/big.gw
       - name: Run pytest
         run: pytest --cov=src --cov-report=lcov:lcov.unit.info --cov-branch tests
       - name: Upload coverage
@@ -50,7 +55,7 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           reporter: github-pr-review
-          exclude: "tests/"
+          exclude: "tests/,tools/"
           filter_mode: diff_context
           fail_on_error: true
       - name: Run mypy

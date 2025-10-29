@@ -216,3 +216,14 @@ release
 # coverage files
 *lcov
 lcov.*.info
+
+# golden master testing
+tests/golden_master/records
+
+#random files
+debug_parser.py
+*.gw
+!test_assets/*.gw
+test_minimal.db
+test_medium.db
+test_big.db
