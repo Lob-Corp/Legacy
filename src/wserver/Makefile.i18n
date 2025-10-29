@@ -1,0 +1,53 @@
+.PHONY: help extract init-locale compile update clean
+
+# Translation management for GenewebPy
+BABEL_CFG = babel.cfg
+POT_FILE = messages.pot
+TRANSLATIONS_DIR = translations
+SRC_DIR = .
+
+help:
+	@echo "Translation Management Commands:"
+	@echo "  make extract       - Extract translatable strings from templates and Python files"
+	@echo "  make init-locale   - Initialize a new locale (use LOCALE=xx)"
+	@echo "  make compile       - Compile .po files to .mo files"
+	@echo "  make update        - Update existing .po files with new strings"
+	@echo "  make clean         - Remove compiled .mo files"
+	@echo ""
+	@echo "Examples:"
+	@echo "  make extract"
+	@echo "  make init-locale LOCALE=fr"
+	@echo "  make compile"
+
+extract:
+	@echo "Extracting translatable strings..."
+	pybabel extract -F $(BABEL_CFG) -o $(POT_FILE) .
+	@echo "Done! Generated $(POT_FILE)"
+
+init-locale:
+	@if [ -z "$(LOCALE)" ]; then \
+		echo "Error: LOCALE is required. Use: make init-locale LOCALE=xx"; \
+		exit 1; \
+	fi
+	@echo "Initializing locale: $(LOCALE)"
+	pybabel init -i $(POT_FILE) -d $(TRANSLATIONS_DIR) -l $(LOCALE)
+	@echo "Done! Edit $(TRANSLATIONS_DIR)/$(LOCALE)/LC_MESSAGES/messages.po"
+
+update:
+	@echo "Updating translation files..."
+	pybabel update -i $(POT_FILE) -d $(TRANSLATIONS_DIR)
+	@echo "Done! Review and translate updated .po files"
+
+compile:
+	@echo "Compiling translation files..."
+	pybabel compile -d $(TRANSLATIONS_DIR)
+	@echo "Done! Translations are ready to use"
+
+clean:
+	@echo "Cleaning compiled translations..."
+	find $(TRANSLATIONS_DIR) -name "*.mo" -delete
+	@echo "Done!"
+
+# Quick workflow: extract, update, compile
+all: extract update compile
+	@echo "Full translation workflow complete!"
