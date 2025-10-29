@@ -33,6 +33,8 @@ from database.unions import Unions
 
 _NAME_RE = re.compile(r"^[A-Za-z0-9_\-]+$")
 
+DEFAULT_BASES_DIR = "bases"
+
 
 def _validate_database_name(name: str) -> tuple[bool, str]:
     if not name:
@@ -47,7 +49,13 @@ def create_database(name: str) -> tuple[bool, str]:
     if not ok:
         return False, err
 
-    db_path = f"{name}.db"
+    if not os.path.exists(DEFAULT_BASES_DIR):
+        os.makedirs(DEFAULT_BASES_DIR)
+
+    db_path = os.path.join(DEFAULT_BASES_DIR, f"{name}.db")
+    if os.path.exists(db_path):
+        return False, f"database '{name}' already exists at {db_path}"
+
     db_service = SQLiteDatabaseService(database_path=db_path)
     try:
         db_service.connect()
@@ -61,7 +69,7 @@ def delete_database(name: str) -> tuple[bool, str]:
     if not ok:
         return False, err
 
-    db_path = f"{name}.db"
+    db_path = os.path.join(DEFAULT_BASES_DIR, f"{name}.db")
     if os.path.exists(db_path):
         try:
             os.remove(db_path)

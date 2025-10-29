@@ -27,13 +27,15 @@ def test_cli_create_creates_file(tmp_path, monkeypatch):
     result = runner.invoke(gwsetup.cli, ["database", "create", "mydb"])
     # CLI should exit with code 0 and create the file
     assert result.exit_code == 0, result.output
-    assert (tmp_path / "mydb.db").exists()
+    assert Path(os.path.join(
+        tmp_path, gwsetup.DEFAULT_BASES_DIR, "mydb.db")).exists()
     assert "created database" in result.output.lower()
 
 
 def test_cli_delete_removes_file(tmp_path, monkeypatch):
     monkeypatch.chdir(tmp_path)
-    p = tmp_path / "toremove.db"
+    p = Path(os.path.join(tmp_path, gwsetup.DEFAULT_BASES_DIR, "toremove.db"))
+    p.parent.mkdir(parents=True, exist_ok=True)
     p.write_text("")
 
     runner = CliRunner()
