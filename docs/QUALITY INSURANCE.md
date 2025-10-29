@@ -70,3 +70,6 @@ main (protected)
 Each fonction should be tested as much as needed to explore as much logic branchs. Test should then involve both valid cases and edges cases.
 
 TODO: describe the rest of the testing policy
+
+### Golden master testing
+To find more information [see Golden Master](GOLDEN_MASTER.md)

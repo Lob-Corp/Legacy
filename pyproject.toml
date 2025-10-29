@@ -8,3 +8,12 @@ version = "0.1.0"
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[tool.black]
+line-length = 79
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+markers = [
+    "golden_master: mark a test as a golden master test"
+]

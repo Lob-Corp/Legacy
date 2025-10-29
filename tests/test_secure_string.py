@@ -1,4 +1,6 @@
-from libraries.secure_string import *
+from libraries.secure_string import (
+    EncodedString, EscapedString, SafeString
+)
 import pytest
 
 
@@ -11,11 +13,13 @@ def test_safe_concat_multiple_safestrings():
     assert result == "hello world!!!"
     assert isinstance(result, SafeString)
 
+
 def test_safe_concat_with_str():
     a = SafeString("hello")
     result = SafeString.concat_all(a, " world", "!!!")
     assert result == "hello world!!!"
     assert isinstance(result, SafeString)
+
 
 def test_safe_concat_mixed_subclasses_raises():
     a = SafeString("hello")
@@ -23,10 +27,12 @@ def test_safe_concat_mixed_subclasses_raises():
     with pytest.raises(TypeError):
         SafeString.concat_all(a, b)
 
+
 def test_safe_concat_invalid_type_raises():
     a = SafeString("hello")
     with pytest.raises(TypeError):
-        SafeString.concat_all(a, 123) #type: ignore
+        SafeString.concat_all(a, 123)  # type: ignore
+
 
 def test_safe_concat_empty_args():
     result = SafeString.concat_all()
@@ -34,12 +40,15 @@ def test_safe_concat_empty_args():
     assert isinstance(result, SafeString)
 
 # EscapedString tests
+
+
 def test_escaped_concat_multiple():
     a = EscapedString("foo")
     b = EscapedString("bar")
     result = EscapedString.concat_all(a, b, "baz")
     assert result == "foobarbaz"
     assert isinstance(result, EscapedString)
+
 
 def test_escaped_concat_mixed_with_safestring_raises():
     a = EscapedString("foo")
@@ -48,6 +57,8 @@ def test_escaped_concat_mixed_with_safestring_raises():
         EscapedString.concat_all(a, b)
 
 # EncodedString tests
+
+
 def test_encoded_concat_preserves_type():
     a = EncodedString("x")
     b = EncodedString("y")

@@ -1,0 +1,225 @@
+encoding: utf-8
+gwplus
+
+fam Cooper Ethan #occu Screenwriter #src Family_story_book 4/4/1988 #bp Los_Angeles,_USA ? + Bell Hannah #occu Psychologist #src Family_story_book 13/11/1983 #bp Edinburgh,_Scotland ?
+src Family_story_book
+fevt
+#marr 
+end fevt
+
+pevt Bell Hannah
+#birt 13/11/1983 #p Edinburgh,_Scotland
+end pevt
+
+pevt Cooper Ethan
+#birt 4/4/1988 #p Los_Angeles,_USA
+end pevt
+
+fam Kim Noah #occu Game_Designer 27/7/1996 #bp Seoul,_South_Korea ? + #noment mf Hughes Victoria #occu Fashion_Designer 20/8/1994 #bp Manchester,_England ?
+fevt
+#Handfasting 21/6/2025..22/9/2025 #p Stonehenge #s Family_photo_album
+wit m: King Arthur 0 od
+note All the family was here.
+end fevt
+
+pevt Hughes Victoria
+#birt 20/8/1994 #p Manchester,_England
+end pevt
+
+pevt Kim Noah
+#birt 27/7/1996 #p Seoul,_South_Korea
+end pevt
+
+fam Patel Liam #occu Doctor 5/6/1991 #bp Mumbai,_India ? + ? ?
+fevt
+#marr 
+end fevt
+fam Patel Liam + Fischer Emma #occu Nurse 28/2/1975 #bp Berlin,_Germany ?
+fevt
+#marr 
+end fevt
+
+pevt Fischer Emma
+#birt 28/2/1975 #p Berlin,_Germany
+end pevt
+
+pevt Patel Liam
+#birt 5/6/1991 #p Mumbai,_India
+end pevt
+
+fam Smith John #occu Software_Engineer 12/4/1975 #bp London,_UK ? + ? ?
+fevt
+#marr 
+end fevt
+
+pevt Smith John
+#birt 12/4/1975 #p London,_UK
+end pevt
+
+fam Schneider Paul #occu Carpenter 25/10/1978 #bp Hamburg,_Germany ? + Johnson Olivia #occu Photographer 8/3/1989 #bp Toronto,_Canada ?
+comm Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+fevt
+#marr 
+end fevt
+
+pevt Johnson Olivia
+#birt 8/3/1989 #p Toronto,_Canada
+end pevt
+
+pevt Schneider Paul
+#birt 25/10/1978 #p Hamburg,_Germany
+end pevt
+
+fam Wallace Quinn #occu Actor 12/5/1997 #bp Glasgow,_Scotland ? +15/9/2010 #mp Sydney,_Australia #ms Marriage_certificate -16/9/2020 Fernandez Rosa #occu Historian 1/2/1985 #bp Madrid,_Spain ?
+fevt
+#marr 15/9/2010 #p Sydney,_Australia #s Marriage_certificate
+note All the family was here.
+#div 16/9/2020 #p Sydney,_Australia #s Divorce_certificate
+note Everyone is here.
+end fevt
+
+pevt Fernandez Rosa
+#birt 1/2/1985 #p Madrid,_Spain
+end pevt
+
+pevt Wallace Quinn
+#birt 12/5/1997 #p Glasgow,_Scotland
+end pevt
+
+fam Robertson Mat + ? ?
+fevt
+#marr 
+end fevt
+
+fam Robertson Ian #occu Photographer 30/6/1990 #bp Belfast,_Northern_Ireland ? + Andersson Julia #occu Veterinarian 14/8/1991 #bp Stockholm,_Sweden ?
+fevt
+#marr 
+end fevt
+beg
+- h Mat #occu Newborn 7/12/2025 #bp Stockholm,_Sweden ?
+end
+
+pevt Robertson Mat
+#birt 7/12/2025 #p Stockholm,_Sweden
+end pevt
+
+pevt Andersson Julia
+#birt 14/8/1991 #p Stockholm,_Sweden
+end pevt
+
+pevt Robertson Ian
+#birt 30/6/1990 #p Belfast,_Northern_Ireland
+end pevt
+
+fam Ahmed Yusuf #occu Archaeologist 6/9/1986 #bp Cairo,_Egypt ? + Ali Zara #occu Marketing_Manager 18/7/1990 #bp Dubai,_United_Arab_Emirates ?
+fevt
+#marr 
+end fevt
+beg
+- h Kader Ali #occu Schoolchild 20/9/2022 ?
+- f Bianca Ali #occu Schoolchild 18/1/2024 ?
+end
+
+pevt Ali Kader
+#birt 20/9/2022
+end pevt
+
+pevt Ali Bianca
+#birt 18/1/2024
+end pevt
+
+pevt Ali Zara
+#birt 18/7/1990 #p Dubai,_United_Arab_Emirates
+end pevt
+
+pevt Ahmed Yusuf
+#birt 6/9/1986 #p Cairo,_Egypt
+end pevt
+
+fam Santos Maria #occu Translator 10/1/1984 #bp Lisbon,_Portugal ? + ? ?
+fevt
+#marr 
+end fevt
+
+pevt Santos Maria
+#birt 10/1/1984 #p Lisbon,_Portugal
+end pevt
+
+fam Rossi David #occu Chef 15/11/1982 #bp Rome,_Italia ? + #nsckm ?? Dubois Felix #occu Musician 9/5/1988 #bp Paris,_France ?
+fevt
+#marr 
+end fevt
+
+pevt Dubois Felix
+#birt 9/5/1988 #p Paris,_France
+end pevt
+
+pevt Rossi David
+#birt 15/11/1982 #p Rome,_Italia
+end pevt
+
+fam Carter Benjamin #occu Software_Engineer 4/7/1990 #bp New_York,_USA ? + Morgan Alice #occu Architect 12/3/1987 #bp London,_UK ?
+fevt
+#marr 
+end fevt
+
+pevt Morgan Alice
+#birt 12/3/1987 #p London,_UK
+end pevt
+
+pevt Carter Benjamin
+#birt 4/7/1990 #p New_York,_USA
+end pevt
+
+fam Kowalski Henry #occu Mechanic 19/12/1980 #bp Warsaw,_Poland 12/7/2020 + Jensen Clara #occu Teacher 23/1/1975 #bp Copenhagen,_Denmark 27/1/2019
+fevt
+#marr 
+end fevt
+
+pevt Jensen Clara
+#deat 27/1/2019
+#birt 23/1/1975 #p Copenhagen,_Denmark
+end pevt
+
+pevt Kowalski Henry
+#deat 12/7/2020
+#birt 19/12/1980 #p Warsaw,_Poland
+end pevt
+
+fam Becker Samuel #occu Banker 7/12/1992 #bp Zurich,_Switzerland ? + Ivanova Tara #occu Engineer 17/4/1981 #bp Moscow,_Russia ?
+fevt
+#marr 
+end fevt
+beg
+- h Martin #occu Schoolchild 20/9/2016 ?
+end
+
+pevt Becker Martin
+#birt 20/9/2016
+end pevt
+
+pevt Ivanova Tara
+#birt 17/4/1981 #p Moscow,_Russia
+end pevt
+
+pevt Becker Samuel
+#birt 7/12/1992 #p Zurich,_Switzerland
+end pevt
+
+fam Thompson Jack #occu Firefighter 30/8/1979 #bp Sydney,_Australia ? +15/9/2010 #mp Sydney,_Australia #ms Marriage_certificate O’Neill Grace #occu Journalist 2/10/1992 #bp Dublin,_Republic_of_Ireland ?
+wit f: Novak Isabella #occu Librarian
+wit f: Müller Katherine #apubl #occu Lawyer
+fevt
+#marr 15/9/2010 #p Sydney,_Australia #s Marriage_certificate
+wit f: Novak Isabella
+wit f: Müller Katherine
+note All the family was here.
+end fevt
+
+pevt O’Neill Grace
+#birt 2/10/1992 #p Dublin,_Republic_of_Ireland
+end pevt
+
+pevt Thompson Jack
+#birt 30/8/1979 #p Sydney,_Australia
+end pevt

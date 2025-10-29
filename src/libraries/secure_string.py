@@ -16,9 +16,9 @@ class TaggedString(str):
             if isinstance(arg, TaggedString):
                 if type(arg) is not cls:
                     raise TypeError(
-                        f"Cannot concat {
-                            type(arg).__name__} with {
-                            cls.__name__}")
+                        f"Cannot concat {type(arg).__name__} "
+                        f"with {cls.__name__}"
+                    )
                 result += str(arg)
             elif isinstance(arg, str):
                 result += arg

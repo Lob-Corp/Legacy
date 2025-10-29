@@ -1,0 +1,43 @@
+encoding: utf-8
+gwplus
+
+fam b a.1 1/1/2000 #bp Paris ? + b c 1/2/2000 ?
+fevt
+#marr 
+end fevt
+
+pevt b c
+#birt 1/2/2000
+end pevt
+
+pevt b a.1
+#birt 1/1/2000 #p Paris
+end pevt
+
+fam b a 0 + #nm b t 0
+fevt
+#nmar 
+end fevt
+
+fam zzz rfefg 0 + zzz fezfez 0
+fevt
+#marr 
+end fevt
+
+fam pacs de 0 + #pacs mf pacs re 0
+fevt
+#pacs 
+end fevt
+
+fam pacs dea 0 + #noment mf pacs rea 0
+fevt
+#nmen 
+end fevt
+beg
+- neuter.1 #occu Jardinier
+- h yoyo 8/12/2006 #bp Paris ?
+end
+
+pevt pacs yoyo
+#birt 8/12/2006 #p Paris
+end pevt

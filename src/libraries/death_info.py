@@ -1,21 +1,41 @@
 from enum import Enum
+from typing import Callable, override
 
-from libraries.date import CompressedDate
+from libraries.date import CompressedDate, Date
 
 
 class DeathReason(Enum):
-    KILLED = "Killed"
-    MURDERED = "Murdered"
-    EXECUTED = "Executed"
-    DISAPPEARED = "Disappeared"
-    UNSPECIFIED = "Unspecified"
+    KILLED = "KILLED"
+    MURDERED = "MURDERED"
+    EXECUTED = "EXECUTED"
+    DISAPPEARED = "DISAPPEARED"
+    UNSPECIFIED = "UNSPECIFIED"
 
 
 class DeathStatusBase:
+    """Base class for different death status representations in genealogy.
+
+    This abstract class represents the various ways a person's death status
+    can be recorded, from definitely alive to various states of being deceased
+    or having unknown status.
+    """
+
     def __init__(self):
         raise NotImplementedError(
             "DeathStatusBase is a base class and cannot be instantiated"
-            "directly. Use one of its subclasses instead.")
+            "directly. Use one of its subclasses instead."
+        )
+
+    def map_death(self, _: Callable[[Date], Date]):
+        """Transform dates within death information using provided mapper.
+
+        Args:
+            date_mapper: Function to transform Date objects
+
+        Returns:
+            New instance with transformed dates, or self if no dates
+        """
+        return self
 
 
 class NotDead(DeathStatusBase):
@@ -24,9 +44,28 @@ class NotDead(DeathStatusBase):
 
 
 class Dead(DeathStatusBase):
-    def __init__(self, death_reason: DeathReason,
-                 date_of_death: CompressedDate):
-        self.death_reason = death_reason
+    """Person is confirmed dead with known reason and date."""
+
+    def __init__(
+        self, death_reason: DeathReason, date_of_death: CompressedDate
+    ):
+        self.death_reason: DeathReason = death_reason
+        self.date_of_death: CompressedDate = date_of_death
+
+    @override
+    def map_death(self, date_mapper: Callable[[Date], Date]):
+        """Transform the death date using the provided mapper function.
+
+        Args:
+            date_mapper: Function to transform the death date
+
+        Returns:
+            New Dead instance with transformed death date
+        """
+        return Dead(
+            death_reason=self.death_reason,
+            date_of_death=self.date_of_death.map_cdate(date_mapper),
+        )
 
 
 class DeadYoung(DeathStatusBase):
@@ -47,25 +86,3 @@ class DontKnowIfDead(DeathStatusBase):
 class OfCourseDead(DeathStatusBase):
     def __init__(self):
         pass
-
-
-class BurialInfoBase():
-    def __init__(self):
-        raise NotImplementedError(
-            "BurialInfoBase is a base class and cannot be"
-            "instantiated directly. Use one of its subclasses instead.")
-
-
-class UnknownBurial(BurialInfoBase):
-    def __init__(self):
-        pass
-
-
-class Burial(BurialInfoBase):
-    def __init__(self, burial_date: CompressedDate):
-        self.burial_date = burial_date
-
-
-class Cremated(BurialInfoBase):
-    def __init__(self, cremation_date: CompressedDate):
-        self.cremation_date = cremation_date

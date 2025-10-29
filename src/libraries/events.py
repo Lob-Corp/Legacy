@@ -1,28 +1,57 @@
+"""
+events.py
+-----------
+Small, strongly-typed representations for personal and family events used
+throughout the codebase. This module defines:
+
+- EventWitnessKind: enumerates kinds of witnesses/participants in events.
+- Pers* and Fam* event name classes: lightweight markers for event kinds.
+- PersonalEvent and FamilyEvent dataclasses: main, generic containers for
+    event data (name, date, place, reason, note, source, witnesses).
+
+These types are intentionally thin and generic so callers can store arbitrary
+descriptor types (strings, structured descriptors, or IDs) as event fields.
+"""
+
 from dataclasses import dataclass
 from enum import Enum
-from typing import Any, Generic, List, Tuple, TypeVar
+from typing import Any, Generic, List, Optional, Tuple, TypeVar, Callable
 
-from libraries.date import CompressedDate
+from libraries.date import CompressedDate, Date
 
 
 class EventWitnessKind(Enum):
-    WITNESS = "Witness"
-    WITNESS_GODPARENT = "Witness_GodParent"
-    WITNESS_CIVILOFFICER = "Witness_CivilOfficer"
-    WITNESS_RELIGIOUSOFFICER = "Witness_ReligiousOfficer"
-    WITNESS_INFORMANT = "Witness_Informant"
-    WITNESS_ATTENDING = "Witness_Attending"
-    WITNESS_MENTIONED = "Witness_Mentioned"
-    WITNESS_OTHER = "Witness_Other"
+    """Kinds of persons associated with an event.
+
+    Use these enum values to tag people attached to an event (witnesses,
+    informants, officiants, etc.). The underlying values are simple strings
+    suitable for serialization.
+    """
+
+    WITNESS = "WITNESS"
+    WITNESS_GODPARENT = "WITNESS_GODPARENT"
+    WITNESS_CIVILOFFICER = "WITNESS_CIVILOFFICER"
+    WITNESS_RELIGIOUSOFFICER = "WITNESS_RELIGIOUSOFFICER"
+    WITNESS_INFORMANT = "WITNESS_INFORMANT"
+    WITNESS_ATTENDING = "WITNESS_ATTENDING"
+    WITNESS_MENTIONED = "WITNESS_MENTIONED"
+    WITNESS_OTHER = "WITNESS_OTHER"
 
 
-EventDescriptorT = TypeVar('EventDescriptorT')
-PersonT = TypeVar('PersonT')
+EventDescriptorT = TypeVar("EventDescriptorT")
+PersonT = TypeVar("PersonT")
 
 # Personal events
 
 
 class PersEventNameBase(Generic[EventDescriptorT]):
+    """Base class for personal event name markers.
+
+    Subclass this to represent a specific personal event kind. Instances of
+    these marker classes are lightweight and typically used only as type
+    discriminators; `PersNamedEvent` carries an actual descriptor payload.
+    """
+
     def __init__(self):
         raise NotImplementedError(
             "EventNameBase is a base class and cannot be"
@@ -281,12 +310,29 @@ class PersWill(PersEventNameBase[Any]):
 
 
 class PersNamedEvent(PersEventNameBase[EventDescriptorT]):
+    """Personal event type that carries a custom descriptor.
+
+    Example: PersNamedEvent("HousePurchase") or PersNamedEvent(my_descriptor)
+    where `my_descriptor` is an application-specific object describing the
+    event.
+    """
+
     def __init__(self, name: EventDescriptorT):
         self.name = name
 
 
 @dataclass(frozen=True)
 class PersonalEvent(Generic[PersonT, EventDescriptorT]):
+    """Container for a personal event.
+
+    Fields are generic so callers can use strings, structured descriptors, or
+    domain-specific objects for `place`, `reason`, `note`, and `src`
+
+    - name: a marker or named event instance (see `PersNamedEvent`)
+    - date: a `CompressedDate` (can represent compressed calendars, text, None)
+    - witnesses: list of (person, witness_kind) tuples
+    """
+
     name: PersEventNameBase[EventDescriptorT]
     date: CompressedDate
     place: EventDescriptorT
@@ -295,10 +341,40 @@ class PersonalEvent(Generic[PersonT, EventDescriptorT]):
     src: EventDescriptorT
     witnesses: List[Tuple[PersonT, EventWitnessKind]]
 
+    def map_personal_event(
+        self,
+        date_mapper: Optional[Callable[[Date], Date]],
+        string_mapper: Callable[[EventDescriptorT], EventDescriptorT],
+        person_mapper: Callable[[PersonT], PersonT],
+    ) -> "PersonalEvent[PersonT, EventDescriptorT]":
+        event_name: PersEventNameBase[EventDescriptorT] = self.name
+        if isinstance(self.name, PersNamedEvent):
+            event_name = PersNamedEvent(string_mapper(self.name.name))
+
+        return PersonalEvent(
+            name=event_name,
+            date=self.date.map_cdate(date_mapper),
+            place=string_mapper(self.place),
+            reason=string_mapper(self.reason),
+            note=string_mapper(self.note),
+            src=string_mapper(self.src),
+            witnesses=[
+                (person_mapper(personal), event_witness)
+                for personal, event_witness in self.witnesses
+            ],
+        )
+
+
 # Family events
 
 
 class FamEventNameBase(Generic[EventDescriptorT]):
+    """Base class for family event name markers (see PersEventNameBase).
+
+    Subclass to provide family event kinds; use `FamNamedEvent` to attach a
+    descriptor payload.
+    """
+
     def __init__(self):
         raise NotImplementedError(
             "FamEventNameBase is a base class and cannot be"
@@ -367,12 +443,19 @@ class FamResidence(FamEventNameBase[Any]):
 
 
 class FamNamedEvent(FamEventNameBase[EventDescriptorT]):
+    """Family event type that carries a custom descriptor."""
+
     def __init__(self, name: EventDescriptorT):
         self.name = name
 
 
 @dataclass(frozen=True)
 class FamilyEvent(Generic[PersonT, EventDescriptorT]):
+    """Container for a family-related event.
+
+    Mirrors `PersonalEvent` but uses family-specific event name markers.
+    """
+
     name: FamEventNameBase[EventDescriptorT]
     date: CompressedDate
     place: EventDescriptorT
@@ -380,3 +463,26 @@ class FamilyEvent(Generic[PersonT, EventDescriptorT]):
     note: EventDescriptorT
     src: EventDescriptorT
     witnesses: List[Tuple[PersonT, EventWitnessKind]]
+
+    def map_family_event(
+        self,
+        string_mapper: Callable[[EventDescriptorT], EventDescriptorT],
+        date_mapper: Callable[[Date], Date],
+        witness_mapper: Callable[[PersonT], PersonT],
+    ) -> "FamilyEvent[PersonT, EventDescriptorT]":
+        event_name: FamEventNameBase[EventDescriptorT] = self.name
+        if isinstance(self.name, FamNamedEvent):
+            event_name = FamNamedEvent(string_mapper(self.name.name))
+
+        return FamilyEvent(
+            name=event_name,
+            date=self.date.map_cdate(date_mapper),
+            place=string_mapper(self.place),
+            reason=string_mapper(self.reason),
+            note=string_mapper(self.note),
+            src=string_mapper(self.src),
+            witnesses=[
+                (witness_mapper(personal), event_witness)
+                for personal, event_witness in self.witnesses
+            ],
+        )

@@ -82,6 +82,14 @@ target/
 profile_default/
 ipython_config.py
 
+# OCaml files
+*.ml
+*.mli
+*.mll
+*.mly
+*.cmo
+*.cmi
+
 # pyenv
 #   For a library or package, you might want to ignore these files since the code is
 #   intended to run in multiple environments; otherwise, check them in:
@@ -216,3 +224,14 @@ release
 # coverage files
 *lcov
 lcov.*.info
+
+# golden master testing
+tests/golden_master/records
+
+#random files
+debug_parser.py
+*.gw
+!test_assets/*.gw
+test_minimal.db
+test_medium.db
+test_big.db
