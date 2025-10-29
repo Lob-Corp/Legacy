@@ -47,7 +47,9 @@
                 <div class="d-flex flex-column justify-content-center col-xs-11 col-md-9 col-lg-7 w-75">
                     <div class="d-flex">
                         <div class="btn-group-vertical mr-2">
-                            <a role="button" href="" title="Patronymes, trier par ordre alphabétique">
+                            <a role="button"
+                                href="{{ url_for('gwd.gwd_base_only', base=base, lang=lang, m='N', tri='A') }}"
+                                title="Patronymes, trier par ordre alphabétique">
                                 <i class="fa fa-arrow-down-a-z fa-fw"></i>
                             </a>
                             <a role="button" href="" title="Fréquence patronymes, trier par nombre d'individus">

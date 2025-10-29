@@ -19,6 +19,7 @@ Handlers are explicit functions and currently raise NotImplementedError..
 def gwd_base_only(base, lang='en'):
     lang = request.args.get("lang", "en")
     module = request.args.get("m", None)
+    tri = request.args.get("tri", None)
     surname = request.args.get("n", None)
     firstname = request.args.get("p", None)
     previous_url = request.referrer
@@ -52,49 +53,13 @@ def gwd_base_only(base, lang='en'):
     if module == "S" and surname:
         return render_template("gwd/search_surname.html", base=base, lang=lang, surname=surname,
                                branches=branches, total_branches=len(branches), previous_url=previous_url)
-    person = Person(
-        index=1,
-        first_name="Jean",
-        surname="Dupont",
-        occ=1,
-        image="jean.png",
-        public_name="Jean D.",
-        qualifiers=["qual1"],
-        aliases=["alias1"],
-        first_names_aliases=["J"],
-        surname_aliases=["Du."],
-        titles=[],
-        NonNativeParentsRelation=[],
-        RelatedPersons=[],
-        occupation="Farmer",
-        sex=Sex.MALE,
-        access_right=AccessRight.PUBLIC,
-        birth_date="2025-01-01",
-        birth_place="Paris",
-        birth_note="note",
-        birth_src="src",
-        baptism_date="2025-01-01",
-        baptism_place="Church",
-        baptism_note="bap note",
-        baptism_src="bap src",
-        death=DontKnowIfDead(),
-        death_place="Paris",
-        death_note="death note",
-        death_src="death src",
-        burial=UnknownBurial(),
-        burial_place="Cemetery",
-        burial_note="burial note",
-        burial_src="burial src",
-        personal_events=[],
-        notes="general note",
-        src="src file"
-    )
-    persons = [
-        person
-    ]
+    persons = []
     if module == "S" and firstname:
         return render_template("gwd/search_firstname.html", base=base, lang=lang, firstname=firstname,
                                persons=persons, total_persons=len(persons), previous_url=previous_url)
+
+    if module == "N" and tri == "A":
+        return render_template("gwd/surnames_alpha.html", base=base, lang=lang, previous_url=previous_url)
     return render_template("gwd/index.html", base=base, lang=lang)
 
 # DEFAULT / ROOT (already present)
