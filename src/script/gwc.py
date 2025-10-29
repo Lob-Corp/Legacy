@@ -32,7 +32,7 @@ import database.place  # noqa: F401
 
 
 @dataclass(frozen=False)
-class GwdArguments:
+class GwcArguments:
     out_file: str
     input_file_data: list[tuple[str, bool, str, int]]
     separate: bool
@@ -241,7 +241,7 @@ def main() -> int:
     particles: str = args.particles
     nc: bool = args.nc
 
-    return gwc_main(GwdArguments(
+    return gwc_main(GwcArguments(
         out_file=out_file,
         input_file_data=input_file_data,
         separate=separate,
@@ -258,7 +258,7 @@ def main() -> int:
         nc=nc), parser.print_help)
 
 
-def gwc_main(args: GwdArguments, print_help: Callable) -> int:
+def gwc_main(args: GwcArguments, print_help: Callable) -> int:
     basename: str = os.path.basename(args.out_file)
     if not all((c.isalnum() or c in '-._') for c in basename):
         print(
