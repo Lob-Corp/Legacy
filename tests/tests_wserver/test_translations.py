@@ -14,10 +14,11 @@ from flask import request
 @pytest.fixture(scope="session", autouse=True)
 def compile_translations():
     """Automatically compile translation files before running tests."""
-    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-    translations_dir = os.path.join(
-        project_root, 'src', 'wserver', 'translations')
-
+    # This test file is in tests/tests_wserver/, so go up two levels to get project root
+    test_file_dir = os.path.dirname(os.path.abspath(__file__))
+    project_root = os.path.dirname(os.path.dirname(test_file_dir))
+    translations_dir = os.path.join(project_root, 'src', 'wserver', 'translations')
+    
     # Only compile if translations directory exists
     if os.path.exists(translations_dir):
         try:
@@ -29,20 +30,20 @@ def compile_translations():
                 text=True,
                 timeout=30
             )
-
+            
             if result.returncode == 0:
-                print(f"\nBabel translations compiled successfully")
+                print(f"\n✓ Babel translations compiled successfully")
             else:
-                print(f"\nWarning: Babel compilation had issues:")
+                print(f"\n⚠ Warning: Babel compilation had issues:")
                 print(result.stdout)
                 print(result.stderr)
         except FileNotFoundError:
-            print("\nWarning: pybabel not found. Install with: pip install Babel")
+            print("\n⚠ Warning: pybabel not found. Install with: pip install Babel")
         except subprocess.TimeoutExpired:
-            print("\nWarning: Babel compilation timed out")
+            print("\n⚠ Warning: Babel compilation timed out")
         except Exception as e:
-            print(f"\nWarning: Babel compilation failed: {e}")
-
+            print(f"\n⚠ Warning: Babel compilation failed: {e}")
+    
     yield
 
 
@@ -76,9 +77,10 @@ def test_translation_files_exist():
     import os
 
     # Translations should be in src/wserver/translations/
+    # This test file is in tests/tests_wserver/, so we need to go up two levels
     translation_dir = os.path.join(
         os.path.dirname(__file__),
-        '..', 'src', 'wserver', 'translations'
+        '..', '..', 'src', 'wserver', 'translations'
     )
     translation_dir = os.path.abspath(translation_dir)
 
