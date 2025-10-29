@@ -678,7 +678,9 @@ def convert_person_to_db(
     """
     db_person = database.person.Person()
 
-    db_person.id = to_convert.index
+    # Only set ID for existing persons (edits), not for new persons
+    if to_convert.index != 0:
+        db_person.id = to_convert.index
     db_person.first_name = to_convert.first_name
     db_person.surname = to_convert.surname
     db_person.occ = to_convert.occ

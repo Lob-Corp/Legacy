@@ -3189,7 +3189,10 @@ textarea:not(.no-clear-button):not([readonly]):not([disabled]),
       });
       <!--
       function changeCalendar(e, v, m, c) {
+        // Convert month value to numeric if it's a string
         var mv = m;
+
+        // Handle French Republican calendar abbreviations
         switch (m) {
           case "VD":
             mv = 1;
@@ -3231,164 +3234,90 @@ textarea:not(.no-clear-button):not([readonly]):not([disabled]),
             mv = 13;
             break;
         }
-        switch (c.options[c.selectedIndex].value) {
+        
+        // Convert to string for comparison (form values are strings)
+        mv = String(mv);
+        
+        const calType = c.options[c.selectedIndex].value;
+        let months = [];
+        
+        switch (calType) {
           case "G":
           case "J":
-            document.getElementById(e).innerHTML =
-              '\
-<select class="form-control pl-sm-1 pr-lg-0 px-xl-2 ml-sm-2 ml-md-3" name="' +
-              v +
-              '">\
-<option value=""' +
-              (mv == 0 ? " selected" : "") +
-              '>-</option>\
-<option value="1"' +
-              (mv == 1 ? " selected" : "") +
-              '>janvier</option>\
-<option value="2"' +
-              (mv == 2 ? " selected" : "") +
-              '>février</option>\
-<option value="3"' +
-              (mv == 3 ? " selected" : "") +
-              '>mars</option>\
-<option value="4"' +
-              (mv == 4 ? " selected" : "") +
-              '>avril</option>\
-<option value="5"' +
-              (mv == 5 ? " selected" : "") +
-              '>mai</option>\
-<option value="6"' +
-              (mv == 6 ? " selected" : "") +
-              '>juin</option>\
-<option value="7"' +
-              (mv == 7 ? " selected" : "") +
-              '>juillet</option>\
-<option value="8"' +
-              (mv == 8 ? " selected" : "") +
-              '>août</option>\
-<option value="9"' +
-              (mv == 9 ? " selected" : "") +
-              '>septembre</option>\
-<option value="10"' +
-              (mv == 10 ? " selected" : "") +
-              '>octobre</option>\
-<option value="11"' +
-              (mv == 11 ? " selected" : "") +
-              '>novembre</option>\
-<option value="12"' +
-              (mv == 12 ? " selected" : "") +
-              ">décembre</option>\
-</select>\
-";
+            months = calendarTranslations.gregorian;
             break;
           case "F":
-            document.getElementById(e).innerHTML =
-              '\
-<select class="form-control pl-sm-1 pr-lg-0 px-xl-2 ml-sm-2 ml-md-3" name="' +
-              v +
-              '">\
-<option value=""' +
-              (mv == 0 ? " selected" : "") +
-              '>-</option>\
-<option value="1"' +
-              (mv == 1 ? " selected" : "") +
-              '>vendémiaire</option>\
-<option value="2"' +
-              (mv == 2 ? " selected" : "") +
-              '>brumaire</option>\
-<option value="3"' +
-              (mv == 3 ? " selected" : "") +
-              '>frimaire</option>\
-<option value="4"' +
-              (mv == 4 ? " selected" : "") +
-              '>nivôse</option>\
-<option value="5"' +
-              (mv == 5 ? " selected" : "") +
-              '>pluviôse</option>\
-<option value="6"' +
-              (mv == 6 ? " selected" : "") +
-              '>ventôse</option>\
-<option value="7"' +
-              (mv == 7 ? " selected" : "") +
-              '>germinal</option>\
-<option value="8"' +
-              (mv == 8 ? " selected" : "") +
-              '>floréal</option>\
-<option value="9"' +
-              (mv == 9 ? " selected" : "") +
-              '>prairial</option>\
-<option value="10"' +
-              (mv == 10 ? " selected" : "") +
-              '>messidor</option>\
-<option value="11"' +
-              (mv == 11 ? " selected" : "") +
-              '>thermidor</option>\
-<option value="12"' +
-              (mv == 12 ? " selected" : "") +
-              '>fructidor</option>\
-<option value="13"' +
-              (mv == 13 ? " selected" : "") +
-              ">complémentaire</option>\
-</select>\
-";
+            months = calendarTranslations.french;
             break;
           case "H":
-            document.getElementById(e).innerHTML =
-              '\
-<select class="form-control pl-sm-1 pr-lg-0 px-xl-2 ml-sm-2 ml-md-3" name="' +
-              v +
-              '">\
-<option value=""' +
-              (mv == 0 ? " selected" : "") +
-              '>-</option>\
-<option value="1"' +
-              (mv == 1 ? " selected" : "") +
-              '>tichri</option>\
-<option value="2"' +
-              (mv == 2 ? " selected" : "") +
-              '>marhechvan</option>\
-<option value="3"' +
-              (mv == 3 ? " selected" : "") +
-              '>kislev</option>\
-<option value="4"' +
-              (mv == 4 ? " selected" : "") +
-              '>tevet</option>\
-<option value="5"' +
-              (mv == 5 ? " selected" : "") +
-              '>chevat</option>\
-<option value="6"' +
-              (mv == 6 ? " selected" : "") +
-              '>adar 1</option>\
-<option value="7"' +
-              (mv == 7 ? " selected" : "") +
-              '>adar 2</option>\
-<option value="8"' +
-              (mv == 8 ? " selected" : "") +
-              '>nissan</option>\
-<option value="9"' +
-              (mv == 9 ? " selected" : "") +
-              '>iyar</option>\
-<option value="10"' +
-              (mv == 10 ? " selected" : "") +
-              '>sivan</option>\
-<option value="11"' +
-              (mv == 11 ? " selected" : "") +
-              '>tamouz</option>\
-<option value="12"' +
-              (mv == 12 ? " selected" : "") +
-              '>av</option>\
-<option value="13"' +
-              (mv == 13 ? " selected" : "") +
-              ">eloul</option>\
-</select>\
-";
+            months = calendarTranslations.hebrew;
             break;
         }
+        
+        if (months.length === 0) return;
+        
+        const options = months.map(month => 
+          `<option value="${month.value}"${mv === month.value ? ' selected' : ''}>${month.label}</option>`
+        ).join('');
+        
+        document.getElementById(e).innerHTML = 
+          `<select class="form-control pl-sm-1 pr-lg-0 px-xl-2 ml-sm-2 ml-md-3" name="${v}">${options}</select>`;
       }
       -->
     </script>
     <!-- gw/etc/upd_js.txt --->
     <script>
+      // Translated calendar month names
+      const calendarTranslations = {
+        gregorian: [
+          { value: "", label: "-" },
+          { value: "1", label: "{{ _('January') }}" },
+          { value: "2", label: "{{ _('February') }}" },
+          { value: "3", label: "{{ _('March') }}" },
+          { value: "4", label: "{{ _('April') }}" },
+          { value: "5", label: "{{ _('May') }}" },
+          { value: "6", label: "{{ _('June') }}" },
+          { value: "7", label: "{{ _('July') }}" },
+          { value: "8", label: "{{ _('August') }}" },
+          { value: "9", label: "{{ _('September') }}" },
+          { value: "10", label: "{{ _('October') }}" },
+          { value: "11", label: "{{ _('November') }}" },
+          { value: "12", label: "{{ _('December') }}" }
+        ],
+        french: [
+          { value: "", label: "-" },
+          { value: "1", label: "{{ _('Vendémiaire') }}" },
+          { value: "2", label: "{{ _('Brumaire') }}" },
+          { value: "3", label: "{{ _('Frimaire') }}" },
+          { value: "4", label: "{{ _('Nivôse') }}" },
+          { value: "5", label: "{{ _('Pluviôse') }}" },
+          { value: "6", label: "{{ _('Ventôse') }}" },
+          { value: "7", label: "{{ _('Germinal') }}" },
+          { value: "8", label: "{{ _('Floréal') }}" },
+          { value: "9", label: "{{ _('Prairial') }}" },
+          { value: "10", label: "{{ _('Messidor') }}" },
+          { value: "11", label: "{{ _('Thermidor') }}" },
+          { value: "12", label: "{{ _('Fructidor') }}" },
+          { value: "13", label: "{{ _('Complémentaire') }}" }
+        ],
+        hebrew: [
+          { value: "", label: "-" },
+          { value: "1", label: "{{ _('Tichri') }}" },
+          { value: "2", label: "{{ _('Marhechvan') }}" },
+          { value: "3", label: "{{ _('Kislev') }}" },
+          { value: "4", label: "{{ _('Tevet') }}" },
+          { value: "5", label: "{{ _('Chevat') }}" },
+          { value: "6", label: "{{ _('Adar 1') }}" },
+          { value: "7", label: "{{ _('Adar 2') }}" },
+          { value: "8", label: "{{ _('Nissan') }}" },
+          { value: "9", label: "{{ _('Iyar') }}" },
+          { value: "10", label: "{{ _('Sivan') }}" },
+          { value: "11", label: "{{ _('Tamouz') }}" },
+          { value: "12", label: "{{ _('Av') }}" },
+          { value: "13", label: "{{ _('Eloul') }}" }
+        ]
+      };
+
       function show_fevent_label(xxname, xcnt) {
         var selector = document.getElementById("fevent_select" + xcnt);
         var label = document.getElementById("fevent_label_selector" + xcnt);

@@ -37,7 +37,7 @@ def gwd_base_only(base, lang='en'):
 def route_A(base, lang='en'):
     raise NotImplementedError("Route A not implemented yet")
 
-from .add_family import *
+from .add_family import route_ADD_FAM
 
 @gwd_bp.route('/gwd/<base>/ADD_FAM_OK/', methods=['GET', 'POST'])
 @gwd_bp.route('/gwd/<base>/ADD_FAM_OK/<lang>', methods=['GET', 'POST'])
