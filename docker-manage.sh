@@ -41,60 +41,60 @@ ensure_dirs() {
 
 build_image() {
     echo -e "${GREEN}Building Docker image...${NC}"
-    docker-compose build
+    docker compose build
     echo -e "${GREEN}Build complete!${NC}"
 }
 
 start_app() {
     ensure_dirs
     echo -e "${GREEN}Starting GeneWeb application...${NC}"
-    docker-compose up -d
+    docker compose up -d
     echo -e "${GREEN}Application started on https://localhost:8080${NC}"
     echo -e "${YELLOW}Use '$0 logs -f' to follow logs${NC}"
 }
 
 stop_app() {
     echo -e "${YELLOW}Stopping GeneWeb application...${NC}"
-    docker-compose down
+    docker compose down
     echo -e "${GREEN}Application stopped${NC}"
 }
 
 restart_app() {
     echo -e "${YELLOW}Restarting GeneWeb application...${NC}"
-    docker-compose restart
+    docker compose restart
     echo -e "${GREEN}Application restarted${NC}"
 }
 
 show_logs() {
-    docker-compose logs "$@"
+    docker compose logs "$@"
 }
 
 open_shell() {
     echo -e "${GREEN}Opening shell in container...${NC}"
-    docker-compose exec geneweb /bin/bash
+    docker compose exec geneweb /bin/bash
 }
 
 run_gwc() {
     ensure_dirs
     echo -e "${GREEN}Running gwc with arguments: $@${NC}"
 
-    if ! docker-compose ps | grep -q "geneweb-app.*Up"; then
+    if ! docker compose ps | grep -q "geneweb-app.*Up"; then
         echo -e "${YELLOW}Container not running. Starting it first...${NC}"
-        docker-compose up -d
+        docker compose up -d
         sleep 2
     fi
 
-    docker-compose exec geneweb python -m script.gwc "$@"
+    docker compose exec geneweb python -m script.gwc "$@"
 }
 
 run_tests() {
     echo -e "${GREEN}Running tests inside container...${NC}"
-    docker-compose exec geneweb pytest tests/
+    docker compose exec geneweb pytest tests/
 }
 
 clean() {
     echo -e "${YELLOW}Cleaning up containers and networks...${NC}"
-    docker-compose down
+    docker compose down
     echo -e "${GREEN}Cleanup complete${NC}"
 }
 
@@ -103,7 +103,7 @@ clean_all() {
     read -p "This will delete all data volumes. Continue? (y/N) " -n 1 -r
     echo
     if [[ $REPLY =~ ^[Yy]$ ]]; then
-        docker-compose down -v
+        docker compose down -v
         echo -e "${GREEN}Complete cleanup done${NC}"
     else
         echo -e "${YELLOW}Cleanup cancelled${NC}"
