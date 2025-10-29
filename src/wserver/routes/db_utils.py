@@ -4,6 +4,7 @@ Database utility functions for Geneweb Flask routes.
 import os
 from database.sqlite_database_service import SQLiteDatabaseService
 
+
 def get_db_service(base: str) -> SQLiteDatabaseService:
     """
     Return a connected SQLiteDatabaseService for the given base name.

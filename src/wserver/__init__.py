@@ -3,7 +3,10 @@ from flask_babel import Babel
 
 
 def get_locale():
-    """Determine the best locale based on URL path, cookie, URL param, or Accept-Language header."""
+    """
+    Determine the best locale based on URL path,
+    cookie, URL param, or Accept-Language header.
+    """
     # Check if locale was set in the view (from URL path parameter)
     if hasattr(g, 'locale') and g.locale:
         return g.locale
@@ -30,7 +33,7 @@ def create_app():
     # Configure Babel for i18n
     app.config.setdefault('BABEL_DEFAULT_LOCALE', 'en')
     app.config.setdefault('BABEL_TRANSLATION_DIRECTORIES', 'translations')
-    babel = Babel(app, locale_selector=get_locale)
+    Babel(app, locale_selector=get_locale)
 
     from .routes import register_routes
     register_routes(app)

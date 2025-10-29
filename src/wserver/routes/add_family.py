@@ -6,9 +6,8 @@ from flask import (
     render_template, request, current_app, jsonify, redirect, url_for, g, abort
 )
 from pprint import pformat
-from .gwd import gwd_bp
 from .db_utils import get_db_service
-from typing import Optional, List, Tuple
+from typing import Optional, List
 
 
 # --- Helper functions for add_family route ---
@@ -27,7 +26,10 @@ def parse_int(value: str, default: int = 0) -> int:
 
 
 def parse_calendar_date(form_data, prefix: str):
-    """Build a CalendarDate from fields like <prefix>_dd/mm/yyyy. Returns None if year is empty or 0."""
+    """
+    Build a CalendarDate from fields like <prefix>_dd/mm/yyyy.
+    Returns None if year is empty or 0.
+    """
     from libraries.date import Calendar, DateValue, Sure, CalendarDate
     dd = get_first(form_data, f"{prefix}_dd").strip()
     mm = get_first(form_data, f"{prefix}_mm").strip()
@@ -55,7 +57,10 @@ def parse_sex(sex_str: str):
 
 
 def ensure_person(form_data, db_service, person_repo, pa_idx: int) -> int:
-    """Create or link a parent person and return its database id. pa_idx is 1 or 2."""
+    """
+    Create or link a parent person and return its database id.
+    pa_idx is 1 or 2.
+    """
     from libraries.person import Sex, Person as LibPerson
     from libraries.title import AccessRight
     from libraries.consanguinity_rate import ConsanguinityRate
@@ -131,7 +136,9 @@ def ensure_person(form_data, db_service, person_repo, pa_idx: int) -> int:
         notes="",
         src="",
         ascend=Ascendants[int](
-            parents=None, consanguinity_rate=ConsanguinityRate.from_integer(0)),
+            parents=None,
+            consanguinity_rate=ConsanguinityRate.from_integer(0)
+        ),
         families=[]
     )
     person_repo.add_person(lib_person)
@@ -150,8 +157,14 @@ def ensure_person(form_data, db_service, person_repo, pa_idx: int) -> int:
         session.close()
 
 
-def ensure_child(form_data, db_service, person_repo, ch_idx: int) -> Optional[int]:
-    """Create or link a child person and return its database id. Returns None if no name provided."""
+def ensure_child(form_data,
+                 db_service,
+                 person_repo,
+                 ch_idx: int) -> Optional[int]:
+    """
+    Create or link a child person and return its database id.
+    Returns None if no name provided.
+    """
     from libraries.person import Sex, Person as LibPerson
     from libraries.title import AccessRight
     from libraries.consanguinity_rate import ConsanguinityRate
@@ -217,7 +230,9 @@ def ensure_child(form_data, db_service, person_repo, ch_idx: int) -> Optional[in
         notes="",
         src="",
         ascend=Ascendants[int](
-            parents=None, consanguinity_rate=ConsanguinityRate.from_integer(0)),
+            parents=None,
+            consanguinity_rate=ConsanguinityRate.from_integer(0)
+        ),
         families=[]
     )
     person_repo.add_person(lib_person)
@@ -236,9 +251,16 @@ def ensure_child(form_data, db_service, person_repo, ch_idx: int) -> Optional[in
         session.close()
 
 
-def parse_witness(form_data, db_service, person_repo, event_idx: int, witness_idx: int):
-    """Parse a witness from form fields e{event_idx}_witn{witness_idx}_*. Returns (person_id, witness_kind) or None."""
-    from libraries.person import Sex, Person as LibPerson
+def parse_witness(form_data,
+                  db_service,
+                  person_repo,
+                  event_idx: int,
+                  witness_idx: int):
+    """
+    Parse a witness from form fields e{event_idx}_witn{witness_idx}_*.
+    Returns (person_id, witness_kind) or None.
+    """
+    from libraries.person import Person as LibPerson
     from libraries.title import AccessRight
     from libraries.consanguinity_rate import ConsanguinityRate
     from libraries.family import Ascendants
@@ -253,7 +275,9 @@ def parse_witness(form_data, db_service, person_repo, event_idx: int, witness_id
     sex_str = get_first(form_data, f"e{event_idx}_witn{witness_idx}_sex", "N")
     sex = parse_sex(sex_str)
     kind_str = get_first(
-        form_data, f"e{event_idx}_witn{witness_idx}_kind", "witness").strip().upper()
+        form_data,
+        f"e{event_idx}_witn{witness_idx}_kind", "witness"
+    ).strip().upper()
     kind_map = {
         'WITNESS': EventWitnessKind.WITNESS,
         'WITNESS_GODPARENT': EventWitnessKind.WITNESS_GODPARENT,
@@ -314,7 +338,9 @@ def parse_witness(form_data, db_service, person_repo, event_idx: int, witness_id
         notes="",
         src="",
         ascend=Ascendants[int](
-            parents=None, consanguinity_rate=ConsanguinityRate.from_integer(0)),
+            parents=None,
+            consanguinity_rate=ConsanguinityRate.from_integer(0)
+        ),
         families=[]
     )
     person_repo.add_person(lib_person)
@@ -333,10 +359,15 @@ def parse_witness(form_data, db_service, person_repo, event_idx: int, witness_id
 
 
 def parse_family_event(form_data, db_service, person_repo, event_idx: int):
-    """Parse a family event from form fields e{event_idx}_*. Returns FamilyEvent or None."""
+    """
+    Parse a family event from form fields e{event_idx}_*.
+    Returns FamilyEvent or None.
+    """
     from libraries.events import (
-        FamilyEvent, FamMarriage, FamNoMarriage, FamEngage, FamDivorce, FamSeparated, FamAnnulation,
-        FamMarriageBann, FamMarriageContract, FamMarriageLicense, FamPACS, FamResidence, FamNamedEvent, EventWitnessKind
+        FamilyEvent, FamMarriage, FamNoMarriage, FamEngage,
+        FamDivorce, FamSeparated, FamAnnulation,
+        FamMarriageBann, FamMarriageContract, FamMarriageLicense,
+        FamPACS, FamResidence, FamNamedEvent
     )
     event_name_str = get_first(form_data, f"e_name{event_idx}").strip()
     if not event_name_str:
@@ -382,9 +413,7 @@ def parse_family_event(form_data, db_service, person_repo, event_idx: int):
     )
 
 
-@gwd_bp.route('<base>/ADD_FAM/', methods=['GET', 'POST'])
-@gwd_bp.route('<base>/ADD_FAM/<lang>', methods=['GET', 'POST'])
-def route_ADD_FAM(base, lang='en'):
+def implem_route_ADD_FAM(base, lang='en'):
     """
     Handle GET and POST requests for the add_family page.
     On POST, parses form data and stores a new family in the database.
@@ -404,9 +433,10 @@ def route_ADD_FAM(base, lang='en'):
         from repositories.person_repository import PersonRepository
         from repositories.family_repository import FamilyRepository
         from libraries.family import (
-            Family as LibFamily, Parents as LibParents, MaritalStatus, NotDivorced
+            Family as LibFamily, Parents
+            as LibParents, MaritalStatus, NotDivorced
         )
-        from libraries.events import FamilyEvent, FamMarriage
+        from libraries.events import FamilyEvent
         person_repo = PersonRepository(db_service)
         family_repo = FamilyRepository(db_service)
         # Build or link both parents
@@ -438,11 +468,12 @@ def route_ADD_FAM(base, lang='en'):
                     f"Failed to create child {ch_idx}: {e}")
                 continue
 
-        # Parse family events - extract event indices from form data dynamically
         family_events: List[FamilyEvent] = []
         event_indices = set()
         for key in form_data.keys():
-            if key.startswith('e_name') or (key.startswith('e') and '_' in key and not key.startswith('e_')):
+            if key.startswith('e_name') \
+                    or (key.startswith('e')
+                        and '_' in key and not key.startswith('e_')):
                 try:
                     if key.startswith('e_name'):
                         idx_str = key[6:]
@@ -492,7 +523,8 @@ def route_ADD_FAM(base, lang='en'):
         # Parse marriage date and place (from first event if it's a marriage)
         marriage_date = None
         marriage_place = ""
-        if family_events and hasattr(family_events[0].name, '__class__') and family_events[0].name.__class__.__name__ == 'FamMarriage':
+        if family_events and hasattr(family_events[0].name, '__class__') \
+                and family_events[0].name.__class__.__name__ == 'FamMarriage':
             marriage_date = family_events[0].date
             marriage_place = family_events[0].place
 
