@@ -26,6 +26,23 @@ cp .env.example .env
 
 **See [docs/DOCKER.md](docs/DOCKER.md) for complete Docker deployment guide.**
 
+## 🚀 Ansible Deployment
+
+Deploy to remote servers with Ansible:
+
+```bash
+cd ansible
+
+# Configure your server in inventory.yml
+# Then deploy:
+ansible-playbook -i inventory.yml deploy.yml --limit production
+
+# Or using Make
+make deploy-prod
+```
+
+**See [docs/ANSIBLE.md](docs/ANSIBLE.md) for Ansible deployment guide.**
+
 ## Documentation
 
 ### 📘 Main Documentation
