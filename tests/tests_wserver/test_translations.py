@@ -6,7 +6,44 @@ for the GeneWeb Flask application.
 """
 
 import pytest
+import os
+import subprocess
 from flask import request
+
+
+@pytest.fixture(scope="session", autouse=True)
+def compile_translations():
+    """Automatically compile translation files before running tests."""
+    project_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    translations_dir = os.path.join(
+        project_root, 'src', 'wserver', 'translations')
+
+    # Only compile if translations directory exists
+    if os.path.exists(translations_dir):
+        try:
+            # Run pybabel compile
+            result = subprocess.run(
+                ['pybabel', 'compile', '-d', translations_dir],
+                cwd=project_root,
+                capture_output=True,
+                text=True,
+                timeout=30
+            )
+
+            if result.returncode == 0:
+                print(f"\nBabel translations compiled successfully")
+            else:
+                print(f"\nWarning: Babel compilation had issues:")
+                print(result.stdout)
+                print(result.stderr)
+        except FileNotFoundError:
+            print("\nWarning: pybabel not found. Install with: pip install Babel")
+        except subprocess.TimeoutExpired:
+            print("\nWarning: Babel compilation timed out")
+        except Exception as e:
+            print(f"\nWarning: Babel compilation failed: {e}")
+
+    yield
 
 
 def test_flask_babel_installed():
@@ -52,11 +89,14 @@ def test_translation_files_exist():
     en_mo = os.path.join(translation_dir, 'en', 'LC_MESSAGES', 'messages.mo')
     en_po = os.path.join(translation_dir, 'en', 'LC_MESSAGES', 'messages.po')
 
+    # .mo file should exist after auto-compilation
     assert os.path.exists(en_mo), \
-        f"English compiled translations missing: {en_mo}. Run: pybabel compile -d src/wserver/translations"
+        f"English compiled translations missing: {en_mo}. " \
+        f"Auto-compilation may have failed. Check if .po file exists."
 
     assert os.path.exists(en_po), \
-        f"English source translations missing: {en_po}"
+        f"English source translations missing: {en_po}. " \
+        f"Run: pybabel init -i messages.pot -d src/wserver/translations -l en"
 
 
 def test_locale_detection_url_param():
@@ -112,7 +152,7 @@ def test_locale_detection_url_path():
         locale = get_locale()
         assert str(locale) == 'fr', \
             f"Expected locale 'fr' from g.locale (URL path), got '{locale}'"
-    
+
     # Test English locale set via g.locale
     with app.test_request_context('/gwd/base/ADD_FAM/en'):
         g.locale = 'en'
