@@ -76,7 +76,8 @@ def ensure_person(form_data, db_service, person_repo, pa_idx: int) -> int:
                 'occ': occ,
             })
             if not match:
-                raise ValueError(f"No existing person found to link: {fn} {sn} (occ={occ})")
+                raise ValueError(
+                    f"No existing person found to link: {fn} {sn} (occ={occ})")
             return match.id
         finally:
             session.close()
@@ -87,7 +88,8 @@ def ensure_person(form_data, db_service, person_repo, pa_idx: int) -> int:
     death_place = get_first(form_data, f"pa{pa_idx}d_pl")
     occupation = get_first(form_data, f"pa{pa_idx}_occu")
     if death_date:
-        death_status = Dead(death_reason=DeathReason.UNSPECIFIED, date_of_death=death_date)
+        death_status = Dead(
+            death_reason=DeathReason.UNSPECIFIED, date_of_death=death_date)
     else:
         death_status = NotDead()
     lib_person = LibPerson[
@@ -128,7 +130,8 @@ def ensure_person(form_data, db_service, person_repo, pa_idx: int) -> int:
         personal_events=[],
         notes="",
         src="",
-        ascend=Ascendants[int](parents=None, consanguinity_rate=ConsanguinityRate.from_integer(0)),
+        ascend=Ascendants[int](
+            parents=None, consanguinity_rate=ConsanguinityRate.from_integer(0)),
         families=[]
     )
     person_repo.add_person(lib_person)
@@ -213,7 +216,8 @@ def ensure_child(form_data, db_service, person_repo, ch_idx: int) -> Optional[in
         personal_events=[],
         notes="",
         src="",
-        ascend=Ascendants[int](parents=None, consanguinity_rate=ConsanguinityRate.from_integer(0)),
+        ascend=Ascendants[int](
+            parents=None, consanguinity_rate=ConsanguinityRate.from_integer(0)),
         families=[]
     )
     person_repo.add_person(lib_person)
@@ -244,10 +248,12 @@ def parse_witness(form_data, db_service, person_repo, event_idx: int, witness_id
     sn = get_first(form_data, f"e{event_idx}_witn{witness_idx}_sn").strip()
     if not fn and not sn:
         return None
-    occ = parse_int(get_first(form_data, f"e{event_idx}_witn{witness_idx}_occ", "0"), 0)
+    occ = parse_int(
+        get_first(form_data, f"e{event_idx}_witn{witness_idx}_occ", "0"), 0)
     sex_str = get_first(form_data, f"e{event_idx}_witn{witness_idx}_sex", "N")
     sex = parse_sex(sex_str)
-    kind_str = get_first(form_data, f"e{event_idx}_witn{witness_idx}_kind", "witness").strip().upper()
+    kind_str = get_first(
+        form_data, f"e{event_idx}_witn{witness_idx}_kind", "witness").strip().upper()
     kind_map = {
         'WITNESS': EventWitnessKind.WITNESS,
         'WITNESS_GODPARENT': EventWitnessKind.WITNESS_GODPARENT,
@@ -307,7 +313,8 @@ def parse_witness(form_data, db_service, person_repo, event_idx: int, witness_id
         personal_events=[],
         notes="",
         src="",
-        ascend=Ascendants[int](parents=None, consanguinity_rate=ConsanguinityRate.from_integer(0)),
+        ascend=Ascendants[int](
+            parents=None, consanguinity_rate=ConsanguinityRate.from_integer(0)),
         families=[]
     )
     person_repo.add_person(lib_person)
@@ -360,7 +367,8 @@ def parse_family_event(form_data, db_service, person_repo, event_idx: int):
     event_src = get_first(form_data, f"e{event_idx}_src")
     witnesses = []
     for wit_idx in range(1, 11):
-        witness = parse_witness(form_data, db_service, person_repo, event_idx, wit_idx)
+        witness = parse_witness(form_data, db_service,
+                                person_repo, event_idx, wit_idx)
         if witness:
             witnesses.append(witness)
     return FamilyEvent[int, str](
@@ -373,26 +381,9 @@ def parse_family_event(form_data, db_service, person_repo, event_idx: int):
         witnesses=witnesses
     )
 
-"""
-Route and helpers for the add_family page in Geneweb Flask app.
-All helper functions are at module level for clarity and testability.
-"""
-from flask import (
-    render_template, request, current_app, jsonify, redirect, url_for, g, abort
-)
-from pprint import pformat
-from .gwd import gwd_bp
-from .db_utils import get_db_service
-from typing import Optional, List, Tuple
 
-
-@gwd_bp.route('/gwd/<base>/ADD_FAM/', methods=['GET', 'POST'])
-@gwd_bp.route('/gwd/<base>/ADD_FAM/<lang>', methods=['GET', 'POST'])
-
-# ...existing code...
-
-@gwd_bp.route('/gwd/<base>/ADD_FAM/', methods=['GET', 'POST'])
-@gwd_bp.route('/gwd/<base>/ADD_FAM/<lang>', methods=['GET', 'POST'])
+@gwd_bp.route('<base>/ADD_FAM/', methods=['GET', 'POST'])
+@gwd_bp.route('<base>/ADD_FAM/<lang>', methods=['GET', 'POST'])
 def route_ADD_FAM(base, lang='en'):
     """
     Handle GET and POST requests for the add_family page.
@@ -438,7 +429,8 @@ def route_ADD_FAM(base, lang='en'):
                     continue
         for ch_idx in sorted(child_indices):
             try:
-                child_id = ensure_child(form_data, db_service, person_repo, ch_idx)
+                child_id = ensure_child(
+                    form_data, db_service, person_repo, ch_idx)
                 if child_id:
                     children_ids.append(child_id)
             except Exception as e:
@@ -461,7 +453,8 @@ def route_ADD_FAM(base, lang='en'):
                     continue
         for evt_idx in sorted(event_indices):
             try:
-                event = parse_family_event(form_data, db_service, person_repo, evt_idx)
+                event = parse_family_event(
+                    form_data, db_service, person_repo, evt_idx)
                 if event:
                     family_events.append(event)
             except Exception as e:

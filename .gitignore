@@ -229,3 +229,5 @@ debug_parser.py
 test_minimal.db
 test_medium.db
 test_big.db
+# SSL
+certs
