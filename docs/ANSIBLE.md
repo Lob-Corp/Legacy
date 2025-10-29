@@ -36,6 +36,17 @@ production:
       ansible_port: 22
 ```
 
+**Optional**: Encrypt inventory with Ansible Vault:
+
+```bash
+# Create vault password file
+echo "your-secure-password" > ansible/vault_pass.txt
+chmod 600 ansible/vault_pass.txt
+
+# Encrypt inventory (vault_password_file is already configured in ansible.cfg)
+ansible-vault encrypt ansible/inventory.yml
+```
+
 ### 3. Test Connection
 
 ```bash
@@ -97,12 +108,35 @@ Your target server needs:
 
 ```
 ansible/
-├── ansible.cfg       # Ansible configuration
-├── inventory.yml     # Your servers
+├── ansible.cfg       # Ansible configuration (includes vault settings)
+├── inventory.yml     # Your servers (can be encrypted with vault)
 ├── deploy.yml        # Deployment playbook
 ├── Makefile          # Helper commands
+├── vault_pass.txt    # Vault password (git-ignored)
 └── README.md         # Full documentation
 ```
+
+## Security with Ansible Vault
+
+Protect sensitive data like IP addresses and SSH keys:
+
+```bash
+# 1. Create vault password file
+echo "MySecurePassword" > ansible/vault_pass.txt
+chmod 600 ansible/vault_pass.txt
+
+# 2. Encrypt inventory
+cd ansible
+ansible-vault encrypt inventory.yml
+
+# 3. Edit encrypted inventory
+ansible-vault edit inventory.yml
+
+# 4. Deploy (vault is transparent with ansible.cfg configured)
+ansible-playbook -i inventory.yml deploy.yml --limit production
+```
+
+The `ansible.cfg` file already has `vault_password_file = vault_pass.txt` configured, so you don't need to pass `--ask-vault-pass` every time.
 
 ## Next Steps
 
