@@ -36,6 +36,11 @@ production:
 ```bash
 cd ansible
 ansible all -i inventory.yml -m ping --limit production
+
+# If inventory is encrypted with vault:
+ansible all -i inventory.yml -m ping --limit production --ask-vault-pass
+# Or if vault_password_file is configured in ansible.cfg, just:
+ansible all -i inventory.yml -m ping --limit production
 ```
 
 ### 4. Deploy
@@ -152,6 +157,42 @@ geneweb-prod:
   ansible_ssh_private_key_file: ~/.ssh/geneweb_deploy_key
 ```
 
+## Security Best Practices
+
+### Protect Sensitive Files
+
+Ensure these files are never committed to git:
+
+```bash
+# Already in .gitignore, but verify:
+echo "vault_pass.txt" >> ansible/.gitignore
+echo "*.pem" >> ansible/.gitignore
+echo "*.key" >> ansible/.gitignore
+```
+
+### Use Ansible Vault for Inventory
+
+If your inventory contains sensitive information (IPs, usernames):
+
+```bash
+# Encrypt inventory
+ansible-vault encrypt inventory.yml
+
+# Configure vault password file in ansible.cfg
+echo "vault_password_file = vault_pass.txt" >> ansible.cfg
+```
+
+### Secure Vault Password
+
+```bash
+# Store vault password securely
+echo "your-vault-password" > ~/.ansible/vault_pass.txt
+chmod 600 ~/.ansible/vault_pass.txt
+
+# Or use environment variable
+export ANSIBLE_VAULT_PASSWORD_FILE=~/.ansible/vault_pass.txt
+```
+
 ## Server Setup
 
 ### Create Deploy User
@@ -221,15 +262,121 @@ sudo iptables -A INPUT -p tcp --dport 8080 -j ACCEPT
 
 ### Using Ansible Vault for Secrets
 
-```bash
-# Create encrypted file
-ansible-vault create inventory.yml
+Ansible Vault allows you to encrypt sensitive data like passwords, SSH keys, and inventory files.
 
-# Edit encrypted file
+#### Create Vault Password File
+
+Store your vault password in a file (recommended for automation):
+
+```bash
+# Create password file
+echo "your-secure-vault-password" > ~/.ansible/vault_pass.txt
+chmod 600 ~/.ansible/vault_pass.txt
+
+# Or for this project specifically
+echo "your-secure-vault-password" > ansible/vault_pass.txt
+chmod 600 ansible/vault_pass.txt
+```
+
+**Important**: Add `vault_pass.txt` to `.gitignore` to prevent committing it!
+
+#### Configure Ansible to Use Vault Password File
+
+In `ansible.cfg`:
+
+```ini
+[defaults]
+vault_password_file = vault_pass.txt
+# or
+vault_password_file = ~/.ansible/vault_pass.txt
+```
+
+With this configured, you won't need `--ask-vault-pass` on every command.
+
+#### Encrypt Sensitive Files
+
+```bash
+# Encrypt entire inventory file
+ansible-vault encrypt inventory.yml
+```
+
+#### Edit Encrypted Files
+
+```bash
+# Edit encrypted inventory
 ansible-vault edit inventory.yml
 
-# Run playbook with vault
+# Edit with specific vault password file
+ansible-vault edit inventory.yml --vault-password-file=vault_pass.txt
+```
+
+#### Decrypt Files (if needed)
+
+```bash
+# Decrypt file
+ansible-vault decrypt inventory.yml
+
+# View encrypted file without decrypting
+ansible-vault view inventory.yml
+```
+
+#### Run Playbook with Vault
+
+```bash
+# If vault_password_file is NOT configured in ansible.cfg:
 ansible-playbook -i inventory.yml deploy.yml --ask-vault-pass
+
+# With vault password file specified:
+ansible-playbook -i inventory.yml deploy.yml --vault-password-file=vault_pass.txt
+
+# If vault_password_file IS configured in ansible.cfg:
+ansible-playbook -i inventory.yml deploy.yml
+# (no additional flags needed)
+```
+
+#### Best Practices for Vault
+
+1. **Separate sensitive data**: Keep secrets in separate files (e.g., `vars/secrets.yml`)
+2. **Use vault password file**: Store in `~/.ansible/vault_pass.txt` and add to `ansible.cfg`
+3. **Add to .gitignore**: Never commit `vault_pass.txt` or decrypted files
+4. **Use different vault passwords**: Use different passwords for production vs staging
+5. **Encrypt inventory**: If your inventory contains IP addresses or hostnames you want to keep private
+
+#### Example: Encrypted Inventory Setup
+
+```bash
+# 1. Create vault password file
+echo "MySecureVaultPassword123!" > ansible/vault_pass.txt
+chmod 600 ansible/vault_pass.txt
+
+# 2. Encrypt inventory
+ansible-vault encrypt ansible/inventory.yml --vault-password-file=ansible/vault_pass.txt
+
+# 3. Configure ansible.cfg (already done in this project)
+# vault_password_file = vault_pass.txt
+
+# 4. Deploy normally (vault is transparent now)
+cd ansible
+ansible-playbook -i inventory.yml deploy.yml --limit production
+
+# 5. To edit inventory later
+ansible-vault edit inventory.yml
+```
+
+#### Multiple Vault Passwords
+
+If you need different passwords for different environments:
+
+```bash
+# Create separate password files
+echo "prod-password" > ~/.ansible/vault_pass_prod.txt
+echo "staging-password" > ~/.ansible/vault_pass_staging.txt
+
+# Encrypt with specific password
+ansible-vault encrypt prod_inventory.yml --vault-id prod@~/.ansible/vault_pass_prod.txt
+
+# Deploy with specific vault ID
+ansible-playbook -i prod_inventory.yml deploy.yml --vault-id prod@~/.ansible/vault_pass_prod.txt
 ```
 
 ### Custom Variables
