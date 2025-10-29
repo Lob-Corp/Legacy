@@ -350,7 +350,7 @@ db_service.disconnect()
 ### Witness Models
 
 #### 11. PersonEventWitness
-**Table**: `PersonEventWitness`  
+**Table**: `PersonEventWitness`
 **Purpose**: Links persons as witnesses to personal events
 
 **Key Fields**:
