@@ -2,7 +2,6 @@ from .add_family import implem_route_ADD_FAM
 from flask import Blueprint, render_template, url_for
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 import os
-from flask import request
 from ..i18n import get_translator
 
 
