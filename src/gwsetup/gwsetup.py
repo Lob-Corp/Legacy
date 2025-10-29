@@ -8,30 +8,59 @@ from typing import Sequence
 import click
 
 from database.sqlite_database_service import SQLiteDatabaseService
-from database.ascends import Ascends  # noqa: F401
-from database.couple import Couple  # noqa: F401
-from database.date import Date  # noqa: F401
-from database.descend_children import DescendChildren  # noqa: F401
-from database.descends import Descends  # noqa: F401
-from database.family import Family  # noqa: F401
-from database.family_event import FamilyEvent  # noqa: F401
-from database.family_event_witness import FamilyEventWitness  # noqa: F401
-from database.family_events import FamilyEvents  # noqa: F401
-from database.family_witness import FamilyWitness  # noqa: F401
-from database.person import Person  # noqa: F401
-from database.person_event_witness import PersonEventWitness  # noqa: F401
-from database.person_events import PersonEvents  # noqa: F401
-from database.person_non_native_relations import PersonNonNativeRelations  # noqa: F401
-from database.person_relations import PersonRelations  # noqa: F401
-from database.person_titles import PersonTitles  # noqa: F401
-from database.personal_event import PersonalEvent  # noqa: F401
-from database.place import Place  # noqa: F401
-from database.relation import Relation  # noqa: F401
-from database.titles import Titles  # noqa: F401
-from database.union_families import UnionFamilies  # noqa: F401
-from database.unions import Unions  # noqa: F401
+from database.ascends import Ascends
+from database.couple import Couple
+from database.date import Date
+from database.descend_children import DescendChildren
+from database.descends import Descends
+from database.family import Family
+from database.family_event import FamilyEvent
+from database.family_event_witness import FamilyEventWitness
+from database.family_events import FamilyEvents
+from database.family_witness import FamilyWitness
+from database.person import Person
+from database.person_event_witness import PersonEventWitness
+from database.person_events import PersonEvents
+from database.person_non_native_relations import (
+    PersonNonNativeRelations,
+)
+from database.person_relations import PersonRelations
+from database.person_titles import PersonTitles
+from database.personal_event import PersonalEvent
+from database.place import Place
+from database.relation import Relation
+from database.titles import Titles
+from database.union_families import UnionFamilies
+from database.unions import Unions
 
 _NAME_RE = re.compile(r"^[A-Za-z0-9_\-]+$")
+
+# Ensure imported model symbols are considered used by linters (F401).
+_models = (
+    Ascends,
+    Couple,
+    Date,
+    DescendChildren,
+    Descends,
+    Family,
+    FamilyEvent,
+    FamilyEventWitness,
+    FamilyEvents,
+    FamilyWitness,
+    Person,
+    PersonEventWitness,
+    PersonEvents,
+    PersonNonNativeRelations,
+    PersonRelations,
+    PersonTitles,
+    PersonalEvent,
+    Place,
+    Relation,
+    Titles,
+    UnionFamilies,
+    Unions,
+)
+del _models
 
 DEFAULT_BASES_DIR = "bases"
 
