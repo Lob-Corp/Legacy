@@ -165,7 +165,7 @@ def ensure_child(form_data,
     Create or link a child person and return its database id.
     Returns None if no name provided.
     """
-    from libraries.person import Sex, Person as LibPerson
+    from libraries.person import Person as LibPerson
     from libraries.title import AccessRight
     from libraries.consanguinity_rate import ConsanguinityRate
     from libraries.family import Ascendants
