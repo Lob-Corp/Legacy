@@ -1,6 +1,5 @@
 from typing import Optional
 from flask import g, render_template
-from sqlalchemy import func, and_
 
 from database.titles import Titles
 from database.person_titles import PersonTitles
@@ -64,11 +63,13 @@ def route_titles(
             groups[initial] = []
         groups[initial].append({"name": t.name})
 
-    letters = sorted([l for l in groups.keys() if l != "#"])
+    letters = sorted([letter for letter in groups.keys() if letter != "#"])
     if "#" in groups:
         letters.append("#")
 
-    persons_grouped = [{"letter": l, "titles": groups[l]} for l in letters]
+    persons_grouped = [{
+        "letter": letter,
+        "titles": groups[letter]} for letter in letters]
 
     return render_template(
         "gwd/titles_all.html",

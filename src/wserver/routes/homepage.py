@@ -5,7 +5,10 @@ from database.person import Person
 from wserver.routes.db_utils import get_db_service
 
 
-def route_homepage(base: str, lang: str = "en", previous_url: Optional[str] = None) -> str:
+def route_homepage(
+        base: str,
+        lang: str = "en",
+        previous_url: Optional[str] = None) -> str:
     g.locale = lang
     db_service = get_db_service(base)
     db_session = db_service.get_session()

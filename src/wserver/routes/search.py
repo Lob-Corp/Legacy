@@ -26,15 +26,27 @@ def route_search(
     #     person = db_service.get(db_session, Person, {
     #         "surname": surname, "first_name": firstname})
 
-    if sort == None and surname and (firstname is None or firstname == ""):
+    if sort is None and surname and (firstname is None or firstname == ""):
         persons = db_service.get_all(db_session, Person, {"surname": surname})
-        return render_template("gwd/search_surname.html", base=base, lang=lang, surname=surname,
-                               persons=persons, total_persons=len(persons), previous_url=previous_url)
-    if sort == None and firstname and (surname is None or surname == ""):
+        return render_template(
+            "gwd/search_surname.html",
+            base=base,
+            lang=lang,
+            surname=surname,
+            persons=persons,
+            total_persons=len(persons),
+            previous_url=previous_url)
+    if sort is None and firstname and (surname is None or surname == ""):
         persons = db_service.get_all(
             db_session, Person, {"first_name": firstname})
-        return render_template("gwd/search_firstname.html", base=base, lang=lang, firstname=firstname,
-                               persons=persons, total_persons=len(persons), previous_url=previous_url)
+        return render_template(
+            "gwd/search_firstname.html",
+            base=base,
+            lang=lang,
+            firstname=firstname,
+            persons=persons,
+            total_persons=len(persons),
+            previous_url=previous_url)
 
     persons = db_service.get_all(db_session, Person)
 
@@ -72,7 +84,6 @@ def route_search(
         surname_groups: dict[str, list[Person]] = {}
         for p in persons:
             key = (p.surname or "").strip()
-            # Use empty string for missing surnames
             surname_groups.setdefault(key, []).append(p)
         sorted_items = sorted(
             surname_groups.items(),
@@ -106,12 +117,12 @@ def route_search(
                 initial = "#"
             groups.setdefault(initial, []).append(p)
 
-        letters = sorted([l for l in groups.keys() if l != "#"])
+        letters = sorted([letter for letter in groups.keys() if letter != "#"])
         if "#" in groups:
             letters.append("#")
 
-        persons_grouped = [{"letter": l, "persons": groups[l]}
-                           for l in letters]
+        persons_grouped = [{"letter": letter, "persons": groups[letter]}
+                           for letter in letters]
 
         return render_template(
             "gwd/search_firstnames_alpha.html",
@@ -130,7 +141,8 @@ def route_search(
             firstname_groups.setdefault(key, []).append(p)
 
         sorted_items = sorted(
-            firstname_groups.items(), key=lambda kv: (-len(kv[1]), (kv[0] or "").lower())
+            firstname_groups.items(),
+            key=lambda kv: (-len(kv[1]), (kv[0] or "").lower())
         )
         persons_by_firstname = [
             {"firstname": name, "count": len(lst), "persons": lst}
@@ -146,4 +158,4 @@ def route_search(
             total_persons=len(persons),
             total_firstnames=len(firstname_groups),
         )
-    return "Error: invalid search parameters, missing surname and/or firstname", 400
+    return "Error: missing surname and/or firstname", 400

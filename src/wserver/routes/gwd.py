@@ -2,7 +2,6 @@ from wserver.routes.fiefs import route_fiefs
 from .homepage import route_homepage
 from .search import route_search
 from .add_family import implem_route_ADD_FAM
-from flask import Blueprint, request
 from ..routes.gwd_root_impl import implem_route_gwd_root
 from .anm_impl import implem_route_ANM
 from .titles import route_titles
