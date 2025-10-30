@@ -1,0 +1,352 @@
+# French translations for GeneWeb
+# Copyright (C) 2025
+msgid ""
+msgstr ""
+"Content-Type: text/plain; charset=UTF-8\n"
+"Language: fr\n"
+
+msgid ", select language"
+msgstr ", sélectionner la langue"
+
+msgid "1st Child"
+msgstr "1ᵉʳ Enfant"
+
+msgid "Adar I"
+msgstr "adar 1"
+
+msgid "Adar II"
+msgstr "adar 2"
+
+msgid "Add"
+msgstr "Ajouter"
+
+msgid "Add family"
+msgstr "Ajouter famille"
+
+msgid "Annulment"
+msgstr "Annulation"
+
+msgid "April"
+msgstr "avril"
+
+msgid "August"
+msgstr "août"
+
+msgid "Av"
+msgstr "av"
+
+msgid "Birth"
+msgstr "Naissance"
+
+msgid "Brumaire"
+msgstr "brumaire"
+
+msgid "Children"
+msgstr "Enfants"
+
+msgid "Choose an event"
+msgstr "Choisir un événement"
+
+msgid "Civil registrar"
+msgstr "Officier d'état civil"
+
+msgid "Civil union"
+msgstr "Pacs"
+
+msgid "Comment"
+msgstr "Commentaire"
+
+msgid "Complementary"
+msgstr "complémentaire"
+
+msgid "Create"
+msgstr "Créer"
+
+msgid "Custom event"
+msgstr "Événement personnalisé"
+
+msgid "Death"
+msgstr "Décès"
+
+msgid "December"
+msgstr "décembre"
+
+msgid "Delete"
+msgstr "Supprimer"
+
+msgid "Delete event"
+msgstr "Supprimer l'événement"
+
+msgid "Elul"
+msgstr "eloul"
+
+msgid "Engagement"
+msgstr "Fiançailles"
+
+msgid "Event"
+msgstr "Événement"
+
+msgid "Event 1"
+msgstr "Événement 1"
+
+msgid "Events"
+msgstr "Événements"
+
+msgid "Family"
+msgstr "Famille"
+
+msgid "Family sources"
+msgstr "Sources famille"
+
+msgid "February"
+msgstr "février"
+
+msgid "First name"
+msgstr "Prénom"
+
+msgid "Floréal"
+msgstr "floréal"
+
+msgid "French – Select language"
+msgstr "français – Sélectionner la langue"
+
+msgid "Frimaire"
+msgstr "frimaire"
+
+msgid "Fructidor"
+msgstr "fructidor"
+
+msgid "Germinal"
+msgstr "germinal"
+
+msgid "Gregorian"
+msgstr "Grégorien"
+
+msgid "Hebrew"
+msgstr "Hébreu"
+
+msgid "Informant"
+msgstr "Déclarant"
+
+msgid "Insert"
+msgstr "Insérer"
+
+msgid "Insert child(ren)"
+msgstr "Insérer enfant(s)"
+
+msgid "Insert event/events"
+msgstr "Insérer événement/événements"
+
+msgid "Insert witness/witnesses"
+msgstr "Insérer témoin/témoins"
+
+msgid "Iyar"
+msgstr "iyar"
+
+msgid "January"
+msgstr "janvier"
+
+msgid "Julian"
+msgstr "Julien"
+
+msgid "July"
+msgstr "juillet"
+
+msgid "June"
+msgstr "juin"
+
+msgid "Kislev"
+msgstr "kislev"
+
+msgid "Latin Small Letter A with Breve"
+msgstr "Latin Capital Letter A with Breve"
+
+msgid "Link"
+msgstr "Lier"
+
+msgid "Link"
+msgstr "Relier"
+
+msgid "March"
+msgstr "mars"
+
+msgid "Marcheshvan"
+msgstr "marhechvan"
+
+msgid "Marriage"
+msgstr "Mariage"
+
+msgid "Marriage banns"
+msgstr "Bans de mariage"
+
+msgid "Marriage contract"
+msgstr "Contrat de mariage"
+
+msgid "Marriage license"
+msgstr "Licence de mariage"
+
+msgid "Master branch compiled on 2025-09-05<br>from commit id 2ce17dddc (2025-08-24)"
+msgstr "Branche master compilée le 2025-09-05<br>à partir du commit id 2ce17dddc (2025-08-24)"
+
+msgid "May"
+msgstr "mai"
+
+msgid "Mentioned"
+msgstr "Mentionné"
+
+msgid "Messidor"
+msgstr "messidor"
+
+msgid "Minister of worship"
+msgstr "Ministre du culte"
+
+msgid "Miscellaneous notes"
+msgstr "Notes diverses"
+
+msgid "Modify"
+msgstr "Modifier"
+
+msgid "Modify family"
+msgstr "Modifier famille"
+
+msgid "Modify person"
+msgstr "Modifier personne"
+
+msgid "Nisan"
+msgstr "nissan"
+
+msgid "Nivôse"
+msgstr "nivôse"
+
+msgid "No mention"
+msgstr "Pas de mention"
+
+msgid "Not married"
+msgstr "Non mariés"
+
+msgid "November"
+msgstr "novembre"
+
+msgid "Number"
+msgstr "Numéro"
+
+msgid "Number (occurrence)"
+msgstr "Numéro (occurence)"
+
+msgid "Occupation"
+msgstr "Profession"
+
+msgid "October"
+msgstr "octobre"
+
+msgid "Of course deceased"
+msgstr "Bien entendu décédé"
+
+msgid "Other"
+msgstr "Autre"
+
+msgid "Person"
+msgstr "Personne"
+
+msgid "Person sources"
+msgstr "Sources personnes"
+
+msgid "Place"
+msgstr "Lieu"
+
+msgid "Pluviôse"
+msgstr "pluviôse"
+
+msgid "Prairial"
+msgstr "prairial"
+
+msgid "Present"
+msgstr "Présent"
+
+msgid "Republican"
+msgstr "Républicain"
+
+msgid "Residence"
+msgstr "Résidence"
+
+msgid "Separation"
+msgstr "Séparation"
+
+msgid "September"
+msgstr "septembre"
+
+msgid "Sex"
+msgstr "Sexe"
+
+msgid "Shevat"
+msgstr "chevat"
+
+msgid "Sivan"
+msgstr "sivan"
+
+msgid "Submit"
+msgstr "Valider"
+
+msgid "Summary"
+msgstr "Sommaire"
+
+msgid "Surname"
+msgstr "Patronyme"
+
+msgid "Swap with previous child"
+msgstr "Échanger avec l'enfant précédent"
+
+msgid "Tammuz"
+msgstr "tamouz"
+
+msgid "Tevet"
+msgstr "tevet"
+
+msgid "Thermidor"
+msgstr "thermidor"
+
+msgid "Tishrei"
+msgstr "tichri"
+
+msgid "Vendémiaire"
+msgstr "vendémiaire"
+
+msgid "Ventôse"
+msgstr "ventôse"
+
+msgid "Witness"
+msgstr "Témoin"
+
+msgid "about"
+msgstr "vers"
+
+msgid "after"
+msgstr "après"
+
+msgid "before"
+msgstr "avant"
+
+msgid "day"
+msgstr "jour"
+
+msgid "dd"
+msgstr "jj"
+
+msgid "maybe"
+msgstr "peut-être"
+
+msgid "month"
+msgstr "mois"
+
+msgid "place"
+msgstr "lieu"
+
+msgid "year"
+msgstr "année"
+
+msgid "yyyy"
+msgstr "aaaa"
+
+msgid "…or text"
+msgstr "…ou texte"
+
