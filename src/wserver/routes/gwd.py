@@ -1,6 +1,7 @@
 from .add_family import implem_route_ADD_FAM
 from flask import Blueprint, request
 from ..routes.gwd_root_impl import implem_route_gwd_root
+from .anm_impl import implem_route_ANM
 
 gwd_bp = Blueprint('gwd', __name__, url_prefix='/gwd')
 
@@ -17,7 +18,7 @@ def gwd_root():
 
 @gwd_bp.route('<base>',
               methods=['GET', 'POST'], strict_slashes=False)
-def gwd_base_only(base):
+def gwd_homepage(base):
     raise NotImplementedError(
         f"Route base={base}, no action yet")
 
@@ -60,7 +61,7 @@ def route_ADD_PAR_OK(base):
 
 @gwd_bp.route('<base>/ANM/', methods=['GET', 'POST'])
 def route_ANM(base):
-    raise NotImplementedError("Route ANM not implemented yet")
+    return implem_route_ANM(base)
 
 
 @gwd_bp.route('<base>/AN/', methods=['GET', 'POST'])

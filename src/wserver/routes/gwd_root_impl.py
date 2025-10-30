@@ -1,4 +1,4 @@
-from flask import url_for, request
+from flask import render_template, url_for, request
 from jinja2 import Environment, FileSystemLoader, select_autoescape
 from pathlib import Path
 from ..i18n import get_translator
@@ -13,8 +13,8 @@ def implem_route_gwd_root():
     req_lang = request.args.get('lang') or 'en'
     translator = get_translator()
 
-    def _(key):
-        return translator.gettext(key, req_lang)
+    def _(key, capitalize_first=False):
+        return translator.gettext(key, req_lang, capitalize_first)
 
     folder = Path("bases")
     bases = [f.name[:-3] for f in folder.iterdir() if f.is_file()]
@@ -50,10 +50,5 @@ def implem_route_gwd_root():
         'doc_link': 'https://geneweb.tuxfamily.org/wiki',
         '_': _,
     }
-    base_dir = (Path(__file__).parent.parent / "templates_jinja").resolve()
-    env = Environment(
-        loader=FileSystemLoader(base_dir),
-        autoescape=select_autoescape(['html', 'xml'])
-    )
-    tmpl = env.get_template('gwd/index.html.j2')
-    return tmpl.render(**data)
+    tmpl = render_template('gwd/index.html', **data)
+    return tmpl
