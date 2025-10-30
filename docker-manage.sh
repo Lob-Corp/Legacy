@@ -22,6 +22,7 @@ print_usage() {
     echo "  logs               Show application logs"
     echo "  shell              Open a shell in the container"
     echo "  gwc <args>         Run gwc command (e.g., gwc input.gw -o data/output.db)"
+    echo "  gwsetup <args>     Run gwsetup CLI (database create/delete/gwc)"
     echo "  test               Run tests inside container"
     echo "  clean              Stop and remove containers, networks"
     echo "  clean-all          Clean everything including volumes"
@@ -29,8 +30,11 @@ print_usage() {
     echo "Examples:"
     echo "  $0 build                                  # Build the image"
     echo "  $0 start                                  # Start the app"
-    echo "  $0 gwc examples/test.gw -o data/test.db   # Create database from .gw file"
+    echo "  $0 gwc examples/test.gw -o data/output.db # Create database from .gw file"
     echo "  $0 gwc test_assets/minimal.gw -o data/minimal.db -v -stats"
+    echo "  $0 gwsetup database create mybase         # Create empty database"
+    echo "  $0 gwsetup database gwc mybase test.gw    # Create database from .gw file"
+    echo "  $0 gwsetup database delete mybase         # Delete database"
     echo "  $0 logs -f                                # Follow logs"
     echo "  $0 shell                                  # Access container shell"
 }
@@ -49,7 +53,7 @@ start_app() {
     ensure_dirs
     echo -e "${GREEN}Starting GeneWeb application...${NC}"
     docker compose up -d
-    echo -e "${GREEN}Application started on https://localhost:8080${NC}"
+    echo -e "${GREEN}Application started on http://localhost:8080/gwd/ or https://localhost:8080/gwd/${NC}"
     echo -e "${YELLOW}Use '$0 logs -f' to follow logs${NC}"
 }
 
@@ -85,6 +89,19 @@ run_gwc() {
     fi
 
     docker compose exec geneweb python -m script.gwc "$@"
+}
+
+run_gwsetup() {
+    ensure_dirs
+    echo -e "${GREEN}Running gwsetup with arguments: $@${NC}"
+
+    if ! docker compose ps | grep -q "geneweb-app.*Up"; then
+        echo -e "${YELLOW}Container not running. Starting it first...${NC}"
+        docker compose up -d
+        sleep 2
+    fi
+
+    docker compose exec geneweb python -m gwsetup.gwsetup "$@"
 }
 
 run_tests() {
@@ -134,6 +151,10 @@ case "${1:-}" in
     gwc)
         shift
         run_gwc "$@"
+    ;;
+    gwsetup)
+        shift
+        run_gwsetup "$@"
     ;;
     test)
         run_tests

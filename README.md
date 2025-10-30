@@ -18,10 +18,15 @@ cp .env.example .env
 ./docker-manage.sh build
 ./docker-manage.sh start
 
-# Create database from .gw file
+# Create database from .gw file using gwc
 ./docker-manage.sh gwc test_assets/minimal.gw -o data/minimal.db -v -stats
 
-# Access application at http://localhost:8080
+# Or use gwsetup for database management
+./docker-manage.sh gwsetup database create mybase
+./docker-manage.sh gwsetup database gwc mybase test_assets/minimal.gw
+./docker-manage.sh gwsetup database delete mybase
+
+# Access application at http://localhost:8080/gwd
 ```
 
 **See [docs/DOCKER.md](docs/DOCKER.md) for complete Docker deployment guide.**
@@ -86,6 +91,31 @@ python -m script.gwc -v -stats -f -o data.db genealogy.gw
 - `-nofail`: Continue on errors
 
 **See**: [GWC Implementation Guide](docs/GWC_IMPLEMENTATION.md) for complete documentation.
+
+### Database Management with gwsetup
+
+The `gwsetup` CLI provides a convenient interface for managing GeneWeb databases:
+
+```bash
+# Create an empty database
+python -m gwsetup.gwsetup database create mybase
+
+# Create database from .gw file
+python -m gwsetup.gwsetup database gwc mybase input.gw
+
+# Delete a database
+python -m gwsetup.gwsetup database delete mybase
+```
+
+**Docker usage**:
+```bash
+# Use gwsetup through docker-manage.sh
+./docker-manage.sh gwsetup database create mybase
+./docker-manage.sh gwsetup database gwc mybase test_assets/minimal.gw
+./docker-manage.sh gwsetup database delete mybase
+```
+
+All databases are created in the `bases/` directory with a `.db` extension.
 
 ### Working with the Database
 
