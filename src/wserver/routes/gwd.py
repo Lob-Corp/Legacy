@@ -1,7 +1,11 @@
+from wserver.routes.fiefs import route_fiefs
+from .homepage import route_homepage
+from .search import route_search
 from .add_family import implem_route_ADD_FAM
-from flask import Blueprint, request
 from ..routes.gwd_root_impl import implem_route_gwd_root
 from .anm_impl import implem_route_ANM
+from .titles import route_titles
+from flask import Blueprint, request
 
 gwd_bp = Blueprint('gwd', __name__, url_prefix='/gwd')
 
@@ -11,16 +15,43 @@ Handlers are explicit functions and currently raise NotImplementedError..
 """
 
 
+@gwd_bp.route("<base>", methods=['GET', 'POST'])
+def gwd_homepage(base: str):
+    lang = request.args.get("lang", "en")
+    previous_url = request.args.get("previous_url", None)
+    return route_homepage(base, lang, previous_url)
+
+
+@gwd_bp.route("<base>/search", methods=['GET', 'POST'])
+def gwd_search(base: str):
+    lang = request.args.get("lang", "en")
+    sort = request.args.get("sort", None)
+    on = request.args.get("on", None)
+    surname = request.args.get("surname", None)
+    firstname = request.args.get("firstname", None)
+    previous_url = request.args.get("previous_url", None)
+    return route_search(base, lang, sort, on, surname, firstname, previous_url)
+
+
+@gwd_bp.route("<base>/titles", methods=['GET', 'POST'])
+def gwd_titles(base: str):
+    lang = request.args.get("lang", "en")
+    title = request.args.get("title", None)
+    fief = request.args.get("fief", None)
+    previous_url = request.args.get("previous_url", None)
+    return route_titles(base, lang, title, fief, previous_url)
+
+
+@gwd_bp.route("<base>/fiefs", methods=['GET', 'POST'])
+def gwd_fiefs(base: str):
+    lang = request.args.get("lang", "en")
+    previous_url = request.args.get("previous_url", None)
+    return route_fiefs(base, lang, previous_url)
+
+
 @gwd_bp.route('', methods=['GET', 'POST'], strict_slashes=False)
 def gwd_root():
     return implem_route_gwd_root()
-
-
-@gwd_bp.route('<base>',
-              methods=['GET', 'POST'], strict_slashes=False)
-def gwd_homepage(base):
-    raise NotImplementedError(
-        f"Route base={base}, no action yet")
 
 
 @gwd_bp.route('<base>/A/', methods=['GET', 'POST'])
