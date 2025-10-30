@@ -1,6 +1,7 @@
 from libraries.person import Person, Place, Sex
 import pytest
-from libraries.death_info import DontKnowIfDead, NotDead, UnknownBurial
+from libraries.burial_info import UnknownBurial
+from libraries.death_info import DontKnowIfDead, NotDead
 from libraries.events import EventWitnessKind, PersBirth, PersonalEvent
 from libraries.family import Relation, RelationToParentType, Ascendants
 from libraries.title import AccessRight, Title, TitleName
@@ -50,12 +51,13 @@ def test_place_full_creation():
         county="County",
         region="Île-de-France",
         country="France",
-        other="Extra info"
+        other="Extra info",
     )
     assert place.town == "Paris"
     assert place.region == "Île-de-France"
     assert place.country == "France"
     assert place.other == "Extra info"
+
 
 # --- Person dataclass ---
 
