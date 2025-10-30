@@ -32,7 +32,8 @@ from libraries.family import (
 from libraries.consanguinity_rate import ConsanguinityRate
 from libraries.events import PersGraduate, PersonalEvent
 from libraries.date import CalendarDate, DateValue, Calendar, Sure
-from libraries.death_info import NotDead, UnknownBurial
+from libraries.burial_info import UnknownBurial
+from libraries.death_info import NotDead
 from libraries.title import AccessRight
 
 

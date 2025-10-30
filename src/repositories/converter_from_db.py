@@ -199,17 +199,17 @@ def convert_death_status_from_db(
 def convert_burial_status_from_db(
     to_convert: database.person.BurialStatus,
     burial_date: Optional[database.date.Date]
-) -> libraries.death_info.BurialInfoBase:
+) -> libraries.burial_info.BurialInfoBase:
     """Convert burial status from database to library type."""
     match to_convert:
         case database.person.BurialStatus.UNKNOWN_BURIAL:
-            return libraries.death_info.UnknownBurial()
+            return libraries.burial_info.UnknownBurial()
         case database.person.BurialStatus.BURIAL:
             if burial_date is None:
                 raise ValueError(
                     "Burial date must be provided for BURIAL status"
                 )
-            return libraries.death_info.Burial(
+            return libraries.burial_info.Burial(
                 burial_date=convert_date_from_db(burial_date)
             )
         case database.person.BurialStatus.CREMATED:
@@ -217,7 +217,7 @@ def convert_burial_status_from_db(
                 raise ValueError(
                     "Burial date must be provided for CREMATED status"
                 )
-            return libraries.death_info.Cremated(
+            return libraries.burial_info.Cremated(
                 cremation_date=convert_date_from_db(burial_date)
             )
 

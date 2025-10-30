@@ -813,4 +813,3 @@ When porting OCaml code to Python:
 3. **Update the checklist** when completing features
 4. **Note algorithm changes** if the Python version differs
 5. **Keep examples** showing both OCaml and Python versions
-

@@ -24,7 +24,8 @@ from script.gw_parser.data_types import (
 from libraries.person import Person, Sex, AccessRight
 from libraries.family import Family, Relation, Ascendants, Parents
 from libraries.events import FamilyEvent, PersonalEvent
-from libraries.death_info import NotDead, UnknownBurial
+from libraries.burial_info import UnknownBurial
+from libraries.death_info import NotDead
 from libraries.consanguinity_rate import ConsanguinityRate
 
 

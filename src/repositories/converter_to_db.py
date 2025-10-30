@@ -342,7 +342,7 @@ def convert_death_status_to_db(
 
 
 def convert_burial_status_to_db(
-    to_convert: libraries.death_info.BurialInfoBase
+    to_convert: libraries.burial_info.BurialInfoBase
 ) -> Tuple[database.person.BurialStatus, Optional[database.date.Date]]:
     """Convert burial status from library type to database model.
 
@@ -350,14 +350,14 @@ def convert_burial_status_to_db(
         Tuple of (BurialStatus enum, optional burial Date)
     """
     match to_convert:
-        case libraries.death_info.UnknownBurial():
+        case libraries.burial_info.UnknownBurial():
             return (database.person.BurialStatus.UNKNOWN_BURIAL, None)
-        case libraries.death_info.Burial(burial_date=burial_date):
+        case libraries.burial_info.Burial(burial_date=burial_date):
             return (
                 database.person.BurialStatus.BURIAL,
                 convert_date_to_db(burial_date)
             )
-        case libraries.death_info.Cremated(cremation_date=cremation_date):
+        case libraries.burial_info.Cremated(cremation_date=cremation_date):
             return (
                 database.person.BurialStatus.CREMATED,
                 convert_date_to_db(cremation_date)
