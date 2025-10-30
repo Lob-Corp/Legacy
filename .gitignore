@@ -232,3 +232,5 @@ test_medium.db
 test_big.db
 # SSL
 certs
+
+bases
