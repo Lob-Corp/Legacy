@@ -135,7 +135,7 @@ class Title(Generic[TitleDescriptorT]):
             title_name=title_name,
             ident=string_mapper(self.ident),
             place=string_mapper(self.place),
-            date_start=self.date_start.map_cdate(date_mapper),
-            date_end=self.date_end.map_cdate(date_mapper),
+            date_start=date_mapper(self.date_start),
+            date_end=date_mapper(self.date_end),
             nth=self.nth,
         )

@@ -148,20 +148,11 @@ def test_title_without_date_mapper():
         title_name=TitleName("Duke of Python"),
         ident="ID123",
         place="Paris",
-        date_start=CompressedDate(
-            Date(
-                CalendarDate(
-                    dmy=DateValue(1, 1, 2025, Sure()), cal=Calendar.GREGORIAN
-                ),
-            )
+        date_start=CalendarDate(
+            dmy=DateValue(1, 1, 2025, Sure()), cal=Calendar.GREGORIAN
         ),
-        date_end=CompressedDate(
-            Date(
-                CalendarDate(
-                    dmy=DateValue(1, 1, 2030, Sure()),
-                    cal=Calendar.GREGORIAN,
-                ),
-            )
+        date_end=CalendarDate(
+            dmy=DateValue(1, 1, 2030, Sure()), cal=Calendar.GREGORIAN
         ),
         nth=1,
     )
@@ -171,8 +162,8 @@ def test_title_without_date_mapper():
     assert t2.title_name == TitleName("DUKE OF PYTHON")
     assert t2.ident == "ID123"
     assert t2.place == "PARIS"
-    assert t2.date_start == CompressedDate((Calendar.GREGORIAN, 37025))
-    assert t2.date_end == CompressedDate((Calendar.GREGORIAN, 37030))
+    assert t2.date_start == CalendarDate(cal=Calendar.GREGORIAN, dmy=DateValue(1, 1, 2025, Sure()))
+    assert t2.date_end == CalendarDate(cal=Calendar.GREGORIAN, dmy=DateValue(1, 1, 2030, Sure()))
     assert t2.nth == 1
 
 
@@ -181,16 +172,14 @@ def test_title_with_date_mapper():
         return s.upper() if isinstance(s, str) else s
 
     def _date_mapper(d: Date) -> Date:
-        if isinstance(d, Date) and isinstance(d.date, CalendarDate):
-            return Date(
-                CalendarDate(
-                    dmy=d.date.dmy,
-                    cal=(
-                        Calendar.GREGORIAN
-                        if d.date.cal == Calendar.JULIAN
-                        else Calendar.JULIAN
-                    ),
-                ),
+        if isinstance(d, CalendarDate):
+            return CalendarDate(
+                dmy=d.dmy,
+                cal=(
+                    Calendar.GREGORIAN
+                    if d.cal == Calendar.JULIAN
+                    else Calendar.JULIAN
+                )
             )
         return d
 
@@ -198,20 +187,11 @@ def test_title_with_date_mapper():
         title_name=TitleName("Duke of Python"),
         ident="ID123",
         place="Paris",
-        date_start=CompressedDate(
-            Date(
-                CalendarDate(
-                    dmy=DateValue(1, 1, 2025, Sure()), cal=Calendar.GREGORIAN
-                ),
-            )
+        date_start=CalendarDate(
+            dmy=DateValue(1, 1, 2025, Sure()), cal=Calendar.GREGORIAN
         ),
-        date_end=CompressedDate(
-            Date(
-                CalendarDate(
-                    dmy=DateValue(1, 1, 2030, Sure()),
-                    cal=Calendar.GREGORIAN,
-                ),
-            )
+        date_end=CalendarDate(
+            dmy=DateValue(1, 1, 2030, Sure()), cal=Calendar.GREGORIAN
         ),
         nth=1,
     )
@@ -221,8 +201,8 @@ def test_title_with_date_mapper():
     assert t2.title_name == TitleName("DUKE OF PYTHON")
     assert t2.ident == "ID123"
     assert t2.place == "PARIS"
-    assert t2.date_start == CompressedDate((Calendar.JULIAN, 37025))
-    assert t2.date_end == CompressedDate((Calendar.JULIAN, 37030))
+    assert t2.date_start == CalendarDate(cal=Calendar.JULIAN, dmy=DateValue(1, 1, 2025, Sure()))
+    assert t2.date_end == CalendarDate(cal=Calendar.JULIAN, dmy=DateValue(1, 1, 2030, Sure()))
     assert t2.nth == 1
 
 
@@ -234,20 +214,11 @@ def test_no_title_date_mapper():
         title_name=NoTitle(),
         ident="ID123",
         place="Paris",
-        date_start=CompressedDate(
-            Date(
-                CalendarDate(
-                    dmy=DateValue(1, 1, 2025, Sure()), cal=Calendar.GREGORIAN
-                ),
-            )
+        date_start=CalendarDate(
+            dmy=DateValue(1, 1, 2025, Sure()), cal=Calendar.GREGORIAN
         ),
-        date_end=CompressedDate(
-            Date(
-                CalendarDate(
-                    dmy=DateValue(1, 1, 2030, Sure()),
-                    cal=Calendar.GREGORIAN,
-                ),
-            )
+        date_end=CalendarDate(
+            dmy=DateValue(1, 1, 2030, Sure()), cal=Calendar.GREGORIAN
         ),
         nth=1,
     )
@@ -257,6 +228,6 @@ def test_no_title_date_mapper():
     assert t2.title_name == NoTitle()
     assert t2.ident == "ID123"
     assert t2.place == "PARIS"
-    assert t2.date_start == CompressedDate((Calendar.GREGORIAN, 37025))
-    assert t2.date_end == CompressedDate((Calendar.GREGORIAN, 37030))
+    assert t2.date_start == CalendarDate(cal=Calendar.GREGORIAN, dmy=DateValue(1, 1, 2025, Sure()))
+    assert t2.date_end == CalendarDate(cal=Calendar.GREGORIAN, dmy=DateValue(1, 1, 2030, Sure()))
     assert t2.nth == 1

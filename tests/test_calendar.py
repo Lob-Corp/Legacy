@@ -1,7 +1,5 @@
 import pytest
-import math
-from dataclasses import replace
-from typing import Optional
+from typing import Dict
 
 from libraries.precision import (
     Sure,
@@ -9,9 +7,7 @@ from libraries.precision import (
     Maybe,
     Before,
     After,
-    YearInt,
 )
-from libraries.exception import NotComparable
 from libraries.date import Date, CompressedDate, DateValue
 from libraries.calendar_date import Calendar, CalendarDate
 
@@ -28,27 +24,27 @@ def sample_calendar_dates():
 
 
 @pytest.fixture
-def sample_dates():
+def sample_dates() -> Dict[str, Date]:
     """Fixture providing sample Date instances"""
     cal_date = CalendarDate(DateValue(15, 6, 2023, Sure()), Calendar.GREGORIAN)
     return {
-        "calendar_date": Date(cal_date),
-        "string_date": Date("2023-06-15"),
-        "another_string": Date("June 15, 2023"),
+        "calendar_date": cal_date,
+        "string_date": "2023-06-15",
+        "another_string": "June 15, 2023",
     }
 
 
 @pytest.fixture
-def sample_cdates():
+def sample_cdates() -> Dict[str, CompressedDate]:
     """Fixture providing sample CompressedDate instances"""
     return {
-        "gregorian_tuple": CompressedDate((Calendar.GREGORIAN, 12345)),
-        "julian_tuple": CompressedDate((Calendar.JULIAN, 67890)),
-        "french_tuple": CompressedDate((Calendar.FRENCH, 11111)),
-        "hebrew_tuple": CompressedDate((Calendar.HEBREW, 22222)),
-        "date_object": CompressedDate(Date("2023-06-15")),
-        "string": CompressedDate("June 15, 2023"),
-        "none": CompressedDate(None),
+        "gregorian_tuple": (Calendar.GREGORIAN, 12345),
+        "julian_tuple": (Calendar.JULIAN, 67890),
+        "french_tuple": (Calendar.FRENCH, 11111),
+        "hebrew_tuple": (Calendar.HEBREW, 22222),
+        "date_object": "2023-06-15",
+        "string": "June 15, 2023",
+        "none": None,
     }
 
 
@@ -76,20 +72,26 @@ def test_date_creation(sample_dates):
     for name, date in sample_dates.items():
         assert isinstance(date, Date)
         if name == "calendar_date":
-            assert isinstance(date.date, CalendarDate)
+            assert isinstance(date, CalendarDate)
         else:
-            assert isinstance(date.date, str)
+            assert isinstance(date, str)
 
 
 def test_date_equality_calendar_dates(sample_dates):
     """Test Date equality with CalendarDate instances"""
-    cal_date1 = CalendarDate(DateValue(15, 6, 2023, Sure()), Calendar.GREGORIAN)
-    cal_date2 = CalendarDate(DateValue(15, 6, 2023, Sure()), Calendar.GREGORIAN)
-    cal_date3 = CalendarDate(DateValue(16, 6, 2023, Sure()), Calendar.GREGORIAN)
+    cal_date1 = CalendarDate(
+        DateValue(15, 6, 2023, Sure()),
+        Calendar.GREGORIAN)
+    cal_date2 = CalendarDate(
+        DateValue(15, 6, 2023, Sure()),
+        Calendar.GREGORIAN)
+    cal_date3 = CalendarDate(
+        DateValue(16, 6, 2023, Sure()),
+        Calendar.GREGORIAN)
 
-    date1 = Date(cal_date1)
-    date2 = Date(cal_date2)
-    date3 = Date(cal_date3)
+    date1 = cal_date1
+    date2 = cal_date2
+    date3 = cal_date3
 
     assert date1 == date2
     assert not (date1 == date3)
@@ -97,158 +99,12 @@ def test_date_equality_calendar_dates(sample_dates):
 
 def test_date_equality_strings(sample_dates):
     """Test Date equality with string instances"""
-    date1 = Date("2023-06-15")
-    date2 = Date("2023-06-15")
-    date3 = Date("2023-06-16")
+    date1 = "2023-06-15"
+    date2 = "2023-06-15"
+    date3 = "2023-06-16"
 
     assert date1 == date2
     assert not (date1 == date3)
-
-
-def test_date_equality_mixed_types_error(sample_dates):
-    """Test Date equality raises error for mixed types"""
-    cal_date = CalendarDate(DateValue(15, 6, 2023, Sure()), Calendar.GREGORIAN)
-    date_cal = Date(cal_date)
-    date_str = Date("2023-06-15")
-
-    with pytest.raises(NotComparable):
-        date_cal == date_str
-
-
-def test_date_equality_invalid_type(sample_dates):
-    """Test Date equality with invalid types"""
-    date = sample_dates["calendar_date"]
-
-    with pytest.raises(NotComparable):
-        date == "not a Date object"
-
-    with pytest.raises(NotComparable):
-        date == 12345
-
-    with pytest.raises(NotComparable):
-        date == None
-
-
-def test_date_to_cdate_calendar_date_compressible(sample_dates):
-    """Test date_to_cdate with compressible CalendarDate"""
-    cal_date = CalendarDate(DateValue(15, 6, 2023, Sure()), Calendar.GREGORIAN)
-    date = Date(cal_date)
-
-    cdate = date.date_to_cdate()
-    assert isinstance(cdate, CompressedDate)
-    assert isinstance(cdate.cdate, tuple)
-    assert len(cdate.cdate) == 2
-    assert isinstance(cdate.cdate[0], Calendar)
-    assert isinstance(cdate.cdate[1], int)
-
-
-def test_date_to_cdate_calendar_date_non_compressible(sample_dates):
-    """Test date_to_cdate with non-compressible CalendarDate"""
-    cal_date = CalendarDate(DateValue(15, 6, 2500, Sure()), Calendar.GREGORIAN)
-    date = Date(cal_date)
-
-    cdate = date.date_to_cdate()
-    assert isinstance(cdate, CompressedDate)
-    assert cdate.cdate == Date(cal_date)
-
-
-def test_date_to_cdate_string(sample_dates):
-    """Test date_to_cdate with string date"""
-    date = sample_dates["string_date"]
-    result = date.date_to_cdate()
-
-    assert result == CompressedDate("2023-06-15")
-
-
-def test_cdate_creation(sample_cdates):
-    """Test CompressedDate instance creation"""
-    for name, cdate in sample_cdates.items():
-        assert isinstance(cdate, CompressedDate)
-
-
-def test_cdate_to_date_calendar_tuples(sample_cdates):
-    """Test cdate_to_date with calendar tuples"""
-    calendars = [
-        Calendar.GREGORIAN,
-        Calendar.JULIAN,
-        Calendar.FRENCH,
-        Calendar.HEBREW,
-    ]
-
-    for calendar in calendars:
-        cdate = CompressedDate((calendar, 12345))
-        result = cdate.cdate_to_date()
-        assert isinstance(result, Date)
-        assert isinstance(result.date, CalendarDate)
-        assert result.date.cal == calendar
-
-
-def test_cdate_to_date_date_object(sample_cdates):
-    """Test cdate_to_date with Date object"""
-    date_obj = Date("2023-06-15")
-    cdate = CompressedDate(date_obj)
-    result = cdate.cdate_to_date()
-    assert result == date_obj
-
-
-def test_cdate_to_date_string(sample_cdates):
-    """Test cdate_to_date with string"""
-    string_date = "June 15, 2023"
-    cdate = CompressedDate(string_date)
-    result = cdate.cdate_to_date()
-    assert result == Date(string_date)
-
-
-def test_cdate_to_date_none(sample_cdates):
-    """Test cdate_to_date with None"""
-    cdate = sample_cdates["none"]
-    with pytest.raises(ValueError, match="Invalid CompressedDate: None"):
-        cdate.cdate_to_date()
-
-
-def test_cdate_to_date_invalid_value():
-    """Test cdate_to_date with invalid value raises ValueError"""
-    cdate = CompressedDate(12345)
-    with pytest.raises(ValueError, match="Invalid CompressedDate"):
-        cdate.cdate_to_date()
-
-
-def test_full_compression_cycle():
-    """Test full compression/decompression cycle through all classes"""
-    original_dv = DateValue(15, 6, 2023, Sure())
-    original_cd = CalendarDate(original_dv, Calendar.GREGORIAN)
-    original_date = Date(original_cd)
-
-    cdate = original_date.date_to_cdate()
-
-    recovered_date = cdate.cdate_to_date()
-
-    assert isinstance(recovered_date, Date)
-    assert recovered_date.date.cal == Calendar.GREGORIAN
-    assert recovered_date.date.dmy.day == 15
-    assert recovered_date.date.dmy.month == 6
-    assert recovered_date.date.dmy.year == 2023
-    assert isinstance(recovered_date.date.dmy.prec, Sure)
-
-
-def test_non_compressible_cycle():
-    """Test cycle with non-compressible date"""
-    original_dv = DateValue(15, 6, 2023, Sure(), delta=5)
-    original_cd = CalendarDate(original_dv, Calendar.GREGORIAN)
-    original_date = Date(original_cd)
-
-    cdate = original_date.date_to_cdate()
-
-    assert isinstance(cdate, CompressedDate)
-
-
-def test_string_date_cycle():
-    """Test cycle with string date"""
-    original_str = "June 15, 2023"
-    original_date = Date(original_str)
-
-    result = original_date.date_to_cdate()
-    assert result == CompressedDate(original_str)
 
 
 def test_compare_date_value_opt_same_year_path():
@@ -376,6 +232,7 @@ def test_time_elapsed_partial_year():
     to_date = DateValue(1, 7, 2020, Sure())
 
     elapsed = DateValue.date_difference(from_date, to_date)
+    assert isinstance(elapsed, DateValue)
     assert elapsed.year == 0
     assert elapsed.month >= 5
     assert isinstance(elapsed.prec, Sure)
@@ -387,6 +244,7 @@ def test_time_elapsed_with_days_remainder():
     to_date = DateValue(15, 1, 2020, Sure())
 
     elapsed = DateValue.date_difference(from_date, to_date)
+    assert isinstance(elapsed, DateValue)
     assert elapsed.year == 0
     assert elapsed.month == 0
     assert elapsed.day == 14
@@ -409,6 +267,7 @@ def test_time_elapsed_large_date_ranges():
     modern_date = DateValue(31, 12, 2000, Sure())
 
     elapsed = DateValue.date_difference(ancient_date, modern_date)
+    assert isinstance(elapsed, DateValue)
     assert elapsed.year >= 1900
     assert isinstance(elapsed, DateValue)
     assert isinstance(elapsed.prec, Sure)
