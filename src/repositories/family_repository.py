@@ -8,6 +8,7 @@ import database.family_event_witness as db_family_event_witness
 import database.descend_children as db_descend_children
 import database.family_witness as db_witness
 import database.descends as db_descend
+from database.couple import Couple
 from repositories.converter_from_db import convert_family_from_db
 from repositories.converter_to_db import convert_family_to_db
 
@@ -94,7 +95,6 @@ class FamilyRepository:
             raise RuntimeError("Database session is not available")
 
         try:
-            from database.couple import Couple
             couple = Couple(
                 father_id=family.parents[0],
                 mother_id=family.parents[1]

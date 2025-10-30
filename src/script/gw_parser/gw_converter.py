@@ -23,8 +23,9 @@ from script.gw_parser.data_types import (
 )
 from libraries.person import Person, Sex, AccessRight
 from libraries.family import Family, Relation, Ascendants, Parents
-from libraries.events import FamilyEvent, PersonalEvent
-from libraries.death_info import NotDead, UnknownBurial
+from libraries.events import FamilyEvent, PersonalEvent, PersDeath
+from libraries.burial_info import UnknownBurial
+from libraries.death_info import NotDead, Dead, DeathReason
 from libraries.consanguinity_rate import ConsanguinityRate
 
 
@@ -511,11 +512,34 @@ class GwConverter:
             person.personal_events
         )
 
+        # Extract death information from personal events if present
+        death_status = person.death_status
+        death_place = person.death_place
+        death_note = person.death_note
+        death_src = person.death_src
+
+        for event in events:
+            if isinstance(event.name, PersDeath):
+                # Found a death event - update death status
+                if event.date:
+                    death_status = Dead(DeathReason.UNSPECIFIED, event.date)
+                if event.place:
+                    death_place = event.place
+                if event.note:
+                    death_note = event.note
+                if event.src:
+                    death_src = event.src
+                break  # Only process the first death event
+
         return replace(
             person,
             notes=notes,
             non_native_parents_relation=relations,
             personal_events=events,
+            death_status=death_status,
+            death_place=death_place,
+            death_note=death_note,
+            death_src=death_src,
         )
 
     def get_enriched_persons(self) -> List[Person[int, int, str, int]]:

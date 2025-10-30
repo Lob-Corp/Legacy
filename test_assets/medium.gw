@@ -1,7 +1,7 @@
 encoding: utf-8
 gwplus
 
-fam b a.1 1/1/2000 #bp Paris ? + b c 1/2/2000 ?
+fam b a.1 1/1/2000 #bp Paris 12/7/2020 + b c 1/2/2000 ?
 fevt
 #marr 
 end fevt
@@ -11,6 +11,7 @@ pevt b c
 end pevt
 
 pevt b a.1
+#deat 12/7/2020
 #birt 1/1/2000 #p Paris
 end pevt
 

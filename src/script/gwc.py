@@ -309,7 +309,7 @@ def gwc_main(args: GwcArguments, print_help: Callable) -> int:
 
             converter = GwConverter()
             converter.convert_all(gw_syntax_blocks)
-            persons = converter.get_all_persons()
+            persons = converter.get_enriched_persons()
             families = converter.get_all_families()
             base_notes = converter.get_base_notes()
             wizard_notes = converter.get_wizard_notes()

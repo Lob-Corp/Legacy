@@ -26,7 +26,7 @@ class FamilyEvent(Base):
     id = mapped_column(Integer, primary_key=True, nullable=False)
     family_id = mapped_column(Integer, ForeignKey("Family.id"), nullable=False)
     name = mapped_column(Enum(FamilyEventName), nullable=False)
-    date = mapped_column(Integer, ForeignKey("Date.id"), nullable=False)
+    date = mapped_column(Integer, ForeignKey("Date.id"))
     place = mapped_column(Text, nullable=False)
     reason = mapped_column(Text, nullable=False)
     note = mapped_column(Text, nullable=False)

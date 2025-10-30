@@ -22,7 +22,8 @@ from libraries.family import (
     Ascendants,
 )
 from libraries.events import FamilyEvent
-from libraries.death_info import NotDead, UnknownBurial
+from libraries.burial_info import UnknownBurial
+from libraries.death_info import NotDead
 from libraries.consanguinity_rate import ConsanguinityRate
 
 from .person_parser import build_person

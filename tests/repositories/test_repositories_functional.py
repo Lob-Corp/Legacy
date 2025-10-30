@@ -11,6 +11,7 @@ import libraries.person as app_person
 import libraries.family as app_family
 import libraries.date as app_date
 import libraries.death_info as death_info
+import libraries.burial_info as burial_info
 import libraries.title as title
 import libraries.consanguinity_rate as consanguinity_rate
 import database.person as db_person
@@ -101,7 +102,7 @@ def test_create_couple_and_family() -> None:
                 death_place="",
                 death_note="",
                 death_src="",
-                burial=death_info.UnknownBurial(),
+                burial=burial_info.UnknownBurial(),
                 burial_place="",
                 burial_note="",
                 burial_src="",
@@ -155,7 +156,7 @@ def test_create_couple_and_family() -> None:
                 death_place="",
                 death_note="",
                 death_src="",
-                burial=death_info.UnknownBurial(),
+                burial=burial_info.UnknownBurial(),
                 burial_place="",
                 burial_note="",
                 burial_src="",
@@ -295,7 +296,7 @@ def test_create_family_with_children() -> None:
                 death_place="",
                 death_note="",
                 death_src="",
-                burial=death_info.UnknownBurial(),
+                burial=burial_info.UnknownBurial(),
                 burial_place="",
                 burial_note="",
                 burial_src="",
@@ -340,7 +341,7 @@ def test_create_family_with_children() -> None:
                 death_place="",
                 death_note="",
                 death_src="",
-                burial=death_info.UnknownBurial(),
+                burial=burial_info.UnknownBurial(),
                 burial_place="",
                 burial_note="",
                 burial_src="",
@@ -386,7 +387,7 @@ def test_create_family_with_children() -> None:
                 death_place="",
                 death_note="",
                 death_src="",
-                burial=death_info.UnknownBurial(),
+                burial=burial_info.UnknownBurial(),
                 burial_place="",
                 burial_note="",
                 burial_src="",
@@ -431,7 +432,7 @@ def test_create_family_with_children() -> None:
                 death_place="",
                 death_note="",
                 death_src="",
-                burial=death_info.UnknownBurial(),
+                burial=burial_info.UnknownBurial(),
                 burial_place="",
                 burial_note="",
                 burial_src="",
@@ -549,7 +550,7 @@ def test_edit_person_and_family() -> None:
                 death_place="",
                 death_note="",
                 death_src="",
-                burial=death_info.UnknownBurial(),
+                burial=burial_info.UnknownBurial(),
                 burial_place="",
                 burial_note="",
                 burial_src="",
@@ -597,7 +598,7 @@ def test_edit_person_and_family() -> None:
                 death_place="",
                 death_note="",
                 death_src="",
-                burial=death_info.UnknownBurial(),
+                burial=burial_info.UnknownBurial(),
                 burial_place="",
                 burial_note="",
                 burial_src="",
@@ -659,7 +660,7 @@ def test_person_family_bidirectional_links() -> None:
             baptism_note="", baptism_src="",
             death_status=death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=death_info.UnknownBurial(),
+            burial=burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="",
             personal_events=[], notes="", src="",
             ascend=app_family.Ascendants(
@@ -682,7 +683,7 @@ def test_person_family_bidirectional_links() -> None:
             baptism_note="", baptism_src="",
             death_status=death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=death_info.UnknownBurial(),
+            burial=burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="",
             personal_events=[], notes="", src="",
             ascend=app_family.Ascendants(
@@ -706,7 +707,7 @@ def test_person_family_bidirectional_links() -> None:
             baptism_note="", baptism_src="",
             death_status=death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=death_info.UnknownBurial(),
+            burial=burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="",
             personal_events=[], notes="", src="",
             ascend=app_family.Ascendants(
@@ -787,7 +788,7 @@ def test_multiple_marriages() -> None:
             baptism_note="", baptism_src="",
             death_status=death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=death_info.UnknownBurial(),
+            burial=burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="",
             personal_events=[], notes="", src="",
             ascend=app_family.Ascendants(
@@ -811,7 +812,7 @@ def test_multiple_marriages() -> None:
             baptism_note="", baptism_src="",
             death_status=death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=death_info.UnknownBurial(),
+            burial=burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="",
             personal_events=[], notes="", src="",
             ascend=app_family.Ascendants(
@@ -835,7 +836,7 @@ def test_multiple_marriages() -> None:
             baptism_note="", baptism_src="",
             death_status=death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=death_info.UnknownBurial(),
+            burial=burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="",
             personal_events=[], notes="", src="",
             ascend=app_family.Ascendants(
@@ -927,7 +928,7 @@ def test_edge_case_empty_fields() -> None:
             baptism_note="", baptism_src="",
             death_status=death_info.DontKnowIfDead(),
             death_place="", death_note="", death_src="",
-            burial=death_info.UnknownBurial(),
+            burial=burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="",
             personal_events=[], notes="", src="",
             ascend=app_family.Ascendants(
@@ -982,7 +983,7 @@ def test_edge_case_large_family() -> None:
                 baptism_note="", baptism_src="",
                 death_status=death_info.NotDead(),
                 death_place="", death_note="", death_src="",
-                burial=death_info.UnknownBurial(),
+                burial=burial_info.UnknownBurial(),
                 burial_place="", burial_note="", burial_src="",
                 personal_events=[], notes="", src="",
                 ascend=app_family.Ascendants(
@@ -1009,7 +1010,7 @@ def test_edge_case_large_family() -> None:
                 baptism_note="", baptism_src="",
                 death_status=death_info.NotDead(),
                 death_place="", death_note="", death_src="",
-                burial=death_info.UnknownBurial(),
+                burial=burial_info.UnknownBurial(),
                 burial_place="", burial_note="", burial_src="",
                 personal_events=[], notes="", src="",
                 ascend=app_family.Ascendants(
@@ -1103,7 +1104,7 @@ def test_edge_case_orphan_child() -> None:
             baptism_note="", baptism_src="",
             death_status=death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=death_info.UnknownBurial(),
+            burial=burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="",
             personal_events=[], notes="", src="",
             ascend=app_family.Ascendants(
@@ -1154,7 +1155,7 @@ def test_edge_case_childless_family() -> None:
                 baptism_note="", baptism_src="",
                 death_status=death_info.NotDead(),
                 death_place="", death_note="", death_src="",
-                burial=death_info.UnknownBurial(),
+                burial=burial_info.UnknownBurial(),
                 burial_place="", burial_note="", burial_src="",
                 personal_events=[], notes="", src="",
                 ascend=app_family.Ascendants(
