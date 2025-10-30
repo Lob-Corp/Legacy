@@ -34,6 +34,7 @@ def route_A(base):
 def route_details(base, lang='en'):
     return implem_gwd_details(base, lang)
 
+
 @gwd_bp.route('<base>/ADD_FAM/', methods=['GET', 'POST'], strict_slashes=False)
 def route_ADD_FAM(base):
     lang = request.args.get('lang') or 'en'

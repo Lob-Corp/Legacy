@@ -1,31 +1,31 @@
+from .union_families import UnionFamilies  # noqa: F401
+from .person_event_witness import PersonEventWitness  # noqa: F401
 from sqlalchemy.orm import DeclarativeBase
+
+# Import all models to ensure SQLAlchemy can resolve relationships
+# Import order matters - import base models first, then models that
+# reference them
+from .date import Date  # noqa: F401
+from .place import Place  # noqa: F401
+from .titles import Titles  # noqa: F401
+from .family import Family  # noqa: F401
+from .couple import Couple  # noqa: F401
+from .ascends import Ascends  # noqa: F401
+from .unions import Unions  # noqa: F401
+from .person import Person  # noqa: F401
+from .relation import Relation  # noqa: F401
+from .personal_event import PersonalEvent  # noqa: F401
+from .family_event import FamilyEvent  # noqa: F401
+from .family_events import FamilyEvents  # noqa: F401
+from .person_events import PersonEvents  # noqa: F401
+from .person_titles import PersonTitles  # noqa: F401
+from .person_relations import PersonRelations  # noqa: F401
+from .person_non_native_relations import PersonNonNativeRelations  # noqa: F401
+from .descends import Descends  # noqa: F401
+from .descend_children import DescendChildren  # noqa: F401
+from .family_event_witness import FamilyEventWitness  # noqa: F401
+from .family_witness import FamilyWitness  # noqa: F401
 
 
 class Base(DeclarativeBase):
     pass
-
-
-# Import all models to ensure SQLAlchemy can resolve relationships
-# Import order matters - import base models first, then models that reference them
-from .date import Date
-from .place import Place
-from .titles import Titles
-from .family import Family
-from .couple import Couple
-from .ascends import Ascends
-from .unions import Unions
-from .person import Person
-from .relation import Relation
-from .personal_event import PersonalEvent
-from .family_event import FamilyEvent
-from .family_events import FamilyEvents
-from .person_events import PersonEvents
-from .person_titles import PersonTitles
-from .person_relations import PersonRelations
-from .person_non_native_relations import PersonNonNativeRelations
-from .descends import Descends
-from .descend_children import DescendChildren
-from .family_event_witness import FamilyEventWitness
-from .family_witness import FamilyWitness
-from .person_event_witness import PersonEventWitness
-from .union_families import UnionFamilies

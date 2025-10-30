@@ -178,7 +178,8 @@ def ensure_person(form_data, db_service, person_repo, pa_idx: int) -> int:
         session.close()
 
 
-def ensure_child(form_data, db_service, person_repo, ch_idx: int) -> Optional[int]:
+def ensure_child(form_data, db_service, person_repo,
+                 ch_idx: int) -> Optional[int]:
     """
     Create or link a child person and return its database id.
     Returns None if no name provided.
@@ -273,7 +274,8 @@ def ensure_child(form_data, db_service, person_repo, ch_idx: int) -> Optional[in
         session.close()
 
 
-def parse_witness(form_data, db_service, person_repo, event_idx: int, witness_idx: int):
+def parse_witness(form_data, db_service, person_repo,
+                  event_idx: int, witness_idx: int):
     """
     Parse a witness from form fields e{event_idx}_witn{witness_idx}_*.
     Returns (person_id, witness_kind) or None.
@@ -282,7 +284,8 @@ def parse_witness(form_data, db_service, person_repo, event_idx: int, witness_id
     sn = get_first(form_data, f"e{event_idx}_witn{witness_idx}_sn").strip()
     if not fn and not sn:
         return None
-    occ = parse_int(get_first(form_data, f"e{event_idx}_witn{witness_idx}_occ", "0"), 0)
+    occ = parse_int(
+        get_first(form_data, f"e{event_idx}_witn{witness_idx}_occ", "0"), 0)
     sex_str = get_first(form_data, f"e{event_idx}_witn{witness_idx}_sex", "N")
     sex = parse_sex(sex_str)
     kind_str = (
@@ -428,7 +431,8 @@ def parse_family_event(form_data, db_service, person_repo, event_idx: int):
     event_src = get_first(form_data, f"e{event_idx}_src")
     witnesses = []
     for wit_idx in range(1, 11):
-        witness = parse_witness(form_data, db_service, person_repo, event_idx, wit_idx)
+        witness = parse_witness(form_data, db_service,
+                                person_repo, event_idx, wit_idx)
         if witness:
             witnesses.append(witness)
     return FamilyEvent[int, str](
@@ -485,17 +489,19 @@ def implem_route_ADD_FAM(base, lang="en"):
         for key in form_data.keys():
             if key.startswith("ch") and "_" in key:
                 try:
-                    idx_str = key[2 : key.index("_")]
+                    idx_str = key[2:key.index("_")]
                     child_indices.add(int(idx_str))
                 except (ValueError, IndexError):
                     continue
         for ch_idx in sorted(child_indices):
             try:
-                child_id = ensure_child(form_data, db_service, person_repo, ch_idx)
+                child_id = ensure_child(
+                    form_data, db_service, person_repo, ch_idx)
                 if child_id:
                     children_ids.append(child_id)
             except Exception as e:
-                current_app.logger.warning(f"Failed to create child {ch_idx}: {e}")
+                current_app.logger.warning(
+                    f"Failed to create child {ch_idx}: {e}")
                 continue
 
         family_events: List[FamilyEvent] = []
@@ -508,17 +514,19 @@ def implem_route_ADD_FAM(base, lang="en"):
                     if key.startswith("e_name"):
                         idx_str = key[6:]
                     else:
-                        idx_str = key[1 : key.index("_")]
+                        idx_str = key[1: key.index("_")]
                     event_indices.add(int(idx_str))
                 except (ValueError, IndexError):
                     continue
         for evt_idx in sorted(event_indices):
             try:
-                event = parse_family_event(form_data, db_service, person_repo, evt_idx)
+                event = parse_family_event(
+                    form_data, db_service, person_repo, evt_idx)
                 if event:
                     family_events.append(event)
             except Exception as e:
-                current_app.logger.warning(f"Failed to parse event {evt_idx}: {e}")
+                current_app.logger.warning(
+                    f"Failed to parse event {evt_idx}: {e}")
                 continue
 
         # Determine family relation kind from event selector if available
@@ -576,9 +584,11 @@ def implem_route_ADD_FAM(base, lang="en"):
             session = db_service.get_session()
             try:
                 created_family = (
-                    session.query(DBFamily).order_by(DBFamily.id.desc()).first()
+                    session.query(DBFamily).order_by(
+                        DBFamily.id.desc()).first()
                 )
-                created_family_id = created_family.id if created_family else None
+                created_family_id = created_family.id if created_family else \
+                    None
             finally:
                 session.close()
         except Exception as e:
@@ -596,7 +606,8 @@ def implem_route_ADD_FAM(base, lang="en"):
                 len(files_info),
             )
             current_app.logger.debug("Fields: %s", sorted(form_data.keys()))
-            current_app.logger.info("ADD_FAM form fields:\n%s", pformat(form_data))
+            current_app.logger.info(
+                "ADD_FAM form fields:\n%s", pformat(form_data))
             current_app.logger.info("ADD_FAM files:\n%s", pformat(files_info))
         except Exception:
             print("[ADD_FAM] form submitted:")
