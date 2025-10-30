@@ -1,5 +1,6 @@
 from datetime import date
 from typing import List, Optional, Tuple
+import re
 import libraries.date
 import database.date
 import libraries.family
@@ -57,19 +58,55 @@ def convert_precision_from_db(
 
 def convert_date_from_db(
         to_convert: database.date.Date) -> libraries.date.CompressedDate:
-    if not to_convert.iso_date or to_convert.iso_date == '':
+    if to_convert is None or \
+            (not to_convert.iso_date or to_convert.iso_date == ''):
         return None
-    dateTime = date.fromisoformat(to_convert.iso_date)
+    try:
+        dateTime = date.fromisoformat(to_convert.iso_date)
 
-    return libraries.date.CalendarDate(
-        dmy=libraries.date.DateValue(dateTime.day,
-                                     dateTime.month,
-                                     dateTime.year,
-                                     prec=convert_precision_from_db(
-                                         to_convert.precision_obj),
-                                     delta=to_convert.delta,),
-        cal=to_convert.calendar,
-    )
+        return libraries.date.CalendarDate(
+            dmy=libraries.date.DateValue(dateTime.day,
+                                         dateTime.month,
+                                         dateTime.year,
+                                         prec=convert_precision_from_db(
+                                             to_convert.precision_obj),
+                                         delta=to_convert.delta,),
+            cal=to_convert.calendar,
+        )
+    except BaseException:
+        s = to_convert.iso_date.strip()
+        # mm-yyyy (month 1-2 digits, year 4 digits)
+        m = re.match(r'^\s*(\d{1,2})-(\d{4})\s*$', s)
+        if m:
+            month = int(m.group(1))
+            year = int(m.group(2))
+            return libraries.date.CalendarDate(
+                dmy=libraries.date.DateValue(
+                    day=0,
+                    month=month,
+                    year=year,
+                    prec=convert_precision_from_db(
+                        to_convert.precision_obj),
+                    delta=to_convert.delta,
+                ),
+                cal=to_convert.calendar,
+            )
+        # yyyy (4 digits)
+        m = re.match(r'^\s*(\d{4})\s*$', s)
+        if m:
+            year = int(m.group(1))
+            return libraries.date.CalendarDate(
+                dmy=libraries.date.DateValue(
+                    day=0,
+                    month=0,
+                    year=year,
+                    prec=convert_precision_from_db(
+                        to_convert.precision_obj),
+                    delta=to_convert.delta,
+                ),
+                cal=to_convert.calendar,
+            )
+        raise
 
 
 def convert_divorce_status_from_db(to_convert: database.family.DivorceStatus,

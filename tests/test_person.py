@@ -14,7 +14,6 @@ def compressed_date_fixture() -> CompressedDate:
     return "2025-01-01"
 
 
-
 @pytest.fixture
 def title_fixture(compressed_date_fixture) -> Title[str]:
     return Title[str](title_name=TitleName[str]("name"),

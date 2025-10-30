@@ -31,7 +31,7 @@ class TestMinimalGwParsing:
         """Verify correct number of persons parsed."""
         persons, families = parsed_data
         # minimal.gw has 1 person referenced in pevt
-        assert len(persons) >= 1, "Should have at least 1 person"
+        assert len(persons) == 1, "Should have exactly 1 person"
 
     def test_person_john_exists(self, parsed_data):
         """Verify John person exists."""
@@ -88,6 +88,12 @@ class TestMediumGwParsing:
         # Should have MARRIED, NOT_MARRIED, PACS, NO_MENTION
         assert "MARRIED" in relation_kinds, "Should have MARRIED relation"
         # Note: Other types depend on the exact content
+
+    def test_person_count(self, parsed_data):
+        """Verify correct number of persons parsed."""
+        persons, _ = parsed_data
+        assert len(persons) == 12, f"Should have 12 persons, got {
+            len(persons)} "
 
     def test_person_birth_events_from_pevt(self, parsed_data):
         """Verify birth events from pevt blocks are included."""

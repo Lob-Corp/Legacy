@@ -116,11 +116,21 @@ def convert_date_to_db(
         if to_convert.dmy.year == 0:
             return None
         db_date = database.date.Date()
-        db_date.iso_date = date(
-            to_convert.dmy.year,
-            to_convert.dmy.month,
-            to_convert.dmy.day
-        ).isoformat()
+        year_str = f"{to_convert.dmy.year:04d}"
+        month_str = f"{to_convert.dmy.month:02d}"
+        date_str: str = ""
+        if to_convert.dmy.month == 0:
+            date_str = f"{year_str}"
+        elif to_convert.dmy.day == 0:
+            date_str = f"{year_str}-{month_str}"
+        else:
+            date_str = date(
+                to_convert.dmy.year,
+                to_convert.dmy.month,
+                to_convert.dmy.day
+            ).isoformat()
+
+        db_date.iso_date = date_str
         db_date.calendar = to_convert.cal
         db_date.delta = to_convert.dmy.delta
 
