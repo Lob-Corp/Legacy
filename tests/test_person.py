@@ -11,8 +11,7 @@ from libraries.consanguinity_rate import ConsanguinityRate
 
 @pytest.fixture
 def compressed_date_fixture() -> CompressedDate:
-    return CompressedDate("2025-01-01")
-
+    return "2025-01-01"
 
 
 @pytest.fixture

@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass, replace
-from typing import Callable, Optional
+from typing import Optional, Tuple, TypeAlias
 
 from libraries.calendar_date import Calendar, CalendarDate
 from libraries.exception import NotComparable
@@ -16,116 +16,13 @@ from libraries.precision import (
 )
 
 
-@dataclass(frozen=True)
-class CompressedDate:
-    """Compressed date representation optimized for storage and processing.
+Date: TypeAlias = CalendarDate | str
+"""Type representing a date, which can be either a structured CalendarDate
+or a free-form string."""
 
-    Can represent dates in multiple formats:
-    - Tuple of (Calendar, int): Compressed calendar-specific date
-    - Date object: Full structured date
-    - String: Free-form date text
-    - None: Unknown/missing date
-    """
-
-    cdate: tuple[Calendar, int] | Date | str | None
-
-    def __eq__(self, other) -> bool:
-        if not isinstance(other, CompressedDate):
-            return False
-        return self.cdate == other.cdate
-
-    def map_cdate(
-        self, date_mapper: Optional[Callable[[Date], Date]] = None
-    ) -> CompressedDate:
-        """Transform the date using provided mapper function.
-
-        Args:
-            date_mapper: Function to transform Date objects.
-            If None, returns self unchanged.
-
-        Returns:
-            New CompressedDate with transformed date,or original
-            if no mapper provided
-        """
-        if date_mapper is None:
-            return self
-        date = self.cdate_to_date()
-        if date is None:
-            return date
-        return date_mapper(date).date_to_cdate()
-
-    def cdate_to_date(self) -> Date:
-        """Convert compressed date to full Date representation.
-
-        Decompresses calendar-specific integer codes back to DateValue objects
-        and wraps them in appropriate CalendarDate structures.
-
-        Returns:
-            Date object represented with the same compressed date information
-
-        Raises:
-            ValueError: If the compressed date format is invalid
-        """
-        match self.cdate:
-            case (Calendar.GREGORIAN, code) if isinstance(code, int):
-                return Date(
-                    CalendarDate(
-                        DateValue.uncompress(code), Calendar.GREGORIAN
-                    )
-                )
-            case (Calendar.JULIAN, code) if isinstance(code, int):
-                return Date(
-                    CalendarDate(DateValue.uncompress(code), Calendar.JULIAN)
-                )
-            case (Calendar.FRENCH, code) if isinstance(code, int):
-                return Date(
-                    CalendarDate(DateValue.uncompress(code), Calendar.FRENCH)
-                )
-            case (Calendar.HEBREW, code) if isinstance(code, int):
-                return Date(
-                    CalendarDate(DateValue.uncompress(code), Calendar.HEBREW)
-                )
-            case Date():
-                return self.cdate
-            case str():
-                return Date(self.cdate)
-            case _:
-                raise ValueError("Invalid CompressedDate: None")
-
-
-@dataclass(frozen=True)
-class Date:
-    """Type representing a date, which can be either a structured CalendarDate
-    or a free-form string."""
-
-    date: CalendarDate | str
-
-    def __eq__(self, other) -> bool:
-        if not isinstance(other, Date):
-            raise NotComparable(f"Cannot compare Date with {type(other)}")
-        if isinstance(self.date, CalendarDate) and isinstance(
-            other.date, CalendarDate
-        ):
-            return self.date == other.date
-        if isinstance(self.date, str) and isinstance(other.date, str):
-            return self.date == other.date
-        raise NotComparable("Cannot compare CalendarDate with str")
-
-    def date_to_cdate(self) -> CompressedDate:
-        """Convert Date back to compressed representation for storage.
-
-        Attempts to compress structured CalendarDate to integer format
-        if possible, otherwise stores as-is.
-
-        Returns:
-            CompressedDate with the same date information in compressed form
-        """
-        if isinstance(self.date, CalendarDate):
-            compressed = self.date.dmy.compress()
-            if compressed is not None:
-                return CompressedDate((self.date.cal, compressed))
-            return CompressedDate(self)
-        return CompressedDate(self.date)
+CompressedDate: TypeAlias = Tuple[Calendar, int] | Date | str | None
+"""Type representing a compressed date, which can be a Tuple of Calendar
+and year, a structured Date, a free-form string, or None."""
 
 
 @dataclass(frozen=True)
