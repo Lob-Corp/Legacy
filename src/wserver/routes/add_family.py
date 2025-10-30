@@ -6,6 +6,13 @@ from flask import (
     render_template, request, current_app, jsonify, redirect, url_for, g, abort
 )
 from pprint import pformat
+from libraries.events import EventWitnessKind
+from libraries.person import Sex, Person as LibPerson
+from libraries.title import AccessRight
+from libraries.consanguinity_rate import ConsanguinityRate
+from libraries.family import Ascendants
+from libraries.death_info import DeathStatusBase, NotDead, Dead, DeathReason
+from libraries.burial_info import UnknownBurial
 from .db_utils import get_db_service
 from typing import Optional, List
 
@@ -61,11 +68,6 @@ def ensure_person(form_data, db_service, person_repo, pa_idx: int) -> int:
     Create or link a parent person and return its database id.
     pa_idx is 1 or 2.
     """
-    from libraries.person import Sex, Person as LibPerson
-    from libraries.title import AccessRight
-    from libraries.consanguinity_rate import ConsanguinityRate
-    from libraries.family import Ascendants
-    from libraries.death_info import NotDead, Dead, DeathReason, UnknownBurial
     sel = get_first(form_data, f"pa{pa_idx}_p", "create")
     fn = get_first(form_data, f"pa{pa_idx}_fn").strip()
     sn = get_first(form_data, f"pa{pa_idx}_sn").strip()
@@ -93,7 +95,7 @@ def ensure_person(form_data, db_service, person_repo, pa_idx: int) -> int:
     death_place = get_first(form_data, f"pa{pa_idx}d_pl")
     occupation = get_first(form_data, f"pa{pa_idx}_occu")
     if death_date:
-        death_status = Dead(
+        death_status: DeathStatusBase = Dead(
             death_reason=DeathReason.UNSPECIFIED, date_of_death=death_date)
     else:
         death_status = NotDead()
@@ -165,11 +167,6 @@ def ensure_child(form_data,
     Create or link a child person and return its database id.
     Returns None if no name provided.
     """
-    from libraries.person import Person as LibPerson
-    from libraries.title import AccessRight
-    from libraries.consanguinity_rate import ConsanguinityRate
-    from libraries.family import Ascendants
-    from libraries.death_info import NotDead, UnknownBurial
     sel = get_first(form_data, f"ch{ch_idx}_p", "create")
     fn = get_first(form_data, f"ch{ch_idx}_fn").strip()
     sn = get_first(form_data, f"ch{ch_idx}_sn").strip()
@@ -260,12 +257,6 @@ def parse_witness(form_data,
     Parse a witness from form fields e{event_idx}_witn{witness_idx}_*.
     Returns (person_id, witness_kind) or None.
     """
-    from libraries.person import Person as LibPerson
-    from libraries.title import AccessRight
-    from libraries.consanguinity_rate import ConsanguinityRate
-    from libraries.family import Ascendants
-    from libraries.death_info import NotDead, UnknownBurial
-    from libraries.events import EventWitnessKind
     fn = get_first(form_data, f"e{event_idx}_witn{witness_idx}_fn").strip()
     sn = get_first(form_data, f"e{event_idx}_witn{witness_idx}_sn").strip()
     if not fn and not sn:

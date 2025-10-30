@@ -1059,4 +1059,3 @@ When modifying the parser or converter:
 - **Parser implementation**: `src/script/gw_parser/`
 - **Converter implementation**: `src/script/gw_parser/gw_converter.py`
 - **CLI implementation**: `src/script/gwc.py`
-
