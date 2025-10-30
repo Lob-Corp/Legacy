@@ -2,6 +2,47 @@
 
 GenewebPy is a reimplementation of Geneweb - originally written in OCaml - in Python.
 
+## Requirement
+The app has made with Python 3.12.11. Any version compatibility erro are on the user's responsability.
+
+## 🐳 Docker Quick Start
+
+Run the Flask application and use `gwc` in Docker:
+
+```bash
+# Optional: Configure environment variables
+cp .env.example .env
+# Edit .env to customize PORT, SSL, etc.
+
+# Build and start the application
+./docker-manage.sh build
+./docker-manage.sh start
+
+# Create database from .gw file
+./docker-manage.sh gwc test_assets/minimal.gw -o data/minimal.db -v -stats
+
+# Access application at http://localhost:8080
+```
+
+**See [docs/DOCKER.md](docs/DOCKER.md) for complete Docker deployment guide.**
+
+## 🚀 Ansible Deployment
+
+Deploy to remote servers with Ansible:
+
+```bash
+cd ansible
+
+# Configure your server in inventory.yml
+# Then deploy:
+ansible-playbook -i inventory.yml deploy.yml --limit production
+
+# Or using Make
+make deploy-prod
+```
+
+**See [docs/ANSIBLE.md](docs/ANSIBLE.md) for Ansible deployment guide.**
+
 ## Documentation
 
 ### 📘 Main Documentation

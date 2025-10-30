@@ -1,0 +1,49 @@
+version: "3.8"
+
+services:
+  geneweb:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: geneweb-app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+      - ./examples:/app/examples:ro
+      - ./test_assets:/app/test_assets:ro
+      - ./certs:/app/certs:ro
+    env_file:
+      - .env
+    environment:
+      - DEBUG=${DEBUG:-false}
+      - HOST=${HOST:-0.0.0.0}
+      - PORT=${PORT:-8080}
+      - SSL_ENABLED=${SSL_ENABLED:-false}
+      - SSL_CERT_PATH=${SSL_CERT_PATH:-certs/cert.pem}
+      - SSL_KEY_PATH=${SSL_KEY_PATH:-certs/key.pem}
+      - DATABASE_PATH=${DATABASE_PATH:-/app/data/geneweb.db}
+    restart: unless-stopped
+    networks:
+      - geneweb-network
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request; urllib.request.urlopen('https://localhost:8080').read()",
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+
+networks:
+  geneweb-network:
+    driver: bridge
+
+volumes:
+  geneweb-data:
+    driver: local
