@@ -67,6 +67,70 @@ main (protected)
 
 When creating a pull request, when the changes may affect the user flow, the developper assigned to the task should perform manual testing of the workflow, to ensure the user flow remains as wanted.
 
+## Issue Organization
+
+### GitHub Project Board
+
+All issues must be tracked and organized using the GitHub Project board with the following status categories:
+
+| Status | Description | When to Use |
+|--------|-------------|-------------|
+| **Todo** | Issues ready to be worked on | New issues that have been triaged and approved |
+| **Paused** | Work temporarily suspended | Blocked by dependencies, awaiting decisions, or deprioritized |
+| **In Progress** | Actively being worked on | Developer has started implementation |
+| **In Review** | Pull request submitted | Code is complete and awaiting review |
+| **Completed** | Work finished and merged | PR merged to target branch |
+
+### Issue Lifecycle
+
+1. **Creation**: New issue created and added to **Todo**
+2. **Assignment**: Developer picks up issue and moves to **In Progress**
+3. **Development**: Work continues in **In Progress**
+4. **Pull Request**: PR created, issue moves to **In Review**
+5. **Merge**: PR merged, issue moves to **Completed**
+
+Issues can be moved to **Paused** at any stage if work is blocked or suspended.
+
+### Pull Request Requirements
+
+**Every Pull Request must be linked to an issue**, except in the following cases:
+
+**Exceptions** (PRs allowed without linked issue):
+- **Minimal additions**: Typo fixes, documentation updates, comment improvements
+- **Milestone branch updates from main**: PRs to update milestone branches from main
+- **Hotfixes**: Critical bug fixes that require immediate attention (though an issue should be created retroactively for tracking)
+
+**Linking a PR to an Issue**:
+- Use GitHub keywords in PR description: `Closes #123`, `Fixes #456`, `Resolves #789`
+- This automatically moves the issue to **Completed** when PR is merged
+- Multiple issues can be linked: `Closes #123, Fixes #456`
+
+### Issue Best Practices
+
+- **Clear Titles**: Use descriptive titles that explain the issue at a glance
+- **Detailed Descriptions**: Include context, steps to reproduce (for bugs), or requirements (for features)
+- **Labels**: Use appropriate labels (bug, feature, documentation, enhancement, etc.)
+- **Milestones**: Assign issues to milestones when applicable
+- **Assignees**: Assign the person responsible for the work
+- **References**: Link related issues or PRs using `#issue-number`
+
+**Example Issue-PR Workflow**:
+```
+1. Issue #42 created: "Add support for HTTPS in web server"
+   → Status: Todo
+
+2. Developer assigned, starts work
+   → Status: In Progress
+   → Branch: feature/web-server/support-https
+
+3. PR #45 opened with description: "Closes #42"
+   → Status: In Review
+
+4. PR merged to milestone/web-server
+   → Status: Completed (automatic)
+   → Issue #42 closed automatically
+```
+
 ## Testing Policy
 
 GenewebPy follows a comprehensive testing policy to ensure code quality, reliability, and behavioral compatibility with the original OCaml implementation.
