@@ -1,5 +1,7 @@
 from typing import Optional
 
+from wserver.routes.fiefs import route_fiefs
+
 from .homepage import route_homepage
 from .search import route_search
 from .add_family import implem_route_ADD_FAM
@@ -37,6 +39,22 @@ def gwd_search(base: str):
     firstname = request.args.get("firstname", None)
     previous_url = request.args.get("previous_url", None)
     return route_search(base, lang, sort, on, surname, firstname, previous_url)
+
+
+@gwd_bp.route("<base>/titles", methods=['GET', 'POST'])
+def gwd_titles(base: str):
+    lang = request.args.get("lang", "en")
+    title = request.args.get("title", None)
+    fief = request.args.get("fief", None)
+    previous_url = request.args.get("previous_url", None)
+    return route_titles(base, lang, title, fief, previous_url)
+
+
+@gwd_bp.route("<base>/fiefs", methods=['GET', 'POST'])
+def gwd_fiefs(base: str):
+    lang = request.args.get("lang", "en")
+    previous_url = request.args.get("previous_url", None)
+    return route_fiefs(base, lang, previous_url)
 
 # DEFAULT / ROOT (already present)
 
@@ -589,17 +607,6 @@ def route_CHANGE_WIZ_VIS(base, lang='en'):
 @gwd_bp.route('<base>/TP/<lang>', methods=['GET', 'POST'])
 def route_TP(base, lang='en'):
     raise NotImplementedError("Route TP not implemented yet")
-
-
-@gwd_bp.route('<base>/TT/', methods=['GET', 'POST'])
-@gwd_bp.route('<base>/TT/<lang>', methods=['GET', 'POST'])
-def route_TT(base, lang='en'):
-    sm = request.args.get("sm", None)
-    t = request.args.get("t", None)
-    p = request.args.get("p", None)
-    a = request.args.get("a", None)
-    previous_url = request.args.get("previous_url", None)
-    return route_titles(base, lang, sm, t, p, a, previous_url)
 
 
 @gwd_bp.route('<base>/U/', methods=['GET', 'POST'])

@@ -1052,8 +1052,8 @@ msgstr "All titles"
 msgid "Title"
 msgstr "Title"
 
-msgid "All estates"
-msgstr "All estates"
+msgid "All the fiefs"
+msgstr "All the fiefs"
 
 msgid "Estate"
 msgstr "Estate"

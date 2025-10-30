@@ -11,14 +11,14 @@
             <table width="95%" border="0">
                 <tr align="left" valign="top">
                     <td width="100">
-                        {% for letter_group in titles_grouped %}
+                        {% for letter_group in persons_grouped %}
                         <h3 class="subtitle mx-3">{{ letter_group.letter|upper }}</h3>
                         <ul>
                             {% for title in letter_group.titles %}
                             <li>
-                                <a href="{{ url_for('gwd.route_TT', base=base, lang=lang, sm='S', t=title.name) }}">
+                                <a href="{{ url_for('gwd.gwd_titles', base=base, lang=lang, sm='S', t=title.name) }}">
                                     {{ title.name }}
-                                </a> ({{ title.count }})
+                                </a>
                             </li>
                             {% endfor %}
                         </ul>

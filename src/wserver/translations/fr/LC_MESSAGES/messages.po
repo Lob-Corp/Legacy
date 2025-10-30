@@ -957,7 +957,7 @@ msgstr "Tous les titres"
 msgid "Title"
 msgstr "Titre"
 
-msgid "All estates"
+msgid "All the fiefs"
 msgstr "Tous les domaines"
 
 msgid "Estate"
