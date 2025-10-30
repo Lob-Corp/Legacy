@@ -1,3 +1,4 @@
+*.db
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[codz]
@@ -225,6 +226,8 @@ release
 *lcov
 lcov.*.info
 
+tools/
+
 # golden master testing
 tests/golden_master/records
 
@@ -235,3 +238,7 @@ debug_parser.py
 test_minimal.db
 test_medium.db
 test_big.db
+# SSL
+certs
+
+bases
