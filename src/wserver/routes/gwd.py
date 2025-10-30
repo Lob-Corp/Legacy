@@ -1,4 +1,9 @@
+from typing import Optional
+
+from .homepage import route_homepage
+from .search import route_search
 from .add_family import implem_route_ADD_FAM
+from .titles import route_titles
 from flask import Blueprint, redirect, render_template, request, url_for
 
 from libraries.death_info import DontKnowIfDead, UnknownBurial
@@ -16,52 +21,22 @@ Handlers are explicit functions and currently raise NotImplementedError..
 """
 
 
-@gwd_bp.route('<base>', methods=['GET', 'POST'])
-def gwd_base_only(base, lang='en'):
+@gwd_bp.route("<base>", methods=['GET', 'POST'])
+def gwd_homepage(base: str):
     lang = request.args.get("lang", "en")
-    module = request.args.get("m", None)
-    tri = request.args.get("tri", None)
-    surname = request.args.get("n", None)
-    firstname = request.args.get("p", None)
-    previous_url = request.referrer
+    previous_url = request.args.get("previous_url", None)
+    return route_homepage(base, lang, previous_url)
 
-    branches = [
-        {
-            "number": 1,
-            "persons": [
-                {"id": 101, "name": "Smith, John", "dates": "1900-1975",
-                 "spouse": {"name": "Smith, Mary", "dates": "1905-1980"}},
-                {"id": 102, "name": "Smith, Alice",
-                    "dates": "1930-2010", "spouse": None},
-            ],
-        },
-        {
-            "number": 2,
-            "persons": [
-                {"id": 201, "name": "Smith, Robert", "dates": "1925-1999",
-                 "spouse": {"name": "Brown, Anna", "dates": "1930-2015"}},
-                {"id": 202, "name": "Smith, Clara", "dates": "1950-"},
-                {"id": 203, "name": "Smith, Tom", "dates": "1975-"},
-            ],
-        },
-        {
-            "number": 3,
-            "persons": [
-                {"id": 301, "name": "Smith, Émile", "dates": "1880-1942"},
-            ],
-        },
-    ]
-    if module == "S" and surname:
-        return render_template("gwd/search_surname.html", base=base, lang=lang, surname=surname,
-                               branches=branches, total_branches=len(branches), previous_url=previous_url)
-    persons = []
-    if module == "S" and firstname:
-        return render_template("gwd/search_firstname.html", base=base, lang=lang, firstname=firstname,
-                               persons=persons, total_persons=len(persons), previous_url=previous_url)
 
-    if module == "N" and tri == "A":
-        return render_template("gwd/surnames_alpha.html", base=base, lang=lang, previous_url=previous_url)
-    return render_template("gwd/index.html", base=base, lang=lang)
+@gwd_bp.route("<base>/search", methods=['GET', 'POST'])
+def gwd_search(base: str):
+    lang = request.args.get("lang", "en")
+    sort = request.args.get("sort", None)
+    on = request.args.get("on", None)
+    surname = request.args.get("surname", None)
+    firstname = request.args.get("firstname", None)
+    previous_url = request.args.get("previous_url", None)
+    return route_search(base, lang, sort, on, surname, firstname, previous_url)
 
 # DEFAULT / ROOT (already present)
 
@@ -619,7 +594,12 @@ def route_TP(base, lang='en'):
 @gwd_bp.route('<base>/TT/', methods=['GET', 'POST'])
 @gwd_bp.route('<base>/TT/<lang>', methods=['GET', 'POST'])
 def route_TT(base, lang='en'):
-    raise NotImplementedError("Route TT not implemented yet")
+    sm = request.args.get("sm", None)
+    t = request.args.get("t", None)
+    p = request.args.get("p", None)
+    a = request.args.get("a", None)
+    previous_url = request.args.get("previous_url", None)
+    return route_titles(base, lang, sm, t, p, a, previous_url)
 
 
 @gwd_bp.route('<base>/U/', methods=['GET', 'POST'])

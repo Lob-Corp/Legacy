@@ -24,22 +24,24 @@
     <!-- Navigation sidebar (peut être surchargé pour pages sans navigation) -->
     <div class="d-flex flex-column fix_top fix_left">
         <a tabindex="1" role="button" class="btn btn-sm btn-link p-0 border-0"
-            href="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}" title="Home">
+            href="{{ url_for('gwd.gwd_homepage', base=base, lang=lang) }}" title="{{ _('Home') }}">
             <i class="fa fa-house fa-fw fa-sm" aria-hidden="true"></i>
             <i class="sr-only">Home</i>
         </a>
         {% if previous_url %}
-        <a tabindex="2" role="button" class="btn btn-sm btn-link p-0 border-0" href="{{ previous_url }}" title="Back"><i
-                class="fa fa-arrow-left-long fa-fw fa-xs" aria-hidden="true"></i><span class="sr-only">Back</span></a>
+        <a tabindex="2" role="button" class="btn btn-sm btn-link p-0 border-0" href="{{ previous_url }}"
+            title="{{ _('Back') }}"><i class="fa fa-arrow-left-long fa-fw fa-xs" aria-hidden="true"></i><span
+                class="sr-only">{{ _('Back') }}</span></a>
         {% endif %}
         <a tabindex="3" role="button" class="btn btn-sm btn-link p-0 border-0" data-toggle="modal"
-            data-target="#searchmodal" accesskey="S" title="Search">
+            data-target="#searchmodal" accesskey="S" title="{{ _('Search') }}">
             <i class="fa fa-magnifying-glass fa-fw fa-xs" aria-hidden="true"></i>
-            <span class="sr-only">Search</span>
+            <span class="sr-only">{{ _('Search') }}</span>
         </a>
-        <a role="button" class="btn btn-sm btn-link p-0 border-0" href="" title="Display a random individual">
+        <a role="button" class="btn btn-sm btn-link p-0 border-0" href=""
+            title="{{ _('Display a random individual') }}">
             <i class="fa fa-dice fa-fw fa-xs" aria-hidden="true"></i>
-            <span class="sr-only">Display a random individual</span>
+            <span class="sr-only">{{ _('Display a random individual') }}</span>
         </a>
         <div class="btn btn-sm p-0 border-0" id="q_time">
             <i class="fa fa-hourglass-half fa-fw fa-xs p-0"></i>
@@ -59,18 +61,18 @@
                         <input type="hidden" name="m" value="S">
                         <div class="d-flex justify-content-center">
                             <h5 class="rounded modal-title my-2 text-center w-50 align-self-center" id="searchpopup">
-                                Search individual
+                                {{ _('Search individual') }}
                             </h5>
                             <div class="col-8">
-                                <label class="sr-only" for="n">Search public name</label>
+                                <label class="sr-only" for="n">{{ _('Search public name') }}</label>
                                 <input type="search" id="n" class="form-control form-control-lg" name="n"
-                                    placeholder="Surname, public name, alias" autofocus>
-                                <label class="sr-only" for="p">Search firstname</label>
+                                    placeholder="{{ _('Surname, public name, alias') }}" autofocus>
+                                <label class="sr-only" for="p">{{ _('Search first name') }}</label>
                                 <input type="search" id="p" class="form-control form-control-lg mt-2" name="p"
-                                    placeholder="First name">
+                                    placeholder="{{ _('First name') }}">
                             </div>
-                            <button class="btn btn-outline-primary" type="submit" title="Search">
-                                <i class="fa fa-magnifying-glass fa-lg mx-2"></i> Search
+                            <button class="btn btn-outline-primary" type="submit" title="{{ _('Search') }}">
+                                <i class="fa fa-magnifying-glass fa-lg mx-2"></i> {{ _('Search') }}
                             </button>
                         </div>
                     </form>

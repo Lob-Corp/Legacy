@@ -1,0 +1,25 @@
+{% extends "gwd/base.html" %}
+
+{% block title %}{{ title_name }} {{ estate_name }}{% endblock %}
+
+{% block content %}
+<h1>
+    <a href="{{ url_for('gwd.route_TT', base=base, lang=lang, sm='S', a='A', t=title_name) }}">{{ title_name }}</a>
+    <a href="{{ url_for('gwd.route_TT', base=base, lang=lang, sm='S', a='A', p=estate_name) }}">{{ estate_name }}</a>
+</h1>
+
+<ul>
+    {% for person in persons %}
+    <li>
+        <a
+            href="{{ url_for('gwd.gwd_homepage', base=base, lang=lang) }}?p={{ person.first_name|lower }}&n={{ person.surname|lower }}">
+            {{ person.first_name }} {{ person.surname }}
+            {% if person.birth_date %}
+            <bdo dir="ltr">{{ person.birth_date }}</bdo>
+            {% endif %}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

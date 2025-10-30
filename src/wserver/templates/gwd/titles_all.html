@@ -1,0 +1,33 @@
+{% extends "gwd/base.html" %}
+
+{% block title %}{{ _('All titles') }}{% endblock %}
+
+{% block content %}
+<h1>{{ _('All titles') }}</h1>
+
+<table border="0" width="100%">
+    <tr>
+        <td align="center">
+            <table width="95%" border="0">
+                <tr align="left" valign="top">
+                    <td width="100">
+                        {% for letter_group in titles_grouped %}
+                        <h3 class="subtitle mx-3">{{ letter_group.letter|upper }}</h3>
+                        <ul>
+                            {% for title in letter_group.titles %}
+                            <li>
+                                <a href="{{ url_for('gwd.route_TT', base=base, lang=lang, sm='S', t=title.name) }}">
+                                    {{ title.name }}
+                                </a> ({{ title.count }})
+                            </li>
+                            {% endfor %}
+                        </ul>
+                        {% endfor %}
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+
+{% endblock %}

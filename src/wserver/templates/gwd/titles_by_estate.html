@@ -1,0 +1,18 @@
+{% extends "gwd/base.html" %}
+
+{% block title %}... {{ estate_name }}{% endblock %}
+
+{% block content %}
+<h1>... {{ estate_name }}</h1>
+
+<ul>
+    {% for title in titles %}
+    <li>
+        <a href="{{ url_for('gwd.route_TT', base=base, lang=lang, sm='S', t=title.name, p=estate_name) }}">
+            {{ title.name }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

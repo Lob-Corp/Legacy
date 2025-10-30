@@ -1004,6 +1004,165 @@ msgstr ""
 msgid "plugins"
 msgstr ""
 
+msgid "GeneWeb"
+msgstr "GeneWeb"
+
+msgid "Genealogical database"
+msgstr "Genealogical database"
+
+msgid "persons"
+msgstr "persons"
+
+msgid "Display a random individual"
+msgstr "Display a random individual"
+
+msgid "Surnames, sort alphabetically"
+msgstr "Surnames, sort alphabetically"
+
+msgid "Surnames frequency, sort by number of individuals"
+msgstr "Surnames frequency, sort by number of individuals"
+
+msgid "Surname, public name, alias"
+msgstr "Surname, public name, alias"
+
+msgid "Search surname, public name, alias"
+msgstr "Search surname, public name, alias"
+
+msgid "First name(s)"
+msgstr "First name(s)"
+
+msgid "Search first name(s)"
+msgstr "Search first name(s)"
+
+msgid "First names, sort alphabetically"
+msgstr "First names, sort alphabetically"
+
+msgid "First names frequency, sort by number of individuals"
+msgstr "First names frequency, sort by number of individuals"
+
+msgid "Search"
+msgstr "Search"
+
+msgid "person"
+msgstr "person"
+
+msgid "All titles"
+msgstr "All titles"
+
+msgid "Title"
+msgstr "Title"
+
+msgid "All estates"
+msgstr "All estates"
+
+msgid "Estate"
+msgstr "Estate"
+
+msgid "Search title/estate"
+msgstr "Search title/estate"
+
+msgid "Tools"
+msgstr "Tools"
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "Statistics"
+msgstr "Statistics"
+
+msgid "Anniversaries"
+msgstr "Anniversaries"
+
+msgid "Add family (wizard)"
+msgstr "Add family (wizard)"
+
+msgid "Places/surname"
+msgstr "Places/surname"
+
+msgid "Calendars"
+msgstr "Calendars"
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Dictionaries"
+msgstr "Dictionaries"
+
+msgid "Edit first names dictionary (wizard)"
+msgstr "Edit first names dictionary (wizard)"
+
+msgid "First names"
+msgstr "First names"
+
+msgid "Edit surnames dictionary (wizard)"
+msgstr "Edit surnames dictionary (wizard)"
+
+msgid "Surnames"
+msgstr "Surnames"
+
+msgid "Edit places dictionary (wizard)"
+msgstr "Edit places dictionary (wizard)"
+
+msgid "Places"
+msgstr "Places"
+
+msgid "Edit professions dictionary (wizard)"
+msgstr "Edit professions dictionary (wizard)"
+
+msgid "Professions"
+msgstr "Professions"
+
+msgid "Edit sources dictionary (wizard)"
+msgstr "Edit sources dictionary (wizard)"
+
+msgid "Sources"
+msgstr "Sources"
+
+msgid "Home"
+msgstr "Home"
+
+msgid "Back"
+msgstr "Back"
+
+msgid "Search individual"
+msgstr "Search individual"
+
+msgid "Search public name"
+msgstr "Search public name"
+
+msgid "Search first name"
+msgstr "Search first name"
+
+msgid "Display by"
+msgstr "Display by"
+
+msgid "line"
+msgstr "line"
+
+msgid "alphabetical order"
+msgstr "alphabetical order"
+
+msgid "surnames"
+msgstr "surnames"
+
+msgid "first names"
+msgstr "first names"
+
+msgid "Clear field"
+msgstr "Clear field"
+
+msgid "Insert witness(es)"
+msgstr "Insert witness(es)"
+
+msgid "Insert event(s)"
+msgstr "Insert event(s)"
+
+msgid "Family sources"
+msgstr "Family sources"
+
+msgid "Edit person"
+msgstr "Edit person"
+
 #~ msgid "F"
 #~ msgstr ""
 

@@ -11,13 +11,13 @@
 
 <table class="display_search">
     <tr>
-        <td><b>Display by</b></td>
+        <td><b>{{ _('Display by') }}</b></td>
         <td><img src="{{ url_for('static', filename='images/picto_branch.png') }}" alt="" title=""></td>
-        <td>line ({{ total_branches|default(0) }})</td>
+        <td>{{ _('line') }} ({{ total_persons|default(0) }})</td>
         <td><img src="{{ url_for('static', filename='images/picto_alphabetic_order.png') }}" alt="" title=""></td>
         <td>
             <a href="{{ request.path }}?lang={{ lang|default('en') }}&amp;order=alpha" rel="nofollow">
-                alphabetical order
+                {{ _('alphabetical order') }}
             </a>
         </td>
     </tr>
@@ -26,26 +26,20 @@
 
 <div id="surname_by_branch">
     <dl>
-        {% for branch in branches %}
+        {% for person in persons %}
         <dt>
-            <a href="{{ request.path }}?lang={{ lang|default('en') }}#branch{{ branch.number }}" rel="nofollow">
-                {{ branch.number }}.
+            <a href="" rel="nofollow">
+                {{ loop.index }}.
             </a>
         </dt>
         <dd>
             <ul>
-                {% for person in branch.persons %}
+                {% for person in persons %}
                 <li>
                     o <strong><a href="{{ request.path }}?lang={{ lang|default('en') }}#i{{ person.id }}"
                             id="i{{ person.id }}">
-                            {{ person.name|default('?') }}
+                            {{ person.first_name|default('?') }} {{ person.surname|default('?') }}
                         </a></strong> <bdo dir="ltr">{{ person.dates|default('') }}</bdo>
-                    {% if person.spouse %}
-                    &amp;
-                    <strong><a href="{{ request.path }}?lang={{ lang|default('en') }}#i{{ person.id }}-spouse">
-                            {{ person.spouse.name|default('?') }}
-                        </a></strong> <bdo dir="ltr">{{ person.spouse.dates|default('') }}</bdo>
-                    {% endif %}
                 </li>
                 {% endfor %}
             </ul>
