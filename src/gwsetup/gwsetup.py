@@ -32,6 +32,7 @@ from database.relation import Relation
 from database.titles import Titles
 from database.union_families import UnionFamilies
 from database.unions import Unions
+from script.gwc import gwc_main, GwcArguments
 
 _NAME_RE = re.compile(r"^[A-Za-z0-9_\-]+$")
 
@@ -125,6 +126,33 @@ def create_cmd(name: str) -> None:
     click.echo(msg)
     if not ok:
         raise SystemExit(1)
+
+
+@database.command("gwc")
+@click.argument("name")
+@click.argument("gw_file")
+def gwc_cmd(name: str, gw_file: str) -> None:
+    """Create a database from a .gw file using gwc."""
+    if not os.path.exists(DEFAULT_BASES_DIR):
+        os.makedirs(DEFAULT_BASES_DIR)
+    result = gwc_main(GwcArguments(
+        out_file=os.path.join(DEFAULT_BASES_DIR, f"{name}.db"),
+        input_file_data=[],
+        separate=False,
+        bnotes="merge",
+        shift=0,
+        files=[gw_file],
+        verbose=True,
+        no_fail=False,
+        stats=True,
+        f=False,
+        cg=False,
+        ds="",
+        particles="",
+        nc=False,
+    ), lambda: print("Error in gwc arguments"))
+    if result != 0:
+        raise SystemExit(result)
 
 
 @database.command("delete")
