@@ -875,7 +875,7 @@ def test_convert_burial_status_unknown_burial():
         None
     )
 
-    assert isinstance(result, libraries.death_info.UnknownBurial)
+    assert isinstance(result, libraries.burial_info.UnknownBurial)
 
 
 def test_convert_burial_status_burial():
@@ -887,7 +887,7 @@ def test_convert_burial_status_burial():
         db_date
     )
 
-    assert isinstance(result, libraries.death_info.Burial)
+    assert isinstance(result, libraries.burial_info.Burial)
     assert result.burial_date is not None
 
 
@@ -912,7 +912,7 @@ def test_convert_burial_status_cremated():
         db_date
     )
 
-    assert isinstance(result, libraries.death_info.Cremated)
+    assert isinstance(result, libraries.burial_info.Cremated)
     assert result.cremation_date is not None
 
 
@@ -1206,7 +1206,7 @@ def test_convert_person_minimal():
     assert isinstance(result.death_status,
                       libraries.death_info.NotDead)
     assert isinstance(result.burial,
-                      libraries.death_info.UnknownBurial)
+                      libraries.burial_info.UnknownBurial)
 
 
 def test_convert_person_with_birth_date():
@@ -1451,7 +1451,7 @@ def test_convert_person_complete():
                       libraries.death_info.Dead)
     assert result.death_place == "Hospital"
     assert isinstance(result.burial,
-                      libraries.death_info.Burial)
+                      libraries.burial_info.Burial)
     assert result.burial_place == "Cemetery"
     assert result.notes == "Important person"
     assert result.src == "Multiple sources"
