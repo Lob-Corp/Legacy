@@ -97,8 +97,8 @@
         </div>
         <label class="col-2 col-form-label">{{ _('Number') }}</label>
         <div class="col-2">
-          <input type="number" class="form-control" name="e{{ event_cnt }}_witn{{ witness_cnt }}_occ"
-                 min="0" value="{{ witness_data.occ if witness_data and witness_data.occ else '' }}" placeholder="#">
+     <input type="number" class="form-control" name="e{{ event_cnt }}_witn{{ witness_cnt }}_occ"
+       min="0" value="{{ witness_data.occ if witness_data and (witness_data.occ is not none) else 0 }}" placeholder="#">
         </div>
       </div>
       <div class="row mt-2">
@@ -1016,7 +1016,7 @@
                     <label for="r{{ loop.index0 }}_fath_occ" class="col-sm col-form-label">{{ _('Number') }}</label>
                     <div class="col-sm">
                       <input type="number" class="form-control" name="r{{ loop.index0 }}_fath_occ" min="0" 
-                             value="{{ relation.father.occ if relation.father and relation.father.occ else '' }}" 
+                             value="{{ relation.father.occ if relation.father and (relation.father.occ is not none) else '0' }}" 
                              id="r{{ loop.index0 }}_fath_occ" placeholder="">
                     </div>
                     <div class="col-sm-2">
@@ -1032,6 +1032,25 @@
                       <input type="text" class="form-control" name="r{{ loop.index0 }}_fath_sn" 
                              value="{{ relation.father.surname if relation.father else '' }}" 
                              id="r{{ loop.index0 }}_fath_sn" placeholder="{{ _('Surname') }}">
+                    </div>
+                  </div>
+                  <div class="row" id="r{{ loop.index0 }}_fath_p_selct_sex">
+                    <div class="col-sm-2 col-form-label">{{ _('Sex') }}</div>
+                    <div class="col-sm-10">
+                      <div class="form-inline">
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="r{{ loop.index0 }}_fath_sex" value="M" checked>
+                          <label class="form-check-label">{{ _('M') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="r{{ loop.index0 }}_fath_sex" value="U">
+                          <label class="form-check-label">?</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="r{{ loop.index0 }}_fath_sex" value="F">
+                          <label class="form-check-label">{{ _('F') }}</label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="row">
@@ -1069,7 +1088,7 @@
                     <label for="r{{ loop.index0 }}_moth_occ" class="col-sm col-form-label">{{ _('Number') }}</label>
                     <div class="col-sm">
                       <input type="number" class="form-control" name="r{{ loop.index0 }}_moth_occ" min="0" 
-                             value="{{ relation.mother.occ if relation.mother and relation.mother.occ else '' }}" 
+                             value="{{ relation.mother.occ if relation.mother and (relation.mother.occ is not none) else '0' }}" 
                              id="r{{ loop.index0 }}_moth_occ" placeholder="">
                     </div>
                     <div class="col-sm-2">
@@ -1085,6 +1104,25 @@
                       <input type="text" class="form-control" name="r{{ loop.index0 }}_moth_sn" 
                              value="{{ relation.mother.surname if relation.mother else '' }}" 
                              id="r{{ loop.index0 }}_moth_sn" placeholder="{{ _('Surname') }}">
+                    </div>
+                  </div>
+                  <div class="row" id="r{{ loop.index0 }}_moth_p_selct_sex">
+                    <div class="col-sm-2 col-form-label">{{ _('Sex') }}</div>
+                    <div class="col-sm-10">
+                      <div class="form-inline">
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="r{{ loop.index0 }}_moth_sex" value="M">
+                          <label class="form-check-label">{{ _('M') }}</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="r{{ loop.index0 }}_moth_sex" value="U">
+                          <label class="form-check-label">?</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                          <input class="form-check-input" type="radio" name="r{{ loop.index0 }}_moth_sex" value="F" checked>
+                          <label class="form-check-label">{{ _('F') }}</label>
+                        </div>
+                      </div>
                     </div>
                   </div>
                   <div class="row">
@@ -1154,7 +1192,7 @@
                   <label for="r1_fath_occ" class="col-sm col-form-label">{{ _('Number') }}</label>
                   <div class="col-sm">
                     <input type="number" class="form-control" name="r1_fath_occ" min="0" 
-                           value="" id="r1_fath_occ" placeholder="">
+                           value="0" id="r1_fath_occ" placeholder="">
                   </div>
                   <div class="col-sm-2">
                     <select class="form-control" name="r1_fath_p" id="r1_fath_p">
@@ -1168,6 +1206,25 @@
                   <div class="col-sm-5">
                     <input type="text" class="form-control" name="r1_fath_sn" 
                            value="" id="r1_fath_sn" placeholder="{{ _('Surname') }}">
+                  </div>
+                </div>
+                <div class="row" id="r1_fath_sex_row">
+                  <label class="col-sm-2 col-form-label">{{ _('Sex') }}</label>
+                  <div class="col-sm-10">
+                    <div class="form-inline">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="r1_fath_sex" value="M" checked>
+                        <label class="form-check-label">{{ _('M') }}</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="r1_fath_sex" value="U">
+                        <label class="form-check-label">?</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="r1_fath_sex" value="F">
+                        <label class="form-check-label">{{ _('F') }}</label>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row">
@@ -1200,7 +1257,7 @@
                   <label for="r1_moth_occ" class="col-sm col-form-label">{{ _('Number') }}</label>
                   <div class="col-sm">
                     <input type="number" class="form-control" name="r1_moth_occ" min="0" 
-                           value="" id="r1_moth_occ" placeholder="">
+                           value="0" id="r1_moth_occ" placeholder="">
                   </div>
                   <div class="col-sm-2">
                     <select class="form-control" name="r1_moth_p" id="r1_moth_p">
@@ -1214,6 +1271,25 @@
                   <div class="col-sm-5">
                     <input type="text" class="form-control" name="r1_moth_sn" 
                            value="" id="r1_moth_sn" placeholder="{{ _('Surname') }}">
+                  </div>
+                </div>
+                <div class="row" id="r1_moth_sex_row">
+                  <label class="col-sm-2 col-form-label">{{ _('Sex') }}</label>
+                  <div class="col-sm-10">
+                    <div class="form-inline">
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="r1_moth_sex" value="M">
+                        <label class="form-check-label">{{ _('M') }}</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="r1_moth_sex" value="U">
+                        <label class="form-check-label">?</label>
+                      </div>
+                      <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="radio" name="r1_moth_sex" value="F" checked>
+                        <label class="form-check-label">{{ _('F') }}</label>
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <div class="row">
@@ -1472,7 +1548,7 @@
   <script>
     $(document).ready(function() {
       let witnessCounters = {}; // Track witness counters per event
-      let eventCounter = {{ (person.events|length if person and person.events else 0) + 3 }}; // Start after burial
+      let eventCounter = {{ (person.events|length if person and person.events else 0) + 3 }}; // Start after burial (indices 0-3 reserved)
 
       function toggleDeathFields(status) {
         const deathFields = document.getElementById('death_fields');
@@ -1586,12 +1662,14 @@
         const currentRelationNum = parseInt(match[1]);
         const nextRelationNum = currentRelationNum + 1;
         
-        // Create new relation form
-        const $newRelation = createRelationForm(nextRelationNum);
+  // Create new relation form
+  const $newRelation = createRelationForm(nextRelationNum);
         
         // Find where to insert (after current relation's insert button row)
         const $insertRow = $button.closest('.row');
-        $insertRow.after($newRelation);
+  $insertRow.after($newRelation);
+  // Initialize toggles for the newly added relation
+  initializeRelationToggles($newRelation);
         
         $checkbox.prop('checked', false);
       });
@@ -1774,7 +1852,7 @@
               </div>
               <label class="col-2 col-form-label">{{ _('Number') }}</label>
               <div class="col-2">
-                <input type="number" class="form-control" name="e${eventNum}_witn${witnessNum}_occ" min="0" value="" placeholder="#">
+                <input type="number" class="form-control" name="e${eventNum}_witn${witnessNum}_occ" min="0" value="0" placeholder="#">
               </div>
             </div>
             <div class="row mt-2">
@@ -1833,7 +1911,8 @@
         const $data = $('#' + prefix + '_p_selct_data');
         const $mod = $('#' + prefix + '_p_selct_mod');
         const val = $select.val();
-        if (val === 'link') {
+        const isLink = (val === 'link');
+        if (isLink) {
           $sex.hide();
           $data.hide();
           $mod.css('display', 'flex');
@@ -1842,6 +1921,20 @@
           $data.css('display', 'flex');
           $mod.hide();
         }
+        // Disable/enable inputs inside hidden groups so they are not submitted when linking
+        toggleContainerInputsDisabled($sex, isLink);
+        toggleContainerInputsDisabled($data, isLink);
+      }
+
+      function toggleContainerInputsDisabled($container, disabled) {
+        if (!$container || !$container.length) return;
+        $container.find('input, select, textarea').each(function() {
+          if (disabled) {
+            $(this).attr('disabled', 'disabled');
+          } else {
+            $(this).removeAttr('disabled');
+          }
+        });
       }
 
       function initializeWitnessToggles($scope) {
@@ -1858,6 +1951,55 @@
 
       // Initialize toggles for existing server-rendered witnesses
       initializeWitnessToggles();
+
+      // Relation Create/Link toggle: hide occupation and flags when linking
+      function applyRelationToggle($select) {
+        const id = $select.attr('id'); // e.g., r1_fath_p or r2_moth_p
+        if (!id) return;
+        const isLink = $select.val() === 'link';
+        // Derive occu input name from select id (replace trailing _p with _occu)
+        const occuName = id.replace(/_p$/, '_occu');
+        // Scope to closest form-group to avoid crossing into the other parent block
+        const $group = $select.closest('.form-group');
+        const $occuInput = $group.find(`input[name="${occuName}"]`);
+        if ($occuInput.length) {
+          const $row = $occuInput.closest('.row');
+          if (isLink) {
+            $row.hide();
+          } else {
+            $row.show();
+          }
+          // Disable/enable all inputs in that row so they are not submitted when linking
+          toggleContainerInputsDisabled($row, isLink);
+        }
+
+        // Also toggle the sex radio row for this parent
+        const base = id.replace(/_p$/, '');
+        const $sexRow = $group.find('#' + base + '_sex_row');
+        if ($sexRow.length) {
+          if (isLink) {
+            $sexRow.hide();
+          } else {
+            $sexRow.show();
+          }
+          toggleContainerInputsDisabled($sexRow, isLink);
+        }
+      }
+
+      function initializeRelationToggles($scope) {
+        const $container = $scope ? $scope : $(document.body);
+        $container.find('select[id$="_fath_p"], select[id$="_moth_p"]').each(function() {
+          applyRelationToggle($(this));
+        });
+      }
+
+      // Bind change handler for relation toggles
+      $(document).on('change', 'select[id$="_fath_p"], select[id$="_moth_p"]', function() {
+        applyRelationToggle($(this));
+      });
+
+      // Initialize for existing server-rendered relations
+      initializeRelationToggles();
 
       function createEventForm(eventNum) {
         // Pre-generate calendar options from server-side data
@@ -2124,7 +2266,7 @@
                 </div>
                 <label for="r${relationNum}_fath_occ" class="col-sm col-form-label">{{ _('Number') }}</label>
                 <div class="col-sm">
-                  <input type="number" class="form-control" name="r${relationNum}_fath_occ" min="0" value="" id="r${relationNum}_fath_occ" placeholder="">
+                  <input type="number" class="form-control" name="r${relationNum}_fath_occ" min="0" value="0" id="r${relationNum}_fath_occ" placeholder="">
                 </div>
                 <div class="col-sm-2">
                   <select class="form-control" name="r${relationNum}_fath_p" id="r${relationNum}_fath_p">
@@ -2137,6 +2279,26 @@
                 <label for="r${relationNum}_fath_sn" class="col-sm-2 col-form-label">{{ _('Surname') }}</label>
                 <div class="col-sm-5">
                   <input type="text" class="form-control" name="r${relationNum}_fath_sn" value="" id="r${relationNum}_fath_sn" placeholder="{{ _('Surname') }}">
+                </div>
+              </div>
+              <div class="row" id="r${relationNum}_fath_sex_row">
+                <label class="col-sm-2 col-form-label">{{ _('Sex') }}</label>
+                <div class="col-sm-10">
+                  <div class="form-inline">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="r${relationNum}_fath_sex" value="M" checked>
+                      <label class="form-check-label">{{ _('M') }}</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="r${relationNum}_fath_sex" value="U">
+                      <label class="form-check-label">?</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="r${relationNum}_fath_sex" value="F">
+                      <label class="form-check-label">{{ _('F') }}</label>
+                    </div>
+                  </div>
+                </div>
               </div>
               <div class="row">
                 <label for="r${relationNum}_fath_occu" class="col-sm-2 col-form-label">{{ _('Occupation') }}</label>
@@ -2164,7 +2326,7 @@
                 </div>
                 <label for="r${relationNum}_moth_occ" class="col-sm col-form-label">{{ _('Number') }}</label>
                 <div class="col-sm">
-                  <input type="number" class="form-control" name="r${relationNum}_moth_occ" min="0" value="" id="r${relationNum}_moth_occ" placeholder="">
+                  <input type="number" class="form-control" name="r${relationNum}_moth_occ" min="0" value="0" id="r${relationNum}_moth_occ" placeholder="">
                 </div>
                 <div class="col-sm-2">
                   <select class="form-control" name="r${relationNum}_moth_p" id="r${relationNum}_moth_p">
@@ -2177,6 +2339,25 @@
                 <label for="r${relationNum}_moth_sn" class="col-sm-2 col-form-label">{{ _('Surname') }}</label>
                 <div class="col-sm-5">
                   <input type="text" class="form-control" name="r${relationNum}_moth_sn" value="" id="r${relationNum}_moth_sn" placeholder="{{ _('Surname') }}">
+                </div>
+              </div>
+              <div class="row" id="r${relationNum}_moth_sex_row">
+                <label class="col-sm-2 col-form-label">{{ _('Sex') }}</label>
+                <div class="col-sm-10">
+                  <div class="form-inline">
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="r${relationNum}_moth_sex" value="M">
+                      <label class="form-check-label">{{ _('M') }}</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="r${relationNum}_moth_sex" value="U">
+                      <label class="form-check-label">?</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                      <input class="form-check-input" type="radio" name="r${relationNum}_moth_sex" value="F" checked>
+                      <label class="form-check-label">{{ _('F') }}</label>
+                    </div>
+                  </div>
                 </div>
               </div>
               <div class="row">

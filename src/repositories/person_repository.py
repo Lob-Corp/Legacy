@@ -14,7 +14,12 @@ import database.ascends as db_ascends
 import database.unions as db_unions
 import database.union_families as db_union_families
 from repositories.converter_from_db import convert_person_from_db
-from repositories.converter_to_db import convert_person_to_db
+from repositories.converter_to_db import (
+    convert_person_to_db,
+    convert_date_to_db,
+    convert_death_status_to_db,
+    convert_burial_status_to_db,
+)
 
 
 class PersonRepository:
@@ -98,6 +103,94 @@ class PersonRepository:
                 events_with_witnesses,
                 family_ids
             )
+        finally:
+            session.close()
+
+    def update_person_vitals(
+        self,
+        person: app_person.Person[int, int, str, int]
+    ) -> bool:
+        """Update vital fields (birth/baptism/death/burial dates and related
+        place/note/src and statuses) for an existing person.
+
+        This creates Date rows via converters and assigns them to the existing
+        DB person to avoid single-parent conflicts, without modifying other
+        aspects (titles, relations, events).
+        """
+        session = self.db_service.get_session()
+        if session is None:
+            raise RuntimeError("Database session is not available")
+
+        try:
+            existing_person = self.db_service.get(
+                session, db_person.Person, {"id": person.index}
+            )
+            if existing_person is None:
+                raise ValueError(f"Person with id {person.index} not found")
+
+            # Birth
+            if person.birth_date is None:
+                existing_person.birth_date_obj = None
+            else:
+                new_birth = convert_date_to_db(person.birth_date)
+                if new_birth is not None:
+                    self.db_service.add(session, new_birth)
+                    session.flush()
+                existing_person.birth_date_obj = new_birth
+            existing_person.birth_place = person.birth_place
+            existing_person.birth_note = person.birth_note
+            existing_person.birth_src = person.birth_src
+
+            # Baptism
+            if person.baptism_date is None:
+                existing_person.baptism_date_obj = None
+            else:
+                new_baptism = convert_date_to_db(person.baptism_date)
+                if new_baptism is not None:
+                    self.db_service.add(session, new_baptism)
+                    session.flush()
+                existing_person.baptism_date_obj = new_baptism
+            existing_person.baptism_place = person.baptism_place
+            existing_person.baptism_note = person.baptism_note
+            existing_person.baptism_src = person.baptism_src
+
+            # Death
+            death_status, death_reason, death_date = \
+                convert_death_status_to_db(
+                    person.death_status
+            )
+            existing_person.death_status = death_status
+            existing_person.death_reason = death_reason
+            if death_date is None:
+                existing_person.death_date_obj = None
+            else:
+                self.db_service.add(session, death_date)
+                session.flush()
+                existing_person.death_date_obj = death_date
+            existing_person.death_place = person.death_place
+            existing_person.death_note = person.death_note
+            existing_person.death_src = person.death_src
+
+            # Burial / Cremation
+            burial_status, burial_date = convert_burial_status_to_db(
+                person.burial
+            )
+            existing_person.burial_status = burial_status
+            if burial_date is None:
+                existing_person.burial_date_obj = None
+            else:
+                self.db_service.add(session, burial_date)
+                session.flush()
+                existing_person.burial_date_obj = burial_date
+            existing_person.burial_place = person.burial_place
+            existing_person.burial_note = person.burial_note
+            existing_person.burial_src = person.burial_src
+
+            session.commit()
+            return True
+        except Exception as e:
+            session.rollback()
+            raise e
         finally:
             session.close()
 

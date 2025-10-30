@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-29 17:09+0100\n"
+"POT-Creation-Date: 2025-10-30 23:02+0100\n"
 "PO-Revision-Date: 2025-10-28 15:55+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -29,11 +29,11 @@ msgstr "Parents"
 
 #: templates/gwd/add_family.html:106 templates/gwd/add_family.html:108
 #: templates/gwd/add_family.html:593 templates/gwd/add_family.html:595
-#: templates/gwd/mod_individual_babel.html:180
+#: templates/gwd/mod_individual.html:195 templates/gwd/mod_individual.html:197
+#: templates/gwd/mod_individual.html:803
 #, fuzzy
-msgid "Update"
-msgstr "Mettre à jour"
-msgstr "Evénements"
+msgid "Events"
+msgstr "Événement"
 
 #: templates/gwd/add_family.html:111 templates/gwd/add_family.html:113
 #: templates/gwd/add_family.html:948 templates/gwd/add_family.html:950
@@ -55,42 +55,49 @@ msgstr "Commentaire"
 #: templates/gwd/add_family.html:965 templates/gwd/add_family.html:973
 #: templates/gwd/add_family.html:3881 templates/gwd/add_family.html:3883
 #: templates/gwd/add_family.html:4157 templates/gwd/add_family.html:4159
-#: templates/gwd/mod_individual_babel.html:92
-#: templates/gwd/mod_individual_babel.html:96
-#: templates/gwd/mod_individual_babel.html:252
-#: templates/gwd/mod_individual_babel.html:255
-#: templates/gwd/mod_individual_babel.html:953
-#: templates/gwd/mod_individual_babel.html:957
-#: templates/gwd/mod_individual_babel.html:1006
-#: templates/gwd/mod_individual_babel.html:1010
-#: templates/gwd/mod_individual_babel.html:1092
-#: templates/gwd/mod_individual_babel.html:1095
-#: templates/gwd/mod_individual_babel.html:1138
-#: templates/gwd/mod_individual_babel.html:1141
-#: templates/gwd/mod_individual_babel.html:1614
-#: templates/gwd/mod_individual_babel.html:1616
+#: templates/gwd/mod_individual.html:92 templates/gwd/mod_individual.html:96
+#: templates/gwd/mod_individual.html:267 templates/gwd/mod_individual.html:270
+#: templates/gwd/mod_individual.html:1010
+#: templates/gwd/mod_individual.html:1014
+#: templates/gwd/mod_individual.html:1082
+#: templates/gwd/mod_individual.html:1086
+#: templates/gwd/mod_individual.html:1187
+#: templates/gwd/mod_individual.html:1190
+#: templates/gwd/mod_individual.html:1252
+#: templates/gwd/mod_individual.html:1255
+#: templates/gwd/mod_individual.html:1849
+#: templates/gwd/mod_individual.html:1851
+#: templates/gwd/mod_individual.html:2263
+#: templates/gwd/mod_individual.html:2265
+#: templates/gwd/mod_individual.html:2323
+#: templates/gwd/mod_individual.html:2325
 msgid "First name"
 msgstr "Prénom"
 
 #: templates/gwd/add_family.html:148 templates/gwd/add_family.html:1015
 #: templates/gwd/add_family.html:1033 templates/gwd/add_family.html:3907
-#: templates/gwd/add_family.html:4176
-#: templates/gwd/mod_individual_babel.html:117
-#: templates/gwd/mod_individual_babel.html:1633
+#: templates/gwd/add_family.html:4176 templates/gwd/mod_individual.html:117
+#: templates/gwd/mod_individual.html:1043
+#: templates/gwd/mod_individual.html:1115
+#: templates/gwd/mod_individual.html:1217
+#: templates/gwd/mod_individual.html:1282
+#: templates/gwd/mod_individual.html:1868
+#: templates/gwd/mod_individual.html:2290
+#: templates/gwd/mod_individual.html:2350
 msgid "M"
 msgstr "M"
 
 #: templates/gwd/add_family.html:165 templates/gwd/add_family.html:373
 #: templates/gwd/add_family.html:979 templates/gwd/add_family.html:3885
-#: templates/gwd/add_family.html:4161
-#: templates/gwd/mod_individual_babel.html:98
-#: templates/gwd/mod_individual_babel.html:257
-#: templates/gwd/mod_individual_babel.html:260
-#: templates/gwd/mod_individual_babel.html:959
-#: templates/gwd/mod_individual_babel.html:1012
-#: templates/gwd/mod_individual_babel.html:1097
-#: templates/gwd/mod_individual_babel.html:1143
-#: templates/gwd/mod_individual_babel.html:1618
+#: templates/gwd/add_family.html:4161 templates/gwd/mod_individual.html:98
+#: templates/gwd/mod_individual.html:272 templates/gwd/mod_individual.html:275
+#: templates/gwd/mod_individual.html:1016
+#: templates/gwd/mod_individual.html:1088
+#: templates/gwd/mod_individual.html:1192
+#: templates/gwd/mod_individual.html:1257
+#: templates/gwd/mod_individual.html:1853
+#: templates/gwd/mod_individual.html:2267
+#: templates/gwd/mod_individual.html:2327
 msgid "Number"
 msgstr "Numéro"
 
@@ -102,44 +109,48 @@ msgstr "Numéro (occurrence)"
 #: templates/gwd/add_family.html:389 templates/gwd/add_family.html:398
 #: templates/gwd/add_family.html:994 templates/gwd/add_family.html:3891
 #: templates/gwd/add_family.html:4167 templates/gwd/add_family.html:4169
-#: templates/gwd/mod_individual_babel.html:105
-#: templates/gwd/mod_individual_babel.html:109
-#: templates/gwd/mod_individual_babel.html:266
-#: templates/gwd/mod_individual_babel.html:269
-#: templates/gwd/mod_individual_babel.html:973
-#: templates/gwd/mod_individual_babel.html:977
-#: templates/gwd/mod_individual_babel.html:1026
-#: templates/gwd/mod_individual_babel.html:1030
-#: templates/gwd/mod_individual_babel.html:1110
-#: templates/gwd/mod_individual_babel.html:1113
-#: templates/gwd/mod_individual_babel.html:1156
-#: templates/gwd/mod_individual_babel.html:1159
-#: templates/gwd/mod_individual_babel.html:1624
-#: templates/gwd/mod_individual_babel.html:1626
+#: templates/gwd/mod_individual.html:105 templates/gwd/mod_individual.html:109
+#: templates/gwd/mod_individual.html:281 templates/gwd/mod_individual.html:284
+#: templates/gwd/mod_individual.html:1030
+#: templates/gwd/mod_individual.html:1034
+#: templates/gwd/mod_individual.html:1102
+#: templates/gwd/mod_individual.html:1106
+#: templates/gwd/mod_individual.html:1205
+#: templates/gwd/mod_individual.html:1208
+#: templates/gwd/mod_individual.html:1270
+#: templates/gwd/mod_individual.html:1273
+#: templates/gwd/mod_individual.html:1859
+#: templates/gwd/mod_individual.html:1861
+#: templates/gwd/mod_individual.html:2279
+#: templates/gwd/mod_individual.html:2281
+#: templates/gwd/mod_individual.html:2339
+#: templates/gwd/mod_individual.html:2341
 msgid "Surname"
 msgstr "Nom"
 
 #: templates/gwd/add_family.html:197 templates/gwd/add_family.html:405
 #: templates/gwd/add_family.html:960 templates/gwd/add_family.html:3875
-#: templates/gwd/add_family.html:4134
-#: templates/gwd/mod_individual_babel.html:74
-#: templates/gwd/mod_individual_babel.html:968
-#: templates/gwd/mod_individual_babel.html:1021
-#: templates/gwd/mod_individual_babel.html:1105
-#: templates/gwd/mod_individual_babel.html:1151
-#: templates/gwd/mod_individual_babel.html:1596
+#: templates/gwd/add_family.html:4134 templates/gwd/mod_individual.html:74
+#: templates/gwd/mod_individual.html:1025
+#: templates/gwd/mod_individual.html:1097
+#: templates/gwd/mod_individual.html:1200
+#: templates/gwd/mod_individual.html:1265
+#: templates/gwd/mod_individual.html:1831
+#: templates/gwd/mod_individual.html:2274
+#: templates/gwd/mod_individual.html:2334
 msgid "Create"
 msgstr "Créer"
 
 #: templates/gwd/add_family.html:198 templates/gwd/add_family.html:406
 #: templates/gwd/add_family.html:959 templates/gwd/add_family.html:3874
-#: templates/gwd/add_family.html:4135
-#: templates/gwd/mod_individual_babel.html:75
-#: templates/gwd/mod_individual_babel.html:967
-#: templates/gwd/mod_individual_babel.html:1020
-#: templates/gwd/mod_individual_babel.html:1104
-#: templates/gwd/mod_individual_babel.html:1150
-#: templates/gwd/mod_individual_babel.html:1597
+#: templates/gwd/add_family.html:4135 templates/gwd/mod_individual.html:75
+#: templates/gwd/mod_individual.html:1024
+#: templates/gwd/mod_individual.html:1096
+#: templates/gwd/mod_individual.html:1199
+#: templates/gwd/mod_individual.html:1264
+#: templates/gwd/mod_individual.html:1832
+#: templates/gwd/mod_individual.html:2273
+#: templates/gwd/mod_individual.html:2333
 msgid "Link"
 msgstr "Lien"
 
@@ -149,9 +160,8 @@ msgstr "précision"
 
 #: templates/gwd/add_family.html:210 templates/gwd/add_family.html:418
 #: templates/gwd/add_family.html:1063 templates/gwd/add_family.html:3926
-#: templates/gwd/mod_individual_babel.html:164
-#: templates/gwd/mod_individual_babel.html:166
-#: templates/gwd/mod_individual_babel.html:374
+#: templates/gwd/mod_individual.html:179 templates/gwd/mod_individual.html:181
+#: templates/gwd/mod_individual.html:432
 msgid "Birth"
 msgstr "Naissance"
 
@@ -222,26 +232,20 @@ msgstr "lieu"
 #: templates/gwd/add_family.html:1118 templates/gwd/add_family.html:1180
 #: templates/gwd/add_family.html:3937 templates/gwd/add_family.html:3952
 #: templates/gwd/add_family.html:4024 templates/gwd/add_family.html:4026
-#: templates/gwd/mod_individual_babel.html:412
-#: templates/gwd/mod_individual_babel.html:415
-#: templates/gwd/mod_individual_babel.html:499
-#: templates/gwd/mod_individual_babel.html:502
-#: templates/gwd/mod_individual_babel.html:601
-#: templates/gwd/mod_individual_babel.html:604
-#: templates/gwd/mod_individual_babel.html:700
-#: templates/gwd/mod_individual_babel.html:703
-#: templates/gwd/mod_individual_babel.html:848
-#: templates/gwd/mod_individual_babel.html:851
-#: templates/gwd/mod_individual_babel.html:1748
-#: templates/gwd/mod_individual_babel.html:1750
+#: templates/gwd/mod_individual.html:470 templates/gwd/mod_individual.html:473
+#: templates/gwd/mod_individual.html:556 templates/gwd/mod_individual.html:559
+#: templates/gwd/mod_individual.html:657 templates/gwd/mod_individual.html:660
+#: templates/gwd/mod_individual.html:755 templates/gwd/mod_individual.html:758
+#: templates/gwd/mod_individual.html:902 templates/gwd/mod_individual.html:905
+#: templates/gwd/mod_individual.html:2095
+#: templates/gwd/mod_individual.html:2097
 msgid "Place"
 msgstr "Lieu"
 
 #: templates/gwd/add_family.html:272 templates/gwd/add_family.html:480
 #: templates/gwd/add_family.html:1125 templates/gwd/add_family.html:3941
-#: templates/gwd/mod_individual_babel.html:172
-#: templates/gwd/mod_individual_babel.html:174
-#: templates/gwd/mod_individual_babel.html:548
+#: templates/gwd/mod_individual.html:187 templates/gwd/mod_individual.html:189
+#: templates/gwd/mod_individual.html:604
 msgid "Death"
 msgstr "Décès"
 
@@ -250,22 +254,23 @@ msgstr "Décès"
 #: templates/gwd/add_family.html:1188 templates/gwd/add_family.html:1197
 #: templates/gwd/add_family.html:3956 templates/gwd/add_family.html:3958
 #: templates/gwd/add_family.html:4193 templates/gwd/add_family.html:4195
-#: templates/gwd/mod_individual_babel.html:133
-#: templates/gwd/mod_individual_babel.html:137
-#: templates/gwd/mod_individual_babel.html:362
-#: templates/gwd/mod_individual_babel.html:366
-#: templates/gwd/mod_individual_babel.html:794
-#: templates/gwd/mod_individual_babel.html:981
-#: templates/gwd/mod_individual_babel.html:986
-#: templates/gwd/mod_individual_babel.html:1034
-#: templates/gwd/mod_individual_babel.html:1039
-#: templates/gwd/mod_individual_babel.html:1117
-#: templates/gwd/mod_individual_babel.html:1120
-#: templates/gwd/mod_individual_babel.html:1163
-#: templates/gwd/mod_individual_babel.html:1166
-#: templates/gwd/mod_individual_babel.html:1647
-#: templates/gwd/mod_individual_babel.html:1649
-#: templates/gwd/mod_individual_babel.html:1704
+#: templates/gwd/mod_individual.html:133 templates/gwd/mod_individual.html:137
+#: templates/gwd/mod_individual.html:412 templates/gwd/mod_individual.html:416
+#: templates/gwd/mod_individual.html:848 templates/gwd/mod_individual.html:1057
+#: templates/gwd/mod_individual.html:1062
+#: templates/gwd/mod_individual.html:1129
+#: templates/gwd/mod_individual.html:1134
+#: templates/gwd/mod_individual.html:1231
+#: templates/gwd/mod_individual.html:1234
+#: templates/gwd/mod_individual.html:1296
+#: templates/gwd/mod_individual.html:1299
+#: templates/gwd/mod_individual.html:1882
+#: templates/gwd/mod_individual.html:1884
+#: templates/gwd/mod_individual.html:2054
+#: templates/gwd/mod_individual.html:2304
+#: templates/gwd/mod_individual.html:2306
+#: templates/gwd/mod_individual.html:2364
+#: templates/gwd/mod_individual.html:2366
 msgid "Occupation"
 msgstr "Profession"
 
@@ -276,7 +281,7 @@ msgstr "Relation homosexuelle (pas de vérification des sexes)"
 #: templates/gwd/add_family.html:574 templates/gwd/add_family.html:575
 #: templates/gwd/add_family.html:578 templates/gwd/add_family.html:1694
 #: templates/gwd/add_family.html:1695 templates/gwd/add_family.html:1697
-#: templates/gwd/mod_individual_babel.html:1462
+#: templates/gwd/mod_individual.html:1537
 msgid "Validate"
 msgstr "VALIDER"
 
@@ -333,14 +338,12 @@ msgid "Annulment"
 msgstr "Annulation"
 
 #: templates/gwd/add_family.html:623 templates/gwd/add_family.html:4010
-#: templates/gwd/mod_individual_babel.html:798
-#: templates/gwd/mod_individual_babel.html:1708
+#: templates/gwd/mod_individual.html:852 templates/gwd/mod_individual.html:2058
 msgid "Residence"
 msgstr "Résidence"
 
 #: templates/gwd/add_family.html:625 templates/gwd/add_family.html:4012
-#: templates/gwd/mod_individual_babel.html:761
-#: templates/gwd/mod_individual_babel.html:1671
+#: templates/gwd/mod_individual.html:815 templates/gwd/mod_individual.html:2021
 msgid "Custom event"
 msgstr "Événement personnalisé"
 
@@ -354,12 +357,9 @@ msgid "Event"
 msgstr "Événement"
 
 #: templates/gwd/add_family.html:663 templates/gwd/add_family.html:4030
-#: templates/gwd/mod_individual_babel.html:379
-#: templates/gwd/mod_individual_babel.html:466
-#: templates/gwd/mod_individual_babel.html:568
-#: templates/gwd/mod_individual_babel.html:667
-#: templates/gwd/mod_individual_babel.html:815
-#: templates/gwd/mod_individual_babel.html:1724
+#: templates/gwd/mod_individual.html:437 templates/gwd/mod_individual.html:523
+#: templates/gwd/mod_individual.html:624 templates/gwd/mod_individual.html:722
+#: templates/gwd/mod_individual.html:869 templates/gwd/mod_individual.html:2074
 msgid "Date"
 msgstr "Date"
 
@@ -380,50 +380,47 @@ msgid "Hebrew"
 msgstr "Hébreu"
 
 #: templates/gwd/add_family.html:799 templates/gwd/add_family.html:4086
+#: templates/gwd/mod_individual.html:1435
+#: templates/gwd/mod_individual.html:1484
+#: templates/gwd/mod_individual.html:2203
+#: templates/gwd/mod_individual.html:2232
 msgid "…or text"
 msgstr "…ou texte"
 
 #: templates/gwd/add_family.html:804 templates/gwd/add_family.html:811
 #: templates/gwd/add_family.html:4090 templates/gwd/add_family.html:4092
-#: templates/gwd/mod_individual_babel.html:192
-#: templates/gwd/mod_individual_babel.html:194
-#: templates/gwd/mod_individual_babel.html:1454
+#: templates/gwd/mod_individual.html:207 templates/gwd/mod_individual.html:209
+#: templates/gwd/mod_individual.html:1529
 msgid "Notes"
 msgstr "Notes"
 
 #: templates/gwd/add_family.html:816 templates/gwd/add_family.html:824
 #: templates/gwd/add_family.html:4096 templates/gwd/add_family.html:4098
-#: templates/gwd/mod_individual_babel.html:428
-#: templates/gwd/mod_individual_babel.html:431
-#: templates/gwd/mod_individual_babel.html:515
-#: templates/gwd/mod_individual_babel.html:518
-#: templates/gwd/mod_individual_babel.html:617
-#: templates/gwd/mod_individual_babel.html:620
-#: templates/gwd/mod_individual_babel.html:716
-#: templates/gwd/mod_individual_babel.html:719
-#: templates/gwd/mod_individual_babel.html:864
-#: templates/gwd/mod_individual_babel.html:867
-#: templates/gwd/mod_individual_babel.html:1760
-#: templates/gwd/mod_individual_babel.html:1762
+#: templates/gwd/mod_individual.html:422 templates/gwd/mod_individual.html:424
+#: templates/gwd/mod_individual.html:486 templates/gwd/mod_individual.html:489
+#: templates/gwd/mod_individual.html:572 templates/gwd/mod_individual.html:575
+#: templates/gwd/mod_individual.html:673 templates/gwd/mod_individual.html:676
+#: templates/gwd/mod_individual.html:771 templates/gwd/mod_individual.html:774
+#: templates/gwd/mod_individual.html:918 templates/gwd/mod_individual.html:921
+#: templates/gwd/mod_individual.html:2107
+#: templates/gwd/mod_individual.html:2109
 msgid "Source"
 msgstr "Source"
 
 #: templates/gwd/add_family.html:835 templates/gwd/add_family.html:891
 #: templates/gwd/add_family.html:3973 templates/gwd/add_family.html:3980
-#: templates/gwd/add_family.html:4104
-#: templates/gwd/mod_individual_babel.html:443
-#: templates/gwd/mod_individual_babel.html:530
-#: templates/gwd/mod_individual_babel.html:632
-#: templates/gwd/mod_individual_babel.html:731
-#: templates/gwd/mod_individual_babel.html:879
-#: templates/gwd/mod_individual_babel.html:898
-#: templates/gwd/mod_individual_babel.html:920
-#: templates/gwd/mod_individual_babel.html:1059
-#: templates/gwd/mod_individual_babel.html:1183
-#: templates/gwd/mod_individual_babel.html:1202
-#: templates/gwd/mod_individual_babel.html:1326
-#: templates/gwd/mod_individual_babel.html:1435
-#: templates/gwd/mod_individual_babel.html:1766
+#: templates/gwd/add_family.html:4104 templates/gwd/mod_individual.html:500
+#: templates/gwd/mod_individual.html:586 templates/gwd/mod_individual.html:687
+#: templates/gwd/mod_individual.html:785 templates/gwd/mod_individual.html:932
+#: templates/gwd/mod_individual.html:955 templates/gwd/mod_individual.html:977
+#: templates/gwd/mod_individual.html:1154
+#: templates/gwd/mod_individual.html:1316
+#: templates/gwd/mod_individual.html:1337
+#: templates/gwd/mod_individual.html:1494
+#: templates/gwd/mod_individual.html:1510
+#: templates/gwd/mod_individual.html:1807
+#: templates/gwd/mod_individual.html:2113
+#: templates/gwd/mod_individual.html:2383
 msgid "Insert"
 msgstr "Insérer"
 
@@ -444,10 +441,14 @@ msgid "Edit 1st child"
 msgstr "Modifier 1er Enfant"
 
 #: templates/gwd/add_family.html:1024 templates/gwd/add_family.html:3903
-#: templates/gwd/add_family.html:4173
-#: templates/gwd/mod_individual_babel.html:113
-#: templates/gwd/mod_individual_babel.html:271
-#: templates/gwd/mod_individual_babel.html:1630
+#: templates/gwd/add_family.html:4173 templates/gwd/mod_individual.html:113
+#: templates/gwd/mod_individual.html:286 templates/gwd/mod_individual.html:1038
+#: templates/gwd/mod_individual.html:1110
+#: templates/gwd/mod_individual.html:1212
+#: templates/gwd/mod_individual.html:1277
+#: templates/gwd/mod_individual.html:1865
+#: templates/gwd/mod_individual.html:2285
+#: templates/gwd/mod_individual.html:2345
 msgid "Sex"
 msgstr "Sexe"
 
@@ -457,9 +458,14 @@ msgid "?"
 msgstr "?"
 
 #: templates/gwd/add_family.html:1054 templates/gwd/add_family.html:3917
-#: templates/gwd/add_family.html:4186
-#: templates/gwd/mod_individual_babel.html:127
-#: templates/gwd/mod_individual_babel.html:1641
+#: templates/gwd/add_family.html:4186 templates/gwd/mod_individual.html:127
+#: templates/gwd/mod_individual.html:1051
+#: templates/gwd/mod_individual.html:1123
+#: templates/gwd/mod_individual.html:1225
+#: templates/gwd/mod_individual.html:1290
+#: templates/gwd/mod_individual.html:1876
+#: templates/gwd/mod_individual.html:2298
+#: templates/gwd/mod_individual.html:2358
 msgid "F"
 msgstr "F"
 
@@ -495,9 +501,8 @@ msgstr ""
 msgid "Summary"
 msgstr "Résumé"
 
-#: templates/gwd/add_family.html:1648
-#: templates/gwd/mod_individual_babel.html:160
-#: templates/gwd/mod_individual_babel.html:162
+#: templates/gwd/add_family.html:1648 templates/gwd/mod_individual.html:175
+#: templates/gwd/mod_individual.html:177
 msgid "Person"
 msgstr "précision"
 
@@ -751,38 +756,34 @@ msgid "Insert witness(es)"
 msgstr "Insérer témoin(s)"
 
 #: templates/gwd/add_family.html:4131 templates/gwd/add_family.html:4146
-#: templates/gwd/mod_individual_babel.html:71
-#: templates/gwd/mod_individual_babel.html:80
-#: templates/gwd/mod_individual_babel.html:1593
-#: templates/gwd/mod_individual_babel.html:1602
+#: templates/gwd/mod_individual.html:71 templates/gwd/mod_individual.html:80
+#: templates/gwd/mod_individual.html:1828
+#: templates/gwd/mod_individual.html:1837
 msgid "Witness"
 msgstr "Témoin"
 
-#: templates/gwd/add_family.html:4141
+#: templates/gwd/add_family.html:4141 templates/gwd/mod_individual.html:152
+#: templates/gwd/mod_individual.html:157 templates/gwd/mod_individual.html:1897
 msgid "Modify witness"
 msgstr "Modifier Témoin"
 
-#: templates/gwd/add_family.html:4147
-#: templates/gwd/mod_individual_babel.html:82
-#: templates/gwd/mod_individual_babel.html:1604
+#: templates/gwd/add_family.html:4147 templates/gwd/mod_individual.html:82
+#: templates/gwd/mod_individual.html:1839
 msgid "Informant"
 msgstr "Déclarant"
 
-#: templates/gwd/add_family.html:4148
-#: templates/gwd/mod_individual_babel.html:83
-#: templates/gwd/mod_individual_babel.html:1605
+#: templates/gwd/add_family.html:4148 templates/gwd/mod_individual.html:83
+#: templates/gwd/mod_individual.html:1840
 msgid "Present"
 msgstr "précision"
 
-#: templates/gwd/add_family.html:4149
-#: templates/gwd/mod_individual_babel.html:84
-#: templates/gwd/mod_individual_babel.html:1606
+#: templates/gwd/add_family.html:4149 templates/gwd/mod_individual.html:84
+#: templates/gwd/mod_individual.html:1841
 msgid "Mentioned"
 msgstr "Mentionné"
 
-#: templates/gwd/add_family.html:4150
-#: templates/gwd/mod_individual_babel.html:85
-#: templates/gwd/mod_individual_babel.html:1607
+#: templates/gwd/add_family.html:4150 templates/gwd/mod_individual.html:85
+#: templates/gwd/mod_individual.html:1842
 msgid "Civil registrar"
 msgstr "Officier d'état civil"
 
@@ -790,9 +791,8 @@ msgstr "Officier d'état civil"
 msgid "Minister of worship"
 msgstr "Ministre du culte"
 
-#: templates/gwd/add_family.html:4152
-#: templates/gwd/mod_individual_babel.html:87
-#: templates/gwd/mod_individual_babel.html:1609
+#: templates/gwd/add_family.html:4152 templates/gwd/mod_individual.html:87
+#: templates/gwd/mod_individual.html:1844
 msgid "Other"
 msgstr "Autre"
 
@@ -800,738 +800,703 @@ msgstr "Autre"
 msgid "Obviously deceased"
 msgstr "Bien entendu décédé"
 
-#: templates/gwd/add_family.html:4204
-#: templates/gwd/mod_individual_babel.html:143
-#: templates/gwd/mod_individual_babel.html:997
-#: templates/gwd/mod_individual_babel.html:1050
-#: templates/gwd/mod_individual_babel.html:1129
-#: templates/gwd/mod_individual_babel.html:1175
-#: templates/gwd/mod_individual_babel.html:1654
+#: templates/gwd/add_family.html:4204 templates/gwd/mod_individual.html:143
+#: templates/gwd/mod_individual.html:1073
+#: templates/gwd/mod_individual.html:1145
+#: templates/gwd/mod_individual.html:1243
+#: templates/gwd/mod_individual.html:1308
+#: templates/gwd/mod_individual.html:1889
+#: templates/gwd/mod_individual.html:2315
+#: templates/gwd/mod_individual.html:2375
 msgid "Public"
 msgstr "Public"
 
-#: templates/gwd/mod_individual_babel.html:8
-#: templates/gwd/mod_individual_babel.html:227
-#: templates/gwd/mod_individual_babel.html:243
+#: templates/gwd/mod_individual.html:8 templates/gwd/mod_individual.html:242
+#: templates/gwd/mod_individual.html:258
 #, fuzzy
 msgid "Merge"
 msgstr "Fusionner"
 
-#: templates/gwd/mod_individual_babel.html:10
-#: templates/gwd/mod_individual_babel.html:228
+#: templates/gwd/mod_individual.html:10 templates/gwd/mod_individual.html:243
 msgid "Modify"
 msgstr "Modifier"
 
-#: templates/gwd/mod_individual_babel.html:12
-#: templates/gwd/mod_individual_babel.html:229
-# Removed 'Add' in this context; replaced by 'Update'
+#: templates/gwd/mod_individual.html:12 templates/gwd/mod_individual.html:244
+#, fuzzy
+msgid "Update"
+msgstr "Evénements"
 
-#: templates/gwd/mod_individual_babel.html:14
+# Removed 'Add' in this context; replaced by 'Update'
+#: templates/gwd/mod_individual.html:14
 #, fuzzy
 msgid "person"
 msgstr "précision"
 
-#: templates/gwd/mod_individual_babel.html:81
-#: templates/gwd/mod_individual_babel.html:1603
+#: templates/gwd/mod_individual.html:81 templates/gwd/mod_individual.html:1838
 #, fuzzy
 msgid "Godparent"
 msgstr "Parents"
 
-#: templates/gwd/mod_individual_babel.html:86
-#: templates/gwd/mod_individual_babel.html:1608
+#: templates/gwd/mod_individual.html:86 templates/gwd/mod_individual.html:1843
 #, fuzzy
 msgid "Parish registrar"
 msgstr "Officier d'état civil"
 
-#: templates/gwd/mod_individual_babel.html:168
-#: templates/gwd/mod_individual_babel.html:170
-#: templates/gwd/mod_individual_babel.html:461
+#: templates/gwd/mod_individual.html:183 templates/gwd/mod_individual.html:185
+#: templates/gwd/mod_individual.html:518
 msgid "Baptism"
 msgstr "Baptême"
 
-#: templates/gwd/mod_individual_babel.html:176
-#: templates/gwd/mod_individual_babel.html:178
-#: templates/gwd/mod_individual_babel.html:651
-#: templates/gwd/mod_individual_babel.html:660
+#: templates/gwd/mod_individual.html:191 templates/gwd/mod_individual.html:193
+#: templates/gwd/mod_individual.html:706 templates/gwd/mod_individual.html:715
 msgid "Burial"
 msgstr "Inhumation"
 
-#: templates/gwd/mod_individual_babel.html:184
-#: templates/gwd/mod_individual_babel.html:186
-#: templates/gwd/mod_individual_babel.html:916
+#: templates/gwd/mod_individual.html:199 templates/gwd/mod_individual.html:201
+#: templates/gwd/mod_individual.html:973
 #, fuzzy
 msgid "Relations"
 msgstr "Séparation"
 
-#: templates/gwd/mod_individual_babel.html:188
-#: templates/gwd/mod_individual_babel.html:190
-#: templates/gwd/mod_individual_babel.html:1198
+#: templates/gwd/mod_individual.html:203 templates/gwd/mod_individual.html:205
+#: templates/gwd/mod_individual.html:1331
 #, fuzzy
 msgid "Titles"
 msgstr "Témoin"
 
-#: templates/gwd/mod_individual_babel.html:235
+#: templates/gwd/mod_individual.html:250
 #, fuzzy
 msgid "Other actions"
 msgstr "Autre action"
 
-#: templates/gwd/mod_individual_babel.html:236
+#: templates/gwd/mod_individual.html:251
 #, fuzzy
 msgid "Change event order"
 msgstr "Changement de l'ordre des événements individu"
 
-#: templates/gwd/mod_individual_babel.html:237
+#: templates/gwd/mod_individual.html:252
 #, fuzzy
 msgid "Swap events"
 msgstr "Permuter événements"
 
-#: templates/gwd/mod_individual_babel.html:240
+#: templates/gwd/mod_individual.html:255
 #, fuzzy
 msgid "Add/modify portrait"
 msgstr "Modifier/supprimer/ajouter portrait"
 
-#: templates/gwd/mod_individual_babel.html:246
+#: templates/gwd/mod_individual.html:261
 #, fuzzy
 msgid "Delete"
 msgstr "Supprimer"
 
-#: templates/gwd/mod_individual_babel.html:274
+#: templates/gwd/mod_individual.html:289
 #, fuzzy
 msgid "Male"
 msgstr "peut être"
 
-#: templates/gwd/mod_individual_babel.html:275
+#: templates/gwd/mod_individual.html:290
 #, fuzzy
 msgid "Female"
 msgstr "Féminin"
 
-#: templates/gwd/mod_individual_babel.html:276
+#: templates/gwd/mod_individual.html:291
 msgid "Unknown"
 msgstr "Inconnu"
 
-#: templates/gwd/mod_individual_babel.html:283
-#: templates/gwd/mod_individual_babel.html:286
+#: templates/gwd/mod_individual.html:298 templates/gwd/mod_individual.html:301
 #, fuzzy
 msgid "Public name"
 msgstr "Nom public"
 
-#: templates/gwd/mod_individual_babel.html:292
-#, fuzzy
-msgid "Image"
-msgstr "Mariage"
+#: templates/gwd/mod_individual.html:307
+msgid "Picture"
+msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:295
+#: templates/gwd/mod_individual.html:310
 #, fuzzy
 msgid "Image filename"
 msgstr "Licence de mariage"
 
-#: templates/gwd/mod_individual_babel.html:302
+#: templates/gwd/mod_individual.html:317
 msgid "Access"
 msgstr "Accès"
 
-#: templates/gwd/mod_individual_babel.html:303
+#: templates/gwd/mod_individual.html:318
 #, fuzzy
 msgid "Help for visibility"
 msgstr "Aide pour la visibilité des individus"
 
-#: templates/gwd/mod_individual_babel.html:318
-#: templates/gwd/mod_individual_babel.html:321
-#, fuzzy
-msgid "Nickname"
-msgstr "Sobriquet"
+#: templates/gwd/mod_individual.html:333
+msgid "Sobriquet(s)"
+msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:327
+#: templates/gwd/mod_individual.html:337 templates/gwd/mod_individual.html:343
+#: templates/gwd/mod_individual.html:2418
+msgid "Sobriquet"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:346
+msgid "Add sobriquet"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:352
 #, fuzzy
 msgid "Aliases"
 msgstr "VALIDER"
 
-#: templates/gwd/mod_individual_babel.html:332
-#: templates/gwd/mod_individual_babel.html:336
+#: templates/gwd/mod_individual.html:357 templates/gwd/mod_individual.html:361
+#: templates/gwd/mod_individual.html:2421
 #, fuzzy
 msgid "Alias"
 msgstr "VALIDER"
 
-#: templates/gwd/mod_individual_babel.html:342
+#: templates/gwd/mod_individual.html:364
 #, fuzzy
-msgid "Surname aliases"
-msgstr "Nom"
+msgid "Add alias"
+msgstr "VALIDER"
 
-#: templates/gwd/mod_individual_babel.html:347
-#: templates/gwd/mod_individual_babel.html:351
+#: templates/gwd/mod_individual.html:370
 #, fuzzy
-msgid "Surname alias"
-msgstr "Nom"
+msgid "Alternate first name(s)"
+msgstr "Prénom"
 
-#: templates/gwd/mod_individual_babel.html:357
+#: templates/gwd/mod_individual.html:374 templates/gwd/mod_individual.html:380
+#: templates/gwd/mod_individual.html:2424
+#, fuzzy
+msgid "Alternate first name"
+msgstr "Prénom"
+
+#: templates/gwd/mod_individual.html:383
+msgid "Add alternate first name"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:389
+msgid "Alternate surname(s)"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:394 templates/gwd/mod_individual.html:398
+#: templates/gwd/mod_individual.html:2427
+msgid "Alternate surname"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:401
+msgid "Add alternate surname"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:407
 #, fuzzy
 msgid "Occupations"
 msgstr "Profession"
 
-#: templates/gwd/mod_individual_babel.html:384
-#: templates/gwd/mod_individual_babel.html:471
-#: templates/gwd/mod_individual_babel.html:573
-#: templates/gwd/mod_individual_babel.html:672
-#: templates/gwd/mod_individual_babel.html:819
-#: templates/gwd/mod_individual_babel.html:1263
-#: templates/gwd/mod_individual_babel.html:1296
-#: templates/gwd/mod_individual_babel.html:1381
-#: templates/gwd/mod_individual_babel.html:1409
-#: templates/gwd/mod_individual_babel.html:1727
+#: templates/gwd/mod_individual.html:442 templates/gwd/mod_individual.html:528
+#: templates/gwd/mod_individual.html:629 templates/gwd/mod_individual.html:727
+#: templates/gwd/mod_individual.html:873 templates/gwd/mod_individual.html:1397
+#: templates/gwd/mod_individual.html:1426
+#: templates/gwd/mod_individual.html:1446
+#: templates/gwd/mod_individual.html:1475
+#: templates/gwd/mod_individual.html:2077
+#: templates/gwd/mod_individual.html:2182
+#: templates/gwd/mod_individual.html:2200
+#: templates/gwd/mod_individual.html:2211
+#: templates/gwd/mod_individual.html:2229
 #, fuzzy
 msgid "Day"
 msgstr "jour"
 
-#: templates/gwd/mod_individual_babel.html:387
-#: templates/gwd/mod_individual_babel.html:474
-#: templates/gwd/mod_individual_babel.html:576
-#: templates/gwd/mod_individual_babel.html:675
-#: templates/gwd/mod_individual_babel.html:822
-#: templates/gwd/mod_individual_babel.html:1266
-#: templates/gwd/mod_individual_babel.html:1299
-#: templates/gwd/mod_individual_babel.html:1383
-#: templates/gwd/mod_individual_babel.html:1411
-#: templates/gwd/mod_individual_babel.html:1728
+#: templates/gwd/mod_individual.html:445 templates/gwd/mod_individual.html:531
+#: templates/gwd/mod_individual.html:632 templates/gwd/mod_individual.html:730
+#: templates/gwd/mod_individual.html:876 templates/gwd/mod_individual.html:1400
+#: templates/gwd/mod_individual.html:1429
+#: templates/gwd/mod_individual.html:1449
+#: templates/gwd/mod_individual.html:1478
+#: templates/gwd/mod_individual.html:2078
+#: templates/gwd/mod_individual.html:2183
+#: templates/gwd/mod_individual.html:2201
+#: templates/gwd/mod_individual.html:2212
+#: templates/gwd/mod_individual.html:2230
 #, fuzzy
 msgid "Month"
 msgstr "mois"
 
-#: templates/gwd/mod_individual_babel.html:390
-#: templates/gwd/mod_individual_babel.html:477
-#: templates/gwd/mod_individual_babel.html:579
-#: templates/gwd/mod_individual_babel.html:678
-#: templates/gwd/mod_individual_babel.html:825
-#: templates/gwd/mod_individual_babel.html:1269
-#: templates/gwd/mod_individual_babel.html:1302
-#: templates/gwd/mod_individual_babel.html:1385
-#: templates/gwd/mod_individual_babel.html:1413
-#: templates/gwd/mod_individual_babel.html:1729
+#: templates/gwd/mod_individual.html:448 templates/gwd/mod_individual.html:534
+#: templates/gwd/mod_individual.html:635 templates/gwd/mod_individual.html:733
+#: templates/gwd/mod_individual.html:879 templates/gwd/mod_individual.html:1403
+#: templates/gwd/mod_individual.html:1432
+#: templates/gwd/mod_individual.html:1452
+#: templates/gwd/mod_individual.html:1481
+#: templates/gwd/mod_individual.html:2079
+#: templates/gwd/mod_individual.html:2184
+#: templates/gwd/mod_individual.html:2202
+#: templates/gwd/mod_individual.html:2213
+#: templates/gwd/mod_individual.html:2231
 #, fuzzy
 msgid "Year"
 msgstr "année"
 
-#: templates/gwd/mod_individual_babel.html:393
-#: templates/gwd/mod_individual_babel.html:480
-#: templates/gwd/mod_individual_babel.html:582
-#: templates/gwd/mod_individual_babel.html:681
-#: templates/gwd/mod_individual_babel.html:829
-#: templates/gwd/mod_individual_babel.html:1272
-#: templates/gwd/mod_individual_babel.html:1305
-#: templates/gwd/mod_individual_babel.html:1388
-#: templates/gwd/mod_individual_babel.html:1416
-#: templates/gwd/mod_individual_babel.html:1732
+#: templates/gwd/mod_individual.html:451 templates/gwd/mod_individual.html:537
+#: templates/gwd/mod_individual.html:638 templates/gwd/mod_individual.html:736
+#: templates/gwd/mod_individual.html:883 templates/gwd/mod_individual.html:1406
+#: templates/gwd/mod_individual.html:1455
+#: templates/gwd/mod_individual.html:2082
+#: templates/gwd/mod_individual.html:2187
+#: templates/gwd/mod_individual.html:2216
 #, fuzzy
 msgid "Exact"
 msgstr "exacte"
 
-#: templates/gwd/mod_individual_babel.html:394
-#: templates/gwd/mod_individual_babel.html:481
-#: templates/gwd/mod_individual_babel.html:583
-#: templates/gwd/mod_individual_babel.html:682
-#: templates/gwd/mod_individual_babel.html:830
-#: templates/gwd/mod_individual_babel.html:1273
-#: templates/gwd/mod_individual_babel.html:1306
-#: templates/gwd/mod_individual_babel.html:1389
-#: templates/gwd/mod_individual_babel.html:1417
-#: templates/gwd/mod_individual_babel.html:1733
+#: templates/gwd/mod_individual.html:452 templates/gwd/mod_individual.html:538
+#: templates/gwd/mod_individual.html:639 templates/gwd/mod_individual.html:737
+#: templates/gwd/mod_individual.html:884 templates/gwd/mod_individual.html:1407
+#: templates/gwd/mod_individual.html:1456
+#: templates/gwd/mod_individual.html:2083
+#: templates/gwd/mod_individual.html:2188
+#: templates/gwd/mod_individual.html:2217
 #, fuzzy
 msgid "About"
 msgstr "vers"
 
-#: templates/gwd/mod_individual_babel.html:395
-#: templates/gwd/mod_individual_babel.html:482
-#: templates/gwd/mod_individual_babel.html:584
-#: templates/gwd/mod_individual_babel.html:683
-#: templates/gwd/mod_individual_babel.html:831
-#: templates/gwd/mod_individual_babel.html:1274
-#: templates/gwd/mod_individual_babel.html:1307
-#: templates/gwd/mod_individual_babel.html:1390
-#: templates/gwd/mod_individual_babel.html:1418
-#: templates/gwd/mod_individual_babel.html:1734
+#: templates/gwd/mod_individual.html:453 templates/gwd/mod_individual.html:539
+#: templates/gwd/mod_individual.html:640 templates/gwd/mod_individual.html:738
+#: templates/gwd/mod_individual.html:885 templates/gwd/mod_individual.html:1408
+#: templates/gwd/mod_individual.html:1457
+#: templates/gwd/mod_individual.html:2084
+#: templates/gwd/mod_individual.html:2189
+#: templates/gwd/mod_individual.html:2218
 msgid "Possibly"
 msgstr "Peut-être"
 
-#: templates/gwd/mod_individual_babel.html:396
-#: templates/gwd/mod_individual_babel.html:483
-#: templates/gwd/mod_individual_babel.html:585
-#: templates/gwd/mod_individual_babel.html:684
-#: templates/gwd/mod_individual_babel.html:832
-#: templates/gwd/mod_individual_babel.html:1275
-#: templates/gwd/mod_individual_babel.html:1308
-#: templates/gwd/mod_individual_babel.html:1391
-#: templates/gwd/mod_individual_babel.html:1419
-#: templates/gwd/mod_individual_babel.html:1735
+#: templates/gwd/mod_individual.html:454 templates/gwd/mod_individual.html:540
+#: templates/gwd/mod_individual.html:641 templates/gwd/mod_individual.html:739
+#: templates/gwd/mod_individual.html:886 templates/gwd/mod_individual.html:1409
+#: templates/gwd/mod_individual.html:1458
+#: templates/gwd/mod_individual.html:2085
+#: templates/gwd/mod_individual.html:2190
+#: templates/gwd/mod_individual.html:2219
 #, fuzzy
 msgid "Before"
 msgstr "avant"
 
-#: templates/gwd/mod_individual_babel.html:397
-#: templates/gwd/mod_individual_babel.html:484
-#: templates/gwd/mod_individual_babel.html:586
-#: templates/gwd/mod_individual_babel.html:685
-#: templates/gwd/mod_individual_babel.html:833
-#: templates/gwd/mod_individual_babel.html:1276
-#: templates/gwd/mod_individual_babel.html:1309
-#: templates/gwd/mod_individual_babel.html:1392
-#: templates/gwd/mod_individual_babel.html:1420
-#: templates/gwd/mod_individual_babel.html:1736
+#: templates/gwd/mod_individual.html:455 templates/gwd/mod_individual.html:541
+#: templates/gwd/mod_individual.html:642 templates/gwd/mod_individual.html:740
+#: templates/gwd/mod_individual.html:887 templates/gwd/mod_individual.html:1410
+#: templates/gwd/mod_individual.html:1459
+#: templates/gwd/mod_individual.html:2086
+#: templates/gwd/mod_individual.html:2191
+#: templates/gwd/mod_individual.html:2220
 #, fuzzy
 msgid "After"
 msgstr "après"
 
-#: templates/gwd/mod_individual_babel.html:420
-#: templates/gwd/mod_individual_babel.html:423
-#: templates/gwd/mod_individual_babel.html:507
-#: templates/gwd/mod_individual_babel.html:510
-#: templates/gwd/mod_individual_babel.html:609
-#: templates/gwd/mod_individual_babel.html:612
-#: templates/gwd/mod_individual_babel.html:708
-#: templates/gwd/mod_individual_babel.html:711
-#: templates/gwd/mod_individual_babel.html:856
-#: templates/gwd/mod_individual_babel.html:859
-#: templates/gwd/mod_individual_babel.html:1754
-#: templates/gwd/mod_individual_babel.html:1756
+#: templates/gwd/mod_individual.html:478 templates/gwd/mod_individual.html:481
+#: templates/gwd/mod_individual.html:564 templates/gwd/mod_individual.html:567
+#: templates/gwd/mod_individual.html:665 templates/gwd/mod_individual.html:668
+#: templates/gwd/mod_individual.html:763 templates/gwd/mod_individual.html:766
+#: templates/gwd/mod_individual.html:910 templates/gwd/mod_individual.html:913
+#: templates/gwd/mod_individual.html:2101
+#: templates/gwd/mod_individual.html:2103
 #, fuzzy
 msgid "Note"
 msgstr "Notes"
 
-#: templates/gwd/mod_individual_babel.html:449
-#: templates/gwd/mod_individual_babel.html:536
-#: templates/gwd/mod_individual_babel.html:638
-#: templates/gwd/mod_individual_babel.html:737
-#: templates/gwd/mod_individual_babel.html:885
-#: templates/gwd/mod_individual_babel.html:1772
+#: templates/gwd/mod_individual.html:506 templates/gwd/mod_individual.html:592
+#: templates/gwd/mod_individual.html:693 templates/gwd/mod_individual.html:791
+#: templates/gwd/mod_individual.html:938 templates/gwd/mod_individual.html:2129
 #, fuzzy
 msgid "Witness(es)"
 msgstr "témoin(s)"
 
-#: templates/gwd/mod_individual_babel.html:452
-#: templates/gwd/mod_individual_babel.html:641
-#: templates/gwd/mod_individual_babel.html:740
-#: templates/gwd/mod_individual_babel.html:888
-#: templates/gwd/mod_individual_babel.html:1493
-#: templates/gwd/mod_individual_babel.html:1775
+#: templates/gwd/mod_individual.html:509 templates/gwd/mod_individual.html:696
+#: templates/gwd/mod_individual.html:794 templates/gwd/mod_individual.html:941
+#: templates/gwd/mod_individual.html:1568
+#: templates/gwd/mod_individual.html:2132
 #, fuzzy
 msgid "Insert witness"
 msgstr "Insérer témoin(s)"
 
-#: templates/gwd/mod_individual_babel.html:452
-#: templates/gwd/mod_individual_babel.html:539
-#: templates/gwd/mod_individual_babel.html:641
-#: templates/gwd/mod_individual_babel.html:740
-#: templates/gwd/mod_individual_babel.html:888
-#: templates/gwd/mod_individual_babel.html:907
-#: templates/gwd/mod_individual_babel.html:925
-#: templates/gwd/mod_individual_babel.html:1064
-#: templates/gwd/mod_individual_babel.html:1188
-#: templates/gwd/mod_individual_babel.html:1211
-#: templates/gwd/mod_individual_babel.html:1335
-#: templates/gwd/mod_individual_babel.html:1444
-#: templates/gwd/mod_individual_babel.html:1775
+#: templates/gwd/mod_individual.html:509 templates/gwd/mod_individual.html:595
+#: templates/gwd/mod_individual.html:696 templates/gwd/mod_individual.html:794
+#: templates/gwd/mod_individual.html:941 templates/gwd/mod_individual.html:964
+#: templates/gwd/mod_individual.html:982 templates/gwd/mod_individual.html:1159
+#: templates/gwd/mod_individual.html:1321
+#: templates/gwd/mod_individual.html:1346
+#: templates/gwd/mod_individual.html:1503
+#: templates/gwd/mod_individual.html:1519
+#: templates/gwd/mod_individual.html:1816
+#: templates/gwd/mod_individual.html:2132
+#: templates/gwd/mod_individual.html:2388
 msgid "OK"
 msgstr "OK"
 
-#: templates/gwd/mod_individual_babel.html:539
+#: templates/gwd/mod_individual.html:595
 #, fuzzy
 msgid "Insert witness/godparent"
 msgstr "Insérer témoin(s)"
 
-#: templates/gwd/mod_individual_babel.html:553
+#: templates/gwd/mod_individual.html:609
 msgid "Status"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:656
+#: templates/gwd/mod_individual.html:711
 msgid "Type"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:661
+#: templates/gwd/mod_individual.html:716
 #, fuzzy
 msgid "Cremation"
 msgstr "Créer"
 
-#: templates/gwd/mod_individual_babel.html:757
-#: templates/gwd/mod_individual_babel.html:1667
+#: templates/gwd/mod_individual.html:811 templates/gwd/mod_individual.html:2017
 #, fuzzy
 msgid "Event type"
 msgstr "Événement 1"
 
-#: templates/gwd/mod_individual_babel.html:764
-#: templates/gwd/mod_individual_babel.html:1674
+#: templates/gwd/mod_individual.html:818 templates/gwd/mod_individual.html:2024
 #, fuzzy
 msgid "Accomplishment"
 msgstr "Commentaire"
 
-#: templates/gwd/mod_individual_babel.html:765
-#: templates/gwd/mod_individual_babel.html:1675
+#: templates/gwd/mod_individual.html:819 templates/gwd/mod_individual.html:2025
 #, fuzzy
 msgid "Acquisition"
 msgstr "précision"
 
-#: templates/gwd/mod_individual_babel.html:766
-#: templates/gwd/mod_individual_babel.html:1676
+#: templates/gwd/mod_individual.html:820 templates/gwd/mod_individual.html:2026
 msgid "Adhesion"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:767
-#: templates/gwd/mod_individual_babel.html:1677
+#: templates/gwd/mod_individual.html:821 templates/gwd/mod_individual.html:2027
 msgid "Bar mitzvah"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:768
-#: templates/gwd/mod_individual_babel.html:1678
+#: templates/gwd/mod_individual.html:822 templates/gwd/mod_individual.html:2028
 msgid "Bat mitzvah"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:769
-#: templates/gwd/mod_individual_babel.html:1679
+#: templates/gwd/mod_individual.html:823 templates/gwd/mod_individual.html:2029
 #, fuzzy
 msgid "Benediction"
 msgstr "Mentionné"
 
-#: templates/gwd/mod_individual_babel.html:770
-#: templates/gwd/mod_individual_babel.html:1680
+#: templates/gwd/mod_individual.html:824 templates/gwd/mod_individual.html:2030
 msgid "Change name"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:771
-#: templates/gwd/mod_individual_babel.html:1681
+#: templates/gwd/mod_individual.html:825 templates/gwd/mod_individual.html:2031
 #, fuzzy
 msgid "Circumcision"
 msgstr "précision"
 
-#: templates/gwd/mod_individual_babel.html:772
-#: templates/gwd/mod_individual_babel.html:1682
+#: templates/gwd/mod_individual.html:826 templates/gwd/mod_individual.html:2032
 msgid "Confirmation"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:773
-#: templates/gwd/mod_individual_babel.html:1683
+#: templates/gwd/mod_individual.html:827 templates/gwd/mod_individual.html:2033
 #, fuzzy
 msgid "Decoration"
 msgstr "Séparation"
 
-#: templates/gwd/mod_individual_babel.html:774
-#: templates/gwd/mod_individual_babel.html:1684
+#: templates/gwd/mod_individual.html:828 templates/gwd/mod_individual.html:2034
 msgid "Demobilisation"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:775
-#: templates/gwd/mod_individual_babel.html:1685
+#: templates/gwd/mod_individual.html:829 templates/gwd/mod_individual.html:2035
 msgid "Diploma"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:776
-#: templates/gwd/mod_individual_babel.html:1686
+#: templates/gwd/mod_individual.html:830 templates/gwd/mod_individual.html:2036
 msgid "Distinction"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:777
-#: templates/gwd/mod_individual_babel.html:1687
+#: templates/gwd/mod_individual.html:831 templates/gwd/mod_individual.html:2037
 #, fuzzy
 msgid "Dotation"
 msgstr "Profession"
 
-#: templates/gwd/mod_individual_babel.html:778
-#: templates/gwd/mod_individual_babel.html:1688
+#: templates/gwd/mod_individual.html:832 templates/gwd/mod_individual.html:2038
 #, fuzzy
 msgid "Education"
 msgstr "Séparation"
 
-#: templates/gwd/mod_individual_babel.html:779
-#: templates/gwd/mod_individual_babel.html:1689
+#: templates/gwd/mod_individual.html:833 templates/gwd/mod_individual.html:2039
 msgid "Election"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:780
-#: templates/gwd/mod_individual_babel.html:1690
+#: templates/gwd/mod_individual.html:834 templates/gwd/mod_individual.html:2040
 #, fuzzy
 msgid "Emigration"
 msgstr "Séparation"
 
-#: templates/gwd/mod_individual_babel.html:781
-#: templates/gwd/mod_individual_babel.html:1691
+#: templates/gwd/mod_individual.html:835 templates/gwd/mod_individual.html:2041
 msgid "Excommunication"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:782
-#: templates/gwd/mod_individual_babel.html:1692
+#: templates/gwd/mod_individual.html:836 templates/gwd/mod_individual.html:2042
 msgid "First communion"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:783
-#: templates/gwd/mod_individual_babel.html:1693
+#: templates/gwd/mod_individual.html:837 templates/gwd/mod_individual.html:2043
 msgid "Funeral"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:784
-#: templates/gwd/mod_individual_babel.html:1694
+#: templates/gwd/mod_individual.html:838 templates/gwd/mod_individual.html:2044
 #, fuzzy
 msgid "Graduate"
 msgstr "Date"
 
-#: templates/gwd/mod_individual_babel.html:785
-#: templates/gwd/mod_individual_babel.html:1695
+#: templates/gwd/mod_individual.html:839 templates/gwd/mod_individual.html:2045
 #, fuzzy
 msgid "Hospitalisation"
 msgstr "Séparation"
 
-#: templates/gwd/mod_individual_babel.html:786
-#: templates/gwd/mod_individual_babel.html:1696
+#: templates/gwd/mod_individual.html:840 templates/gwd/mod_individual.html:2046
 #, fuzzy
 msgid "Illness"
 msgstr "Témoin"
 
-#: templates/gwd/mod_individual_babel.html:787
-#: templates/gwd/mod_individual_babel.html:1697
+#: templates/gwd/mod_individual.html:841 templates/gwd/mod_individual.html:2047
 msgid "Immigration"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:788
-#: templates/gwd/mod_individual_babel.html:1698
+#: templates/gwd/mod_individual.html:842 templates/gwd/mod_individual.html:2048
 msgid "Passenger list"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:789
-#: templates/gwd/mod_individual_babel.html:1699
+#: templates/gwd/mod_individual.html:843 templates/gwd/mod_individual.html:2049
 msgid "Military distinction"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:790
-#: templates/gwd/mod_individual_babel.html:1700
+#: templates/gwd/mod_individual.html:844 templates/gwd/mod_individual.html:2050
 msgid "Military promotion"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:791
-#: templates/gwd/mod_individual_babel.html:1701
+#: templates/gwd/mod_individual.html:845 templates/gwd/mod_individual.html:2051
 msgid "Military service"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:792
-#: templates/gwd/mod_individual_babel.html:1702
+#: templates/gwd/mod_individual.html:846 templates/gwd/mod_individual.html:2052
 msgid "Mobilisation"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:793
-#: templates/gwd/mod_individual_babel.html:1703
+#: templates/gwd/mod_individual.html:847 templates/gwd/mod_individual.html:2053
 msgid "Naturalisation"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:795
-#: templates/gwd/mod_individual_babel.html:1705
+#: templates/gwd/mod_individual.html:849 templates/gwd/mod_individual.html:2055
 #, fuzzy
 msgid "Ordination"
 msgstr "Séparation"
 
-#: templates/gwd/mod_individual_babel.html:796
-#: templates/gwd/mod_individual_babel.html:1706
+#: templates/gwd/mod_individual.html:850 templates/gwd/mod_individual.html:2056
 msgid "Property"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:797
-#: templates/gwd/mod_individual_babel.html:1707
+#: templates/gwd/mod_individual.html:851 templates/gwd/mod_individual.html:2057
 msgid "Census"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:799
-#: templates/gwd/mod_individual_babel.html:1709
+#: templates/gwd/mod_individual.html:853 templates/gwd/mod_individual.html:2059
 #, fuzzy
 msgid "Retired"
 msgstr "Mentionné"
 
-#: templates/gwd/mod_individual_babel.html:800
-#: templates/gwd/mod_individual_babel.html:1710
+#: templates/gwd/mod_individual.html:854 templates/gwd/mod_individual.html:2060
 msgid "Property sale"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:801
-#: templates/gwd/mod_individual_babel.html:1711
+#: templates/gwd/mod_individual.html:855 templates/gwd/mod_individual.html:2061
 msgid "Will"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:803
-#: templates/gwd/mod_individual_babel.html:1713
+#: templates/gwd/mod_individual.html:857 templates/gwd/mod_individual.html:2063
 msgid "Baptism LDS"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:804
-#: templates/gwd/mod_individual_babel.html:1714
+#: templates/gwd/mod_individual.html:858 templates/gwd/mod_individual.html:2064
 msgid "Confirmation LDS"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:805
-#: templates/gwd/mod_individual_babel.html:1715
+#: templates/gwd/mod_individual.html:859 templates/gwd/mod_individual.html:2065
 msgid "Dotation LDS"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:806
-#: templates/gwd/mod_individual_babel.html:1716
+#: templates/gwd/mod_individual.html:860 templates/gwd/mod_individual.html:2066
 msgid "Family link LDS"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:807
-#: templates/gwd/mod_individual_babel.html:1717
+#: templates/gwd/mod_individual.html:861 templates/gwd/mod_individual.html:2067
 msgid "Sealing child LDS"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:808
-#: templates/gwd/mod_individual_babel.html:1718
+#: templates/gwd/mod_individual.html:862 templates/gwd/mod_individual.html:2068
 msgid "Sealing parent LDS"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:809
-#: templates/gwd/mod_individual_babel.html:1719
+#: templates/gwd/mod_individual.html:863 templates/gwd/mod_individual.html:2069
 msgid "Sealing spouse LDS"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:904
+#: templates/gwd/mod_individual.html:961
 #, fuzzy
 msgid "Event(s)"
 msgstr "événement(s)"
 
-#: templates/gwd/mod_individual_babel.html:907
-#: templates/gwd/mod_individual_babel.html:1533
+#: templates/gwd/mod_individual.html:964 templates/gwd/mod_individual.html:1610
 #, fuzzy
 msgid "Insert event"
 msgstr "Insérer"
 
-#: templates/gwd/mod_individual_babel.html:922
-#: templates/gwd/mod_individual_babel.html:936
-#: templates/gwd/mod_individual_babel.html:1061
-#: templates/gwd/mod_individual_babel.html:1075
-#: templates/gwd/mod_individual_babel.html:1185
+#: templates/gwd/mod_individual.html:979 templates/gwd/mod_individual.html:993
+#: templates/gwd/mod_individual.html:1156
+#: templates/gwd/mod_individual.html:1170
+#: templates/gwd/mod_individual.html:1318
+#: templates/gwd/mod_individual.html:2247
+#: templates/gwd/mod_individual.html:2385
 #, fuzzy
 msgid "Relation"
 msgstr "Séparation"
 
-#: templates/gwd/mod_individual_babel.html:925
-#: templates/gwd/mod_individual_babel.html:1064
-#: templates/gwd/mod_individual_babel.html:1188
-#: templates/gwd/mod_individual_babel.html:1557
+#: templates/gwd/mod_individual.html:982 templates/gwd/mod_individual.html:1159
+#: templates/gwd/mod_individual.html:1321
+#: templates/gwd/mod_individual.html:1647
+#: templates/gwd/mod_individual.html:2388
 #, fuzzy
 msgid "Insert relation"
 msgstr "Insérer relation"
 
-#: templates/gwd/mod_individual_babel.html:941
-#: templates/gwd/mod_individual_babel.html:1080
+#: templates/gwd/mod_individual.html:998 templates/gwd/mod_individual.html:1175
+#: templates/gwd/mod_individual.html:2252
 #, fuzzy
 msgid "Adoptive parents"
 msgstr "Parents adoptifs"
 
-#: templates/gwd/mod_individual_babel.html:942
-#: templates/gwd/mod_individual_babel.html:1081
+#: templates/gwd/mod_individual.html:999 templates/gwd/mod_individual.html:1176
+#: templates/gwd/mod_individual.html:2253
 #, fuzzy
 msgid "Recognizing parents"
 msgstr "Parents l'ayant reconnu"
 
-#: templates/gwd/mod_individual_babel.html:943
-#: templates/gwd/mod_individual_babel.html:1082
+#: templates/gwd/mod_individual.html:1000
+#: templates/gwd/mod_individual.html:1177
+#: templates/gwd/mod_individual.html:2254
 msgid "Candidate parents"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:944
-#: templates/gwd/mod_individual_babel.html:1083
+#: templates/gwd/mod_individual.html:1001
+#: templates/gwd/mod_individual.html:1178
+#: templates/gwd/mod_individual.html:2255
 #, fuzzy
 msgid "Godparents"
 msgstr "Parents"
 
-#: templates/gwd/mod_individual_babel.html:945
-#: templates/gwd/mod_individual_babel.html:1084
+#: templates/gwd/mod_individual.html:1002
+#: templates/gwd/mod_individual.html:1179
+#: templates/gwd/mod_individual.html:2256
 #, fuzzy
 msgid "Foster parents"
 msgstr "Parents nourriciers"
 
-#: templates/gwd/mod_individual_babel.html:992
-#: templates/gwd/mod_individual_babel.html:1045
-#: templates/gwd/mod_individual_babel.html:1125
-#: templates/gwd/mod_individual_babel.html:1171
+#: templates/gwd/mod_individual.html:1068
+#: templates/gwd/mod_individual.html:1140
+#: templates/gwd/mod_individual.html:1239
+#: templates/gwd/mod_individual.html:1304
+#: templates/gwd/mod_individual.html:2311
+#: templates/gwd/mod_individual.html:2371
 msgid "Of course dead"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:1208
-#: templates/gwd/mod_individual_babel.html:1332
-#: templates/gwd/mod_individual_babel.html:1441
+#: templates/gwd/mod_individual.html:1343
+#: templates/gwd/mod_individual.html:1500
+#: templates/gwd/mod_individual.html:1516
+#: templates/gwd/mod_individual.html:1813
 #, fuzzy
 msgid "Title(s)"
 msgstr "témoin(s)"
 
-#: templates/gwd/mod_individual_babel.html:1211
-#: templates/gwd/mod_individual_babel.html:1335
-#: templates/gwd/mod_individual_babel.html:1444
-#: templates/gwd/mod_individual_babel.html:1572
+#: templates/gwd/mod_individual.html:1346
+#: templates/gwd/mod_individual.html:1503
+#: templates/gwd/mod_individual.html:1519
+#: templates/gwd/mod_individual.html:1816
 #, fuzzy
 msgid "Insert title"
 msgstr "Insérer enfant"
 
-#: templates/gwd/mod_individual_babel.html:1222
-#: templates/gwd/mod_individual_babel.html:1226
-#: templates/gwd/mod_individual_babel.html:1346
-#: templates/gwd/mod_individual_babel.html:1349
+#: templates/gwd/mod_individual.html:1356
+#: templates/gwd/mod_individual.html:1360
+#: templates/gwd/mod_individual.html:2154
+#: templates/gwd/mod_individual.html:2156
 msgid "Title"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:1228
-#: templates/gwd/mod_individual_babel.html:1232
-#: templates/gwd/mod_individual_babel.html:1351
-#: templates/gwd/mod_individual_babel.html:1354
-#, fuzzy
-msgid "Estate"
-msgstr "Créer"
+#: templates/gwd/mod_individual.html:1362
+#: templates/gwd/mod_individual.html:1366
+#: templates/gwd/mod_individual.html:2158
+#: templates/gwd/mod_individual.html:2160
+msgid "Fief"
+msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:1236
-#: templates/gwd/mod_individual_babel.html:1240
-#: templates/gwd/mod_individual_babel.html:1358
-#: templates/gwd/mod_individual_babel.html:1361
+#: templates/gwd/mod_individual.html:1370
+#: templates/gwd/mod_individual.html:1374
+#: templates/gwd/mod_individual.html:2164
+#: templates/gwd/mod_individual.html:2166
 #, fuzzy
 msgid "Name"
 msgstr "Nom"
 
-#: templates/gwd/mod_individual_babel.html:1242
-#: templates/gwd/mod_individual_babel.html:1363
-#, fuzzy
-msgid "Nth"
-msgstr "mois"
+#: templates/gwd/mod_individual.html:1376
+#: templates/gwd/mod_individual.html:2168
+msgid "Rank"
+msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:1252
-#: templates/gwd/mod_individual_babel.html:1371
+#: templates/gwd/mod_individual.html:1386
+#: templates/gwd/mod_individual.html:2174
 msgid "Main title"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:1258
-#: templates/gwd/mod_individual_babel.html:1377
+#: templates/gwd/mod_individual.html:1392
+#: templates/gwd/mod_individual.html:2179
 msgid "Begin"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:1291
-#: templates/gwd/mod_individual_babel.html:1405
+#: templates/gwd/mod_individual.html:1411
+#: templates/gwd/mod_individual.html:1460
+#: templates/gwd/mod_individual.html:2192
+#: templates/gwd/mod_individual.html:2221
+#, fuzzy
+msgid "or"
+msgstr "…ou…"
+
+#: templates/gwd/mod_individual.html:1412
+#: templates/gwd/mod_individual.html:1461
+#: templates/gwd/mod_individual.html:2193
+#: templates/gwd/mod_individual.html:2222
+#, fuzzy
+msgid "between"
+msgstr "…entre…"
+
+#: templates/gwd/mod_individual.html:1441
+#: templates/gwd/mod_individual.html:2208
 #, fuzzy
 msgid "End"
 msgstr "2e"
 
-#: templates/gwd/mod_individual_babel.html:1458
+#: templates/gwd/mod_individual.html:1533
 msgid "Notes about this person"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:1501
+#: templates/gwd/mod_individual.html:1576
 msgid "Please check the checkbox to insert witnesses"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:1541
+#: templates/gwd/mod_individual.html:1618
 msgid "Please check the checkbox to insert events"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:1563
+#: templates/gwd/mod_individual.html:1653
 msgid "Please check the checkbox to insert relation"
 msgstr ""
 
-#: templates/gwd/mod_individual_babel.html:1567
-msgid "Relation insertion functionality to be implemented"
-msgstr ""
-
-#: templates/gwd/mod_individual_babel.html:1580
+#: templates/gwd/mod_individual.html:1686
 msgid "Please check the checkbox to insert titles"
-msgstr ""
-
-#: templates/gwd/mod_individual_babel.html:1584
-msgid "Title insertion functionality to be implemented"
 msgstr ""
 
 #~ msgid "Same-sex relationship (no sex verification)"
@@ -3483,4 +3448,28 @@ msgstr ""
 
 #~ msgid "mod_text_display_random_person"
 #~ msgstr "Afficher un individu au hasard (tout en restant sur cet outil)"
+
+#~ msgid "Image"
+#~ msgstr "Mariage"
+
+#~ msgid "Nickname"
+#~ msgstr "Sobriquet"
+
+#~ msgid "Surname aliases"
+#~ msgstr "Nom"
+
+#~ msgid "Surname alias"
+#~ msgstr "Nom"
+
+#~ msgid "Estate"
+#~ msgstr "Créer"
+
+#~ msgid "Nth"
+#~ msgstr "mois"
+
+#~ msgid "Relation insertion functionality to be implemented"
+#~ msgstr ""
+
+#~ msgid "Title insertion functionality to be implemented"
+#~ msgstr ""
 
