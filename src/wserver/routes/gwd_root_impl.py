@@ -17,7 +17,7 @@ def implem_route_gwd_root(lang=None):
     def _(key):
         return translator.gettext(key, req_lang)
 
-    folder = Path("src/wserver/bases")
+    folder = Path("bases")
     bases = [f.name[:-3] for f in folder.iterdir() if f.is_file()]
     bases_list = ', '.join(bases)
     bases_list_links = []
