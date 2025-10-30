@@ -29,6 +29,11 @@ def route_A(base):
     raise NotImplementedError("Route A not implemented yet")
 
 
+@gwd_bp.route('<base>/details', methods=['GET', 'POST'], strict_slashes=False)
+@gwd_bp.route('<base>/details?<lang>', methods=['GET', 'POST'])
+def route_details(base, lang='en'):
+    return implem_gwd_details(base, lang)
+
 @gwd_bp.route('<base>/ADD_FAM/', methods=['GET', 'POST'], strict_slashes=False)
 def route_ADD_FAM(base):
     lang = request.args.get('lang') or 'en'

@@ -454,7 +454,6 @@ def get_timeline_events(
             hasattr(person.death_status, 'death_date')
             and person.death_status.death_date
         ):
-            death_display = ''
             if isinstance(person.death_status.death_date, CalendarDate):
                 death_display = format_date(person.death_status.death_date)
             events.append({
@@ -653,7 +652,7 @@ def implem_gwd_details(base, lang="en"):
     person_surname = request.args.get('n', type=str)
 
     # Validate query parameters
-    if not person_id:
+    if person_id is None:
         # If no ID, both first name and surname are required
         if not person_first_name or not person_surname:
             return render_template(
@@ -661,7 +660,6 @@ def implem_gwd_details(base, lang="en"):
                 base=base,
                 lang=lang
             )
-
     # Initialize repositories
     try:
         db_service = get_db_service(base)
@@ -673,7 +671,7 @@ def implem_gwd_details(base, lang="en"):
     # Get person data by ID or by name (ID has priority)
     person = None
     try:
-        if person_id:
+        if person_id is not None:
             person = person_repo.get_person_by_id(person_id)
         elif person_first_name and person_surname:
             # Try to find person by name
@@ -690,7 +688,7 @@ def implem_gwd_details(base, lang="en"):
         person = None
 
     # If person not found, return not_found template
-    if not person:
+    if person is None:
         return render_template(
             "gwd/not_found.html",
             base=base,

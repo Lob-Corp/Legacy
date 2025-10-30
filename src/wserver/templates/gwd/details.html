@@ -17,7 +17,7 @@
 
 <body>
   <meta name="format-detection" content="telephone=no" />
-  <a href="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}?p={{ first_name }}&n={{ surname }}#content"
+  <a href="{{ url_for('gwd.gwd_root', base=base, lang=lang) }}?p={{ first_name }}&n={{ surname }}#content"
     class="sr-only sr-only-focusable">Skip to main content</a>
   <div class="container">
     <!-- $Id: perso_utils v7.1 13/08/2023 16:55:48 $ -->
@@ -38,7 +38,7 @@
               <div class="dropdown-menu dropdown-menu-transl-pmod">
                 <div class="d-inline-flex justify-content-around mx-1">
                   <form class="form-group mx-1" name="upd_url" method="get"
-                    action="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}">
+                    action="{{ url_for('gwd.gwd_root', base=base, lang=lang) }}">
                     <div class="d-flex justify-content-between mx-2 mt-2 img-prfx" data-prfx="images/modules">
                       <div class="d-inline-flex">
                         <div class="input-group">
@@ -61,7 +61,7 @@
                             class="fa fa-arrow-rotate-left"></i></button>
                       </div>
                       <a role="button" class="btn btn-outline-primary"
-                        href="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}?p={{ first_name }}&n={{ surname }}&wide=on"
+                        href="{{ url_for('gwd.gwd_root', base=base, lang=lang) }}?p={{ first_name }}&n={{ surname }}&wide=on"
                         title="Full width display"><i class="fa fa-desktop fa-fw" aria-hidden="true"></i><span
                           class="sr-only">Full width display</span></a>
                     </div>
@@ -257,7 +257,7 @@
     <!-- $Id: home.txt v7.1 07/09/2023 00:49:55 $ -->
     <div class="d-flex flex-column fix_top fix_left">
       <a tabindex="1" role="button" class="btn btn-sm btn-link p-0 border-0"
-        href="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}" title="Home">
+        href="{{ url_for('gwd.gwd_root', base=base, lang=lang) }}" title="Home">
         <i class="fa fa-house fa-fw fa-sm" aria-hidden="true"></i><i class="sr-only">Home</i></a>
       <a tabindex="3" role="button" class="btn btn-sm btn-link p-0 border-0" data-toggle="modal"
         data-target="#searchmodal" accesskey="S" title="Search"><i class="fa fa-magnifying-glass fa-fw fa-xs"
@@ -272,7 +272,7 @@
       <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
           <div class="modal-body" id="ModalSearch">
-            <form id="collapse_search" method="get" action="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}">
+            <form id="collapse_search" method="get" action="{{ url_for('gwd.gwd_root', base=base, lang=lang) }}">
               <input type="hidden" name="m" value="S">
               <div class="d-flex justify-content-center">
                 <h5 class="rounded modal-title my-2 text-center w-50 align-self-center" id="searchpopup">Search
@@ -425,7 +425,15 @@
                         event.date_range|default('') }}</bdo></span></span><a class="" href="?spouse=on;m=RLM;image="
                     title="Tree of witnesses (witnesses to my events and godparents)"><img
                       src="{{ url_for('static', filename='images/gui_create.png') }}" class="ml-2 mb-1" height="16"
-                      alt="Tree"></a>{% if event.place %}<br><span class="text-muted">{{ event.place }}</span>{% endif %}{% if event.witnesses %}<br>Witness{% if event.witnesses|length > 1 %}es{% endif %}: {% for witness in event.witnesses %}<span class="text-nowrap"><a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ witness.id }}&p={{ witness.first_name }}&amp;n={{ witness.surname }}" class="neuter-underline">{{ witness.first_name|title }} {{ witness.surname|title }}</a><span title="{{ witness.age|default('') }}" class="text-nowrap"> <bdo dir=ltr>{{ witness.date_range|default('') }}</bdo></span></span>{% if not loop.last %}{% if loop.index == event.witnesses|length - 1 %} and {% else %}, {% endif %}{% else %}.{% endif %}{% endfor %}{% if event.note %} {{ event.note }}{% endif %}{% endif %}</td>
+                      alt="Tree"></a>{% if event.place %}<br><span class="text-muted">{{ event.place }}</span>{% endif
+                  %}{% if event.witnesses %}<br>Witness{% if event.witnesses|length > 1 %}es{% endif %}: {% for witness
+                  in event.witnesses %}<span class="text-nowrap"><a
+                      href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ witness.id }}&p={{ witness.first_name }}&amp;n={{ witness.surname }}"
+                      class="neuter-underline">{{ witness.first_name|title }} {{ witness.surname|title }}</a><span
+                      title="{{ witness.age|default('') }}" class="text-nowrap"> <bdo dir=ltr>{{
+                        witness.date_range|default('') }}</bdo></span></span>{% if not loop.last %}{% if loop.index ==
+                  event.witnesses|length - 1 %} and {% else %}, {% endif %}{% else %}.{% endif %}{% endfor %}{% if
+                  event.note %} {{ event.note }}{% endif %}{% endif %}</td>
               </tr>
               {% elif event.type == 'child_birth' %}
               <tr class="align-top">
@@ -457,7 +465,15 @@
                         event.date_range|default('') }}</bdo></span></span><a class="" href="?spouse=on;m=RLM;image="
                     title="Tree of witnesses (witnesses to my events and godparents)"><img
                       src="{{ url_for('static', filename='images/gui_create.png') }}" class="ml-2 mb-1" height="16"
-                      alt="Tree"></a>{% if event.place %}<br><span class="text-muted">{{ event.place }}</span>{% endif %}{% if event.witnesses %}<br>Witness{% if event.witnesses|length > 1 %}es{% endif %}: {% for witness in event.witnesses %}<span class="text-nowrap"><a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ witness.id }}&p={{ witness.first_name }}&amp;n={{ witness.surname }}" class="neuter-underline">{{ witness.first_name|title }} {{ witness.surname|title }}</a><span title="{{ witness.age|default('') }}" class="text-nowrap"> <bdo dir=ltr>{{ witness.date_range|default('') }}</bdo></span></span>{% if not loop.last %}{% if loop.index == event.witnesses|length - 1 %} and {% else %}, {% endif %}{% else %}.{% endif %}{% endfor %}{% if event.note %} {{ event.note }}{% endif %}{% endif %}</td>
+                      alt="Tree"></a>{% if event.place %}<br><span class="text-muted">{{ event.place }}</span>{% endif
+                  %}{% if event.witnesses %}<br>Witness{% if event.witnesses|length > 1 %}es{% endif %}: {% for witness
+                  in event.witnesses %}<span class="text-nowrap"><a
+                      href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ witness.id }}&p={{ witness.first_name }}&amp;n={{ witness.surname }}"
+                      class="neuter-underline">{{ witness.first_name|title }} {{ witness.surname|title }}</a><span
+                      title="{{ witness.age|default('') }}" class="text-nowrap"> <bdo dir=ltr>{{
+                        witness.date_range|default('') }}</bdo></span></span>{% if not loop.last %}{% if loop.index ==
+                  event.witnesses|length - 1 %} and {% else %}, {% endif %}{% else %}.{% endif %}{% endfor %}{% if
+                  event.note %} {{ event.note }}{% endif %}{% endif %}</td>
               </tr>
               {% elif event.type == 'spouse_death' %}
               <tr class="align-top">
