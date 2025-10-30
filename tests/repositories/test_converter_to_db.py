@@ -724,7 +724,7 @@ def test_convert_death_of_course_dead_to_db():
 
 def test_convert_burial_unknown_to_db():
     """Test converting UnknownBurial to database."""
-    lib_burial = libraries.death_info.UnknownBurial()
+    lib_burial = libraries.burial_info.UnknownBurial()
 
     status, burial_date = convert_burial_status_to_db(lib_burial)
 
@@ -741,7 +741,7 @@ def test_convert_burial_buried_to_db():
         ),
         cal=libraries.date.Calendar.GREGORIAN
     )
-    lib_burial = libraries.death_info.Burial(burial_date=lib_date)
+    lib_burial = libraries.burial_info.Burial(burial_date=lib_date)
 
     status, burial_date = convert_burial_status_to_db(lib_burial)
 
@@ -759,7 +759,7 @@ def test_convert_burial_cremated_to_db():
         ),
         cal=libraries.date.Calendar.GREGORIAN
     )
-    lib_burial = libraries.death_info.Cremated(cremation_date=lib_date)
+    lib_burial = libraries.burial_info.Cremated(cremation_date=lib_date)
 
     status, burial_date = convert_burial_status_to_db(lib_burial)
 
@@ -1069,7 +1069,7 @@ def test_convert_person_minimal_to_db():
             baptism_place="", baptism_note="", baptism_src="",
             death_status=libraries.death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=libraries.death_info.UnknownBurial(),
+            burial=libraries.burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="", personal_events=[],
             notes="", src="", ascend=libraries.family.Ascendants(
                 parents=None,
@@ -1123,7 +1123,7 @@ def test_convert_person_with_birth_date_to_db():
             baptism_note="", baptism_src="",
             death_status=libraries.death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=libraries.death_info.UnknownBurial(),
+            burial=libraries.burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="", personal_events=[],
             notes="", src="", ascend=libraries.family.Ascendants(
                 parents=None,
@@ -1173,7 +1173,7 @@ def test_convert_person_with_baptism_date_to_db():
             death_place="",
             death_note="",
             death_src="",
-            burial=libraries.death_info.UnknownBurial(),
+            burial=libraries.burial_info.UnknownBurial(),
             burial_place="",
             burial_note="",
             burial_src="",
@@ -1229,7 +1229,7 @@ def test_convert_person_with_titles_to_db():
             baptism_place="", baptism_note="", baptism_src="",
             death_status=libraries.death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=libraries.death_info.UnknownBurial(),
+            burial=libraries.burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="", personal_events=[],
             notes="", src="", ascend=libraries.family.Ascendants(
                 parents=None,
@@ -1270,7 +1270,7 @@ def test_convert_person_with_relations_to_db():
             baptism_place="", baptism_note="", baptism_src="",
             death_status=libraries.death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=libraries.death_info.UnknownBurial(),
+            burial=libraries.burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="", personal_events=[],
             notes="", src="", ascend=libraries.family.Ascendants(
                 parents=None,
@@ -1321,7 +1321,7 @@ def test_convert_person_with_events_to_db():
             baptism_place="", baptism_note="", baptism_src="",
             death_status=libraries.death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=libraries.death_info.UnknownBurial(),
+            burial=libraries.burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="",
             personal_events=[lib_event],
             notes="", src="", ascend=libraries.family.Ascendants(
@@ -1356,7 +1356,7 @@ def test_convert_person_with_qualifiers_and_aliases_to_db():
             baptism_place="", baptism_note="", baptism_src="",
             death_status=libraries.death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=libraries.death_info.UnknownBurial(),
+            burial=libraries.burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="", personal_events=[],
             notes="Personal notes", src="Family records",
             ascend=libraries.family.Ascendants(
@@ -1396,7 +1396,7 @@ def test_convert_person_with_related_persons_to_db():
             baptism_place="", baptism_note="", baptism_src="",
             death_status=libraries.death_info.NotDead(),
             death_place="", death_note="", death_src="",
-            burial=libraries.death_info.UnknownBurial(),
+            burial=libraries.burial_info.UnknownBurial(),
             burial_place="", burial_note="", burial_src="", personal_events=[],
             notes="", src="", ascend=libraries.family.Ascendants(
                 parents=None,
@@ -1489,7 +1489,7 @@ def test_convert_person_complete_to_db():
             death_place="Hospital",
             death_note="Peaceful",
             death_src="Death certificate",
-            burial=libraries.death_info.Burial(burial_date=burial_date),
+            burial=libraries.burial_info.Burial(burial_date=burial_date),
             burial_place="Cemetery",
             burial_note="Family plot",
             burial_src="Cemetery records",

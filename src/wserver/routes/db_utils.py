@@ -10,9 +10,7 @@ def get_db_service(base: str) -> SQLiteDatabaseService:
     Return a connected SQLiteDatabaseService for the given base name.
     Raises FileNotFoundError if the database does not exist.
     """
-    bases_dir = os.path.join(
-        os.path.dirname(os.path.dirname(__file__)), 'bases')
-    db_path = os.path.join(bases_dir, f'{base}.db')
+    db_path = os.path.join('bases', f'{base}.db')
     if not os.path.exists(db_path):
         raise FileNotFoundError(
             f"Database for base '{base}' not found. Expected at: {db_path}")
