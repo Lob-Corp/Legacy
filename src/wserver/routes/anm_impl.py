@@ -21,9 +21,12 @@ def implem_route_ANM(base):
         'title': _('anniversaries'),
         'base': base,
         'prefix': f'/gwd/{base}/',
-        'link_AN': f'/gwd/{base}/AN?lang={req_lang}' if req_lang else f'/gwd/{base}/AN',
-        'link_AD': f'/gwd/{base}/AD?lang={req_lang}' if req_lang else f'/gwd/{base}/AD',
-        'link_AM': f'/gwd/{base}/AM?lang={req_lang}' if req_lang else f'/gwd/{base}/AM',
+        'link_AN': f'/gwd/{base}/AN?lang={req_lang}'
+        if req_lang else f'/gwd/{base}/AN',
+        'link_AD': f'/gwd/{base}/AD?lang={req_lang}'
+        if req_lang else f'/gwd/{base}/AD',
+        'link_AM': f'/gwd/{base}/AM?lang={req_lang}'
+        if req_lang else f'/gwd/{base}/AM',
         '_': _,
     }
 
