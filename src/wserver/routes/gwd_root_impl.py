@@ -1,5 +1,4 @@
 from flask import render_template, url_for, request
-from jinja2 import Environment, FileSystemLoader, select_autoescape
 from pathlib import Path
 from ..i18n import get_translator
 
