@@ -4,13 +4,13 @@ from pathlib import Path
 from ..i18n import get_translator
 
 
-def implem_route_gwd_root(lang=None):
+def implem_route_gwd_root():
     """Render the GWD root page.
 
     Accept an optional `lang` argument to set the language.
     Prefer the query parameter `lang` if present.
     """
-    req_lang = request.args.get('lang') or lang or 'en'
+    req_lang = request.args.get('lang') or 'en'
     translator = get_translator()
 
     def _(key):
