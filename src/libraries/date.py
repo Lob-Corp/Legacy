@@ -1,6 +1,6 @@
 from __future__ import annotations
 from dataclasses import dataclass, replace
-from typing import Callable, Optional, Tuple, TypeAlias
+from typing import Optional, Tuple, TypeAlias
 
 from libraries.calendar_date import Calendar, CalendarDate
 from libraries.exception import NotComparable
@@ -23,6 +23,7 @@ or a free-form string."""
 CompressedDate: TypeAlias = Tuple[Calendar, int] | Date | str | None
 """Type representing a compressed date, which can be a Tuple of Calendar
 and year, a structured Date, a free-form string, or None."""
+
 
 @dataclass(frozen=True)
 class DateValue:
