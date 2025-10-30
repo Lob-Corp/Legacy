@@ -1,0 +1,195 @@
+{% extends "gwd/base.html" %}
+
+{% set is_home_page = true %}
+
+{% block title %}
+{%- if base is defined and base -%}
+{{ _('GeneWeb – ') }} {{ base }}
+{%- else -%}
+{{ _('GeneWeb') }}
+{%- endif -%}
+{% endblock %}
+
+{% block navigation %}
+<!-- Page d'accueil sans navigation latérale -->
+{% endblock %}
+
+{% block container_start %}<div class="container">{% endblock %}
+
+    {% block content %}
+    <meta name="format-detection" content="telephone=no" />
+    <div class="d-flex flex-column flex-md-row justify-content-lg-center mt-lg-3">
+        <div class="d-none d-lg-block col-md-3 order-md-1"></div>
+        <div class="col-xs-12 col-md-3 order-md-3 ml-md-2 px-0">
+            <div class="d-flex flex-column">
+                <div class="btn-group btn-group-xs mt-1" role="group">
+                </div>
+            </div>
+        </div>
+        <div class="bg-white my-0 order-md-2 flex-fill text-lg-center align-self-md-center">
+            <img src="{{ url_for('static', filename='images/gwlogo.png') }}" alt="GeneWeb" title="GeneWeb">
+            <h1 class="font-weight-bolder">{{ _('Genealogical database') }} {{ base|default('base') }}</h1>
+            <div class="d-flex justify-content-center">
+                <span class="h2 font-weight-light">{{ total_persons|default(0) }} {{ _('persons') }}</span>
+                <!-- TODO: random individual -->
+                <a class="align-self-center" href="" title="{{ _('Display a random individual') }}">
+                    <i class="fa-solid fa-dice ml-1 mb-2"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-center mt-1 mt-lg-3">
+        <div class="d-flex flex-column col-8">
+        </div>
+    </div>
+
+    <!-- Formulaire de recherche principal -->
+    <div class="flex-row justify-content-center">
+        <form class="mt-3 mt-xl-5" method="get" action="{{ url_for('gwd.gwd_search', base=base, lang=lang) }}">
+            <input type="hidden" name="lang" value="{{ lang|default('en') }}">
+            <div class="d-flex justify-content-center">
+                <div class="d-flex flex-column justify-content-center col-xs-11 col-md-9 col-lg-7 w-75">
+                    <div class="d-flex">
+                        <div class="btn-group-vertical mr-2">
+                            <a role="button"
+                                href="{{ url_for('gwd.gwd_search', base=base, lang=lang, sort='alpha', on='surname') }}"
+                                title="{{ _('Surnames, sort alphabetically') }}">
+                                <i class="fa fa-arrow-down-a-z fa-fw"></i>
+                            </a>
+                            <a role="button"
+                                href="{{ url_for('gwd.gwd_search', base=base, lang=lang, sort='freq', on='surname') }}"
+                                title="{{ _('Surnames frequency, sort by number of individuals') }}">
+                                <i class="fa fa-arrow-down-wide-short fa-fw"></i>
+                            </a>
+                        </div>
+                        <label for="surname" class="sr-only col-form-label col-sm-2">{{ _('Surname') }}</label>
+                        <input type="search" id="surname" class="form-control form-control-lg" name="surname"
+                            placeholder="{{ _('Surname, public name, alias') }}"
+                            title="{{ _('Search surname, public name, alias') }}" autofocus tabindex="1">
+                    </div>
+                    <div class="d-flex mt-2">
+                        <div class="btn-group-vertical mr-2">
+                            <a role="button"
+                                href="{{ url_for('gwd.gwd_search', base=base, lang=lang, sort='alpha', on='firstname') }}"
+                                title="{{ _('First names, sort alphabetically') }}">
+                                <i class="fa fa-arrow-down-a-z fa-fw"></i>
+                            </a>
+                            <a role="button"
+                                href="{{ url_for('gwd.gwd_search', base=base, lang=lang, sort='freq', on='firstname') }}"
+                                title="{{ _('First names frequency, sort by number of individuals') }}">
+                                <i class="fa fa-arrow-down-wide-short fa-fw"></i>
+                            </a>
+                        </div>
+                        <label for="firstname" class="sr-only col-form-label col-sm-2">{{ _('First name(s)') }}</label>
+                        <input type="search" id="firstname" class="form-control form-control-lg border-top-0"
+                            name="firstname" placeholder="{{ _('First name(s)') }}"
+                            title="{{ _('Search first name(s)') }}" tabindex="2">
+                    </div>
+                </div>
+                <button class="btn btn-outline-primary align-self-center ml-2" type="submit">
+                    <i class="fa fa-magnifying-glass fa-fw fa-2x mt-1"></i><br>
+                    {{ _('Search') }}<br>{{ _('person') }}
+                </button>
+            </div>
+        </form>
+
+        <!-- Formulaire de recherche titres/domaines -->
+        <form class="mt-2 mt-md-3 mt-lg-4" method="get"
+            action="{{ url_for('gwd.gwd_homepage', base=base, lang=lang) }}">
+            <input type="hidden" name="lang" value="{{ lang|default('en') }}">
+            <input type="hidden" name="m" value="TT">
+            <div class="d-flex justify-content-center mx-5">
+                <div class="d-flex flex-column justify-content-center col-xs-9 col-md-7 col-lg-5 w-75">
+                    <div class="d-flex">
+                        <a class="mr-2 align-self-center" role="button" href="" title="{{ _('All titles') }}">
+                            <i class="fa fa-list-ul fa-fw"></i>
+                        </a>
+                        <label for="titles" class="sr-only col-form-label col-sm-2">{{ _('Title') }}</label>
+                        <input type="search" class="form-control border-top-0 border-right-0 border-left-0" name="t"
+                            id="titles" placeholder="{{ _('Title') }}" tabindex="3">
+                    </div>
+                    <div class="d-flex mt-2">
+                        <a class="mr-2 align-self-center" role="button" href="" title="{{ _('All estates') }}">
+                            <i class="fa fa-list-ul fa-fw"></i>
+                        </a>
+                        <label for="estates" class="sr-only col-form-label col-sm-2">{{ _('Estate') }}</label>
+                        <input type="search" class="form-control border-top-0 border-right-0 border-left-0" name="p"
+                            id="estates" placeholder="{{ _('Estate') }}" tabindex="4">
+                    </div>
+                </div>
+                <button class="btn btn-outline-primary btn-sm align-self-center ml-2 px-0 py-3" type="submit"
+                    title="{{ _('Search title/estate') }}">
+                    <i class="fa fa-magnifying-glass fa-fw fa-2x mx-3"></i>
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <!-- Section Outils -->
+    <div class="d-flex flex-column justify-items-lg-center mt-3 mt-lg-4">
+        <div class="h4 text-lg-center">
+            <i class="fas fa-screwdriver-wrench fa-sm fa-fw text-secondary mr-1"></i>{{ _('Tools') }}
+        </div>
+        <div class="d-inline-flex justify-content-lg-center">
+            <a role="button" class="btn btn-outline-primary mr-1" href="">
+                <i class="far fa-file-lines fa-fw mr-1" aria-hidden="true"></i>{{ _('Notes') }}
+            </a>
+            <a role="button" class="btn btn-outline-primary mr-1" href="">
+                <i class="far fa-chart-bar fa-fw mr-1" aria-hidden="true"></i>{{ _('Statistics') }}
+            </a>
+            <a role="button" class="btn btn-outline-primary" href="">
+                <i class="fa fa-cake-candles fa-fw mr-1" aria-hidden="true"></i>{{ _('Anniversaries') }}
+            </a>
+        </div>
+        <div class="d-inline-flex justify-content-lg-center mt-1 mt-lg-2">
+            <a role="button" class="btn btn-outline-success mr-1"
+                href="{{ url_for('gwd.route_ADD_FAM', base=base, lang=lang) }}" title="{{ _('Add family (wizard)') }}">
+                <i class="fas fa-user-plus mr-1" aria-hidden="true"></i>{{ _('Add family') }}
+            </a>
+            <a role="button" class="btn btn-outline-primary mr-1" href="">
+                <i class="fas fa-globe fa-fw mr-1" aria-hidden="true"></i>{{ _('Places/surname') }}
+            </a>
+            <a role="button" class="btn btn-outline-primary mr-1" href="">
+                <i class="far fa-calendar-days fa-fw mr-1" aria-hidden="true"></i>{{ _('Calendars') }}
+            </a>
+            <a role="button" class="btn btn-outline-success mr-1" href="">
+                <i class="fas fa-gear fa-fw mr-1" aria-hidden="true"></i>{{ _('Configuration') }}
+            </a>
+        </div>
+    </div>
+
+    <!-- Section Dictionnaires -->
+    <div class="d-flex flex-column flex-lg-row justify-content-lg-center mt-2 mt-lg-4">
+        <div class="h4 align-self-lg-center mr-lg-2">
+            <i class="fas fa-book fa-sm fa-fw text-muted mr-1"></i>{{ _('Dictionaries') }}
+        </div>
+        <div class="d-inline-flex justify-content-lg-center">
+            <a role="button" class="btn btn-outline-success mr-1" href=""
+                title="{{ _('Edit first names dictionary (wizard)') }}">
+                <i class="fa fa-child fa-fw mr-1"></i>{{ _('First names') }}
+            </a>
+            <a role="button" class="btn btn-outline-success mr-1" href=""
+                title="{{ _('Edit surnames dictionary (wizard)') }}">
+                <i class="fa fa-signature fa-fw mr-1"></i>{{ _('Surnames') }}
+            </a>
+            <a role="button" class="btn btn-outline-success mr-1" href=""
+                title="{{ _('Edit places dictionary (wizard)') }}">
+                <i class="fa fa-map-location-dot fa-fw mr-1"></i>{{ _('Places') }}
+            </a>
+            <a role="button" class="btn btn-outline-success mr-1" href=""
+                title="{{ _('Edit professions dictionary (wizard)') }}">
+                <i class="fa fa-user-doctor fa-fw mr-1"></i>{{ _('Professions') }}
+            </a>
+            <a role="button" class="btn btn-outline-success" href=""
+                title="{{ _('Edit sources dictionary (wizard)') }}">
+                <i class="fa fa-box-archive fa-fw mr-1"></i>{{ _('Sources') }}
+            </a>
+        </div>
+    </div>
+
+    <div class="row mt-2 mt-lg-4">
+        <div class="col text-lg-center">
+        </div>
+    </div>
+    {% endblock %}

@@ -1,0 +1,31 @@
+{% extends "gwd/base.html" %}
+
+{% block title %}{{ total_persons|default('?') }} {{ _('surnames') }} ({{ total_persons|default(0) }} {{ _('persons')
+}}){% endblock %}
+
+{% block content %}
+<h1>{{ total_persons|default('?') }} {{ _('surnames') }} ({{ total_persons|default(0) }} {{ _('persons') }})</h1>
+
+<p class="search_name">
+    {% for letter in persons_grouped %}
+    <a href="#a{{ letter.letter|upper }}">{{ letter.letter|upper }}</a>
+    {% endfor %}
+</p>
+
+<ul>
+    {% for letter in persons_grouped %}
+    <li>
+        <a id="a{{ letter.letter|upper }}">{{ letter.letter|upper }}</a>
+        <ul>
+            {% for person in letter.persons %}
+            <li>
+                <a href="{{ request.path }}?m=N&v={{ person.v|urlencode }}&t=A&lang={{ lang }}">{{
+                    person.surname|default('?') }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
