@@ -91,7 +91,7 @@ class TestAddFamilyWithDatabase(unittest.TestCase):
         # So we need to put it in the ACTUAL src directory, not tests/src
         project_root = os.path.dirname(
             os.path.dirname(os.path.dirname(__file__)))
-        bases_dir = os.path.join(project_root, 'src', 'wserver', 'bases')
+        bases_dir = os.path.join(project_root, 'bases')
         os.makedirs(bases_dir, exist_ok=True)
         self.base_name = 'testdb'
         self.test_db_path = os.path.join(bases_dir, f'{self.base_name}.db')
