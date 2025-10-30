@@ -56,19 +56,19 @@ def route_search(
             key=lambda p: ((p.surname or "").lower(),
                            (p.first_name or "").lower()),
         )
-        groups = {}
+        groups: dict[str, list[Person]] = {}
         for p in persons_sorted:
             initial = (p.surname or "").strip()[:1].lower()
             if not initial or not initial.isalpha():
                 initial = "#"
             groups.setdefault(initial, []).append(p)
 
-        letters = sorted([l for l in groups.keys() if l != "#"])
+        letters = sorted([letter for letter in groups.keys() if letter != "#"])
         if "#" in groups:
             letters.append("#")
 
-        persons_grouped = [{"letter": l, "persons": groups[l]}
-                           for l in letters]
+        persons_grouped = [{"letter": letter, "persons": groups[letter]}
+                           for letter in letters]
 
         return render_template(
             "gwd/search_surnames_alpha.html",

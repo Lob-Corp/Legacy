@@ -54,7 +54,7 @@ def route_titles(
         )
         titles = titles_query.all()
 
-    groups = {}
+    groups: dict[str, list[dict[str, str]]] = {}
     for t in titles:
         initial = (t.name or "").strip()[:1].upper()
         if not initial or not initial.isalpha():
