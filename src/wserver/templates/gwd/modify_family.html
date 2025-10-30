@@ -1,0 +1,777 @@
+<!DOCTYPE html>
+<html lang={{ lang }} id="updform">
+
+<head>
+    <!-- $Id: updfam.txt v7.1 19/10/2023 15:14:38 $ -->
+    <!-- Copyright (c) 1998-2007 INRIA -->
+    <meta name="robots" content="none" />
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
+    <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon_gwd.png') }}" />
+    <title>{{ _('Modify family') }} # {{ family.id }}</title>
+    <!-- $Id: css.txt v7.1 04/11/2023 04:28:54 $ -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/css.css') }}" />
+</head>
+
+<body id="family">
+    <meta name="format-detection" content="telephone=no" />
+    <div class="container">
+        <!-- $Id: perso_utils v7.1 13/08/2023 16:55:48 $ -->
+        <!-- $Id: menubar.txt v7.1 17/04/2024 19:21:12 $ -->
+        <nav class="navbar sticky-top navbar-light bg-white justify-content-center navbar-expand-md pt-0 mt-5">
+            <div class="btn-toolbar bg-white" role="toolbar">
+                <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+                    aria-label="{{ _('Toggle navigation') }}">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="nav nav-tabs">
+                        <li class="nav-item dropdown">
+                            <a id="load_once_p_mod"
+                                class="nav-link dropdown-toggle text-secondary dropdown-toggle-split"
+                                data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+                                title="{{ _('Modules') }}">
+                                <span class="fas fa-address-card fa-fw mr-1" aria-hidden="true"></span>
+                                <span class="sr-only">{{ _('Modules') }}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-transl-pmod">
+                                <div class="d-inline-flex justify-content-around mx-1">
+                                    <form class="form-group mx-1" name="upd_url" method="get" action="{{ base_url }}">
+                                        <div class="d-flex justify-content-between mx-2 mt-2 img-prfx"
+                                            data-prfx="images/modules">
+                                            <div class="d-inline-flex">
+                                                <div class="input-group">
+                                                    <input type="text" pattern="^((?:([a-z][0-9]){1,15})|zz)"
+                                                        name="p_mod" id="p_mod" class="form-control"
+                                                        value="{{ p_mod|default('', true) }}"
+                                                        placeholder="{{ _('Select customized modules') }}"
+                                                        maxlength="40" />
+                                                    <div class="input-group-append">
+                                                        <button type="submit" class="btn btn-outline-success"
+                                                            title="{{ _('Validate') }}">
+                                                            <i class="fa fa-check fa-lg"></i>
+                                                        </button>
+                                                        <button type="button" class="btn btn-outline-danger"
+                                                            id="p_mod_clear" title="{{ _('Delete') }}">
+                                                            <i class="fa fa-xmark fa-lg mx-1"></i>
+                                                        </button>
+                                                    </div>
+                                                </div>
+                                                <input type="hidden" name="i" value="{{ family.id }}" />
+                                                <button type="button" class="btn btn-outline-danger ml-2" id="p_mod_rm"
+                                                    title="{{ _('Remove the last added module') }}" value="">
+                                                    <i class="fa fa-backward"></i>
+                                                </button>
+                                                <button type="submit" class="btn btn-outline-secondary ml-2 mr-1"
+                                                    id='zz' title="{{ _('Default template') }}" data-toggle="popover"
+                                                    data-trigger="hover" data-html="true"
+                                                    data-content="<img class='w-100' src='images/modules/zz_1.jpg'>" />
+                                                <i class="fa fa-arrow-rotate-left"></i>
+                                                </button>
+                                            </div>
+                                            <a role="button" class="btn btn-outline-primary"
+                                                href="{{ gwd_url( m='MOD_FAM', i=family.id, wide='on', ip=person.id) }}"
+                                                title="{{ _('Full width display') }}">
+                                                <i class="fa fa-desktop fa-fw" aria-hidden="true"></i>
+                                                <span class="sr-only">{{ _('Full width display') }}</span>
+                                            </a>
+                                        </div>
+                                        <div class="mx-2 mt-2">{{ _('Select modules by clicking on the corresponding
+                                            button (max 15).') }}</div>
+                                        <div class="alert alert-warning alert-dismissible fade show mt-1 mb-2 d-none"
+                                            role="alert">
+                                            <div class="d-none alert-opt">{{ _('Invalid option') }} <strong
+                                                    id="alert-option"></strong> {{ _('for module') }} <strong
+                                                    id="alert-module"></strong>. {{ _('Please enter a valid option
+                                                number.') }}</div>
+                                            <div class="d-none alert-mod">{{ _('Invalid module') }} <strong
+                                                    id="alert-module-2"></strong>. {{ _('Please enter a valid module
+                                                initial.') }}</div>
+                                        </div>
+                                        <div id="p_mod_table"></div>
+                                    </form>
+                                    <div class="form-group d-none d-md-block mx-1">
+                                        <img src="{{ url_for('static', filename='images/modules/menubar_1.jpg') }}"
+                                            alt="{{ _('menubar for p_mod_builder') }}" aria-hidden="true" />
+                                        <div id="p_mod_builder"></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="add_par" href="{{ gwd_url( m='ADD_PAR', ip=person.id) }}"
+                                title="{{ _('Add parents of {first} {last} (L)').format(first=person.first_name, last=person.last_name) }}"
+                                accesskey="L">
+                                <sup><span class="fa fa-user male" aria-hidden="true"></span></sup>
+                                <sub><span class="fa fa-plus male" aria-hidden="true"></span></sub>
+                                <sup><span class="fa fa-user female" aria-hidden="true"></span></sup>
+                                <span class="sr-only">{{ _('Add parents of {first} {last}
+                                    (L)').format(first=person.first_name, last=person.last_name) }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="self"
+                                href="{{ gwd_url( p=person.first_name, n=person.last_name) }}"
+                                title="{{ person.first_name }} {{ person.last_name }}">
+                                <span class="fa fa-user-large fa-fw {{ person.sex|lower }}" aria-hidden="true"></span>
+                                <span class="sr-only">{{ person.first_name }} {{ person.last_name }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link" id="mod_ind" href="{{ gwd_url( m='MOD_IND', i=person.id) }}"
+                                title="{{ _('Modify person {first} {last} (P)').format(first=person.first_name, last=person.last_name) }}"
+                                accesskey="P">
+                                <span class="fa fa-user-pen fa-fw {{ person.sex|lower }}" aria-hidden="true"></span>
+                                <span class="sr-only">{{ _('Modify person (P)') }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a id="load_once_copylink" class="nav-link dropdown-toggle text-secondary"
+                                data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="true"
+                                title="{{ _('Person tools') }}">
+                                <span class="fa fa-user-gear" aria-hidden="true"></span>
+                                <span class="sr-only">{{ _('Person tools') }}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-transl">
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( pz=person.first_name, nz=person.last_name, m='MOD_FAM', i=family.id, ip=person.id) }}"
+                                    title="{{ _('Navigate with {first} {last} as Sosa root').format(first=person.first_name, last=person.last_name) }}"
+                                    accesskey="S">
+                                    <i class="far fa-circle-dot fa-fw {{ person.sex|lower }} mr-1"></i> {{ _('Modify
+                                    Sosa 1: {first} {last}').format(first=person.first_name, last=person.last_name) }}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ gwd_url( m='CHG_EVT_IND_ORD', i=person.id) }}"
+                                    title="{{ _('Change order of individual events') }}">
+                                    <span class="fa fa-sort fa-fw mr-2"></span>{{ _('Swap events') }}
+                                </a>
+                                <a class="dropdown-item" href="{{ gwd_url( m='SND_IMAGE', i=person.id) }}">
+                                    <i class="far fa-file-image fa-fw mr-2"></i>{{ _('Add portrait') }}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ gwd_url( m='MRG', i=person.id) }}"
+                                    title="{{ _('Merge {first}.{occ} {last} with…').format(first=person.first_name, occ=person.occ, last=person.last_name) }}">
+                                    <span class="fa fa-compress fa-fw text-danger mr-2"></span>{{ _('Merge persons') }}
+                                </a>
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( p=person.first_name, n=person.last_name, m='DEL_IND', i=person.id) }}"
+                                    title="{{ _('Delete {first} {last}').format(first=person.first_name, last=person.last_name) }}">
+                                    <span class="fa fa-trash-can fa-fw text-danger mr-2"></span>{{ _('Delete person') }}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <div class="btn-group pr-4" role="group">
+                                    <button class="dropdown-item permalink-copy mr-1 pr-0" type="button"
+                                        title="{{ _('Copy the visitor link to the clipboard') }}" data-bname="base"
+                                        data-query="p={{ person.first_name }}&n={{ person.last_name }}&ip={{ person.id }}&m=MOD_FAM">
+                                        <i class="fas fa-link fa-fw mr-2"></i>{{ _('Copy visitor permalink') }}
+                                    </button>
+                                    <button class="disabled dropdown-item mx-0 px-0">/</button>
+                                    <button class="mx-1 px-0 dropdown-item permalink-friend-copy" type="button"
+                                        title="{{ _('Copy the friend link to the clipboard') }}">
+                                        {{ _('friend') }}
+                                    </button>
+                                    <button class="disabled dropdown-item mx-0 px-0">/</button>
+                                    <button class="ml-1 px-0 dropdown-item permalink-wizard-copy" type="button"
+                                        title="{{ _('Copy the wizard link to the clipboard') }}">
+                                        {{ _('wizard') }}
+                                    </button>
+                                </div>
+                                <div class="dropdown-divider"></div>
+                                <button class="dropdown-item simple-copy" type="button"
+                                    title="{{ _('Copy the wiki link to the clipboard') }}"
+                                    data-wikilink="[[{{ person.first_name }}/{{ person.last_name }}]]">
+                                    <i class="far fa-clipboard fa-fw mr-2"></i>[[{{ person.first_name }}/{{
+                                    person.last_name }}]]
+                                </button>
+                                <button class="dropdown-item full-copy" type="button"
+                                    title="{{ _('Copy the wikitext link to the clipboard') }}"
+                                    data-wikilink="[[{{ person.first_name }}/{{ person.last_name }}/{{ person.occ }}/{{ person.first_name }} {{ person.last_name }}]]">
+                                    <i class="far fa-clipboard fa-fw mr-2"></i>[[{{ person.first_name }}/{{
+                                    person.last_name }}/{{ person.occ }}/{{ person.first_name }} {{ person.last_name
+                                    }}]]
+                                </button>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" role="button"
+                                    title="{{ _('Search for {first} {last} on Geneanet').format(first=person.first_name, last=person.last_name) }}"
+                                    href="https://www.geneanet.org/fonds/individus/?sourcename=&size=50&sexe=&nom={{ person.last_name }}&ignore_each_patronyme=&with_variantes_nom=1&prenom={{ person.first_name }}&prenom_operateur=or&ignore_each_prenom=&profession=&ignore_each_profession=&nom_conjoint=&ignore_each_patronyme_conjoint=&prenom_conjoint=&prenom_conjoint_operateur=or&ignore_each_prenom_conjoint=&place__0__="
+                                    target="_blank" rel="noreferrer, noopener">
+                                    <i class="fa fa-magnifying-glass fa-fw mr-2"></i>{{ _('Search for {first} {last} on
+                                    Geneanet').format(first=person.first_name, last=person.last_name) }}
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link active" id="mod_fam_1"
+                                href="{{ gwd_url( m='MOD_FAM', i=family.id, ip=person.id) }}"
+                                title="{{ _('Modify family with {spouse} (F)').format(spouse=spouse.first_name + ' ' + spouse.last_name) }}"
+                                accesskey="F">
+                                <span class="fa fa-user-pen male" aria-hidden="true"></span>
+                                <span class="fa fa-user female" aria-hidden="true"></span>
+                                <span class="sr-only"> {{ _('Modify family with {spouse}
+                                    (F)').format(spouse=spouse.first_name + ' ' + spouse.last_name) }}</span>
+                            </a>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-secondary" data-toggle="dropdown" role="button"
+                                href="#" aria-haspopup="true" aria-expanded="false" title="{{ _('Family tools') }}">
+                                <span class="fa fa-user-plus" aria-hidden="true"></span>
+                                <span class="fa fa-user-gear" aria-hidden="true"></span>
+                                <span class="sr-only">{{ _('Family tools') }}</span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-transl">
+                                <a class="dropdown-item" id="add_fam"
+                                    href="{{ gwd_url( m='ADD_FAM', ip=person.id) }}"
+                                    title="{{ _('Add family (A)') }}" accesskey="A">
+                                    <span class="fa fa-plus fa-fw mr-2"></span>{{ _('Add family') }}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <span class="dropdown-header">{{ _('Union with
+                                    {spouse}').format(spouse=spouse.first_name + ' ' + spouse.last_name) }}</span>
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( m='CHG_EVT_FAM_ORD', i=family.id, ip=person.id) }}"
+                                    title="{{ _('Change order of family events') }}">
+                                    <span class="fa fa-sort fa-fw mr-2"></span>{{ _('Swap events') }}
+                                </a>
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( m='DEL_FAM', i=family.id, ip=person.id) }}">
+                                    <span class="fa fa-trash fa-fw text-danger mr-2"></span>{{ _('Delete family') }}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item" href="{{ gwd_url( m='CHG_CHN', ip=person.id) }}">
+                                    <span class="fa fa-child fa-fw mr-1"></span> {{ _('Modify children surname') }}
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-secondary" data-toggle="dropdown" role="button"
+                                href="#" aria-haspopup="true" aria-expanded="false">
+                                <span class="fa fa-sitemap fa-fw" title="{{ _('Descendants') }}"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-transl">
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( p=person.first_name, n=person.last_name, m='D') }}">
+                                    <span class="fa fa-gear fa-fw mr-2"></span>{{ _('Descendants') }}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( p=person.first_name, n=person.last_name, m='D', t='V', v=3) }}"
+                                    title="{{ _('Tree (Y)') }}" accesskey="Y">
+                                    <span class="fa fa-sitemap fa-fw mr-2"></span>{{ _('Descendant tree') }}
+                                </a>
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( p=person.first_name, n=person.last_name, m='D', t='TV', v=3) }}"
+                                    title="{{ _('Tree (Y)') }}" accesskey="Y">
+                                    <span class="fa fa-sitemap fa-fw mr-2"></span>{{ _('Compact descendant tree') }}
+                                </a>
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( p=person.first_name, n=person.last_name, m='D', t='D', v=3) }}">
+                                    <span class="fa fa-code-branch fa-rotate-90 fa-fw mr-2"></span>{{ _('Descendant tree
+                                    structure') }}
+                                </a>
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( p=person.first_name, n=person.last_name, m='D', t='I', v=1, num='on', birth='on', birth_place='on', marr='on', marr_date='on', marr_place='on', child='on', death='on', death_place='on', age='on', occu='on', gen=1, ns=1, hl=1) }}">
+                                    <span class="fa fa-table fa-fw mr-2"></span>{{ _('Descendants table') }}
+                                </a>
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( p=person.first_name, n=person.last_name, m='D', t='L', v=3, maxv=1, siblings='on', alias='on', parents='on', rel='on', witn='on', notes='on', src='on', hide='on') }}">
+                                    <span class="fa fa-newspaper fa-fw mr-2"></span>{{ _('Full display') }}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( p=person.first_name, n=person.last_name, m='D', t='A', num='on', v=1) }}">
+                                    <span class="fa fa-code-branch fa-flip-vertical fa-fw mr-2"></span>{{
+                                    _("d'Aboville") }}
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item dropdown">
+                            <a class="nav-link dropdown-toggle text-secondary" data-toggle="dropdown" role="button"
+                                href="#" aria-haspopup="true" aria-expanded="false" title="{{ _('Relationship') }}">
+                                <span class="fa fa-user-group"></span>
+                            </a>
+                            <div class="dropdown-menu dropdown-menu-transl">
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( p=person.first_name, n=person.last_name, m='R') }}"
+                                    title="{{ _('Relationship calculation (R)') }}" accesskey="R">
+                                    <span class="fa fa-gear fa-fw mr-2"></span>{{ _('Relationship calculation') }}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( m='C', p=person.first_name, n=person.last_name, v=3) }}"
+                                    title="{{ _('Relationship link with a close relative') }}">
+                                    <span class="fa fa-elevator fa-fw mr-2"></span>{{ _('Relationship') }}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( m='F', p=person.first_name, n=person.last_name) }}"
+                                    title="{{ _('Family') }}">
+                                    <span class="fa fa-users fa-fw mr-2"></span>{{ _('Family') }}
+                                </a>
+                                <div class="dropdown-divider"></div>
+                                <a class="dropdown-item"
+                                    href="{{ gwd_url( p=person.first_name, n=person.last_name, m='C', t='AN') }}">
+                                    <span class="fa fa-cake-candles fa-fw mr-2"></span>{{ _('Birthdays of close
+                                    relatives') }}
+                                </a>
+                            </div>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-secondary"
+                                href="{{ gwd_url( m='SND_IMAGE_C', i=person.id) }}"
+                                title="{{ _('Add/remove images (I)') }}" accesskey="I">
+                                <span class="fa fa-image fa-fw" aria-hidden="true"></span>
+                                <span class="sr-only">{{ _('Add/remove images') }}</span>
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <!-- $Id: home.txt v7.1 07/09/2023 00:49:55 $ -->
+        <div class="d-flex flex-column fix_top fix_left">
+            <a tabindex="1" role="button" class="btn btn-sm btn-link p-0 border-0" href="{{ gwd_url() }}"
+                title="{{ _('Home') }}">
+                <i class="fa fa-house fa-fw fa-sm" aria-hidden="true"></i>
+                <i class="sr-only">{{ _('Home') }}</i>
+            </a>
+            <a tabindex="3" role="button" class="btn btn-sm btn-link p-0 border-0" data-toggle="modal"
+                data-target="#searchmodal" accesskey="S" title="{{ _('Search') }}">
+                <i class="fa fa-magnifying-glass fa-fw fa-xs" aria-hidden="true"></i>
+                <span class="sr-only">{{ _('Search') }}</span>
+            </a>
+            <a role="button" class="btn btn-sm btn-link p-0 border-0" href="{{ gwd_url( i=person.id) }}"
+                title="{{ _('Show a random individual') }}">
+                <i class="fa fa-dice-two fa-fw fa-xs" aria-hidden="true"></i>
+                <span class="sr-only">{{ _('Show a random individual') }}</span>
+            </a>
+            <div class="btn btn-sm p-0 border-0" id="q_time">
+                <i class="fa fa-hourglass-half fa-fw fa-xs p-0"></i>
+            </div>
+            <div class="btn btn-sm p-0 border-0 d-none" id="nb_errors">
+                <i class="fa fa-bug fa-fw fa-xs p-0"></i>
+            </div>
+        </div>
+
+        <div class="modal" id="searchmodal" role="dialog" aria-labelledby="searchpopup" aria-hidden="true">
+            <div class="modal-dialog modal-lg" role="document">
+                <div class="modal-content">
+                    <div class="modal-body" id="ModalSearch">
+                        <form id="collapse_search" method="get" action="{{ base_url }}">
+                            <input type="hidden" name="m" value="S" />
+                            <div class="d-flex justify-content-center">
+                                <h5 class="rounded modal-title my-2 text-center w-50 align-self-center"
+                                    id="searchpopup">
+                                    {{ _('Search person') }}
+                                </h5>
+                                <div class="col-8">
+                                    <label class="sr-only" for="n">{{ _('Search public name') }}</label>
+                                    <input type="search" id="n" class="form-control form-control-lg" name="n"
+                                        placeholder="{{ _('Surname, public name, alias') }}" autofocus />
+                                    <label class="sr-only" for="p">{{ _('Search firstname') }}</label>
+                                    <input type="search" id="p" class="form-control form-control-lg mt-2" name="p"
+                                        placeholder="{{ _('First name') }}" />
+                                </div>
+                                <button class="btn btn-outline-primary" type="submit" title="{{ _('Search') }}">
+                                    <i class="fa fa-magnifying-glass fa-lg mx-2"></i> {{ _('Search') }}
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <h1>{{ _('Modify family') }} # {{ family.id }}</h1>
+
+        <form method="post" action="{{ base_url }}">
+            <div class="row">
+                <div class="container fixed-top" role="navigation">
+                    <nav class="navbar navbar-light bg-white justify-content-center" id="banner">
+                        <nav class="nav nav-pills nav-fill">
+                            <a class="nav-item nav-link px-2 py-1" href="#family" title="{{ _('Parents') }}">
+                                <i class="fa fa-person fa-fw" aria-hidden="true"></i>
+                                <i class="fa fa-person-dress" aria-hidden="true"></i>
+                                <span class="d-none d-md-inline-flex ml-1">{{ _('Parents') }}</span>
+                            </a>
+                            <a class="nav-item nav-link px-2 py-1" href="#events" title="{{ _('Events') }}">
+                                <i class="fa fa-graduation-cap fa-fw" aria-hidden="true"></i>
+                                <span class="d-none d-md-inline-flex ml-1">{{ _('Events') }}</span>
+                            </a>
+                            <a class="nav-item nav-link px-2 py-1" href="#children" title="{{ _('Children') }}">
+                                <i class="fa fa-child fa-fw" aria-hidden="true"></i>
+                                <span class="d-none d-md-inline-flex ml-1">{{ _('Children') }}</span>
+                            </a>
+                            <a class="nav-item nav-link px-2 py-1" href="#sources" title="{{ _('Sources') }}">
+                                <i class="fa fa-star fa-fw" aria-hidden="true"></i>
+                                <span class="d-none d-lg-inline-flex ml-1">{{ _('Sources') }}</span>
+                            </a>
+                            <a class="nav-item nav-link px-2 py-1" href="#comments" title="{{ _('Comment') }}">
+                                <i class="fa fa-file-lines fa-fw" aria-hidden="true"></i>
+                                <span class="d-none d-lg-inline-flex ml-1">{{ _('Comment') }}</span>
+                            </a>
+                        </nav>
+                    </nav>
+                </div>
+            </div>
+
+            <p class="my-0">
+                <input type="hidden" name="digest" value="{{ digest }}" />
+                <input type="hidden" name="ip" value="{{ person.id }}" />
+                <input type="hidden" name="i" value="{{ family.id }}" />
+                <input type="hidden" name="m" value="MOD_FAM_OK" />
+            </p>
+
+            <div class="card">
+                <h3 class="card-header pt-1 pb-0 text-center" id="parents" aria-label="§ {{ _('Parents') }}">
+                    {{ _('Parents') }}
+                </h3>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-11">
+                            {% include 'gwd/components/_parent_form.html' %}
+                        </div>
+                        <div class="col-11">
+                            <div class="row mt-2">
+                                <label for="pa2_fn" class="col-sm-2 col-form-label">
+                                    {{ _('First name') }} <span class="font-weight-bold text-uppercase">({{ _('F')
+                                        }})</span>
+                                </label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="pa2_fn"
+                                        value="{{ parent2.first_name|default('', true) }}" id="pa2_fn"
+                                        placeholder="{{ _('First name') }}" />
+                                </div>
+                                <label for="pa2_occ" class="col-auto col-form-label sr-only">{{ _('Number') }}</label>
+                                <div class="col-sm-2">
+                                    <input class="form-control" type="number" name="pa2_occ" min="0"
+                                        value="{{ parent2.occ|default(0, true) }}" id="pa2_occ"
+                                        title="{{ _('Number (occurrence)') }}" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label for="pa2_sn" class="col-sm-2 col-form-label">{{ _('Surname') }}</label>
+                                <div class="col-sm-8">
+                                    <input class="form-control" type="text" name="pa2_sn"
+                                        value="{{ parent2.surname|default('', true) }}" id="pa2_sn"
+                                        placeholder="{{ _('Surname') }}" />
+                                </div>
+                                <div class="col-sm-2">
+                                    <select class="form-control" id="pa2_p_selct" name="pa2_p">
+                                        <option value="create">{{ _('Create') }}</option>
+                                        <option value="link" selected>{{ _('Link') }}</option>
+                                    </select>
+                                </div>
+                            </div>
+                            {% include 'gwd/components/_parent_details.html' %}
+                        </div>
+                        <div class="custom-control custom-checkbox mt-2 ml-3">
+                            <input type="checkbox" class="custom-control-input" name="nsck" id="nsck" value="on" {% if
+                                family.no_sex_check %}checked{% endif %} />
+                            <label for="nsck" class="custom-control-label">
+                                {{ _('Same-sex relationship (no gender verification)') }}
+                            </label>
+                        </div>
+                        <button type="submit" class="btn btn-primary col-1 ml-auto mr-2" title="{{ _('Validate') }}"
+                            aria-label="{{ _('Validate') }}">
+                            <span class="font-weight-bold text-uppercase sr-only">{{ _('Validate') }}</span>
+                            <i class="fa fa-share fa-rotate-180 fa-fw ml-1" aria-hidden="true"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-header pt-1 pb-0 text-center" id="events" aria-label="§ {{ _('Events') }}">
+                    {{ _('Events') }}
+                </h3>
+                <div class="card-body">
+                    {% for event in family.events %}
+                    {% include 'gwd/components/_event_form.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-header pt-1 pb-0 text-center" id="children" aria-label="§ {{ _('Children') }}">
+                    {{ _('Children') }}
+                </h3>
+                <div class="card-body">
+                    <div class="row">
+                        <label for="ins_ch0_n" class="col-form-label col-2">{{ _('Insert') }}</label>
+                        <div class="form-inline col-5">
+                            <div class="input-group">
+                                <select class="form-control" id="ins_ch0_n" name="ins_ch0_n">
+                                    {% for i in range(1, 11) %}
+                                    <option>{{ i }}</option>
+                                    {% endfor %}
+                                </select>
+                                <div class="input-group-append">
+                                    <label class="btn btn-outline-primary"> {{ _('child/children') }}
+                                        <input class="ml-1" type="checkbox" name="ins_ch0" value="on" />
+                                    </label>
+                                    <button type="submit" class="btn btn-outline-primary"
+                                        title="{{ _('Insert child/children') }}">OK</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {% for child in family.children %}
+                    <div class="row">
+                        <hr class="w-100" />
+                        <h5 class="col-form-label col-sm-2 text-uppercase">
+                            {{ _('Child') }} {{ loop.index }}
+                        </h5>
+                        <div class="col-sm-2">
+                            <select class="form-control" name="ch{{ loop.index }}_p" id="ch{{ loop.index }}_p_selct">
+                                <option value="link" {% if child.link_mode %}selected{% endif %}>{{ _('Link') }}
+                                </option>
+                                <option value="create" {% if not child.link_mode %}selected{% endif %}>{{ _('Create') }}
+                                </option>
+                            </select>
+                        </div>
+                    </div>
+                    {% include 'gwd/components/_child_form.html' %}
+                    {% endfor %}
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-header pt-1 pb-0 text-center" id="sources" aria-label="§ {{ _('Sources') }}">
+                    {{ _('Sources') }}
+                </h3>
+                <div class="card-body">
+                    <div class="row">
+                        <label for="psrc" class="col-sm-2 col-form-label">{{ _('Persons') }}</label>
+                        <div class="col-sm-10">
+                            <textarea class="form-control" rows="1" name="psrc" id="psrc"
+                                placeholder="{{ _('Person sources') }}">{{ family.person_sources|default('', true) }}</textarea>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <label for="src" class="col-sm-2 col-form-label">{{ _('Family') }}</label>
+                        <div class="col-sm-9">
+                            <input class="form-control" name="src" id="src" placeholder="{{ _('Family sources') }}"
+                                value="{{ family.sources|default('', true) }}" />
+                        </div>
+                        <div class="col-sm-1">
+                            <label class="form-check-label">
+                                <input type="checkbox" name="rdsrc" value="on" />
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card">
+                <h3 class="card-header pt-1 pb-0 text-center" id="comments" aria-label="§ {{ _('Comment') }}">
+                    {{ _('Comment') }}
+                </h3>
+                <div class="row ml-3">
+                    <div class="d-inline col-9 py-1">
+                        <!-- $Id: toolbar.txt v7.0 16/06/2019 00:03:14 $ -->
+                        {% include 'gwd/components/_wiki_toolbar.html' %}
+                    </div>
+                    <textarea class="col-9 form-control insert-character-target" id="notes_comments" name="comment"
+                        rows="16">{{ family.comment|default('', true) }}</textarea>
+                    <button type="submit" class="btn btn-primary btn-lg col-4 py-3 mt-2 mb-3 mx-auto order-3"
+                        title="{{ _('Validate') }}" aria-label="{{ _('Validate') }}">
+                        <span class="font-weight-bold text-uppercase">{{ _('Validate') }}</span>
+                        <i class="fa fa-share fa-rotate-180 fa-fw ml-2" aria-hidden="true"></i>
+                    </button>
+                    <div class="col my-1 mr-2">
+                        <!-- $Id: characters.txt v7.1 30/11/2023 20:52:12 $ -->
+                        {% include 'gwd/components/_special_characters.html' %}
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        <script>
+            var q_time = {{ query_time|default (0, true) }};
+            var nb_errors = {{ errors| length |default (0, true) }};
+            var errors_list = "{{ errors_list|default('', true)|safe }}";
+            var home_time = document.getElementById('q_time');
+            var home_errors = document.getElementById('nb_errors');
+            if (home_time != null) {
+                home_time.title = "{{ _('Query treated in') }} " + q_time + " {{ _('s') }}";
+                if (q_time < 3) {
+                    home_time.classList.add("text-success");
+                } else if (q_time < 8) {
+                    home_time.classList.add("text-warning");
+                } else {
+                    home_time.classList.add("text-danger");
+                }
+            }
+            if (home_errors != null) {
+                if (nb_errors > 0) {
+                    home_errors.title = nb_errors + " {{ _('error(s)!') }}";
+                    home_errors.classList.remove("d-none");
+                }
+                if (errors_list != "") {
+                    home_errors.title = home_errors.title + errors_list + ".";
+                }
+            }
+        </script>
+
+        <!-- $Id: copyr.txt 7.1-beta 18/12/2023 22:03:44 $ -->
+        {% include 'gwd/components/_footer.html' %}
+    </div>
+
+    <!-- $Id: js.txt v7.1 02/12/2023 12:35:50 $ -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        $('#load_once_p_mod').one('click', function () {
+            $.getScript("{{ url_for('static', filename='js/p_mod.js') }}");
+        });
+        $('#load_once_copylink').one('click', function () {
+            $.getScript("{{ url_for('static', filename='js/copylink.js') }}");
+        });
+    </script>
+    <script>$('body').scrollspy({ target: '#banner' })</script>
+    <script src="{{ url_for('static', filename='js/autosize.min.js') }}"></script>
+    <script>autosize(document.querySelectorAll('textarea'));</script>
+    <script>
+        $('.modal').on('shown.bs.modal', function () {
+            $(this).find('[autofocus]').focus();
+        });
+    </script>
+    <script>
+        // Insert character functionality
+        document.addEventListener("DOMContentLoaded", function () {
+            document.querySelectorAll('.ch a').forEach(function (element) {
+                element.addEventListener('click', function (event) {
+                    event.preventDefault();
+                    var textarea = document.querySelector('.insert-character-target');
+                    insertCharacter(textarea, this.innerText);
+                });
+            });
+        });
+
+        function insertCharacter(t, v) {
+            var startPos = t.selectionStart;
+            var endPos = t.selectionEnd;
+            t.value = t.value.substring(0, startPos) + v + t.value.substring(endPos, t.value.length);
+            t.selectionStart = startPos + v.length;
+            t.selectionEnd = t.selectionStart;
+            t.focus();
+        }
+    </script>
+    <script>
+        $(document).ready(function () {
+            $("[id$=_selct]").on('change', function () {
+                var pre = this.id;
+                var all = '#' + pre + '_data,#' + pre + '_sex,#' + pre + '_kind';
+                var mod = '#' + pre + '_mod';
+                if (this.value == "link") {
+                    $(all).hide();
+                    $(mod).show();
+                } else {
+                    $(all).show();
+                    $(mod).hide();
+                }
+            }).change();
+        });
+
+        function changeCalendar(e, v, m, c) {
+            var mv = m;
+            switch (m) {
+                case "VD": mv = 1; break;
+                case "BR": mv = 2; break;
+                case "FM": mv = 3; break;
+                case "NI": mv = 4; break;
+                case "PL": mv = 5; break;
+                case "VT": mv = 6; break;
+                case "GE": mv = 7; break;
+                case "FL": mv = 8; break;
+                case "PR": mv = 9; break;
+                case "ME": mv = 10; break;
+                case "TH": mv = 11; break;
+                case "FT": mv = 12; break;
+                case "JC": mv = 13; break;
+            }
+
+            var calendarValue = c.options[c.selectedIndex].value;
+            var monthSelect = '';
+
+            switch (calendarValue) {
+                case 'G':
+                case 'J':
+                    monthSelect = generateMonthSelect(v, mv, [
+                        '-', '{{ _("January") }}', '{{ _("February") }}', '{{ _("March") }}', '{{ _("April") }}',
+                        '{{ _("May") }}', '{{ _("June") }}', '{{ _("July") }}', '{{ _("August") }}',
+                        '{{ _("September") }}', '{{ _("October") }}', '{{ _("November") }}', '{{ _("December") }}'
+                    ]);
+                    break;
+                case 'F':
+                    monthSelect = generateMonthSelect(v, mv, [
+                        '-', '{{ _("Vendémiaire") }}', '{{ _("Brumaire") }}', '{{ _("Frimaire") }}',
+                        '{{ _("Nivôse") }}', '{{ _("Pluviôse") }}', '{{ _("Ventôse") }}', '{{ _("Germinal") }}',
+                        '{{ _("Floréal") }}', '{{ _("Prairial") }}', '{{ _("Messidor") }}', '{{ _("Thermidor") }}',
+                        '{{ _("Fructidor") }}', '{{ _("Complémentaire") }}'
+                    ]);
+                    break;
+                case 'H':
+                    monthSelect = generateMonthSelect(v, mv, [
+                        '-', '{{ _("Tichri") }}', '{{ _("Marhechvan") }}', '{{ _("Kislev") }}', '{{ _("Tevet") }}',
+                        '{{ _("Chevat") }}', '{{ _("Adar 1") }}', '{{ _("Adar 2") }}', '{{ _("Nissan") }}',
+                        '{{ _("Iyar") }}', '{{ _("Sivan") }}', '{{ _("Tamouz") }}', '{{ _("Av") }}', '{{ _("Eloul") }}'
+                    ]);
+                    break;
+            }
+
+            document.getElementById(e).innerHTML = monthSelect;
+        }
+
+        function generateMonthSelect(name, selectedValue, monthNames) {
+            var html = '<select class="form-control pl-sm-1 pr-lg-0 px-xl-2 ml-sm-2 ml-md-3" name="' + name + '">';
+            for (var i = 0; i < monthNames.length; i++) {
+                var selected = (i == selectedValue) ? ' selected' : '';
+                var value = (i == 0) ? '' : i;
+                html += '<option value="' + value + '"' + selected + '>' + monthNames[i] + '</option>';
+            }
+            html += '</select>';
+            return html;
+        }
+    </script>
+    <script>
+        function show_fevent_label(xxname, xcnt) {
+            var selector = document.getElementById('fevent_select' + xcnt);
+            var label = document.getElementById('fevent_label_selector' + xcnt);
+            var input = document.getElementById('e_name' + xcnt);
+
+            if (selector.value == "") {
+                if (xxname.charAt(0) == "#") {
+                    input.value = "";
+                } else {
+                    input.value = xxname;
+                }
+            } else {
+                input.value = selector.value;
+            }
+
+            if (selector.value == "" || selector.value.charAt(0) != "#") {
+                label.style.display = 'inline';
+            } else {
+                label.style.display = 'none';
+            }
+        }
+
+        $(document).ready(function () {
+            $(".other_evts").each(function () {
+                var inp = $(this).find("input").first();
+                if (inp.val().charAt(0) != "#" && inp.val() != "") {
+                    $(this).show();
+                }
+            });
+        });
+    </script>
+</body>
+
+</html>

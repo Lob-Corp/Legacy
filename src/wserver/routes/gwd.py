@@ -1,4 +1,5 @@
 from .add_family import implem_route_ADD_FAM
+from .modify_family import implem_route_MOD_FAM, implem_route_MOD_FAM_OK
 from flask import Blueprint
 
 gwd_bp = Blueprint('gwd', __name__, url_prefix='/gwd')
@@ -361,6 +362,30 @@ def route_LL(base, lang='en'):
 @gwd_bp.route('<base>/LM/<lang>', methods=['GET', 'POST'])
 def route_LM(base, lang='en'):
     raise NotImplementedError("Route LM not implemented yet")
+
+
+@gwd_bp.route('<base>/MOD_FAM/', methods=['GET', 'POST'])
+@gwd_bp.route('<base>/MOD_FAM/<lang>', methods=['GET', 'POST'])
+def route_MOD_FAM(base, lang='en'):
+    return implem_route_MOD_FAM(base, lang)
+
+
+@gwd_bp.route('<base>/MOD_FAM_OK/', methods=['GET', 'POST'])
+@gwd_bp.route('<base>/MOD_FAM_OK/<lang>', methods=['GET', 'POST'])
+def route_MOD_FAM_OK(base, lang='en'):
+    return implem_route_MOD_FAM_OK(base, lang)
+
+
+@gwd_bp.route('<base>/MOD_IND/', methods=['GET', 'POST'])
+@gwd_bp.route('<base>/MOD_IND/<lang>', methods=['GET', 'POST'])
+def route_MOD_IND(base, lang='en'):
+    raise NotImplementedError("Route MOD_IND not implemented yet")
+
+
+@gwd_bp.route('<base>/MOD_IND_OK/', methods=['GET', 'POST'])
+@gwd_bp.route('<base>/MOD_IND_OK/<lang>', methods=['GET', 'POST'])
+def route_MOD_IND_OK(base, lang='en'):
+    raise NotImplementedError("Route MOD_IND_OK not implemented yet")
 
 
 @gwd_bp.route('<base>/MRG/', methods=['GET', 'POST'])

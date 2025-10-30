@@ -1,0 +1,31 @@
+{# Parent 1 form fields (Father/Mother depending on context) #}
+<div class="row">
+    <label for="pa1_fn" class="col-sm-2 col-form-label">
+        {{ _('First name') }} <span class="font-weight-bold text-uppercase">({{ _('M') if parent1.sex == 'MALE' else _('F') }})</span>
+    </label>
+    <div class="col-sm-8">
+        <input class="form-control" type="text" name="pa1_fn" 
+               value="{{ parent1.first_name|default('', true) }}" id="pa1_fn" 
+               placeholder="{{ _('First name') }}" />
+    </div>
+    <label for="pa1_occ" class="col-auto col-form-label sr-only">{{ _('Number') }}</label>
+    <div class="col-sm-2">
+        <input class="form-control" type="number" name="pa1_occ" min="0" 
+               value="{{ parent1.occ|default(0, true) }}" id="pa1_occ" 
+               title="{{ _('Number (occurrence)') }}" />
+    </div>
+</div>
+<div class="row">
+    <label for="pa1_sn" class="col-sm-2 col-form-label">{{ _('Surname') }}</label>
+    <div class="col-sm-8">
+        <input class="form-control" type="text" name="pa1_sn" 
+               value="{{ parent1.surname|default('', true) }}" id="pa1_sn" 
+               placeholder="{{ _('Surname') }}" />
+    </div>
+    <div class="col-sm-2">
+        <select class="form-control" id="pa1_p_selct" name="pa1_p">
+            <option value="create">{{ _('Create') }}</option>
+            <option value="link" selected>{{ _('Link') }}</option>
+        </select>
+    </div>
+</div>
