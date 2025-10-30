@@ -1,4 +1,5 @@
 from .add_family import implem_route_ADD_FAM
+from .mod_individual import implem_route_MOD_IND
 from flask import Blueprint
 
 gwd_bp = Blueprint('gwd', __name__, url_prefix='/gwd')
@@ -367,6 +368,22 @@ def route_LM(base, lang='en'):
 @gwd_bp.route('<base>/MRG/<lang>', methods=['GET', 'POST'])
 def route_MRG(base, lang='en'):
     raise NotImplementedError("Route MRG not implemented yet")
+
+
+@gwd_bp.route('<base>/MOD_FAM/', methods=['GET', 'POST'])
+@gwd_bp.route('<base>/MOD_FAM/<lang>', methods=['GET', 'POST'])
+def route_MOD_FAM(base, lang='en'):
+    raise NotImplementedError("Route MOD_FAM not implemented yet")
+
+
+@gwd_bp.route('<base>/MOD_IND/', methods=['GET', 'POST'])
+@gwd_bp.route('<base>/MOD_IND/<lang>', methods=['GET', 'POST'])
+def route_MOD_IND(base, lang='en'):
+    from flask import request
+    id = request.args.get('id', type=int)
+    if id is None:
+        return "Missing 'id' parameter", 400
+    return implem_route_MOD_IND(base, id, lang)
 
 
 @gwd_bp.route('<base>/MRG_DUP/', methods=['GET', 'POST'])

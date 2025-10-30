@@ -1,0 +1,2251 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}" id="updform">
+<head>
+  <!-- $Id: updind.txt v7.1 31/08/2023 15:28:42 $ -->
+  <!-- Copyright (c) 1998-2007 INRIA -->
+  <title>
+    {% if request.args.get('m') in ['MRG_IND_OK', 'MRG_MOD_IND_OK'] %}
+      {{ _('Merge') }}
+    {% elif request.args.get('m') in ['MOD_IND', 'MOD_IND_OK'] or request.endpoint == 'gwd.route_MOD_IND' %}
+      {{ _('Modify') }}
+    {% else %}
+      {{ _('Update') }}
+    {% endif %}
+    {{ _('person') }} #{{ person.index if person else '' }}
+  </title>
+  <meta name="robots" content="none">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon_gwd.png') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/css.css') }}">
+  <style>
+    /* UI tweaks for modify individual page */
+    .container.fixed-top {
+      background-color: #ffffff !important;
+      border-bottom: 1px solid #e9ecef !important;
+      padding-top: 4px !important;
+      padding-bottom: 4px !important;
+    }
+
+    #banner.navbar {
+      background-color: #ffffff !important;
+      padding-top: 0.25rem !important;
+      padding-bottom: 0.25rem !important;
+    }
+
+    .nav-pills .nav-link.active,
+    .nav-pills .show > .nav-link {
+      background-color: transparent !important;
+      color: inherit !important;
+    }
+
+    a:focus, a:active, button:focus, button:active, .nav-link:focus, .nav-link:active, h3:focus, :target {
+      outline: none !important;
+      box-shadow: none !important;
+    }
+
+    .card .card-header {
+      background-color: #f1f3f5 !important;
+      border-bottom: 1px solid rgba(0,0,0,0.06) !important;
+    }
+
+    body#person {
+      padding-top: 50px;
+    }
+
+    .card .card-header {
+      position: relative;
+      z-index: 1;
+    }
+  </style>
+</head>
+<body id="person">
+  <meta name="format-detection" content="telephone=no">
+
+  {# Macro for witness form #}
+  {% macro witness_form(event_cnt, witness_cnt, witness_data, event_name) %}
+    <div class="form-group mt-3 border-top pt-3">
+      <div class="row">
+        <h5 class="col-form-label col-2">{{ _('Witness') }} {{ witness_cnt + 1 }}</h5>
+        <div class="col-2">
+          <select class="form-control" name="e{{ event_cnt }}_witn{{ witness_cnt }}_p" id="e{{ event_cnt }}_witn{{ witness_cnt }}_p_selct">
+            <option value="create" {% if not witness_data or witness_data.index is none %}selected{% endif %}>{{ _('Create') }}</option>
+            <option value="link" {% if witness_data and witness_data.index is not none %}selected{% endif %}>{{ _('Link') }}</option>
+          </select>
+        </div>
+        <div class="col-4" id="e{{ event_cnt }}_witn{{ witness_cnt }}_p_selct_kind">
+          <select class="form-control" name="e{{ event_cnt }}_witn{{ witness_cnt }}_kind">
+            <option value="">{{ _('Witness') }}</option>
+            <option value="godp" {% if witness_data and witness_data.kind == 'godp' %}selected{% endif %}>{{ _('Godparent') }}</option>
+            <option value="info" {% if witness_data and witness_data.kind == 'info' %}selected{% endif %}>{{ _('Informant') }}</option>
+            <option value="atte" {% if witness_data and witness_data.kind == 'atte' %}selected{% endif %}>{{ _('Present') }}</option>
+            <option value="ment" {% if witness_data and witness_data.kind == 'ment' %}selected{% endif %}>{{ _('Mentioned') }}</option>
+            <option value="offi" {% if witness_data and witness_data.kind == 'offi' %}selected{% endif %}>{{ _('Civil registrar') }}</option>
+            <option value="reli" {% if witness_data and witness_data.kind == 'reli' %}selected{% endif %}>{{ _('Parish registrar') }}</option>
+            <option value="othe" {% if witness_data and witness_data.kind == 'othe' %}selected{% endif %}>{{ _('Other') }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="row mt-2">
+        <label class="col-2 col-form-label">{{ _('First name') }}</label>
+        <div class="col-6">
+          <input type="text" class="form-control" name="e{{ event_cnt }}_witn{{ witness_cnt }}_fn"
+                 value="{{ witness_data.first_name if witness_data and witness_data.first_name else '' }}" 
+                 placeholder="{{ _('First name') }}">
+        </div>
+        <label class="col-2 col-form-label">{{ _('Number') }}</label>
+        <div class="col-2">
+          <input type="number" class="form-control" name="e{{ event_cnt }}_witn{{ witness_cnt }}_occ"
+                 min="0" value="{{ witness_data.occ if witness_data and witness_data.occ else '' }}" placeholder="#">
+        </div>
+      </div>
+      <div class="row mt-2">
+        <label class="col-2 col-form-label">{{ _('Surname') }}</label>
+        <div class="col-6">
+          <input type="text" class="form-control" name="e{{ event_cnt }}_witn{{ witness_cnt }}_sn"
+                 value="{{ witness_data.surname if witness_data and witness_data.surname else '' }}" 
+                 placeholder="{{ _('Surname') }}">
+        </div>
+        <div class="col-4" id="e{{ event_cnt }}_witn{{ witness_cnt }}_p_selct_sex" style="display: {% if witness_data and witness_data.index is not none %}none{% else %}block{% endif %};">
+          <div class="form-inline">
+            <span class="mr-2">{{ _('Sex') }}:</span>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="e{{ event_cnt }}_witn{{ witness_cnt }}_sex"
+                     value="M" {% if witness_data and witness_data.sex == 'M' %}checked{% endif %}>
+              <label class="form-check-label">{{ _('M') }}</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="e{{ event_cnt }}_witn{{ witness_cnt }}_sex"
+                     value="U" {% if not witness_data or witness_data.sex == 'U' %}checked{% endif %}>
+              <label class="form-check-label">?</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="e{{ event_cnt }}_witn{{ witness_cnt }}_sex"
+                     value="F" {% if witness_data and witness_data.sex == 'F' %}checked{% endif %}>
+              <label class="form-check-label">{{ _('F') }}</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2" id="e{{ event_cnt }}_witn{{ witness_cnt }}_p_selct_data" style="display: {% if witness_data and witness_data.index is not none %}none{% else %}flex{% endif %};">
+        <label class="col-2 col-form-label">{{ _('Occupation') }}</label>
+        <div class="col-6">
+          <input class="form-control" type="text" name="e{{ event_cnt }}_witn{{ witness_cnt }}_occu"
+                 value="{{ witness_data.occupation if witness_data and witness_data.occupation else '' }}" 
+                 placeholder="{{ _('Occupation') }}">
+        </div>
+        <div class="col-4">
+          <div class="custom-control custom-checkbox">
+            <input class="custom-control-input" type="checkbox" name="e{{ event_cnt }}_witn{{ witness_cnt }}_pub" 
+                   id="e{{ event_cnt }}_witn{{ witness_cnt }}_pub" {% if witness_data and witness_data.public %}checked{% endif %}>
+            <label for="e{{ event_cnt }}_witn{{ witness_cnt }}_pub" class="custom-control-label">{{ _('Public') }}</label>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-2" id="e{{ event_cnt }}_witn{{ witness_cnt }}_p_selct_mod" style="display: {% if witness_data and witness_data.index is not none %}flex{% else %}none{% endif %};">
+        <div class="col-12">
+          {% if witness_data and witness_data.index is not none %}
+            <a href="{{ url_for('gwd.route_MOD_IND', base=base, id=witness_data.index, lang=lang) }}">
+              <i class="fa fa-user-pen fa-fw mr-1"></i>
+              {{ _('Modify witness') }}
+            </a>
+          {% else %}
+            <span class="text-muted">
+              <i class="fa fa-user-pen fa-fw mr-1"></i>
+              {{ _('Modify witness') }}
+            </span>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  {% endmacro %}
+  
+  <div class="container pl-lg-0 pr-lg-3 px-xl-3">
+    {% if wizard_message %}
+      <div class="alert alert-info mt-3">{{ wizard_message }}</div>
+    {% endif %}
+
+    {# Navigation pills #}
+    <div class="row">
+      <div class="container fixed-top" role="navigation">
+        <nav class="navbar navbar-light bg-white justify-content-center" id="banner">
+          <nav class="nav nav-pills nav-fill">
+            <a class="nav-item nav-link px-1 py-1" href="#person" title="{{ _('Person') }}">
+              <i class="fa fa-user fa-fw" aria-hidden="true"></i>
+              <span class="d-none d-lg-inline-flex ml-1">{{ _('Person') }}</span>
+            </a>
+            <a class="nav-item nav-link px-1 py-1" href="#birth" title="{{ _('Birth') }}">
+              <i class="fa fa-cake-candles fa-fw" aria-hidden="true"></i>
+              <span class="d-none d-md-inline-flex ml-1">{{ _('Birth') }}</span>
+            </a>
+            <a class="nav-item nav-link px-1 py-1" href="#baptism" title="{{ _('Baptism') }}">
+              <i class="fa fa-dove fa-fw" aria-hidden="true"></i>
+              <span class="d-none d-md-inline-flex ml-1">{{ _('Baptism') }}</span>
+            </a>
+            <a class="nav-item nav-link px-1 py-1" href="#death" title="{{ _('Death') }}">
+              <i class="fa fa-cross fa-fw" aria-hidden="true"></i>
+              <span class="d-none d-md-inline-flex ml-1">{{ _('Death') }}</span>
+            </a>
+            <a class="nav-item nav-link px-1 py-1" href="#burial" title="{{ _('Burial') }}">
+              <i class="fa fa-person-praying fa-fw" aria-hidden="true"></i>
+              <span class="d-none d-md-inline-flex ml-1">{{ _('Burial') }}</span>
+            </a>
+            <a class="nav-item nav-link px-1 py-1" href="#events" title="{{ _('Events') }}">
+              <i class="fa fa-graduation-cap fa-fw" aria-hidden="true"></i>
+              <span class="d-none d-lg-inline-flex ml-1">{{ _('Events') }}</span>
+            </a>
+            <a class="nav-item nav-link px-1 py-1" href="#relations" title="{{ _('Relations') }}">
+              <i class="fa fa-users fa-fw" aria-hidden="true"></i>
+              <span class="d-none d-lg-inline-flex ml-1">{{ _('Relations') }}</span>
+            </a>
+            <a class="nav-item nav-link px-1 py-1" href="#titles" title="{{ _('Titles') }}">
+              <i class="fa fa-award fa-fw" aria-hidden="true"></i>
+              <span class="d-none d-lg-inline-flex ml-1">{{ _('Titles') }}</span>
+            </a>
+            <a class="nav-item nav-link px-1 py-1" href="#notes" title="{{ _('Notes') }}">
+              <i class="fa fa-file-lines fa-fw" aria-hidden="true"></i>
+              <span class="d-none d-lg-inline-flex ml-1">{{ _('Notes') }}</span>
+            </a>
+          </nav>
+        </nav>
+      </div>
+    </div>
+
+    {# Main form #}
+    <form 
+      name="upd" 
+      method="post" 
+      action="{{ url_for('gwd.route_MOD_IND', base=base, id=person.index if person else 0, lang=lang) }}"
+      id="updind"
+      data-insert="">
+      <input type="hidden" name="digest" value="{{ digest }}">
+      <input type="hidden" name="i" value="{{ person.index if person else '' }}">
+  {% set is_merge = request.args.get('m') in ['MRG_IND_OK', 'MRG_MOD_IND_OK'] %}
+  {% set is_mod = (request.args.get('m') in ['MOD_IND', 'MOD_IND_OK']) or (request.endpoint == 'gwd.route_MOD_IND') %}
+      
+      {% if is_merge %}
+        <input type="hidden" name="m" value="MRG_MOD_IND_OK">
+        {% if request.args.get('i2') %}
+          <input type="hidden" name="i2" value="{{ request.args.get('i2') }}">
+        {% endif %}
+      {% elif is_mod %}
+        <input type="hidden" name="m" value="MOD_IND_OK">
+      {% else %}
+        <input type="hidden" name="m" value="ADD_IND_OK">
+      {% endif %}
+
+      {# Person basic information card #}
+      <div class="card">
+        <h2 class="card-header{% if is_merge %} mt-5{% endif %}">
+          {% if is_merge %}{{ _('Merge') }}
+          {% elif is_mod %}{{ _('Modify') }}
+          {% else %}{{ _('Update') }}{% endif %}: 
+          {{ person.first_name if person else '' }} {{ person.surname if person else '' }}
+          {% if person and person.number and person.number != '0' %}({{ person.number }}){% endif %}
+        </h2>
+        <div class="card-body">
+          <h5 class="card-title">
+            <b>{{ _('Other actions') }}: </b>
+            <a href="{{ url_for('gwd.route_CHG_EVT_IND_ORD', base=base, i=person.index if person else '') }}" title="{{ _('Change event order') }}">
+              {{ _('Swap events') }}
+            </a> |
+            <a href="{{ url_for('gwd.route_SND_IMAGE', base=base, i=person.index if person else '') }}">
+              {{ _('Add/modify portrait') }}
+            </a> |
+            <a href="{{ url_for('gwd.route_MRG_IND', base=base, i=person.index if person else '') }}">
+              {{ _('Merge') }}
+            </a> |
+            <a href="{{ url_for('gwd.route_DEL_IND', base=base, i=person.index if person else '') }}">
+              {{ _('Delete') }}
+            </a>
+          </h5>
+
+          {# First name #}
+          <div class="form-group row" id="person">
+            <label for="first_name" class="col-sm-2 col-form-label">{{ _('First name') }}</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" name="first_name" id="first_name" 
+                     value="{{ person.first_name if person else '' }}" placeholder="{{ _('First name') }}">
+            </div>
+            <label for="number" class="col-sm-2 col-form-label">{{ _('Number') }}</label>
+            <div class="col-sm-2">
+              <input type="text" class="form-control" name="number" id="number" pattern="[0-9]*" 
+                     value="{{ person.number if person else '0' }}" placeholder="{{ _('Number') }}">
+            </div>
+          </div>
+
+          {# Surname #}
+          <div class="form-group row">
+            <label for="surname" class="col-sm-2 col-form-label">{{ _('Surname') }}</label>
+            <div class="col-sm-6">
+              <input type="text" class="form-control" name="surname" id="surname" 
+                     value="{{ person.surname if person else '' }}" placeholder="{{ _('Surname') }}">
+            </div>
+            <label for="sex" class="col-sm-2 col-form-label">{{ _('Sex') }}</label>
+            <div class="col-sm-2">
+              <select class="form-control" name="sex" id="sex">
+                <option value="M" {% if person and person.sex == 'M' %}selected{% endif %}>{{ _('Male') }}</option>
+                <option value="F" {% if person and person.sex == 'F' %}selected{% endif %}>{{ _('Female') }}</option>
+                <option value="U" {% if person and person.sex == 'U' %}selected{% endif %}>{{ _('Unknown') }}</option>
+              </select>
+            </div>
+          </div>
+
+          {# Public name #}
+          <div class="form-group row">
+            <label for="public_name" class="col-sm-2 col-form-label">{{ _('Public name') }}</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="public_name" id="public_name" 
+                     value="{{ person.public_name if person else '' }}" placeholder="{{ _('Public name') }}">
+            </div>
+          </div>
+
+          {# Picture #}
+          <div class="form-group row">
+            <label for="image" class="col-sm-2 col-form-label">{{ _('Picture') }}</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="image" id="image" 
+                     value="{{ person.image if person else '' }}" placeholder="{{ _('Image filename') }}">
+            </div>
+          </div>
+
+          {# Access #}
+          <div class="form-group row">
+            <label for="access" class="col-sm-2 col-form-label">
+              {{ _('Access') }}
+              (<a href="{{ url_for('gwd.route_H', base=base, v='visibility') }}" title="{{ _('Help for visibility') }}">?</a>)
+            </label>
+            <div class="col-sm-10">
+              <select class="form-control" name="access" id="access">
+                {% for level in access_levels %}
+                  <option value="{{ level.value }}" {% if person and person.access == level.value %}selected{% endif %}>
+                    {{ _(level.label) }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          {# Sobriquet(s) #}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ _('Sobriquet(s)') }}</label>
+            <div class="col-sm-10" id="sobriquets-container">
+              {% if person and person.sobriquets %}
+                {% for sb in person.sobriquets %}
+                  <input type="text" class="form-control mb-2" name="sobriquet_{{ loop.index0 }}" value="{{ sb }}" placeholder="{{ _('Sobriquet') }} {{ loop.index }}">
+                {% endfor %}
+                {% set next_sob_idx = person.sobriquets|length %}
+              {% else %}
+                {% set next_sob_idx = 0 %}
+              {% endif %}
+              <input type="text" class="form-control mb-2" name="sobriquet_{{ next_sob_idx }}" placeholder="{{ _('Sobriquet') }} {{ next_sob_idx + 1 }}">
+            </div>
+            <div class="col-sm-10 offset-sm-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary" id="add_sobriquet_btn">{{ _('Add sobriquet') }}</button>
+            </div>
+          </div>
+
+          {# Aliases #}
+          <div class="form-group row">
+            <label for="alias_0" class="col-sm-2 col-form-label">{{ _('Aliases') }}</label>
+            <div class="col-sm-10" id="aliases-container">
+              {% if person and person.alias %}
+                {% for i in range(person.alias|length) %}
+                  <input type="text" class="form-control mb-2" name="alias_{{ i }}" id="alias_{{ i }}" 
+                         value="{{ person.alias[i] }}" placeholder="{{ _('Alias') }} {{ i + 1 }}">
+                {% endfor %}
+              {% endif %}
+              <input type="text" class="form-control mb-2" name="alias_{{ person.alias|length if person and person.alias else 0 }}" 
+                     placeholder="{{ _('Alias') }} {{ (person.alias|length if person and person.alias else 0) + 1 }}">
+            </div>
+            <div class="col-sm-10 offset-sm-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary" id="add_alias_btn">{{ _('Add alias') }}</button>
+            </div>
+          </div>
+
+          {# Alternate first name(s) #}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ _('Alternate first name(s)') }}</label>
+            <div class="col-sm-10" id="alt-first-names-container">
+              {% if person and person.alt_first_names %}
+                {% for fn in person.alt_first_names %}
+                  <input type="text" class="form-control mb-2" name="alt_first_name_{{ loop.index0 }}" value="{{ fn }}" placeholder="{{ _('Alternate first name') }} {{ loop.index }}">
+                {% endfor %}
+                {% set next_afn_idx = person.alt_first_names|length %}
+              {% else %}
+                {% set next_afn_idx = 0 %}
+              {% endif %}
+              <input type="text" class="form-control mb-2" name="alt_first_name_{{ next_afn_idx }}" placeholder="{{ _('Alternate first name') }} {{ next_afn_idx + 1 }}">
+            </div>
+            <div class="col-sm-10 offset-sm-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary" id="add_alt_first_name_btn">{{ _('Add alternate first name') }}</button>
+            </div>
+          </div>
+
+          {# Alternate surname(s) #}
+          <div class="form-group row">
+            <label for="surname_alias_0" class="col-sm-2 col-form-label">{{ _('Alternate surname(s)') }}</label>
+            <div class="col-sm-10" id="alt-surnames-container">
+              {% if person and person.surnames %}
+                {% for i in range(person.surnames|length) %}
+                  <input type="text" class="form-control mb-2" name="surname_alias_{{ i }}" id="surname_alias_{{ i }}" 
+                         value="{{ person.surnames[i] }}" placeholder="{{ _('Alternate surname') }} {{ i + 1 }}">
+                {% endfor %}
+              {% endif %}
+              <input type="text" class="form-control mb-2" name="surname_alias_{{ person.surnames|length if person and person.surnames else 0 }}" 
+                     placeholder="{{ _('Alternate surname') }} {{ (person.surnames|length if person and person.surnames else 0) + 1 }}">
+            </div>
+            <div class="col-sm-10 offset-sm-2">
+              <button type="button" class="btn btn-sm btn-outline-secondary" id="add_alt_surname_btn">{{ _('Add alternate surname') }}</button>
+            </div>
+          </div>
+
+          {# Occupations #}
+          <div class="form-group row">
+            <label for="occupation_0" class="col-sm-2 col-form-label">{{ _('Occupations') }}</label>
+            <div class="col-sm-10">
+              {% if person and person.occupations %}
+                {% for i in range(person.occupations|length) %}
+                  <textarea class="form-control mb-2" name="occupation_{{ i }}" id="occupation_{{ i }}" 
+                            rows="1" placeholder="{{ _('Occupation') }} {{ i + 1 }}">{{ person.occupations[i] }}</textarea>
+                {% endfor %}
+              {% endif %}
+              <textarea class="form-control mb-2" name="occupation_{{ person.occupations|length if person and person.occupations else 0 }}" 
+                        rows="1" placeholder="{{ _('Occupation') }} {{ (person.occupations|length if person and person.occupations else 0) + 1 }}"></textarea>
+            </div>
+          </div>
+
+          {# Source #}
+          <div class="form-group row">
+            <label for="person_source" class="col-sm-2 col-form-label">{{ _('Source') }}</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" name="person_source" id="person_source" rows="2" placeholder="{{ _('Source') }}">{{ person.source if person and person.source else '' }}</textarea>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# Birth card #}
+      <div class="card" id="birth">
+        <h3 class="card-header py-1 text-center">{{ _('Birth') }}</h3>
+        <div class="card-body">
+          <input type="hidden" name="e_name0" value="#birt">
+          {# Date #}
+          <div class="form-group row">
+            <label for="birth_date" class="col-sm-2 col-form-label">{{ _('Date') }}</label>
+            <div class="col-sm-10">
+              <div class="form-inline">
+                <input type="text" class="form-control mr-2" name="e_date0_dd" id="e_date0_dd" 
+                       value="{{ person.birth.date.day if person and person.birth and person.birth.date else '' }}" 
+                       placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                <input type="text" class="form-control mr-2" name="e_date0_mm" id="e_date0_mm" 
+                       value="{{ person.birth.date.month if person and person.birth and person.birth.date else '' }}" 
+                       placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                <input type="text" class="form-control mr-2" name="e_date0_yyyy" id="e_date0_yyyy" 
+                       value="{{ person.birth.date.year if person and person.birth and person.birth.date else '' }}" 
+                       placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\d*/?" size="4" maxlength="8">
+                <select class="form-control mr-2" name="e_date0_prec" id="e_date0_prec">
+                  <option value="">-</option>
+                  <option value="sure">{{ _('Exact') }}</option>
+                  <option value="about">{{ _('About') }}</option>
+                  <option value="maybe">{{ _('Possibly') }}</option>
+                  <option value="before">{{ _('Before') }}</option>
+                  <option value="after">{{ _('After') }}</option>
+                </select>
+                <select class="form-control" name="e_date0_cal" id="e_date0_cal">
+                  <option value="">-</option>
+                  {% for cal in calendar_types %}
+                    <option value="{{ cal.value }}" {% if person and person.birth and person.birth.date and person.birth.date.calendar == cal.value %}selected{% endif %}>
+                      {{ _(cal.label) }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+          {# Place #}
+          <div class="form-group row">
+            <label for="e_place0" class="col-sm-2 col-form-label">{{ _('Place') }}</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="e_place0" id="e_place0" 
+                     value="{{ person.birth.place if person and person.birth else '' }}" placeholder="{{ _('Place') }}">
+            </div>
+          </div>
+          {# Note #}
+          <div class="form-group row">
+            <label for="e_note0" class="col-sm-2 col-form-label">{{ _('Note') }}</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" name="e_note0" id="e_note0" rows="1" 
+                        placeholder="{{ _('Note') }}">{{ person.birth.note if person and person.birth and person.birth.note else '' }}</textarea>
+            </div>
+          </div>
+          {# Source #}
+          <div class="form-group row">
+            <label for="e_src0" class="col-sm-2 col-form-label">{{ _('Source') }}</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" name="e_src0" id="e_src0" rows="1" 
+                        placeholder="{{ _('Source') }}">{{ person.birth.source if person and person.birth else '' }}</textarea>
+            </div>
+          </div>
+          {# Witnesses #}
+          {% if person and person.birth and person.birth.witnesses %}
+            {% for witness in person.birth.witnesses %}
+              {{ witness_form('0', loop.index0, witness, '') }}
+            {% endfor %}
+          {% endif %}
+          {# Insert witness button #}
+          <div class="row mt-2">
+            <label class="col-2 col-form-label">{{ _('Insert') }}</label>
+            <div class="input-group col-10">
+              <select class="custom-select border border-dark col-1" name="e0_ins_witn_n">
+                {% for i in range(1, 11) %}<option>{{ i }}</option>{% endfor %}
+              </select>
+              <div class="input-group-append">
+                <label class="btn btn-outline-primary mb-0">{{ _('Witness(es)') }}
+                  <input class="ml-1" type="checkbox" name="e0_ins_witn" value="on">
+                </label>
+                <button type="button" class="btn btn-outline-primary" title="{{ _('Insert witness') }}">{{ _('OK') }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# Baptism card #}
+      <div class="card" id="baptism">
+        <h3 class="card-header py-1 text-center">{{ _('Baptism') }}</h3>
+        <div class="card-body">
+          <input type="hidden" name="e_name1" value="#bapt">
+          {# Date #}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ _('Date') }}</label>
+            <div class="col-sm-10">
+              <div class="form-inline">
+                <input type="text" class="form-control mr-2" name="e_date1_dd" 
+                       value="{{ person.baptism.date.day if person and person.baptism and person.baptism.date else '' }}" 
+                       placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                <input type="text" class="form-control mr-2" name="e_date1_mm" 
+                       value="{{ person.baptism.date.month if person and person.baptism and person.baptism.date else '' }}" 
+                       placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                <input type="text" class="form-control mr-2" name="e_date1_yyyy" 
+                       value="{{ person.baptism.date.year if person and person.baptism and person.baptism.date else '' }}" 
+                       placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\d*/?" size="4" maxlength="8">
+                <select class="form-control mr-2" name="e_date1_prec">
+                  <option value="">-</option>
+                  <option value="sure">{{ _('Exact') }}</option>
+                  <option value="about">{{ _('About') }}</option>
+                  <option value="maybe">{{ _('Possibly') }}</option>
+                  <option value="before">{{ _('Before') }}</option>
+                  <option value="after">{{ _('After') }}</option>
+                </select>
+                <select class="form-control" name="e_date1_cal">
+                  <option value="">-</option>
+                  {% for cal in calendar_types %}
+                    <option value="{{ cal.value }}" {% if person and person.baptism and person.baptism.date and person.baptism.date.calendar == cal.value %}selected{% endif %}>
+                      {{ _(cal.label) }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+          {# Place #}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ _('Place') }}</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="e_place1" 
+                     value="{{ person.baptism.place if person and person.baptism else '' }}" placeholder="{{ _('Place') }}">
+            </div>
+          </div>
+          {# Note #}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ _('Note') }}</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" name="e_note1" rows="1" 
+                        placeholder="{{ _('Note') }}">{{ person.baptism.note if person and person.baptism and person.baptism.note else '' }}</textarea>
+            </div>
+          </div>
+          {# Source #}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ _('Source') }}</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" name="e_src1" rows="1" 
+                        placeholder="{{ _('Source') }}">{{ person.baptism.source if person and person.baptism else '' }}</textarea>
+            </div>
+          </div>
+          {# Witnesses (especially godparents for baptism) #}
+          {% if person and person.baptism and person.baptism.witnesses %}
+            {% for witness in person.baptism.witnesses %}
+              {{ witness_form('1', loop.index0, witness, '#bapt') }}
+            {% endfor %}
+          {% endif %}
+          {# Insert witness button #}
+          <div class="row mt-2">
+            <label class="col-2 col-form-label">{{ _('Insert') }}</label>
+            <div class="input-group col-10">
+              <select class="custom-select border border-dark col-1" name="e1_ins_witn_n">
+                {% for i in range(1, 11) %}<option>{{ i }}</option>{% endfor %}
+              </select>
+              <div class="input-group-append">
+                <label class="btn btn-outline-primary mb-0">{{ _('Witness(es)') }}
+                  <input class="ml-1" type="checkbox" name="e1_ins_witn" value="on">
+                </label>
+                <button type="button" class="btn btn-outline-primary" title="{{ _('Insert witness/godparent') }}">{{ _('OK') }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# Death card #}
+      <div class="card" id="death">
+        <h3 class="card-header py-1 text-center">{{ _('Death') }}</h3>
+        <div class="card-body">
+          <input type="hidden" name="e_name2" value="" id="e_name2">
+          {# Death status #}
+          <div class="form-group row">
+            <label for="death_status" class="col-sm-2 col-form-label">{{ _('Status') }}</label>
+            <div class="col-sm-10">
+              <select class="form-control" name="death_status" id="death_status" onchange="toggleDeathFields(this.value)">
+                {% for status in death_statuses %}
+                  <option value="{{ status.value }}" {% if person and person.death_status == status.value %}selected{% endif %}>
+                    {{ _(status.label) }}
+                  </option>
+                {% endfor %}
+              </select>
+            </div>
+          </div>
+
+          <div id="death_fields" style="display: {% if person and person.death_status not in ['alive', 'dont_know'] %}block{% else %}none{% endif %};">
+            {# Date #}
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">{{ _('Date') }}</label>
+              <div class="col-sm-10">
+                <div class="form-inline">
+                  <input type="text" class="form-control mr-2" name="e_date2_dd" 
+                         value="{{ person.death.date.day if person and person.death and person.death.date else '' }}" 
+                         placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                  <input type="text" class="form-control mr-2" name="e_date2_mm" 
+                         value="{{ person.death.date.month if person and person.death and person.death.date else '' }}" 
+                         placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                  <input type="text" class="form-control mr-2" name="e_date2_yyyy" 
+                         value="{{ person.death.date.year if person and person.death and person.death.date else '' }}" 
+                         placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\d*/?" size="4" maxlength="8">
+                  <select class="form-control mr-2" name="e_date2_prec">
+                    <option value="">-</option>
+                    <option value="sure">{{ _('Exact') }}</option>
+                    <option value="about">{{ _('About') }}</option>
+                    <option value="maybe">{{ _('Possibly') }}</option>
+                    <option value="before">{{ _('Before') }}</option>
+                    <option value="after">{{ _('After') }}</option>
+                  </select>
+                  <select class="form-control" name="e_date2_cal">
+                    <option value="">-</option>
+                    {% for cal in calendar_types %}
+                      <option value="{{ cal.value }}" {% if person and person.death and person.death.date and person.death.date.calendar == cal.value %}selected{% endif %}>
+                        {{ _(cal.label) }}
+                      </option>
+                    {% endfor %}
+                  </select>
+                </div>
+              </div>
+            </div>
+            {# Place #}
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">{{ _('Place') }}</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="e_place2" 
+                       value="{{ person.death.place if person and person.death else '' }}" placeholder="{{ _('Place') }}">
+              </div>
+            </div>
+            {# Note #}
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">{{ _('Note') }}</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" name="e_note2" rows="1" 
+                          placeholder="{{ _('Note') }}">{{ person.death.note if person and person.death and person.death.note else '' }}</textarea>
+              </div>
+            </div>
+            {# Source #}
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">{{ _('Source') }}</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" name="e_src2" rows="1" 
+                          placeholder="{{ _('Source') }}">{{ person.death.source if person and person.death else '' }}</textarea>
+              </div>
+            </div>
+            {# Witnesses #}
+            {% if person and person.death and person.death.witnesses %}
+              {% for witness in person.death.witnesses %}
+                {{ witness_form('2', loop.index0, witness, '#deat') }}
+              {% endfor %}
+            {% endif %}
+            {# Insert witness button #}
+            <div class="row mt-2">
+              <label class="col-2 col-form-label">{{ _('Insert') }}</label>
+              <div class="input-group col-10">
+                <select class="custom-select border border-dark col-1" name="e2_ins_witn_n">
+                  {% for i in range(1, 11) %}<option>{{ i }}</option>{% endfor %}
+                </select>
+                <div class="input-group-append">
+                  <label class="btn btn-outline-primary mb-0">{{ _('Witness(es)') }}
+                    <input class="ml-1" type="checkbox" name="e2_ins_witn" value="on">
+                  </label>
+                  <button type="button" class="btn btn-outline-primary" title="{{ _('Insert witness') }}">{{ _('OK') }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# Burial card #}
+      <div class="card" id="burial">
+        <h3 class="card-header py-1 text-center">{{ _('Burial') }}</h3>
+        <div class="card-body">
+          <input type="hidden" name="e_name3" value="" id="e_name3">
+          {# Burial type selector #}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ _('Type') }}</label>
+            <div class="col-sm-10">
+              <select class="form-control" name="burial_type" id="burial_type" onchange="document.getElementById('e_name3').value = this.value;">
+                <option value="">-</option>
+                <option value="#buri" {% if person and person.burial and person.burial.type == 'burial' %}selected{% endif %}>{{ _('Burial') }}</option>
+                <option value="#crem" {% if person and person.burial and person.burial.type == 'cremation' %}selected{% endif %}>{{ _('Cremation') }}</option>
+              </select>
+            </div>
+          </div>
+          {# Date #}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ _('Date') }}</label>
+            <div class="col-sm-10">
+              <div class="form-inline">
+                <input type="text" class="form-control mr-2" name="e_date3_dd" 
+                       value="{{ person.burial.date.day if person and person.burial and person.burial.date else '' }}" 
+                       placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                <input type="text" class="form-control mr-2" name="e_date3_mm" 
+                       value="{{ person.burial.date.month if person and person.burial and person.burial.date else '' }}" 
+                       placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                <input type="text" class="form-control mr-2" name="e_date3_yyyy" 
+                       value="{{ person.burial.date.year if person and person.burial and person.burial.date else '' }}" 
+                       placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\d*/?" size="4" maxlength="8">
+                <select class="form-control mr-2" name="e_date3_prec">
+                  <option value="">-</option>
+                  <option value="sure">{{ _('Exact') }}</option>
+                  <option value="about">{{ _('About') }}</option>
+                  <option value="maybe">{{ _('Possibly') }}</option>
+                  <option value="before">{{ _('Before') }}</option>
+                  <option value="after">{{ _('After') }}</option>
+                </select>
+                <select class="form-control" name="e_date3_cal">
+                  <option value="">-</option>
+                  {% for cal in calendar_types %}
+                    <option value="{{ cal.value }}" {% if person and person.burial and person.burial.date and person.burial.date.calendar == cal.value %}selected{% endif %}>
+                      {{ _(cal.label) }}
+                    </option>
+                  {% endfor %}
+                </select>
+              </div>
+            </div>
+          </div>
+          {# Place #}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ _('Place') }}</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" name="e_place3" 
+                     value="{{ person.burial.place if person and person.burial else '' }}" placeholder="{{ _('Place') }}">
+            </div>
+          </div>
+          {# Note #}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ _('Note') }}</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" name="e_note3" rows="1" 
+                        placeholder="{{ _('Note') }}">{{ person.burial.note if person and person.burial and person.burial.note else '' }}</textarea>
+            </div>
+          </div>
+          {# Source #}
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">{{ _('Source') }}</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" name="e_src3" rows="1" 
+                        placeholder="{{ _('Source') }}">{{ person.burial.source if person and person.burial else '' }}</textarea>
+            </div>
+          </div>
+          {# Witnesses #}
+          {% if person and person.burial and person.burial.witnesses %}
+            {% for witness in person.burial.witnesses %}
+              {{ witness_form('3', loop.index0, witness, '') }}
+            {% endfor %}
+          {% endif %}
+          {# Insert witness button #}
+          <div class="row mt-2">
+            <label class="col-2 col-form-label">{{ _('Insert') }}</label>
+            <div class="input-group col-10">
+              <select class="custom-select border border-dark col-1" name="e3_ins_witn_n">
+                {% for i in range(1, 11) %}<option>{{ i }}</option>{% endfor %}
+              </select>
+              <div class="input-group-append">
+                <label class="btn btn-outline-primary mb-0">{{ _('Witness(es)') }}
+                  <input class="ml-1" type="checkbox" name="e3_ins_witn" value="on">
+                </label>
+                <button type="button" class="btn btn-outline-primary" title="{{ _('Insert witness') }}">{{ _('OK') }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# Events card #}
+      <div class="card" id="events">
+        <h3 class="card-header py-1 text-center">{{ _('Events') }}</h3>
+        <div class="card-body">
+          {% if person and person.events %}
+            {% for event in person.events %}
+              <div class="event-item mb-3" id="event{{ loop.index0 + 4 }}">
+                <input type="hidden" name="e_name{{ loop.index0 + 4 }}" value="{{ event.type if event.type else '' }}" id="e_name{{ loop.index0 + 4 }}">
+                {# Event type selector #}
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label font-weight-bold">{{ _('Event type') }}</label>
+                  <div class="col-sm-10">
+                    <select class="form-control font-weight-bold" name="pevent_select{{ loop.index0 + 4 }}" 
+                            onchange="document.getElementById('e_name{{ loop.index0 + 4 }}').value = this.value;">
+                      <option value="">{{ _('Custom event') }}</option>
+                      <option disabled>──────────</option>
+                      <option value="">-</option>
+                      <option value="#acco" {% if event.type == "#acco" %}selected{% endif %}>{{ _('Accomplishment') }}</option>
+                      <option value="#acqu" {% if event.type == "#acqu" %}selected{% endif %}>{{ _('Acquisition') }}</option>
+                      <option value="#adhe" {% if event.type == "#adhe" %}selected{% endif %}>{{ _('Adhesion') }}</option>
+                      <option value="#barm" {% if event.type == "#barm" %}selected{% endif %}>{{ _('Bar mitzvah') }}</option>
+                      <option value="#basm" {% if event.type == "#basm" %}selected{% endif %}>{{ _('Bat mitzvah') }}</option>
+                      <option value="#bles" {% if event.type == "#bles" %}selected{% endif %}>{{ _('Benediction') }}</option>
+                      <option value="#chgn" {% if event.type == "#chgn" %}selected{% endif %}>{{ _('Change name') }}</option>
+                      <option value="#circ" {% if event.type == "#circ" %}selected{% endif %}>{{ _('Circumcision') }}</option>
+                      <option value="#conf" {% if event.type == "#conf" %}selected{% endif %}>{{ _('Confirmation') }}</option>
+                      <option value="#awar" {% if event.type == "#awar" %}selected{% endif %}>{{ _('Decoration') }}</option>
+                      <option value="#demm" {% if event.type == "#demm" %}selected{% endif %}>{{ _('Demobilisation') }}</option>
+                      <option value="#degr" {% if event.type == "#degr" %}selected{% endif %}>{{ _('Diploma') }}</option>
+                      <option value="#dist" {% if event.type == "#dist" %}selected{% endif %}>{{ _('Distinction') }}</option>
+                      <option value="#endl" {% if event.type == "#endl" %}selected{% endif %}>{{ _('Dotation') }}</option>
+                      <option value="#educ" {% if event.type == "#educ" %}selected{% endif %}>{{ _('Education') }}</option>
+                      <option value="#elec" {% if event.type == "#elec" %}selected{% endif %}>{{ _('Election') }}</option>
+                      <option value="#emig" {% if event.type == "#emig" %}selected{% endif %}>{{ _('Emigration') }}</option>
+                      <option value="#exco" {% if event.type == "#exco" %}selected{% endif %}>{{ _('Excommunication') }}</option>
+                      <option value="#fcom" {% if event.type == "#fcom" %}selected{% endif %}>{{ _('First communion') }}</option>
+                      <option value="#fune" {% if event.type == "#fune" %}selected{% endif %}>{{ _('Funeral') }}</option>
+                      <option value="#grad" {% if event.type == "#grad" %}selected{% endif %}>{{ _('Graduate') }}</option>
+                      <option value="#hosp" {% if event.type == "#hosp" %}selected{% endif %}>{{ _('Hospitalisation') }}</option>
+                      <option value="#illn" {% if event.type == "#illn" %}selected{% endif %}>{{ _('Illness') }}</option>
+                      <option value="#immi" {% if event.type == "#immi" %}selected{% endif %}>{{ _('Immigration') }}</option>
+                      <option value="#lpas" {% if event.type == "#lpas" %}selected{% endif %}>{{ _('Passenger list') }}</option>
+                      <option value="#mdis" {% if event.type == "#mdis" %}selected{% endif %}>{{ _('Military distinction') }}</option>
+                      <option value="#mpro" {% if event.type == "#mpro" %}selected{% endif %}>{{ _('Military promotion') }}</option>
+                      <option value="#mser" {% if event.type == "#mser" %}selected{% endif %}>{{ _('Military service') }}</option>
+                      <option value="#mobm" {% if event.type == "#mobm" %}selected{% endif %}>{{ _('Mobilisation') }}</option>
+                      <option value="#natu" {% if event.type == "#natu" %}selected{% endif %}>{{ _('Naturalisation') }}</option>
+                      <option value="#occu" {% if event.type == "#occu" %}selected{% endif %}>{{ _('Occupation') }}</option>
+                      <option value="#ordn" {% if event.type == "#ordn" %}selected{% endif %}>{{ _('Ordination') }}</option>
+                      <option value="#prop" {% if event.type == "#prop" %}selected{% endif %}>{{ _('Property') }}</option>
+                      <option value="#cens" {% if event.type == "#cens" %}selected{% endif %}>{{ _('Census') }}</option>
+                      <option value="#resi" {% if event.type == "#resi" %}selected{% endif %}>{{ _('Residence') }}</option>
+                      <option value="#reti" {% if event.type == "#reti" %}selected{% endif %}>{{ _('Retired') }}</option>
+                      <option value="#vteb" {% if event.type == "#vteb" %}selected{% endif %}>{{ _('Property sale') }}</option>
+                      <option value="#will" {% if event.type == "#will" %}selected{% endif %}>{{ _('Will') }}</option>
+                      <option disabled>──────────</option>
+                      <option value="#bapl" {% if event.type == "#bapl" %}selected{% endif %}>{{ _('Baptism LDS') }}</option>
+                      <option value="#conl" {% if event.type == "#conl" %}selected{% endif %}>{{ _('Confirmation LDS') }}</option>
+                      <option value="#dotl" {% if event.type == "#dotl" %}selected{% endif %}>{{ _('Dotation LDS') }}</option>
+                      <option value="#flkl" {% if event.type == "#flkl" %}selected{% endif %}>{{ _('Family link LDS') }}</option>
+                      <option value="#slgc" {% if event.type == "#slgc" %}selected{% endif %}>{{ _('Sealing child LDS') }}</option>
+                      <option value="#slgp" {% if event.type == "#slgp" %}selected{% endif %}>{{ _('Sealing parent LDS') }}</option>
+                      <option value="#slgs" {% if event.type == "#slgs" %}selected{% endif %}>{{ _('Sealing spouse LDS') }}</option>
+                    </select>
+                  </div>
+                </div>
+                {# Date #}
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">{{ _('Date') }}</label>
+                  <div class="col-sm-10">
+                    <div class="form-inline">
+                      <input type="text" class="form-control mr-2" name="e_date{{ loop.index0 + 4 }}_dd" 
+                             value="{{ event.date.day if event.date else '' }}" placeholder="{{ _('Day') }}" 
+                             pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                      <input type="text" class="form-control mr-2" name="e_date{{ loop.index0 + 4 }}_mm" 
+                             value="{{ event.date.month if event.date else '' }}" placeholder="{{ _('Month') }}" 
+                             pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                      <input type="text" class="form-control mr-2" name="e_date{{ loop.index0 + 4 }}_yyyy" 
+                             value="{{ event.date.year if event.date else '' }}" placeholder="{{ _('Year') }}" 
+                             pattern="[?><~/-+]?\d*/?" size="4" maxlength="8">
+                      <select class="form-control mr-2" name="e_date{{ loop.index0 + 4 }}_prec">
+                        <option value="">-</option>
+                        <option value="sure" {% if event.date and event.date.precision == 'sure' %}selected{% endif %}>{{ _('Exact') }}</option>
+                        <option value="about" {% if event.date and event.date.precision == 'about' %}selected{% endif %}>{{ _('About') }}</option>
+                        <option value="maybe" {% if event.date and event.date.precision == 'maybe' %}selected{% endif %}>{{ _('Possibly') }}</option>
+                        <option value="before" {% if event.date and event.date.precision == 'before' %}selected{% endif %}>{{ _('Before') }}</option>
+                        <option value="after" {% if event.date and event.date.precision == 'after' %}selected{% endif %}>{{ _('After') }}</option>
+                      </select>
+                      <select class="form-control" name="e_date{{ loop.index0 + 4 }}_cal">
+                        <option value="">-</option>
+                        {% for cal in calendar_types %}
+                          <option value="{{ cal.value }}" {% if event.date and event.date.calendar == cal.value %}selected{% endif %}>
+                            {{ _(cal.label) }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                  </div>
+                </div>
+                {# Place #}
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">{{ _('Place') }}</label>
+                  <div class="col-sm-10">
+                    <input type="text" class="form-control" name="e_place{{ loop.index0 + 4 }}" 
+                           value="{{ event.place if event.place else '' }}" placeholder="{{ _('Place') }}">
+                  </div>
+                </div>
+                {# Note #}
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">{{ _('Note') }}</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" name="e_note{{ loop.index0 + 4 }}" rows="1" 
+                              placeholder="{{ _('Note') }}">{{ event.note if event.note else '' }}</textarea>
+                  </div>
+                </div>
+                {# Source #}
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">{{ _('Source') }}</label>
+                  <div class="col-sm-10">
+                    <textarea class="form-control" name="e_src{{ loop.index0 + 4 }}" rows="1" 
+                              placeholder="{{ _('Source') }}">{{ event.source if event.source else '' }}</textarea>
+                  </div>
+                </div>
+                {# Witnesses #}
+                {% if event.witnesses %}
+                  {% for witness in event.witnesses %}
+                    {{ witness_form(loop.index0 + 4, loop.index0, witness, '') }}
+                  {% endfor %}
+                {% endif %}
+                {# Insert witness button #}
+                <div class="row mt-2">
+                  <label class="col-2 col-form-label">{{ _('Insert') }}</label>
+                  <div class="input-group col-10">
+                    <select class="custom-select border border-dark col-1" name="e{{ loop.index0 + 4 }}_ins_witn_n">
+                      {% for i in range(1, 12) %}<option>{{ i }}</option>{% endfor %}
+                    </select>
+                    <div class="input-group-append">
+                      <label class="btn btn-outline-primary mb-0">{{ _('Witness(es)') }}
+                        <input class="ml-1" type="checkbox" name="e{{ loop.index0 + 4 }}_ins_witn" value="on">
+                      </label>
+                      <button type="button" class="btn btn-outline-primary" title="{{ _('Insert witness') }}">{{ _('OK') }}</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {% if not loop.last %}<hr class="my-4">{% endif %}
+            {% endfor %}
+          {% endif %}
+          {# Line before the insert button when at least one event exists #}
+          {% if person and person.events and person.events|length > 0 %}
+            <hr class="my-4">
+          {% endif %}
+          {# Insert event button #}
+          <div class="row mt-3">
+            <label class="col-2 col-form-label">{{ _('Insert') }}</label>
+            <div class="input-group col-10">
+              <select class="custom-select border border-dark col-1" name="ins_event{{ (person.events|length if person and person.events else 0) + 4 }}_n">
+                {% for i in range(1, 11) %}<option>{{ i }}</option>{% endfor %}
+              </select>
+              <div class="input-group-append">
+                <label class="btn btn-outline-primary mb-0">{{ _('Event(s)') }}
+                  <input class="ml-1" type="checkbox" name="ins_event{{ (person.events|length if person and person.events else 0) + 4 }}" value="on">
+                </label>
+                <button type="button" class="btn btn-outline-primary" title="{{ _('Insert event') }}">{{ _('OK') }}</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {# Relations card #}
+      <div class="card" id="relations">
+        <h3 class="card-header py-1 text-center">{{ _('Relations') }}</h3>
+        <div class="card-body">
+          {# Insert relation button at start #}
+          <div class="row">
+            <span class="col-form-label col-2">{{ _('Insert') }}</span>
+            <div class="btn-group col-auto">
+              <label class="btn btn-outline-primary mb-0">1 {{ _('Relation') }}
+                <input class="ml-1" type="checkbox" name="add_relation0" value="on">
+              </label>
+              <button type="button" class="btn btn-outline-primary" title="{{ _('Insert relation') }}">{{ _('OK') }}</button>
+            </div>
+          </div>
+          
+          {% if person and person.relations %}
+            {% for relation in person.relations %}
+              <hr>
+              <div class="relation-item mb-3" id="relation{{ loop.index0 }}">
+                {# Relation type #}
+                <div class="row">
+                  <h5 class="col-sm-2 col-form-label">
+                    <label for="r{{ loop.index0 }}_type" class="mb-0">{{ _('Relation') }} {{ loop.index0 + 1 }}</label>
+                  </h5>
+                  <div class="ml-3">
+                    <select class="form-control" name="r{{ loop.index0 }}_type" id="r{{ loop.index0 }}_type">
+                      <option value="Undef" {% if not relation.type %}selected{% endif %}>-</option>
+                      <option value="Adoption" {% if relation.type == "Adoption" %}selected{% endif %}>{{ _('Adoptive parents') }}</option>
+                      <option value="Recognition" {% if relation.type == "Recognition" %}selected{% endif %}>{{ _('Recognizing parents') }}</option>
+                      <option value="CandidateParent" {% if relation.type == "CandidateParent" %}selected{% endif %}>{{ _('Candidate parents') }}</option>
+                      <option value="GodParent" {% if relation.type == "GodParent" %}selected{% endif %}>{{ _('Godparents') }}</option>
+                      <option value="FosterParent" {% if relation.type == "FosterParent" %}selected{% endif %}>{{ _('Foster parents') }}</option>
+                    </select>
+                  </div>
+                </div>
+                
+                {# Father #}
+                <div class="form-group mt-2">
+                  <div class="row">
+                    <label for="r{{ loop.index0 }}_fath_fn" class="col-sm-2 col-form-label">{{ _('First name') }}</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" name="r{{ loop.index0 }}_fath_fn" maxlength="200" 
+                             value="{{ relation.father.first_name if relation.father else '' }}" 
+                             id="r{{ loop.index0 }}_fath_fn" placeholder="{{ _('First name') }}">
+                    </div>
+                    <label for="r{{ loop.index0 }}_fath_occ" class="col-sm col-form-label">{{ _('Number') }}</label>
+                    <div class="col-sm">
+                      <input type="number" class="form-control" name="r{{ loop.index0 }}_fath_occ" min="0" 
+                             value="{{ relation.father.occ if relation.father and relation.father.occ else '' }}" 
+                             id="r{{ loop.index0 }}_fath_occ" placeholder="">
+                    </div>
+                    <div class="col-sm-2">
+                      <select class="form-control" name="r{{ loop.index0 }}_fath_p" id="r{{ loop.index0 }}_fath_p">
+                        <option value="link" {% if relation.father and relation.father.action == 'link' %}selected{% endif %}>{{ _('Link') }}</option>
+                        <option value="create" {% if not relation.father or relation.father.action == 'create' %}selected{% endif %}>{{ _('Create') }}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label for="r{{ loop.index0 }}_fath_sn" class="col-sm-2 col-form-label">{{ _('Surname') }}</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" name="r{{ loop.index0 }}_fath_sn" 
+                             value="{{ relation.father.surname if relation.father else '' }}" 
+                             id="r{{ loop.index0 }}_fath_sn" placeholder="{{ _('Surname') }}">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label for="r{{ loop.index0 }}_fath_occu" class="col-sm-2 col-form-label">{{ _('Occupation') }}</label>
+                    <div class="col-5">
+                      <input class="form-control" type="text" name="r{{ loop.index0 }}_fath_occu" 
+                             id="r{{ loop.index0 }}_fath_occu" 
+                             value="{{ relation.father.occupation if relation.father else '' }}" 
+                             placeholder="{{ _('Occupation') }}">
+                    </div>
+                    <div class="form-inline ml-3">
+                      <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input" type="checkbox" name="r{{ loop.index0 }}_fath_od" 
+                               id="r{{ loop.index0 }}_fath_od" {% if relation.father and relation.father.dead %}checked{% endif %}>
+                        <label for="r{{ loop.index0 }}_fath_od" class="custom-control-label">{{ _('Of course dead') }}</label>
+                      </div>
+                      <div class="custom-control custom-checkbox ml-3">
+                        <input class="custom-control-input" type="checkbox" name="r{{ loop.index0 }}_fath_pub" 
+                               id="r{{ loop.index0 }}_fath_pub" {% if relation.father and relation.father.public %}checked{% endif %}>
+                        <label for="r{{ loop.index0 }}_fath_pub" class="custom-control-label">{{ _('Public') }}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                {# Mother #}
+                <div class="form-group mt-2">
+                  <div class="row">
+                    <label for="r{{ loop.index0 }}_moth_fn" class="col-sm-2 col-form-label">{{ _('First name') }}</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" name="r{{ loop.index0 }}_moth_fn" maxlength="200" 
+                             value="{{ relation.mother.first_name if relation.mother else '' }}" 
+                             id="r{{ loop.index0 }}_moth_fn" placeholder="{{ _('First name') }}">
+                    </div>
+                    <label for="r{{ loop.index0 }}_moth_occ" class="col-sm col-form-label">{{ _('Number') }}</label>
+                    <div class="col-sm">
+                      <input type="number" class="form-control" name="r{{ loop.index0 }}_moth_occ" min="0" 
+                             value="{{ relation.mother.occ if relation.mother and relation.mother.occ else '' }}" 
+                             id="r{{ loop.index0 }}_moth_occ" placeholder="">
+                    </div>
+                    <div class="col-sm-2">
+                      <select class="form-control" name="r{{ loop.index0 }}_moth_p" id="r{{ loop.index0 }}_moth_p">
+                        <option value="link" {% if relation.mother and relation.mother.action == 'link' %}selected{% endif %}>{{ _('Link') }}</option>
+                        <option value="create" {% if not relation.mother or relation.mother.action == 'create' %}selected{% endif %}>{{ _('Create') }}</option>
+                      </select>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label for="r{{ loop.index0 }}_moth_sn" class="col-sm-2 col-form-label">{{ _('Surname') }}</label>
+                    <div class="col-sm-5">
+                      <input type="text" class="form-control" name="r{{ loop.index0 }}_moth_sn" 
+                             value="{{ relation.mother.surname if relation.mother else '' }}" 
+                             id="r{{ loop.index0 }}_moth_sn" placeholder="{{ _('Surname') }}">
+                    </div>
+                  </div>
+                  <div class="row">
+                    <label for="r{{ loop.index0 }}_moth_occu" class="col-sm-2 col-form-label">{{ _('Occupation') }}</label>
+                    <div class="col-5">
+                      <input class="form-control" type="text" name="r{{ loop.index0 }}_moth_occu" 
+                             id="r{{ loop.index0 }}_moth_occu" 
+                             value="{{ relation.mother.occupation if relation.mother else '' }}" 
+                             placeholder="{{ _('Occupation') }}">
+                    </div>
+                    <div class="form-inline ml-3">
+                      <div class="custom-control custom-checkbox">
+                        <input class="custom-control-input" type="checkbox" name="r{{ loop.index0 }}_moth_od" 
+                               id="r{{ loop.index0 }}_moth_od" {% if relation.mother and relation.mother.dead %}checked{% endif %}>
+                        <label for="r{{ loop.index0 }}_moth_od" class="custom-control-label">{{ _('Of course dead') }}</label>
+                      </div>
+                      <div class="custom-control custom-checkbox ml-3">
+                        <input class="custom-control-input" type="checkbox" name="r{{ loop.index0 }}_moth_pub" 
+                               id="r{{ loop.index0 }}_moth_pub" {% if relation.mother and relation.mother.public %}checked{% endif %}>
+                        <label for="r{{ loop.index0 }}_moth_pub" class="custom-control-label">{{ _('Public') }}</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                
+                <hr>
+                {# Insert relation button #}
+                <div class="row">
+                  <span class="col-form-label col-2">{{ _('Insert') }}</span>
+                  <div class="btn-group col-auto">
+                    <label class="btn btn-outline-primary mb-0">1 {{ _('Relation') }}
+                      <input class="ml-1" type="checkbox" name="add_relation{{ loop.index0 }}" value="on">
+                    </label>
+                    <button type="button" class="btn btn-outline-primary" title="{{ _('Insert relation') }}">{{ _('OK') }}</button>
+                  </div>
+                </div>
+              </div>
+            {% endfor %}
+          {% else %}
+            <hr>
+            {# Empty first relation template #}
+            <div class="relation-item mb-3" id="relation1">
+              <div class="row">
+                <h5 class="col-sm-2 col-form-label">
+                  <label for="r1_type" class="mb-0">{{ _('Relation') }} 1</label>
+                </h5>
+                <div class="ml-3">
+                  <select class="form-control" name="r1_type" id="r1_type">
+                    <option value="Undef" selected>-</option>
+                    <option value="Adoption">{{ _('Adoptive parents') }}</option>
+                    <option value="Recognition">{{ _('Recognizing parents') }}</option>
+                    <option value="CandidateParent">{{ _('Candidate parents') }}</option>
+                    <option value="GodParent">{{ _('Godparents') }}</option>
+                    <option value="FosterParent">{{ _('Foster parents') }}</option>
+                  </select>
+                </div>
+              </div>
+              
+              {# Father fields (empty) #}
+              <div class="form-group mt-2">
+                <div class="row">
+                  <label for="r1_fath_fn" class="col-sm-2 col-form-label">{{ _('First name') }}</label>
+                  <div class="col-sm-5">
+                    <input type="text" class="form-control" name="r1_fath_fn" maxlength="200" 
+                           value="" id="r1_fath_fn" placeholder="{{ _('First name') }}">
+                  </div>
+                  <label for="r1_fath_occ" class="col-sm col-form-label">{{ _('Number') }}</label>
+                  <div class="col-sm">
+                    <input type="number" class="form-control" name="r1_fath_occ" min="0" 
+                           value="" id="r1_fath_occ" placeholder="">
+                  </div>
+                  <div class="col-sm-2">
+                    <select class="form-control" name="r1_fath_p" id="r1_fath_p">
+                      <option value="link">{{ _('Link') }}</option>
+                      <option value="create" selected>{{ _('Create') }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <label for="r1_fath_sn" class="col-sm-2 col-form-label">{{ _('Surname') }}</label>
+                  <div class="col-sm-5">
+                    <input type="text" class="form-control" name="r1_fath_sn" 
+                           value="" id="r1_fath_sn" placeholder="{{ _('Surname') }}">
+                  </div>
+                </div>
+                <div class="row">
+                  <label for="r1_fath_occu" class="col-sm-2 col-form-label">{{ _('Occupation') }}</label>
+                  <div class="col-5">
+                    <input class="form-control" type="text" name="r1_fath_occu" 
+                           id="r1_fath_occu" value="" placeholder="{{ _('Occupation') }}">
+                  </div>
+                  <div class="form-inline ml-3">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" type="checkbox" name="r1_fath_od" id="r1_fath_od">
+                      <label for="r1_fath_od" class="custom-control-label">{{ _('Of course dead') }}</label>
+                    </div>
+                    <div class="custom-control custom-checkbox ml-3">
+                      <input class="custom-control-input" type="checkbox" name="r1_fath_pub" id="r1_fath_pub">
+                      <label for="r1_fath_pub" class="custom-control-label">{{ _('Public') }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {# Mother fields (empty) #}
+              <div class="form-group mt-2">
+                <div class="row">
+                  <label for="r1_moth_fn" class="col-sm-2 col-form-label">{{ _('First name') }}</label>
+                  <div class="col-sm-5">
+                    <input type="text" class="form-control" name="r1_moth_fn" maxlength="200" 
+                           value="" id="r1_moth_fn" placeholder="{{ _('First name') }}">
+                  </div>
+                  <label for="r1_moth_occ" class="col-sm col-form-label">{{ _('Number') }}</label>
+                  <div class="col-sm">
+                    <input type="number" class="form-control" name="r1_moth_occ" min="0" 
+                           value="" id="r1_moth_occ" placeholder="">
+                  </div>
+                  <div class="col-sm-2">
+                    <select class="form-control" name="r1_moth_p" id="r1_moth_p">
+                      <option value="link">{{ _('Link') }}</option>
+                      <option value="create" selected>{{ _('Create') }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="row">
+                  <label for="r1_moth_sn" class="col-sm-2 col-form-label">{{ _('Surname') }}</label>
+                  <div class="col-sm-5">
+                    <input type="text" class="form-control" name="r1_moth_sn" 
+                           value="" id="r1_moth_sn" placeholder="{{ _('Surname') }}">
+                  </div>
+                </div>
+                <div class="row">
+                  <label for="r1_moth_occu" class="col-sm-2 col-form-label">{{ _('Occupation') }}</label>
+                  <div class="col-5">
+                    <input class="form-control" type="text" name="r1_moth_occu" 
+                           id="r1_moth_occu" value="" placeholder="{{ _('Occupation') }}">
+                  </div>
+                  <div class="form-inline ml-3">
+                    <div class="custom-control custom-checkbox">
+                      <input class="custom-control-input" type="checkbox" name="r1_moth_od" id="r1_moth_od">
+                      <label for="r1_moth_od" class="custom-control-label">{{ _('Of course dead') }}</label>
+                    </div>
+                    <div class="custom-control custom-checkbox ml-3">
+                      <input class="custom-control-input" type="checkbox" name="r1_moth_pub" id="r1_moth_pub">
+                      <label for="r1_moth_pub" class="custom-control-label">{{ _('Public') }}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <hr>
+              <div class="row">
+                <span class="col-form-label col-2">{{ _('Insert') }}</span>
+                <div class="btn-group col-auto">
+                  <label class="btn btn-outline-primary mb-0">1 {{ _('Relation') }}
+                    <input class="ml-1" type="checkbox" name="add_relation1" value="on">
+                  </label>
+                  <button type="button" class="btn btn-outline-primary" title="{{ _('Insert relation') }}">{{ _('OK') }}</button>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      {# Titles card #}
+      <div class="card" id="titles">
+        <h3 class="card-header py-1 text-center">{{ _('Titles') }}</h3>
+        <div class="card-body">
+          {% if person and person.titles %}
+            {% for title in person.titles %}
+              {# Insert row before each title #}
+              <div class="row title-insert-row">
+                <label class="col-form-label col-2">{{ _('Insert') }}</label>
+                <div class="input-group col-10">
+                  <select class="custom-select border border-dark col-1" name="ins_title{{ loop.index0 }}_n">
+                    {% for i in range(1, 11) %}<option>{{ i }}</option>{% endfor %}
+                  </select>
+                  <div class="input-group-append">
+                    <label class="btn btn-outline-primary mb-0">{{ _('Title(s)') }}
+                      <input class="ml-1" type="checkbox" name="ins_title{{ loop.index0 }}" value="on">
+                    </label>
+                    <button type="button" class="btn btn-outline-primary title-insert-btn" data-after="{{ loop.index0 }}" title="{{ _('Insert title') }}">{{ _('OK') }}</button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="title-wrapper">
+                <hr>
+                <div class="title-item mb-3" id="title{{ loop.index0 }}">
+                <div class="form-group">
+                  <div class="row">
+                    <label for="t_ident{{ loop.index0 }}" class="col-form-label col-sm-2">{{ _('Title') }}</label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" name="t_ident{{ loop.index0 }}" 
+                             value="{{ title.ident if title and title.ident else '' }}" 
+                             id="t_ident{{ loop.index0 }}" placeholder="{{ _('Title') }}">
+                    </div>
+                    <label for="t_place{{ loop.index0 }}" class="col-form-label col-sm-2">{{ _('Fief') }}</label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" name="t_place{{ loop.index0 }}" 
+                             value="{{ title.place if title and title.place else '' }}" 
+                             id="t_place{{ loop.index0 }}" placeholder="{{ _('Fief') }}">
+                    </div>
+                  </div>
+                  <div class="row mt-2">
+                    <label for="t_name{{ loop.index0 }}" class="col-form-label col-sm-2">{{ _('Name') }}</label>
+                    <div class="col-sm-4">
+                      <input type="text" class="form-control" name="t_name{{ loop.index0 }}" 
+                             value="{{ title.name if title and title.name else '' }}" 
+                             id="t_name{{ loop.index0 }}" placeholder="{{ _('Name') }}">
+                    </div>
+                    <label for="t_nth{{ loop.index0 }}" class="col-form-label col-sm-2">{{ _('Rank') }}</label>
+                    <div class="col-sm-1">
+                      <input type="text" class="form-control" name="t_nth{{ loop.index0 }}" size="3" 
+                             value="{{ title.nth if title and title.nth else '' }}" 
+                             id="t_nth{{ loop.index0 }}" placeholder="#">
+                    </div>
+                    <div class="form-inline form-check ml-3">
+                      <input class="form-check-input" id="t_main_title{{ loop.index0 }}" type="checkbox" 
+                             name="t_main_title{{ loop.index0 }}" value="on" 
+                             {% if title and title.main %}checked{% endif %}>
+                      <label class="form-check-label" for="t_main_title{{ loop.index0 }}">{{ _('Main title') }}</label>
+                    </div>
+                  </div>
+                </div>
+                {# Date start #}
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">{{ _('Begin') }}</label>
+                  <div class="col-sm-10">
+                    <div class="form-inline mb-2">
+                      <input type="text" class="form-control mr-2" name="t_date_start{{ loop.index0 }}_dd" 
+                             value="{{ title.date_start.day if title.date_start else '' }}" 
+                             placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                      <input type="text" class="form-control mr-2" name="t_date_start{{ loop.index0 }}_mm" 
+                             value="{{ title.date_start.month if title.date_start else '' }}" 
+                             placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                      <input type="text" class="form-control mr-2" name="t_date_start{{ loop.index0 }}_yyyy" 
+                             value="{{ title.date_start.year if title.date_start else '' }}" 
+                             placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\d*/?" size="4" maxlength="8">
+                      <select class="form-control mr-2" name="t_date_start{{ loop.index0 }}_prec">
+                        <option value="">-</option>
+                        <option value="sure" {% if title.date_start and title.date_start.precision == 'sure' %}selected{% endif %}>{{ _('Exact') }}</option>
+                        <option value="about" {% if title.date_start and title.date_start.precision == 'about' %}selected{% endif %}>{{ _('About') }}</option>
+                        <option value="maybe" {% if title.date_start and title.date_start.precision == 'maybe' %}selected{% endif %}>{{ _('Possibly') }}</option>
+                        <option value="before" {% if title.date_start and title.date_start.precision == 'before' %}selected{% endif %}>{{ _('Before') }}</option>
+                        <option value="after" {% if title.date_start and title.date_start.precision == 'after' %}selected{% endif %}>{{ _('After') }}</option>
+                        <option value="oryear" {% if title.date_start and title.date_start.precision == 'oryear' %}selected{% endif %}>…{{ _('or') }}…</option>
+                        <option value="yearint" {% if title.date_start and title.date_start.precision == 'yearint' %}selected{% endif %}>…{{ _('between') }}…</option>
+                      </select>
+                      <select class="form-control" name="t_date_start{{ loop.index0 }}_cal">
+                        <option value="">-</option>
+                        {% for cal in calendar_types %}
+                          <option value="{{ cal.value }}" {% if title.date_start and title.date_start.calendar == cal.value %}selected{% endif %}>
+                            {{ _(cal.label) }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="form-inline">
+                      <input type="text" class="form-control mr-2" name="t_date_start{{ loop.index0 }}_orday" 
+                             value="{{ title.date_start.orday if title.date_start and title.date_start.orday else '' }}" 
+                             placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                      <input type="text" class="form-control mr-2" name="t_date_start{{ loop.index0 }}_ormonth" 
+                             value="{{ title.date_start.ormonth if title.date_start and title.date_start.ormonth else '' }}" 
+                             placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                      <input type="text" class="form-control mr-2" name="t_date_start{{ loop.index0 }}_oryear" 
+                             value="{{ title.date_start.oryear if title.date_start and title.date_start.oryear else '' }}" 
+                             placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\d*/?" size="4" maxlength="8">
+                      <input type="text" class="form-control flex-fill" name="t_date_start{{ loop.index0 }}_text" 
+                             value="{{ title.date_start.text if title.date_start and title.date_start.text else '' }}" 
+                             placeholder="{{ _('…or text') }}">
+                    </div>
+                  </div>
+                </div>
+                {# Date end #}
+                <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">{{ _('End') }}</label>
+                  <div class="col-sm-10">
+                    <div class="form-inline mb-2">
+                      <input type="text" class="form-control mr-2" name="t_date_end{{ loop.index0 }}_dd" 
+                             value="{{ title.date_end.day if title.date_end else '' }}" 
+                             placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                      <input type="text" class="form-control mr-2" name="t_date_end{{ loop.index0 }}_mm" 
+                             value="{{ title.date_end.month if title.date_end else '' }}" 
+                             placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                      <input type="text" class="form-control mr-2" name="t_date_end{{ loop.index0 }}_yyyy" 
+                             value="{{ title.date_end.year if title.date_end else '' }}" 
+                             placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\d*/?" size="4" maxlength="8">
+                      <select class="form-control mr-2" name="t_date_end{{ loop.index0 }}_prec">
+                        <option value="">-</option>
+                        <option value="sure" {% if title.date_end and title.date_end.precision == 'sure' %}selected{% endif %}>{{ _('Exact') }}</option>
+                        <option value="about" {% if title.date_end and title.date_end.precision == 'about' %}selected{% endif %}>{{ _('About') }}</option>
+                        <option value="maybe" {% if title.date_end and title.date_end.precision == 'maybe' %}selected{% endif %}>{{ _('Possibly') }}</option>
+                        <option value="before" {% if title.date_end and title.date_end.precision == 'before' %}selected{% endif %}>{{ _('Before') }}</option>
+                        <option value="after" {% if title.date_end and title.date_end.precision == 'after' %}selected{% endif %}>{{ _('After') }}</option>
+                        <option value="oryear" {% if title.date_end and title.date_end.precision == 'oryear' %}selected{% endif %}>…{{ _('or') }}…</option>
+                        <option value="yearint" {% if title.date_end and title.date_end.precision == 'yearint' %}selected{% endif %}>…{{ _('between') }}…</option>
+                      </select>
+                      <select class="form-control" name="t_date_end{{ loop.index0 }}_cal">
+                        <option value="">-</option>
+                        {% for cal in calendar_types %}
+                          <option value="{{ cal.value }}" {% if title.date_end and title.date_end.calendar == cal.value %}selected{% endif %}>
+                            {{ _(cal.label) }}
+                          </option>
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="form-inline">
+                      <input type="text" class="form-control mr-2" name="t_date_end{{ loop.index0 }}_orday" 
+                             value="{{ title.date_end.orday if title.date_end and title.date_end.orday else '' }}" 
+                             placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                      <input type="text" class="form-control mr-2" name="t_date_end{{ loop.index0 }}_ormonth" 
+                             value="{{ title.date_end.ormonth if title.date_end and title.date_end.ormonth else '' }}" 
+                             placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                      <input type="text" class="form-control mr-2" name="t_date_end{{ loop.index0 }}_oryear" 
+                             value="{{ title.date_end.oryear if title.date_end and title.date_end.oryear else '' }}" 
+                             placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\d*/?" size="4" maxlength="8">
+                      <input type="text" class="form-control flex-fill" name="t_date_end{{ loop.index0 }}_text" 
+                             value="{{ title.date_end.text if title.date_end and title.date_end.text else '' }}" 
+                             placeholder="{{ _('…or text') }}">
+                    </div>
+                  </div>
+                </div>
+              </div>
+                <hr>
+              </div>{# end title-wrapper #}
+            {% endfor %}
+            {# Insert row after last title #}
+            <div class="row title-insert-row">
+              <label class="col-form-label col-2">{{ _('Insert') }}</label>
+              <div class="input-group col-10">
+                <select class="custom-select border border-dark col-1" name="ins_title{{ person.titles|length }}_n">
+                  {% for i in range(1, 11) %}<option>{{ i }}</option>{% endfor %}
+                </select>
+                <div class="input-group-append">
+                  <label class="btn btn-outline-primary mb-0">{{ _('Title(s)') }}
+                    <input class="ml-1" type="checkbox" name="ins_title{{ person.titles|length }}" value="on">
+                  </label>
+                  <button type="button" class="btn btn-outline-primary title-insert-btn" data-after="{{ person.titles|length }}" title="{{ _('Insert title') }}">{{ _('OK') }}</button>
+                </div>
+              </div>
+            </div>
+          {% else %}
+            {# No titles yet - just show insert row #}
+            <div class="row title-insert-row">
+              <label class="col-form-label col-2">{{ _('Insert') }}</label>
+              <div class="input-group col-10">
+                <select class="custom-select border border-dark col-1" name="ins_title0_n">
+                  {% for i in range(1, 11) %}<option>{{ i }}</option>{% endfor %}
+                </select>
+                <div class="input-group-append">
+                  <label class="btn btn-outline-primary mb-0">{{ _('Title(s)') }}
+                    <input class="ml-1" type="checkbox" name="ins_title0" value="on">
+                  </label>
+                  <button type="button" class="btn btn-outline-primary title-insert-btn" data-after="0" title="{{ _('Insert title') }}">{{ _('OK') }}</button>
+                </div>
+              </div>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+
+      {# Notes card #}
+      <div class="card" id="notes">
+        <h3 class="card-header py-1 text-center">{{ _('Notes') }}</h3>
+        <div class="card-body">
+          <div class="form-group">
+            <textarea class="form-control" name="notes" id="notes" rows="6" 
+                      placeholder="{{ _('Notes about this person') }}">{{ person.notes if person and person.notes else '' }}</textarea>
+          </div>
+          <div class="text-center mt-3">
+            <button type="submit" class="btn btn-primary btn-lg px-5">
+              <i class="fa fa-check"></i> {{ _('Validate') }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  {# JavaScript #}
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}"></script>
+  <script>
+    $(document).ready(function() {
+      let witnessCounters = {}; // Track witness counters per event
+      let eventCounter = {{ (person.events|length if person and person.events else 0) + 3 }}; // Start after burial
+
+      function toggleDeathFields(status) {
+        const deathFields = document.getElementById('death_fields');
+        if (status === 'alive' || status === 'dont_know') {
+          deathFields.style.display = 'none';
+          document.getElementById('e_name2').value = '';
+        } else {
+          deathFields.style.display = 'block';
+          document.getElementById('e_name2').value = '#deat';
+        }
+      }
+
+      // Make toggleDeathFields available globally
+      window.toggleDeathFields = toggleDeathFields;
+
+      // Handle witness insertion for any event
+      $(document).on('click', 'button[title*="{{ _("Insert witness") }}"]', function(e) {
+        e.preventDefault();
+        const $button = $(this);
+        const $row = $button.closest('.row');
+        const $select = $row.find('select[name$="_ins_witn_n"]');
+        const $checkbox = $row.find('input[type="checkbox"][name$="_ins_witn"]');
+        
+        if (!$checkbox.is(':checked')) {
+          alert('{{ _("Please check the checkbox to insert witnesses") }}');
+          return;
+        }
+
+        const numToInsert = parseInt($select.val()) || 1;
+        const eventMatch = $checkbox.attr('name').match(/^e(\d+)_ins_witn$/);
+        
+        if (!eventMatch) return;
+        
+        const eventNum = eventMatch[1];
+        
+        // Initialize counter for this event if not exists
+        if (!witnessCounters[eventNum]) {
+          witnessCounters[eventNum] = 0;
+          // Count existing witnesses for this event
+          $(`[name^="e${eventNum}_witn"]`).each(function() {
+            const nm = $(this).attr('name').match(new RegExp(`^e${eventNum}_witn(\\d+)`));
+            if (nm) witnessCounters[eventNum] = Math.max(witnessCounters[eventNum], parseInt(nm[1]) + 1);
+          });
+        }
+
+        // Insert witnesses
+        for (let i = 0; i < numToInsert; i++) {
+          const witnessNum = witnessCounters[eventNum]++;
+          const $newWitness = createWitnessForm(eventNum, witnessNum);
+          $row.before($newWitness);
+          // bind toggle behavior for newly added witness
+          initializeWitnessToggles($newWitness);
+        }
+
+        $checkbox.prop('checked', false);
+      });
+
+      // Handle event insertion
+      $(document).on('click', 'button[title*="{{ _("Insert event") }}"]', function(e) {
+        e.preventDefault();
+        const $button = $(this);
+        const $row = $button.closest('.row');
+        const $select = $row.find('select[name^="ins_event"]');
+        const $checkbox = $row.find('input[type="checkbox"][name^="ins_event"]');
+        
+        if (!$checkbox.is(':checked')) {
+          alert('{{ _("Please check the checkbox to insert events") }}');
+          return;
+        }
+
+        const numToInsert = parseInt($select.val()) || 1;
+
+        for (let i = 0; i < numToInsert; i++) {
+          eventCounter++;
+          const $newEvent = createEventForm(eventCounter);
+          // If there is a previous event and no separator immediately before the insert row, add one
+          const $prev = $row.prev();
+          const hasPrevEvent = $row.prevAll('.event-item').length > 0;
+          if (hasPrevEvent && !$prev.is('hr')) {
+            $row.before('<hr class="my-4">');
+          }
+          // Insert the new event just before the insert row
+          $row.before($newEvent);
+        }
+
+        // Ensure a single separator before the insert row when there is at least one event
+        const hasAnyEvent = $row.prevAll('.event-item').length > 0;
+        if (hasAnyEvent && !$row.prev().is('hr')) {
+          $row.before('<hr class="my-4">');
+        }
+
+        $checkbox.prop('checked', false);
+      });
+
+      // Handle relation insertion
+      $(document).on('click', 'button[title*="{{ _("Insert relation") }}"]', function(e) {
+        e.preventDefault();
+        const $button = $(this);
+        const $checkbox = $button.closest('.btn-group, .row').find('input[type="checkbox"][name^="add_relation"]');
+        
+        if (!$checkbox.is(':checked')) {
+          alert('{{ _("Please check the checkbox to insert relation") }}');
+          return;
+        }
+
+        // Get the checkbox name to determine the relation number
+        const checkboxName = $checkbox.attr('name');
+        const match = checkboxName.match(/add_relation(\d+)/);
+        if (!match) return;
+        
+        const currentRelationNum = parseInt(match[1]);
+        const nextRelationNum = currentRelationNum + 1;
+        
+        // Create new relation form
+        const $newRelation = createRelationForm(nextRelationNum);
+        
+        // Find where to insert (after current relation's insert button row)
+        const $insertRow = $button.closest('.row');
+        $insertRow.after($newRelation);
+        
+        $checkbox.prop('checked', false);
+      });
+
+      // Handle title insertion
+      $(document).on('click', '.title-insert-btn', function(e) {
+        e.preventDefault();
+        e.stopPropagation();
+        const $btn = $(this);
+        const $row = $btn.closest('.title-insert-row');
+        const $checkbox = $row.find('input[type="checkbox"][name^="ins_title"]');
+        
+        if (!$checkbox.is(':checked')) {
+          alert('{{ _("Please check the checkbox to insert titles") }}');
+          return false;
+        }
+        
+        const afterIdx = parseInt($btn.data('after')) || 0;
+        const $select = $row.find('select');
+        const numToInsert = parseInt($select.val()) || 1;
+        handleTitleInsertion(afterIdx, numToInsert);
+        $checkbox.prop('checked', false);
+        return false;
+      });
+
+      function handleTitleInsertion(afterIndex, numToInsert) {
+        const $titlesCardBody = $('#titles').closest('.card').find('.card-body').first();
+        if (!$titlesCardBody.length) return;
+
+        // Find current title wrappers
+        const $wrappers = $titlesCardBody.children('.title-wrapper');
+
+        // Determine insertion point
+        // afterIndex 0 -> before first title
+        // afterIndex N -> after Nth title
+        if (afterIndex === 0) {
+          // Insert BEFORE first title
+          const $firstTitle = $wrappers.first();
+          for (let i = 0; i < numToInsert; i++) {
+            const $newWrap = $('<div class="title-wrapper"></div>').append(createTitleForm('X'));
+            if ($firstTitle.length) {
+              $firstTitle.before($newWrap);
+            } else {
+              // No titles yet, append to card body
+              $titlesCardBody.append($newWrap);
+            }
+          }
+        } else {
+          // Insert AFTER the Nth title
+          let $anchor = $wrappers.eq(afterIndex - 1);
+          for (let i = 0; i < numToInsert; i++) {
+            const $newWrap = $('<div class="title-wrapper"></div>').append(createTitleForm('X'));
+            if ($anchor.length) {
+              $anchor.after($newWrap);
+              $anchor = $newWrap; // next insertion comes after this one
+            } else {
+              // Fallback: append at end
+              $titlesCardBody.append($newWrap);
+            }
+          }
+        }
+
+        // After insertion, rebuild insert-rows and renumber titles
+        rebuildTitleInsertRows();
+        renumberAllTitles();
+      }
+
+      function renumberAllTitles() {
+        const $titlesCardBody = $('#titles').closest('.card').find('.card-body').first();
+        if (!$titlesCardBody.length) return;
+
+        const $wrappers = $titlesCardBody.children('.title-wrapper');
+
+        $wrappers.each(function(i) {
+          const newNum = i;
+          const $w = $(this);
+
+          // Replace placeholder names (titleX_) or numeric titleN_ to title{newNum}_ within this wrapper
+          $w.find('*').each(function() {
+            const $el = $(this);
+            // name
+            const name = $el.attr('name');
+            if (name) {
+              const newName = name.replace(/(?:^|_)(t_(?:ident|name|place|nth|main_title|date_(?:start|end)(?:_(?:dd|mm|yyyy|prec|cal|orday|ormonth|oryear|text))?))(?:X|\d+)(_|$)/g, (match, p1, p2) => {
+                return '_' + p1 + newNum + p2;
+              });
+              if (newName !== name) $el.attr('name', newName);
+            }
+            // id
+            const id = $el.attr('id');
+            if (id) {
+              const newId = id.replace(/(?:^|_)(t_(?:ident|name|place|nth|main_title))(?:X|\d+)$/g, '$1' + newNum);
+              if (newId !== id) $el.attr('id', newId);
+            }
+            // for
+            const fr = $el.attr('for');
+            if (fr) {
+              const newFor = fr.replace(/(?:^|_)(t_(?:ident|name|place|nth|main_title))(?:X|\d+)$/g, '$1' + newNum);
+              if (newFor !== fr) $el.attr('for', newFor);
+            }
+          });
+
+          // Update the title wrapper ID
+          $w.find('.title-item').first().attr('id', 'title' + newNum);
+        });
+      }
+
+      function rebuildTitleInsertRows() {
+        const $titlesCardBody = $('#titles').closest('.card').find('.card-body').first();
+        if (!$titlesCardBody.length) return;
+        
+        // Remove existing insert rows
+        $titlesCardBody.children('.title-insert-row').remove();
+
+        const $wrappers = $titlesCardBody.children('.title-wrapper');
+
+        // Insert before each wrapper
+        $wrappers.each(function(i) {
+          $(this).before(createTitleInsertRow(i));
+        });
+
+        // Insert after last wrapper
+        if ($wrappers.length) {
+          $wrappers.last().after(createTitleInsertRow($wrappers.length));
+        } else {
+          // no wrappers, add one insert row at start
+          $titlesCardBody.append(createTitleInsertRow(0));
+        }
+      }
+
+      function createTitleInsertRow(afterTitleNum) {
+        const options = Array.from({length:10}, (_,i) => `<option>${i+1}</option>`).join('');
+        const $el = $(`
+          <div class="row title-insert-row">
+            <label class="col-form-label col-2">{{ _('Insert') }}</label>
+            <div class="input-group col-10">
+              <select class="custom-select border border-dark col-1" name="ins_title${afterTitleNum}_n">
+                ${options}
+              </select>
+              <div class="input-group-append">
+                <label class="btn btn-outline-primary mb-0">{{ _('Title(s)') }}
+                  <input class="ml-1" type="checkbox" name="ins_title${afterTitleNum}" value="on">
+                </label>
+                <button type="button" class="btn btn-outline-primary title-insert-btn" data-after="${afterTitleNum}" title="{{ _('Insert title') }}">{{ _('OK') }}</button>
+              </div>
+            </div>
+          </div>
+        `);
+        return $el;
+      }
+
+      function createWitnessForm(eventNum, witnessNum) {
+        return $(`
+          <div class="form-group mt-3 border-top pt-3">
+            <div class="row">
+              <h5 class="col-form-label col-2">{{ _('Witness') }} ${witnessNum + 1}</h5>
+              <div class="col-2">
+                <select class="form-control" name="e${eventNum}_witn${witnessNum}_p" id="e${eventNum}_witn${witnessNum}_p_selct">
+                  <option value="create" selected>{{ _('Create') }}</option>
+                  <option value="link">{{ _('Link') }}</option>
+                </select>
+              </div>
+              <div class="col-4" id="e${eventNum}_witn${witnessNum}_p_selct_kind">
+                <select class="form-control" name="e${eventNum}_witn${witnessNum}_kind">
+                  <option value="">{{ _('Witness') }}</option>
+                  <option value="godp">{{ _('Godparent') }}</option>
+                  <option value="info">{{ _('Informant') }}</option>
+                  <option value="atte">{{ _('Present') }}</option>
+                  <option value="ment">{{ _('Mentioned') }}</option>
+                  <option value="offi">{{ _('Civil registrar') }}</option>
+                  <option value="reli">{{ _('Parish registrar') }}</option>
+                  <option value="othe">{{ _('Other') }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <label class="col-2 col-form-label">{{ _('First name') }}</label>
+              <div class="col-6">
+                <input type="text" class="form-control" name="e${eventNum}_witn${witnessNum}_fn" value="" placeholder="{{ _('First name') }}">
+              </div>
+              <label class="col-2 col-form-label">{{ _('Number') }}</label>
+              <div class="col-2">
+                <input type="number" class="form-control" name="e${eventNum}_witn${witnessNum}_occ" min="0" value="" placeholder="#">
+              </div>
+            </div>
+            <div class="row mt-2">
+              <label class="col-2 col-form-label">{{ _('Surname') }}</label>
+              <div class="col-6">
+                <input type="text" class="form-control" name="e${eventNum}_witn${witnessNum}_sn" value="" placeholder="{{ _('Surname') }}">
+              </div>
+              <div class="col-4" id="e${eventNum}_witn${witnessNum}_p_selct_sex">
+                <div class="form-inline">
+                  <span class="mr-2">{{ _('Sex') }}:</span>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="e${eventNum}_witn${witnessNum}_sex" value="M">
+                    <label class="form-check-label">{{ _('M') }}</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="e${eventNum}_witn${witnessNum}_sex" value="U" checked>
+                    <label class="form-check-label">?</label>
+                  </div>
+                  <div class="form-check form-check-inline">
+                    <input class="form-check-input" type="radio" name="e${eventNum}_witn${witnessNum}_sex" value="F">
+                    <label class="form-check-label">{{ _('F') }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2" id="e${eventNum}_witn${witnessNum}_p_selct_data">
+              <label class="col-2 col-form-label">{{ _('Occupation') }}</label>
+              <div class="col-6">
+                <input class="form-control" type="text" name="e${eventNum}_witn${witnessNum}_occu" value="" placeholder="{{ _('Occupation') }}">
+              </div>
+              <div class="col-4">
+                <div class="custom-control custom-checkbox">
+                  <input class="custom-control-input" type="checkbox" name="e${eventNum}_witn${witnessNum}_pub" id="e${eventNum}_witn${witnessNum}_pub">
+                  <label for="e${eventNum}_witn${witnessNum}_pub" class="custom-control-label">{{ _('Public') }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="row mt-2" id="e${eventNum}_witn${witnessNum}_p_selct_mod" style="display: none;">
+              <div class="col-12">
+                <a href="#" onclick="return false;" style="pointer-events: none; color: #adb5bd;">
+                  <i class="fa fa-user-pen fa-fw mr-1"></i>
+                  {{ _('Modify witness') }}
+                </a>
+              </div>
+            </div>
+          </div>
+        `);
+      }
+
+      // Toggle behavior for witness Create/Link selection
+      function applyWitnessToggle($select) {
+        const id = $select.attr('id');
+        if (!id) return;
+        const prefix = id.replace(/_p_selct$/, '');
+        const $sex = $('#' + prefix + '_p_selct_sex');
+        const $data = $('#' + prefix + '_p_selct_data');
+        const $mod = $('#' + prefix + '_p_selct_mod');
+        const val = $select.val();
+        if (val === 'link') {
+          $sex.hide();
+          $data.hide();
+          $mod.css('display', 'flex');
+        } else {
+          $sex.show();
+          $data.css('display', 'flex');
+          $mod.hide();
+        }
+      }
+
+      function initializeWitnessToggles($scope) {
+        const $container = $scope ? $scope : $(document.body);
+        $container.find('select[id$="_p_selct"]').each(function() {
+          applyWitnessToggle($(this));
+        });
+      }
+
+      // Bind change handler for dynamic toggles
+      $(document).on('change', 'select[id$="_p_selct"]', function() {
+        applyWitnessToggle($(this));
+      });
+
+      // Initialize toggles for existing server-rendered witnesses
+      initializeWitnessToggles();
+
+      function createEventForm(eventNum) {
+        // Pre-generate calendar options from server-side data
+        const calendarOptions = [
+          '<option value="">-</option>',
+          {% for cal in calendar_types %}
+            '<option value="{{ cal.value }}">{{ _(cal.label) }}</option>',
+          {% endfor %}
+        ].join('');
+
+        return $(`
+          <div class="event-item mb-3" id="event${eventNum}">
+            <input type="hidden" name="e_name${eventNum}" value="" id="e_name${eventNum}">
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label font-weight-bold">{{ _('Event type') }}</label>
+              <div class="col-sm-10">
+                <select class="form-control font-weight-bold" name="pevent_select${eventNum}" 
+                        onchange="document.getElementById('e_name${eventNum}').value = this.value;">
+                  <option value="">{{ _('Custom event') }}</option>
+                  <option disabled>──────────</option>
+                  <option value="">-</option>
+                  <option value="#acco">{{ _('Accomplishment') }}</option>
+                  <option value="#acqu">{{ _('Acquisition') }}</option>
+                  <option value="#adhe">{{ _('Adhesion') }}</option>
+                  <option value="#barm">{{ _('Bar mitzvah') }}</option>
+                  <option value="#basm">{{ _('Bat mitzvah') }}</option>
+                  <option value="#bles">{{ _('Benediction') }}</option>
+                  <option value="#chgn">{{ _('Change name') }}</option>
+                  <option value="#circ">{{ _('Circumcision') }}</option>
+                  <option value="#conf">{{ _('Confirmation') }}</option>
+                  <option value="#awar">{{ _('Decoration') }}</option>
+                  <option value="#demm">{{ _('Demobilisation') }}</option>
+                  <option value="#degr">{{ _('Diploma') }}</option>
+                  <option value="#dist">{{ _('Distinction') }}</option>
+                  <option value="#endl">{{ _('Dotation') }}</option>
+                  <option value="#educ">{{ _('Education') }}</option>
+                  <option value="#elec">{{ _('Election') }}</option>
+                  <option value="#emig">{{ _('Emigration') }}</option>
+                  <option value="#exco">{{ _('Excommunication') }}</option>
+                  <option value="#fcom">{{ _('First communion') }}</option>
+                  <option value="#fune">{{ _('Funeral') }}</option>
+                  <option value="#grad">{{ _('Graduate') }}</option>
+                  <option value="#hosp">{{ _('Hospitalisation') }}</option>
+                  <option value="#illn">{{ _('Illness') }}</option>
+                  <option value="#immi">{{ _('Immigration') }}</option>
+                  <option value="#lpas">{{ _('Passenger list') }}</option>
+                  <option value="#mdis">{{ _('Military distinction') }}</option>
+                  <option value="#mpro">{{ _('Military promotion') }}</option>
+                  <option value="#mser">{{ _('Military service') }}</option>
+                  <option value="#mobm">{{ _('Mobilisation') }}</option>
+                  <option value="#natu">{{ _('Naturalisation') }}</option>
+                  <option value="#occu">{{ _('Occupation') }}</option>
+                  <option value="#ordn">{{ _('Ordination') }}</option>
+                  <option value="#prop">{{ _('Property') }}</option>
+                  <option value="#cens">{{ _('Census') }}</option>
+                  <option value="#resi">{{ _('Residence') }}</option>
+                  <option value="#reti">{{ _('Retired') }}</option>
+                  <option value="#vteb">{{ _('Property sale') }}</option>
+                  <option value="#will">{{ _('Will') }}</option>
+                  <option disabled>──────────</option>
+                  <option value="#bapl">{{ _('Baptism LDS') }}</option>
+                  <option value="#conl">{{ _('Confirmation LDS') }}</option>
+                  <option value="#dotl">{{ _('Dotation LDS') }}</option>
+                  <option value="#flkl">{{ _('Family link LDS') }}</option>
+                  <option value="#slgc">{{ _('Sealing child LDS') }}</option>
+                  <option value="#slgp">{{ _('Sealing parent LDS') }}</option>
+                  <option value="#slgs">{{ _('Sealing spouse LDS') }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">{{ _('Date') }}</label>
+              <div class="col-sm-10">
+                <div class="form-inline">
+                  <input type="text" class="form-control mr-2" name="e_date${eventNum}_dd" placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                  <input type="text" class="form-control mr-2" name="e_date${eventNum}_mm" placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                  <input type="text" class="form-control mr-2" name="e_date${eventNum}_yyyy" placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\\d*/?" size="4" maxlength="8">
+                  <select class="form-control mr-2" name="e_date${eventNum}_prec">
+                    <option value="">-</option>
+                    <option value="sure">{{ _('Exact') }}</option>
+                    <option value="about">{{ _('About') }}</option>
+                    <option value="maybe">{{ _('Possibly') }}</option>
+                    <option value="before">{{ _('Before') }}</option>
+                    <option value="after">{{ _('After') }}</option>
+                  </select>
+                  <select class="form-control" name="e_date${eventNum}_cal">
+                    ${calendarOptions}
+                  </select>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">{{ _('Place') }}</label>
+              <div class="col-sm-10">
+                <input type="text" class="form-control" name="e_place${eventNum}" placeholder="{{ _('Place') }}">
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">{{ _('Note') }}</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" name="e_note${eventNum}" rows="1" placeholder="{{ _('Note') }}"></textarea>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">{{ _('Source') }}</label>
+              <div class="col-sm-10">
+                <textarea class="form-control" name="e_src${eventNum}" rows="1" placeholder="{{ _('Source') }}"></textarea>
+              </div>
+            </div>
+            <div class="row mt-2">
+              <label class="col-2 col-form-label">{{ _('Insert') }}</label>
+              <div class="input-group col-10">
+                <select class="custom-select border border-dark col-1" name="e${eventNum}_ins_witn_n">
+                  <option>1</option>
+                  <option>2</option>
+                  <option>3</option>
+                  <option>4</option>
+                  <option>5</option>
+                  <option>6</option>
+                  <option>7</option>
+                  <option>8</option>
+                  <option>9</option>
+                  <option>10</option>
+                  <option>11</option>
+                </select>
+                <div class="input-group-append">
+                  <label class="btn btn-outline-primary mb-0">{{ _('Witness(es)') }}
+                    <input class="ml-1" type="checkbox" name="e${eventNum}_ins_witn" value="on">
+                  </label>
+                  <button type="button" class="btn btn-outline-primary" title="{{ _('Insert witness') }}">{{ _('OK') }}</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        `);
+      }
+
+      function createTitleForm(titleNum) {
+        // Pre-generate calendar options from server-side data
+        const calendarOptions = [
+          '<option value="">-</option>',
+          {% for cal in calendar_types %}
+            '<option value="{{ cal.value }}">{{ _(cal.label) }}</option>',
+          {% endfor %}
+        ].join('');
+
+        return $(`
+          <hr>
+          <div class="title-item mb-3" id="title${titleNum}">
+            <div class="form-group">
+              <div class="row">
+                <label for="t_ident${titleNum}" class="col-form-label col-sm-2">{{ _('Title') }}</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" name="t_ident${titleNum}" id="t_ident${titleNum}" placeholder="{{ _('Title') }}">
+                </div>
+                <label for="t_place${titleNum}" class="col-form-label col-sm-2">{{ _('Fief') }}</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" name="t_place${titleNum}" id="t_place${titleNum}" placeholder="{{ _('Fief') }}">
+                </div>
+              </div>
+              <div class="row mt-2">
+                <label for="t_name${titleNum}" class="col-form-label col-sm-2">{{ _('Name') }}</label>
+                <div class="col-sm-4">
+                  <input type="text" class="form-control" name="t_name${titleNum}" id="t_name${titleNum}" placeholder="{{ _('Name') }}">
+                </div>
+                <label for="t_nth${titleNum}" class="col-form-label col-sm-2">{{ _('Rank') }}</label>
+                <div class="col-sm-1">
+                  <input type="text" class="form-control" name="t_nth${titleNum}" id="t_nth${titleNum}" size="3" placeholder="#">
+                </div>
+                <div class="form-inline form-check ml-3">
+                  <input class="form-check-input" type="checkbox" name="t_main_title${titleNum}" id="t_main_title${titleNum}" value="on">
+                  <label class="form-check-label" for="t_main_title${titleNum}">{{ _('Main title') }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">{{ _('Begin') }}</label>
+              <div class="col-sm-10">
+                <div class="form-inline mb-2">
+                  <input type="text" class="form-control mr-2" name="t_date_start${titleNum}_dd" placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                  <input type="text" class="form-control mr-2" name="t_date_start${titleNum}_mm" placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                  <input type="text" class="form-control mr-2" name="t_date_start${titleNum}_yyyy" placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\\d*/?" size="4" maxlength="8">
+                  <select class="form-control mr-2" name="t_date_start${titleNum}_prec">
+                    <option value="">-</option>
+                    <option value="sure">{{ _('Exact') }}</option>
+                    <option value="about">{{ _('About') }}</option>
+                    <option value="maybe">{{ _('Possibly') }}</option>
+                    <option value="before">{{ _('Before') }}</option>
+                    <option value="after">{{ _('After') }}</option>
+                    <option value="oryear">…{{ _('or') }}…</option>
+                    <option value="yearint">…{{ _('between') }}…</option>
+                  </select>
+                  <select class="form-control" name="t_date_start${titleNum}_cal">
+                    ${calendarOptions}
+                  </select>
+                </div>
+                <div class="form-inline">
+                  <input type="text" class="form-control mr-2" name="t_date_start${titleNum}_orday" placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                  <input type="text" class="form-control mr-2" name="t_date_start${titleNum}_ormonth" placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                  <input type="text" class="form-control mr-2" name="t_date_start${titleNum}_oryear" placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\\d*/?" size="4" maxlength="8">
+                  <input type="text" class="form-control flex-fill" name="t_date_start${titleNum}_text" placeholder="{{ _('…or text') }}">
+                </div>
+              </div>
+            </div>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">{{ _('End') }}</label>
+              <div class="col-sm-10">
+                <div class="form-inline mb-2">
+                  <input type="text" class="form-control mr-2" name="t_date_end${titleNum}_dd" placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                  <input type="text" class="form-control mr-2" name="t_date_end${titleNum}_mm" placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                  <input type="text" class="form-control mr-2" name="t_date_end${titleNum}_yyyy" placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\\d*/?" size="4" maxlength="8">
+                  <select class="form-control mr-2" name="t_date_end${titleNum}_prec">
+                    <option value="">-</option>
+                    <option value="sure">{{ _('Exact') }}</option>
+                    <option value="about">{{ _('About') }}</option>
+                    <option value="maybe">{{ _('Possibly') }}</option>
+                    <option value="before">{{ _('Before') }}</option>
+                    <option value="after">{{ _('After') }}</option>
+                    <option value="oryear">…{{ _('or') }}…</option>
+                    <option value="yearint">…{{ _('between') }}…</option>
+                  </select>
+                  <select class="form-control" name="t_date_end${titleNum}_cal">
+                    ${calendarOptions}
+                  </select>
+                </div>
+                <div class="form-inline">
+                  <input type="text" class="form-control mr-2" name="t_date_end${titleNum}_orday" placeholder="{{ _('Day') }}" pattern="(?:0?[1-9]|1[0-9]|2[0-9]|3[0-1])" size="2" maxlength="2">
+                  <input type="text" class="form-control mr-2" name="t_date_end${titleNum}_ormonth" placeholder="{{ _('Month') }}" pattern="(?:0?[1-9]|1[0-2])" size="2" maxlength="2">
+                  <input type="text" class="form-control mr-2" name="t_date_end${titleNum}_oryear" placeholder="{{ _('Year') }}" pattern="[?><~/-+]?\\d*/?" size="4" maxlength="8">
+                  <input type="text" class="form-control flex-fill" name="t_date_end${titleNum}_text" placeholder="{{ _('…or text') }}">
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr>
+        `);
+      }
+
+      function createRelationForm(relationNum) {
+        return $(`
+          <hr>
+          <div class="relation-item mb-3" id="relation${relationNum}">
+            <div class="row">
+              <h5 class="col-sm-2 col-form-label">
+                <label for="r${relationNum}_type" class="mb-0">{{ _('Relation') }} ${relationNum + 1}</label>
+              </h5>
+              <div class="ml-3">
+                <select class="form-control" name="r${relationNum}_type" id="r${relationNum}_type">
+                  <option value="Undef" selected>-</option>
+                  <option value="Adoption">{{ _('Adoptive parents') }}</option>
+                  <option value="Recognition">{{ _('Recognizing parents') }}</option>
+                  <option value="CandidateParent">{{ _('Candidate parents') }}</option>
+                  <option value="GodParent">{{ _('Godparents') }}</option>
+                  <option value="FosterParent">{{ _('Foster parents') }}</option>
+                </select>
+              </div>
+            </div>
+            
+            <div class="form-group mt-2">
+              <div class="row">
+                <label for="r${relationNum}_fath_fn" class="col-sm-2 col-form-label">{{ _('First name') }}</label>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control" name="r${relationNum}_fath_fn" maxlength="200" value="" id="r${relationNum}_fath_fn" placeholder="{{ _('First name') }}">
+                </div>
+                <label for="r${relationNum}_fath_occ" class="col-sm col-form-label">{{ _('Number') }}</label>
+                <div class="col-sm">
+                  <input type="number" class="form-control" name="r${relationNum}_fath_occ" min="0" value="" id="r${relationNum}_fath_occ" placeholder="">
+                </div>
+                <div class="col-sm-2">
+                  <select class="form-control" name="r${relationNum}_fath_p" id="r${relationNum}_fath_p">
+                    <option value="link">{{ _('Link') }}</option>
+                    <option value="create" selected>{{ _('Create') }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <label for="r${relationNum}_fath_sn" class="col-sm-2 col-form-label">{{ _('Surname') }}</label>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control" name="r${relationNum}_fath_sn" value="" id="r${relationNum}_fath_sn" placeholder="{{ _('Surname') }}">
+              </div>
+              <div class="row">
+                <label for="r${relationNum}_fath_occu" class="col-sm-2 col-form-label">{{ _('Occupation') }}</label>
+                <div class="col-5">
+                  <input class="form-control" type="text" name="r${relationNum}_fath_occu" id="r${relationNum}_fath_occu" value="" placeholder="{{ _('Occupation') }}">
+                </div>
+                <div class="form-inline ml-3">
+                  <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" name="r${relationNum}_fath_od" id="r${relationNum}_fath_od">
+                    <label for="r${relationNum}_fath_od" class="custom-control-label">{{ _('Of course dead') }}</label>
+                  </div>
+                  <div class="custom-control custom-checkbox ml-3">
+                    <input class="custom-control-input" type="checkbox" name="r${relationNum}_fath_pub" id="r${relationNum}_fath_pub">
+                    <label for="r${relationNum}_fath_pub" class="custom-control-label">{{ _('Public') }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <div class="form-group mt-2">
+              <div class="row">
+                <label for="r${relationNum}_moth_fn" class="col-sm-2 col-form-label">{{ _('First name') }}</label>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control" name="r${relationNum}_moth_fn" maxlength="200" value="" id="r${relationNum}_moth_fn" placeholder="{{ _('First name') }}">
+                </div>
+                <label for="r${relationNum}_moth_occ" class="col-sm col-form-label">{{ _('Number') }}</label>
+                <div class="col-sm">
+                  <input type="number" class="form-control" name="r${relationNum}_moth_occ" min="0" value="" id="r${relationNum}_moth_occ" placeholder="">
+                </div>
+                <div class="col-sm-2">
+                  <select class="form-control" name="r${relationNum}_moth_p" id="r${relationNum}_moth_p">
+                    <option value="link">{{ _('Link') }}</option>
+                    <option value="create" selected>{{ _('Create') }}</option>
+                  </select>
+                </div>
+              </div>
+              <div class="row">
+                <label for="r${relationNum}_moth_sn" class="col-sm-2 col-form-label">{{ _('Surname') }}</label>
+                <div class="col-sm-5">
+                  <input type="text" class="form-control" name="r${relationNum}_moth_sn" value="" id="r${relationNum}_moth_sn" placeholder="{{ _('Surname') }}">
+                </div>
+              </div>
+              <div class="row">
+                <label for="r${relationNum}_moth_occu" class="col-sm-2 col-form-label">{{ _('Occupation') }}</label>
+                <div class="col-5">
+                  <input class="form-control" type="text" name="r${relationNum}_moth_occu" id="r${relationNum}_moth_occu" value="" placeholder="{{ _('Occupation') }}">
+                </div>
+                <div class="form-inline ml-3">
+                  <div class="custom-control custom-checkbox">
+                    <input class="custom-control-input" type="checkbox" name="r${relationNum}_moth_od" id="r${relationNum}_moth_od">
+                    <label for="r${relationNum}_moth_od" class="custom-control-label">{{ _('Of course dead') }}</label>
+                  </div>
+                  <div class="custom-control custom-checkbox ml-3">
+                    <input class="custom-control-input" type="checkbox" name="r${relationNum}_moth_pub" id="r${relationNum}_moth_pub">
+                    <label for="r${relationNum}_moth_pub" class="custom-control-label">{{ _('Public') }}</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            
+            <hr>
+            <div class="row">
+              <span class="col-form-label col-2">{{ _('Insert') }}</span>
+              <div class="btn-group col-auto">
+                <label class="btn btn-outline-primary mb-0">1 {{ _('Relation') }}
+                  <input class="ml-1" type="checkbox" name="add_relation${relationNum}" value="on">
+                </label>
+                <button type="button" class="btn btn-outline-primary" title="{{ _('Insert relation') }}">{{ _('OK') }}</button>
+              </div>
+            </div>
+          </div>
+        `);
+      }
+
+      // Smooth scrolling for anchor links
+      document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        anchor.addEventListener('click', function (e) {
+          e.preventDefault();
+          const target = document.querySelector(this.getAttribute('href'));
+          if (target) {
+            target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          }
+        });
+      });
+
+      // Utility to add a new input to a container following a name prefix with incremental index
+      function addField(containerId, namePrefix, placeholderBase) {
+        const $c = $('#' + containerId);
+        const idx = $c.find(`input[name^="${namePrefix}"]`).length;
+        const $input = $('<input type="text" class="form-control mb-2">')
+          .attr('name', namePrefix + idx)
+          .attr('placeholder', `${placeholderBase} ${idx + 1}`);
+        $c.append($input);
+      }
+
+      // Add buttons for person fields
+      $(document).on('click', '#add_sobriquet_btn', function() {
+        addField('sobriquets-container', 'sobriquet_', '{{ _('Sobriquet') }}');
+      });
+      $(document).on('click', '#add_alias_btn', function() {
+        addField('aliases-container', 'alias_', '{{ _('Alias') }}');
+      });
+      $(document).on('click', '#add_alt_first_name_btn', function() {
+        addField('alt-first-names-container', 'alt_first_name_', '{{ _('Alternate first name') }}');
+      });
+      $(document).on('click', '#add_alt_surname_btn', function() {
+        addField('alt-surnames-container', 'surname_alias_', '{{ _('Alternate surname') }}');
+      });
+    });
+  </script>
+</body>
+</html>
