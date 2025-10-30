@@ -12,7 +12,8 @@ class Translator:
             self.lexicon_path = lexicon_path
         else:
             self.lexicon_path = os.path.abspath(
-                os.path.join(os.path.dirname(__file__), '..', 'static', 'lang', 'gwd', 'lexicon.txt')
+                os.path.join(os.path.dirname(__file__), '..',
+                             'static', 'lang', 'gwd', 'lexicon.txt')
             )
         self._data = {}
         self._load()
@@ -22,7 +23,8 @@ class Translator:
             return
         key = None
         lang_re = re.compile(r"^(?P<lang>[a-z\-]+):\s*(?P<text>.*)$")
-        with open(self.lexicon_path, 'r', encoding='utf-8', errors='replace') as f:
+        with open(self.lexicon_path, 'r', encoding='utf-8',
+                  errors='replace') as f:
             for raw in f:
                 line = raw.rstrip('\n')
                 if not line:
@@ -54,6 +56,7 @@ class Translator:
 
 
 _module_translator = None
+
 
 def get_translator():
     global _module_translator
