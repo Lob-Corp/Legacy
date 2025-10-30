@@ -350,7 +350,7 @@ db_service.disconnect()
 ### Witness Models
 
 #### 11. PersonEventWitness
-**Table**: `PersonEventWitness`  
+**Table**: `PersonEventWitness`
 **Purpose**: Links persons as witnesses to personal events
 
 **Key Fields**:
@@ -1535,4 +1535,4 @@ from libraries.death_info import DeathReason
 
 **Document Version**: 1.0  
 **Last Updated**: October 2025  
-**Maintainer**: GenewebPy Development Team
+**Maintainer**: GenewebPy Development Team 
