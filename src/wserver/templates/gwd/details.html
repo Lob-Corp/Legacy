@@ -541,7 +541,252 @@
         </div>
         <div class="col-4 pl-0 ml-0">
           <!-- $Id: modules/arbre_3gen_photo.txt v7.1 19/08/2023 15:07:38 $ -->
+          {% if ancestors.father or ancestors.mother %}
+          <table class="mx-auto text-center small" style="line-height:0.9rem">
+            <tr>
+              <td colspan="9" rowspan="4"></td>
+              <td></td>
+              <td colspan="9" rowspan="4"></td>
+            </tr>
+            <tr><td></td></tr>
+            <tr><td></td></tr>
+            <tr><td></td></tr>
+            {# Grandparents Row #}
+            <tr>
+              <td colspan="2"></td>
+              {# Paternal Grandfather #}
+              <td colspan="5" class="align-bottom">
+                {% if ancestors.father and 'father' in ancestors.father and ancestors.father.father %}
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ ancestors.father.father.id }}&p={{ ancestors.father.father.first_name }}&amp;n={{ ancestors.father.father.surname }}">
+                  <span>{{ ancestors.father.father.first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ ancestors.father.father.surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;i={{ ancestors.father.father.id }}" 
+                   title="Update {{ ancestors.father.father.first_name|title }} {{ ancestors.father.father.surname|title }}">
+                  <div class="text-nowrap font-italic" 
+                       title="Update {{ ancestors.father.father.first_name|title }} {{ ancestors.father.father.surname|title }}">
+                    <bdo dir=ltr>{{ ancestors.father.father.birth_year|default('') }}-{{ ancestors.father.father.death_year|default('') }}</bdo>
+                  </div>
+                </a>
+                {% endif %}
+              </td>
+              <td colspan="2"></td>
+              <td></td>
+              <td colspan="2"></td>
+              {# Maternal Grandfather #}
+              <td colspan="5" class="align-bottom">
+                {% if ancestors.mother and 'father' in ancestors.mother and ancestors.mother.father %}
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ ancestors.mother.father.id }}&p={{ ancestors.mother.father.first_name }}&amp;n={{ ancestors.mother.father.surname }}">
+                  <span>{{ ancestors.mother.father.first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ ancestors.mother.father.surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;i={{ ancestors.mother.father.id }}" 
+                   title="Update {{ ancestors.mother.father.first_name|title }} {{ ancestors.mother.father.surname|title }}">
+                  <div class="text-nowrap font-italic" 
+                       title="Update {{ ancestors.mother.father.first_name|title }} {{ ancestors.mother.father.surname|title }}">
+                    <bdo dir=ltr>{{ ancestors.mother.father.birth_year|default('') }}-{{ ancestors.mother.father.death_year|default('') }}</bdo>
+                  </div>
+                </a>
+                {% endif %}
+              </td>
+              <td colspan="2"></td>
+            </tr>
+            {# Grandmothers Row #}
+            <tr>
+              <td colspan="2"></td>
+              {# Paternal Grandmother #}
+              <td colspan="5" class="align-bottom">
+                {% if ancestors.father and 'mother' in ancestors.father and ancestors.father.mother %}
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ ancestors.father.mother.id }}&p={{ ancestors.father.mother.first_name }}&amp;n={{ ancestors.father.mother.surname }}">
+                  <span>{{ ancestors.father.mother.first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ ancestors.father.mother.surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;i={{ ancestors.father.mother.id }}" 
+                   title="Update {{ ancestors.father.mother.first_name|title }} {{ ancestors.father.mother.surname|title }}">
+                  <div class="text-nowrap font-italic" 
+                       title="Update {{ ancestors.father.mother.first_name|title }} {{ ancestors.father.mother.surname|title }}">
+                    <bdo dir=ltr>{{ ancestors.father.mother.birth_year|default('') }}-{{ ancestors.father.mother.death_year|default('') }}</bdo>
+                  </div>
+                </a>
+                {% endif %}
+              </td>
+              <td colspan="2"></td>
+              <td></td>
+              <td colspan="2"></td>
+              {# Maternal Grandmother #}
+              <td colspan="5" class="align-bottom">
+                {% if ancestors.mother and 'mother' in ancestors.mother and ancestors.mother.mother %}
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ ancestors.mother.mother.id }}&p={{ ancestors.mother.mother.first_name }}&amp;n={{ ancestors.mother.mother.surname }}">
+                  <span>{{ ancestors.mother.mother.first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ ancestors.mother.mother.surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;i={{ ancestors.mother.mother.id }}" 
+                   title="Update {{ ancestors.mother.mother.first_name|title }} {{ ancestors.mother.mother.surname|title }}">
+                  <div class="text-nowrap font-italic" 
+                       title="Update {{ ancestors.mother.mother.first_name|title }} {{ ancestors.mother.mother.surname|title }}">
+                    <bdo dir=ltr>{{ ancestors.mother.mother.birth_year|default('') }}-{{ ancestors.mother.mother.death_year|default('') }}</bdo>
+                  </div>
+                </a>
+                {% endif %}
+              </td>
+              <td colspan="2"></td>
+            </tr>
+            {% if (ancestors.father and 'father' in ancestors.father) or (ancestors.mother and 'father' in ancestors.mother) %}
+            <tr>
+              <td colspan="3"></td>
+              <td colspan="3">│</td>
+              <td colspan="1"></td>
+              <td colspan="5" class="small align-text-center text-center font-italic col-1 px-0">&nbsp;</td>
+              <td colspan="1"></td>
+              <td colspan="3">│</td>
+              <td colspan="3"></td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td colspan="3" class="p-0" align="right">
+                <hr dir="ltr" width="50%" align="right">
+              </td>
+              <td colspan="7" class="p-0">
+                <hr width="100%">
+              </td>
+              <td colspan="3" class="p-0" align="left">
+                <hr dir="ltr" width="50%" align="left">
+              </td>
+              <td colspan="3"></td>
+            </tr>
+            {% endif %}
+            <tr>
+              <td colspan="2"></td>
+              <td colspan="2">│</td>
+              <td colspan="3"></td>
+              <td colspan="5" class="small align-text-center text-center font-italic col-1 px-0">&nbsp;</td>
+              <td colspan="3"></td>
+              <td colspan="2">│</td>
+              <td colspan="2"></td>
+            </tr>
+            <tr>
+              <td colspan="1"></td>
+              <td colspan="4" class="align-bottom">
+                {% if ancestors.father %}
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ ancestors.father.id }}&p={{ ancestors.father.first_name }}&amp;n={{ ancestors.father.surname }}">
+                  <span>{{ ancestors.father.first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ ancestors.father.surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;i={{ ancestors.father.id }}" 
+                   title="Update {{ ancestors.father.first_name|title }} {{ ancestors.father.surname|title }}">
+                  <div class="text-nowrap font-italic" 
+                       title="Update {{ ancestors.father.first_name|title }} {{ ancestors.father.surname|title }}">
+                    <bdo dir=ltr>{{ ancestors.father.birth_year|default('') }}-{{ ancestors.father.death_year|default('') }}</bdo>
+                  </div>
+                </a>
+                {% else %}
+                <a href="?i=0"><span>?</span><br><span class="text-nowrap">?</span></a>
+                {% endif %}
+              </td>
+              <td colspan="4"></td>
+              <td colspan="1"></td>
+              <td colspan="4"></td>
+              <td colspan="4" class="align-bottom">
+                {% if ancestors.mother %}
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ ancestors.mother.id }}&p={{ ancestors.mother.first_name }}&amp;n={{ ancestors.mother.surname }}">
+                  <span>{{ ancestors.mother.first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ ancestors.mother.surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;i={{ ancestors.mother.id }}" 
+                   title="Update {{ ancestors.mother.first_name|title }} {{ ancestors.mother.surname|title }}">
+                  <div class="text-nowrap font-italic" 
+                       title="Update {{ ancestors.mother.first_name|title }} {{ ancestors.mother.surname|title }}">
+                    <bdo dir=ltr>{{ ancestors.mother.birth_year|default('') }}-{{ ancestors.mother.death_year|default('') }}</bdo>
+                  </div>
+                </a>
+                {% else %}
+                <a href="?i=0"><span>?</span><br><span class="text-nowrap">?</span></a>
+                {% endif %}
+              </td>
+              <td colspan="1"></td>
+            </tr>
+            {% if ancestors.father or ancestors.mother %}
+            <tr>
+              <td colspan="5"></td>
+              <td colspan="4">│</td>
+              <td colspan="1"></td>
+              <td colspan="4">│</td>
+              <td colspan="5"></td>
+            </tr>
+            <tr>
+              <td colspan="4"></td>
+              <td colspan="5" class="p-0" align="right">
+                <hr dir="ltr" width="50%" align="right">
+              </td>
+              <td colspan="1" class="p-0">
+                <hr width="100%">
+              </td>
+              <td colspan="5" class="p-0" align="left">
+                <hr dir="ltr" width="50%" align="left">
+              </td>
+              <td colspan="4"></td>
+            </tr>
+            <tr>
+              <td></td><td></td><td></td><td></td><td></td>
+              <td></td><td></td><td></td><td></td>
+              <td>│</td>
+              <td></td><td></td><td></td><td></td><td></td>
+              <td></td><td></td><td></td><td></td>
+            </tr>
+            {% endif %}
+            <tr>
+              <td colspan="5"></td>
+              <td colspan="9">
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?p={{ first_name }}&amp;n={{ surname }}">
+                  <span>{{ first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;i={{ person_id }}" title="Update {{ first_name|title }} {{ surname|title }}">
+                  <div class="text-nowrap font-italic" title="Update {{ first_name|title }} {{ surname|title }} ({{ age_at_death|default('') }} old)">
+                    <bdo dir=ltr>{{ birth_year|default('') }}-{{ death_year|default('') }}</bdo>
+                  </div>
+                </a>
+              </td>
+              <td colspan="5"></td>
+            </tr>
+          </table>
+          {% endif %}
           <!-- $Id: modules/fratrie.txt v7.1 13/08/2023 16:47:40 $ -->
+          {% if siblings %}
+          <h2 class="mt-2 mt-lg-0 w-100">
+            Siblings
+            <span class="fa fa-caret-left invisible"></span>
+            <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?p={{ first_name }}&amp;n={{ surname }}&amp;m=D&amp;t=T&amp;v=1">
+              <img class="mb-1" src="{{ url_for('static', filename='images/gui_create.png') }}" height="20" alt="Tree" title="Tree siblings (with spouses)">
+            </a>
+            {% if siblings|length > 1 %}
+            <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?p={{ siblings[1].first_name }}&amp;n={{ siblings[1].surname }}" title="Next sibling">
+              <i class="fa fa-caret-right fa-sm text-success"></i>
+            </a>
+            {% endif %}
+          </h2>
+          <ul>
+            {% for sibling in siblings %}
+            <li style="vertical-align: middle;list-style-type: circle;">
+              <a href="?m=MOD_IND&amp;i={{ sibling.id }}" title="Update {{ sibling.first_name|title }} {{ sibling.surname|title }}">
+                <i class="fa fa-neuter neuter fa-xs mr-1"></i>
+              </a>
+              {% if loop.index == 1 %}
+                <b>{{ sibling.first_name|title }} {{ sibling.surname|title }}</b>
+              {% else %}
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?p={{ sibling.first_name }}&amp;n={{ sibling.surname }}" title="Display {{ sibling.first_name|title }} {{ sibling.surname|title }}">
+                  {{ sibling.first_name|title }} {{ sibling.surname|title }}
+                </a>
+              {% endif %}
+              <a href="?m=MOD_IND&amp;i={{ sibling.id }}">
+                <span class="text-nowrap font-italic" title="Update {{ sibling.first_name|title }} {{ sibling.surname|title }} ({{ sibling.age_years|default('') }} years)">
+                  <bdo dir=ltr>{{ sibling.birth_year|default('') }}-{{ sibling.death_year|default('') }}</bdo>
+                </span>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
           <!-- $Id: modules/relations.txt v7.1 17/11/2023 10:30:00 $ -->
         </div>
       </div>

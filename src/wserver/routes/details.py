@@ -1,3 +1,4 @@
+from os import name
 from flask import render_template, request
 from repositories.person_repository import PersonRepository
 from repositories.family_repository import FamilyRepository
@@ -7,7 +8,107 @@ from libraries.death_info import Dead, DeadYoung, DeadDontKnowWhen
 from libraries.family import Divorced, Separated
 from libraries.events import FamMarriage, FamDivorce, FamSeparated
 from typing import Dict, Any, List
+from database.person import Person as DBPerson
+from database.date import Date as DBDate
 import time
+from datetime import date as python_date
+
+
+def calculate_age_in_days(birth_date, death_date):
+    """
+    Calculate age in days between birth and death dates.
+
+    Args:
+        birth_date: Birth date (CalendarDate or tuple)
+        death_date: Death date (CalendarDate or tuple)
+
+    Returns:
+        Dictionary with years, months, days, and total_days
+    """
+    if not birth_date or not death_date:
+        return None
+
+    # Extract date components
+    birth_day, birth_month, birth_year = None, None, None
+    death_day, death_month, death_year = None, None, None
+
+    if isinstance(birth_date, tuple) and len(birth_date) == 2:
+        birth_year = birth_date[1]
+    elif isinstance(birth_date, CalendarDate):
+        birth_day = birth_date.dmy.day
+        birth_month = birth_date.dmy.month
+        birth_year = birth_date.dmy.year
+
+    if isinstance(death_date, tuple) and len(death_date) == 2:
+        death_year = death_date[1]
+    elif isinstance(death_date, CalendarDate):
+        death_day = death_date.dmy.day
+        death_month = death_date.dmy.month
+        death_year = death_date.dmy.year
+
+    if not birth_year or not death_year:
+        return None
+
+    # If we have full dates (day, month, year), calculate exact difference
+    if (birth_day and birth_month and birth_year and
+            death_day and death_month and death_year):
+        try:
+            birth_py_date = python_date(birth_year, birth_month, birth_day)
+            death_py_date = python_date(death_year, death_month, death_day)
+            delta = death_py_date - birth_py_date
+            total_days = delta.days
+
+            # Calculate years, months, days
+            years = death_year - birth_year
+            months = death_month - birth_month
+            days = death_day - birth_day
+
+            # Adjust if needed
+            if days < 0:
+                months -= 1
+                # Approximate days in previous month
+                days += 30
+            if months < 0:
+                years -= 1
+                months += 12
+
+            # Format the age string
+            if total_days == 0:
+                return "0 days"
+            elif total_days == 1:
+                return "1 day"
+            elif total_days < 31:
+                return f"{total_days} days"
+            elif years == 0 and months == 1:
+                return "1 month"
+            elif years == 0 and months > 1:
+                return f"{months} months"
+            elif years == 1 and months == 0:
+                return "1 year"
+            elif years > 0:
+                if months > 0:
+                    return f"{years} years {months} months"
+                else:
+                    return f"{years} years"
+            else:
+                return f"{total_days} days"
+
+        except (ValueError, OverflowError):
+            # Fallback to year calculation
+            return f"{death_year - birth_year} years" \
+                if death_year > birth_year else "0 days"
+    else:
+        # Only have years, calculate approximate
+        if birth_year and death_year:
+            years = death_year - birth_year
+            if years == 0:
+                return "less than a year"
+            elif years == 1:
+                return "1 year"
+            else:
+                return f"{years} years"
+
+    return None
 
 
 def get_person_basic_info(person) -> Dict[str, Any]:
@@ -20,7 +121,7 @@ def get_person_basic_info(person) -> Dict[str, Any]:
     }
 
 
-def get_person_vital_events(person) -> Dict[str, Any]:
+def get_person_vital_events(person, db_service) -> Dict[str, Any]:
     """Extract birth, death, and related vital events."""
     birth_year = None
     birth_date = None
@@ -41,23 +142,28 @@ def get_person_vital_events(person) -> Dict[str, Any]:
     death_place = None
     age_at_death = None
 
-    death_types = (Dead, DeadYoung, DeadDontKnowWhen)
-    if isinstance(person.death_status, death_types):
-        if (
-            hasattr(person.death_status, 'death_date')
-            and person.death_status.death_date
-        ):
-            death_info = person.death_status.death_date
+    # Check if person.death_status is Dead (or DeadYoung, DeadDontKnowWhen)
+    if isinstance(person.death_status, Dead):
+        # person.death_status is the Dead object itself
+        if person.death_status.date_of_death:
+            death_info = person.death_status.date_of_death
             if isinstance(death_info, tuple) and len(death_info) == 2:
                 death_year = death_info[1]
             elif isinstance(death_info, CalendarDate):
                 death_year = death_info.dmy.year
                 death_date = format_date(death_info)
+
         death_place = person.death_place if person.death_place else None
 
-        if birth_year and death_year:
-            age_at_death = death_year - birth_year
-
+        # Calculate age at death in days
+        if person.birth_date and person.death_status.date_of_death:
+            age_at_death = calculate_age_in_days(
+                person.birth_date,
+                person.death_status.date_of_death
+            )
+    elif isinstance(person.death_status, (DeadYoung, DeadDontKnowWhen)):
+        # These types don't have date_of_death
+        death_place = person.death_place if person.death_place else None
     return {
         'birth_year': birth_year,
         'birth_date': birth_date,
@@ -273,6 +379,240 @@ def get_sort_key(event: Dict[str, Any]) -> tuple:
     day = date_obj.dmy.day if date_obj.dmy.day > 0 else 31
 
     return (year, month, day)
+
+
+def _extract_person_years(person):
+    """
+    Helper to extract birth and death years from a person object.
+
+    Returns:
+        Tuple of (birth_year, death_year)
+    """
+    birth_year = None
+    death_year = None
+
+    if person.birth_date:
+        if isinstance(person.birth_date, tuple) and len(
+                person.birth_date) == 2:
+            birth_year = person.birth_date[1]
+        elif isinstance(person.birth_date, CalendarDate):
+            birth_year = person.birth_date.dmy.year
+
+    if isinstance(person.death_status, Dead):
+        if person.death_status.date_of_death:
+            death_info = person.death_status.date_of_death
+            if isinstance(death_info, tuple) and len(death_info) == 2:
+                death_year = death_info[1]
+            elif isinstance(death_info, CalendarDate):
+                death_year = death_info.dmy.year
+
+    return birth_year, death_year
+
+
+def get_ancestor_recursive(person_id, person_repo,
+                           family_repo, depth=0, max_depth=10):
+    """
+    Recursively get complete ancestor tree for a person.
+
+    Args:
+        person_id: ID of the person
+        person_repo: Person repository
+        family_repo: Family repository
+        depth: Current recursion depth
+        max_depth: Maximum depth to prevent infinite loops
+
+    Returns:
+        Dictionary with person info and nested father/mother ancestors
+    """
+    if person_id is None or depth >= max_depth:
+        return None
+
+    try:
+        person = person_repo.get_person_by_id(person_id)
+        if not person:
+            return None
+
+        birth_year, death_year = _extract_person_years(person)
+
+        ancestor_info = {
+            'id': person.index,
+            'first_name': person.first_name,
+            'surname': person.surname,
+            'birth_year': birth_year,
+            'death_year': death_year,
+        }
+
+        # Recursively get parents if they exist
+        father_ancestor = None
+        mother_ancestor = None
+
+        if person.ascend.parents is not None:
+            try:
+                parent_family = family_repo.get_family_by_id(
+                    person.ascend.parents
+                )
+
+                if parent_family is not None and parent_family.parents.is_couple():
+                    father_id, mother_id = parent_family.parents.couple()
+
+                    # Recursively get father and all his ancestors
+                    if father_id is not None:
+                        father_ancestor = get_ancestor_recursive(
+                            father_id, person_repo, family_repo, depth + 1, max_depth
+                        )
+
+                    # Recursively get mother and all her ancestors
+                    if mother_id is not None:
+                        mother_ancestor = get_ancestor_recursive(
+                            mother_id, person_repo, family_repo, depth + 1, max_depth
+                        )
+            except Exception:
+                pass
+
+        # Only add father/mother keys if at least one exists
+        if father_ancestor is not None or mother_ancestor is not None:
+            if father_ancestor is not None:
+                ancestor_info['father'] = father_ancestor
+            if mother_ancestor is not None:
+                ancestor_info['mother'] = mother_ancestor
+
+        return ancestor_info
+    except Exception:
+        return None
+
+
+def get_siblings_info(
+    person,
+    family_repo: FamilyRepository,
+    person_repo: PersonRepository
+) -> List[Dict[str, Any]]:
+    """
+    Get information about person's siblings.
+
+    Returns:
+        List of siblings with their information
+    """
+    siblings = []
+
+    # Get person's parent family
+    if person.ascend.parents is None:
+        return siblings
+
+    try:
+        parent_family = family_repo.get_family_by_id(person.ascend.parents)
+
+        if not parent_family:
+            return siblings
+
+        # Get all children from parent family (excluding the person themselves)
+        for child_id in parent_family.children:
+            if child_id == person.index:
+                # Skip the person themselves
+                continue
+
+            try:
+                sibling = person_repo.get_person_by_id(child_id)
+
+                # Extract birth and death years
+                birth_year = None
+                death_year = None
+
+                if sibling.birth_date:
+                    if isinstance(sibling.birth_date, tuple) and len(
+                            sibling.birth_date) == 2:
+                        birth_year = sibling.birth_date[1]
+                    elif isinstance(sibling.birth_date, CalendarDate):
+                        birth_year = sibling.birth_date.dmy.year
+
+                if isinstance(sibling.death_status, Dead):
+                    if sibling.death_status.date_of_death:
+                        death_info = sibling.death_status.date_of_death
+                        if isinstance(death_info, tuple) and len(
+                                death_info) == 2:
+                            death_year = death_info[1]
+                        elif isinstance(death_info, CalendarDate):
+                            death_year = death_info.dmy.year
+
+                # Calculate age
+                age_years = None
+                if birth_year and death_year:
+                    age_years = death_year - birth_year
+
+                siblings.append({
+                    'id': sibling.index,
+                    'first_name': sibling.first_name,
+                    'surname': sibling.surname,
+                    'birth_year': birth_year,
+                    'death_year': death_year,
+                    'age_years': age_years,
+                })
+            except Exception:
+                # Skip sibling if error
+                continue
+    except Exception:
+        pass
+
+    return siblings
+
+
+def get_ancestors_all(person, person_repo, family_repo):
+    """
+    Get ALL generations of ancestors recursively.
+
+    Returns:
+        Nested dictionary with complete ancestor tree (all generations)
+    """
+    # Use the recursive function to get the complete ancestor tree
+    return get_ancestor_recursive(person.index, person_repo, family_repo)
+
+
+def get_ancestors_3gen(person, person_repo, family_repo):
+    """
+    Get 3 generations of ancestors for backward compatibility.
+    This now uses the recursive function and flattens the result.
+
+    Returns:
+        Dictionary with parents and grandparents information
+    """
+    # Get complete ancestor tree recursively with max_depth=2
+    ancestor_tree = get_ancestor_recursive(
+        person.index, person_repo, family_repo, depth=0, max_depth=2
+    )
+
+    if not ancestor_tree:
+        return {
+            'father': None,
+            'mother': None,
+            'paternal_grandfather': None,
+            'paternal_grandmother': None,
+            'maternal_grandfather': None,
+            'maternal_grandmother': None,
+        }
+
+    # Flatten for 3-gen display (for backward compatibility with the template)
+    ancestors = {
+        'father': ancestor_tree.get('father'),
+        'mother': ancestor_tree.get('mother'),
+        'paternal_grandfather': None,
+        'paternal_grandmother': None,
+        'maternal_grandfather': None,
+        'maternal_grandmother': None,
+    }
+
+    # Extract grandparents from the nested structure
+    if ancestor_tree.get('father'):
+        ancestors['paternal_grandfather'] = ancestor_tree['father'].get(
+            'father')
+        ancestors['paternal_grandmother'] = ancestor_tree['father'].get(
+            'mother')
+
+    if ancestor_tree.get('mother'):
+        ancestors['maternal_grandfather'] = ancestor_tree['mother'].get(
+            'father')
+        ancestors['maternal_grandmother'] = ancestor_tree['mother'].get(
+            'mother')
+
+    return ancestors
 
 
 def get_timeline_events(
@@ -696,15 +1036,45 @@ def implem_gwd_details(base, lang="en"):
             first_name=person_first_name,
             surname=person_surname
         )
-
     # Gather all data using separate functions
     basic_info = get_person_basic_info(person)
-    vital_events = get_person_vital_events(person)
+    vital_events = get_person_vital_events(person, db_service)
     family_info = get_family_info(person, family_repo, person_repo)
     children = get_children_info(person, family_repo, person_repo)
+    siblings = get_siblings_info(person, family_repo, person_repo)
     timeline_events = get_timeline_events(person, family_repo, person_repo)
     notes = get_notes(person, family_repo, person_repo)
     sources = get_sources(person, family_repo)
+    # Get ancestor tree with depth=2 (parents and grandparents only)
+    ancestor_tree = get_ancestor_recursive(
+        person.index, person_repo, family_repo, depth=0, max_depth=2
+    )
+    
+    # Debug prints
+    print("\n========== ANCESTOR TREE ==========")
+    print(f"Person: {person.first_name} {person.surname}")
+    print(f"Has parent family ID: {person.ascend.parents}")
+    
+    if ancestor_tree:
+        print(f"\nFather: {ancestor_tree.get('father')}")
+        print(f"Mother: {ancestor_tree.get('mother')}")
+        
+        if ancestor_tree.get('father'):
+            print(f"\nPaternal Grandfather: {ancestor_tree['father'].get('father')}")
+            print(f"Paternal Grandmother: {ancestor_tree['father'].get('mother')}")
+        
+        if ancestor_tree.get('mother'):
+            print(f"\nMaternal Grandfather: {ancestor_tree['mother'].get('father')}")
+            print(f"Maternal Grandmother: {ancestor_tree['mother'].get('mother')}")
+    else:
+        print("No ancestor tree found!")
+    print("===================================\n")
+    
+    # Pass nested structure directly to template
+    ancestors = {
+        'father': ancestor_tree.get('father') if ancestor_tree else None,
+        'mother': ancestor_tree.get('mother') if ancestor_tree else None,
+    }
 
     # Calculate query time
     q_time = round(time.time() - start_time, 2)
@@ -717,9 +1087,11 @@ def implem_gwd_details(base, lang="en"):
         **vital_events,
         **family_info,
         'children': children,
+        'siblings': siblings,
         'timeline_events': timeline_events,
         **notes,
         'sources': sources,
+        'ancestors': ancestors,
         'q_time': q_time,
         'nb_errors': 0,
         'errors_list': '',
