@@ -62,9 +62,10 @@ make deploy-prod
 ### 📚 Additional Documentation
 - **[Documentation Index](docs/README.md)** - Complete documentation navigation guide
 - **[Database Architecture](docs/DATABASE.md)** - Complete database documentation (SQLAlchemy models, relationships, and usage)
-- **[OCaml to Python Translation](docs/OCAML_TO_PYTHON.md)** - Reference for OCaml-to-Python differences
+- **[Testing Policy](docs/TESTING_POLICY.md)** - Comprehensive testing guidelines, requirements, and best practices
 - **[Quality Insurance](docs/QUALITY_INSURANCE.md)** - Branch organization, merging rules, and development workflow
 - **[Golden Master Testing](docs/GOLDEN_MASTER.md)** - Testing approach and scenarios
+- **[OCaml to Python Translation](docs/OCAML_TO_PYTHON.md)** - Reference for OCaml-to-Python differences
 
 ## Quick Start
 

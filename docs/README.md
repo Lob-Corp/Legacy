@@ -55,6 +55,20 @@ Complete reference for OCaml-to-Python translation differences across the entire
 - Questions and clarifications needed for port
 - Implementation checklist
 
+### 🧪 [TESTING_POLICY.md](./TESTING_POLICY.md)
+**Comprehensive testing guidelines, requirements, and best practices.**
+
+**Topics**:
+- Testing philosophy and principles
+- Test types: Unit, Integration, Roundtrip, Golden Master, E2E
+- Coverage requirements (80% minimum)
+- Testing standards and conventions
+- Test organization and structure
+- Writing effective tests (DO's and DON'Ts)
+- Running tests locally and in CI/CD
+- Test review process
+- Troubleshooting and maintenance
+
 ### 🧪 [GOLDEN_MASTER.md](./GOLDEN_MASTER.md)
 Testing approach and scenarios for ensuring behavioral compatibility with the legacy application.
 
@@ -70,8 +84,9 @@ Quality assurance processes and standards for the project.
 **Topics**:
 - Branch naming conventions
 - Merging rules and PR requirements
-- Protected branches
+- Protected branches and status checks
 - Code review process
+- Testing policy summary (see TESTING_POLICY.md for details)
 
 ---
 
@@ -96,6 +111,18 @@ Quality assurance processes and standards for the project.
 
 **...use gwc from command line**
 → Read [GWC_IMPLEMENTATION.md § Command-Line Options](./GWC_IMPLEMENTATION.md#command-line-options) and [§ Usage Examples](./GWC_IMPLEMENTATION.md#usage-examples)
+
+**...understand testing requirements and best practices**
+→ Read [TESTING_POLICY.md](./TESTING_POLICY.md)
+
+**...write tests for my code**
+→ Read [TESTING_POLICY.md § Writing Tests](./TESTING_POLICY.md#writing-tests) and [§ Testing Standards](./TESTING_POLICY.md#testing-standards)
+
+**...run tests locally or in CI/CD**
+→ Read [TESTING_POLICY.md § Running Tests](./TESTING_POLICY.md#running-tests)
+
+**...understand coverage requirements**
+→ Read [TESTING_POLICY.md § Coverage Requirements](./TESTING_POLICY.md#coverage-requirements)
 
 **...understand OCaml-to-Python differences**
 → Read [OCAML_TO_PYTHON.md](./OCAML_TO_PYTHON.md)
