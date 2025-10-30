@@ -36,17 +36,28 @@ docker-compose build
 The Flask application will be available at: **http://localhost:8080**
 (or **https://localhost:8080** if SSL is enabled in `.env`)
 
-### 4. Use gwc to Create/Update Database
+### 4. Create/Manage Databases
+
+**Option A: Using gwsetup (Recommended - simpler)**
+
+```bash
+# Create and populate database in one step
+./docker-manage.sh gwsetup database gwc mybase test_assets/minimal.gw
+
+# Or manage separately
+./docker-manage.sh gwsetup database create mybase
+./docker-manage.sh gwsetup database gwc mybase test_assets/minimal.gw
+./docker-manage.sh gwsetup database delete mybase
+```
+
+**Option B: Using gwc (Advanced - more control)**
 
 ```bash
 # Create database from a .gw file
-./docker-manage.sh gwc examples/test.gw -o data/test.db -v -stats
+./docker-manage.sh gwc test_assets/minimal.gw -o data/test.db -v -stats
 
-# Process minimal test file
-./docker-manage.sh gwc test_assets/minimal.gw -o data/minimal.db -f
-
-# Process with verbose output
-./docker-manage.sh gwc test_assets/medium.gw -o data/medium.db -v -stats
+# Force overwrite existing database
+./docker-manage.sh gwc test_assets/medium.gw -o data/medium.db -f -v
 ```
 
 ## Docker Management Commands
@@ -70,9 +81,31 @@ The Flask application will be available at: **http://localhost:8080**
 ./docker-manage.sh logs --tail=100
 ```
 
-### Database Operations with gwc
+### Database Operations
 
-The `gwc` command processes `.gw` genealogy files and creates SQLite databases.
+#### Using gwsetup (Recommended)
+
+The `gwsetup` command provides a simpler interface for database management:
+
+```bash
+# Create empty database
+./docker-manage.sh gwsetup database create <name>
+
+# Create database from .gw file
+./docker-manage.sh gwsetup database gwc <name> <input.gw>
+
+# Delete database
+./docker-manage.sh gwsetup database delete <name>
+```
+
+**Benefits:**
+- Automatic path management (databases stored in `bases/` directory)
+- Simpler syntax for common operations
+- No need to specify output paths
+
+#### Using gwc (Advanced)
+
+The `gwc` command provides more control for advanced users:
 
 ```bash
 # Basic usage
@@ -94,6 +127,11 @@ The `gwc` command processes `.gw` genealogy files and creates SQLite databases.
 - `-f, --force`: Force overwrite existing database
 - `-stats`: Show statistics after processing
 - `-nofail`: Continue processing on errors
+
+**When to use gwc:**
+- Need to specify exact database location outside `bases/`
+- Processing multiple .gw files into one database
+- Need advanced control over compilation process
 
 ### Development
 
@@ -128,7 +166,9 @@ The `gwc` command processes `.gw` genealogy files and creates SQLite databases.
 ├── docker-compose.yml      # Docker Compose configuration
 ├── docker-manage.sh        # Helper script for Docker operations
 ├── .dockerignore           # Files to exclude from Docker image
-├── data/                   # Database files (persisted)
+├── bases/                  # gwsetup databases (persisted)
+│   └── *.db                # SQLite databases created by gwsetup
+├── data/                   # gwc databases (persisted)
 │   └── *.db                # SQLite databases created by gwc
 ├── logs/                   # Application logs (persisted)
 ├── examples/               # Example .gw files (mounted read-only)
@@ -141,7 +181,8 @@ The Docker setup uses several volume mounts for data persistence and access:
 
 | Host Path | Container Path | Purpose | Mode |
 |-----------|----------------|---------|------|
-| `./data` | `/app/data` | Database storage | Read-Write |
+| `./bases` | `/app/bases` | gwsetup database storage | Read-Write |
+| `./data` | `/app/data` | gwc database storage | Read-Write |
 | `./logs` | `/app/logs` | Application logs | Read-Write |
 | `./examples` | `/app/examples` | Example .gw files | Read-Only |
 | `./test_assets` | `/app/test_assets` | Test .gw files | Read-Only |
@@ -234,8 +275,14 @@ cp .env.example .env
 
 ### 2. Create Database from .gw File
 
+**Using gwsetup (simpler):**
 ```bash
-# Process a minimal genealogy file
+./docker-manage.sh gwsetup database gwc minimal test_assets/minimal.gw
+# Database created in bases/minimal.db
+```
+
+**Using gwc (more control):**
+```bash
 ./docker-manage.sh gwc test_assets/minimal.gw -o data/minimal.db -v -stats
 
 # Expected output:
@@ -253,7 +300,10 @@ cp .env.example .env
 # Open shell
 ./docker-manage.sh shell
 
-# Inside container
+# Inside container - check gwsetup database
+sqlite3 /app/bases/minimal.db
+
+# Or check gwc database
 sqlite3 /app/data/minimal.db
 
 # SQL queries
@@ -310,14 +360,20 @@ ls -la data/
 docker-compose exec geneweb ls -la /app/data/
 ```
 
-### gwc Command Fails
+### Database Command Fails
 
 ```bash
-# Run gwc directly in container
+# Test gwsetup
+./docker-manage.sh gwsetup --help
+
+# Test gwc
 docker-compose exec geneweb python -m script.gwc --help
 
 # Check if input file is accessible
 docker-compose exec geneweb ls -la /app/test_assets/
+
+# Check bases directory
+docker-compose exec geneweb ls -la /app/bases/
 ```
 
 ## Production Deployment

@@ -13,6 +13,8 @@ cp .env.example .env         # Copy environment config
 
 # Database Operations
 ./docker-manage.sh gwc input.gw -o data/output.db -v -stats
+./docker-manage.sh gwsetup database create mybase
+./docker-manage.sh gwsetup database gwc mybase input.gw
 
 # Management
 ./docker-manage.sh stop     # Stop application
@@ -25,8 +27,9 @@ cp .env.example .env         # Copy environment config
 ./docker-manage.sh clean-all # Remove everything including data
 ```
 
-## gwc Options
+## Tool Options
 
+### gwc (GeneWeb Compiler)
 ```bash
 -o, --output FILE    # Output database path (required)
 -v, --verbose        # Verbose output
@@ -35,18 +38,44 @@ cp .env.example .env         # Copy environment config
 -nofail              # Continue on errors
 ```
 
+### gwsetup (Database Manager)
+```bash
+database create <name>        # Create empty database
+database gwc <name> <file>    # Create database from .gw file
+database delete <name>        # Delete database
+```
+
 ## Common Workflows
 
 ### Create Database from .gw File
 
 ```bash
+# Using gwc (manual path)
 ./docker-manage.sh gwc test_assets/minimal.gw -o data/test.db -v -stats
+
+# Using gwsetup (automatic paths in bases/)
+./docker-manage.sh gwsetup database gwc mybase test_assets/minimal.gw
 ```
 
 ### Update Existing Database
 
 ```bash
 ./docker-manage.sh gwc updated_data.gw -o data/test.db -f -v
+```
+
+### Manage Multiple Databases
+
+```bash
+# Create databases
+./docker-manage.sh gwsetup database create family1
+./docker-manage.sh gwsetup database create family2
+
+# Populate databases
+./docker-manage.sh gwsetup database gwc family1 data1.gw
+./docker-manage.sh gwsetup database gwc family2 data2.gw
+
+# Delete database
+./docker-manage.sh gwsetup database delete family1
 ```
 
 ### Process Multiple Files
@@ -91,14 +120,15 @@ docker image prune
 
 | Purpose | Host Path | Container Path |
 |---------|-----------|----------------|
-| Databases | `./data/` | `/app/data/` |
+| gwsetup databases | `./bases/` | `/app/bases/` |
+| gwc databases | `./data/` | `/app/data/` |
 | Logs | `./logs/` | `/app/logs/` |
 | Input files | `./examples/` | `/app/examples/` |
 | Test files | `./test_assets/` | `/app/test_assets/` |
 
 ## URLs
 
-- Flask App: http://localhost:8080 (or https if SSL enabled)
+- Flask App: http://localhost:8080/gwd (or https if SSL enabled)
 - Health Check: http://localhost:8080 (GET)
 
 ## Environment Configuration
