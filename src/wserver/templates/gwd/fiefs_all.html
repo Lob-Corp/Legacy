@@ -1,0 +1,18 @@
+{% extends "gwd/base.html" %}
+
+{% block title %}{{ _('All the fiefs') }}{% endblock %}
+
+{% block content %}
+<h1>{{ _('All the fiefs') }}</h1>
+
+<ul>
+    {% for title in titles %}
+    <li>
+        <a href="{{ url_for('gwd.gwd_homepage', base=base, lang=lang) }}">
+            ... {{ title.place }}
+        </a>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

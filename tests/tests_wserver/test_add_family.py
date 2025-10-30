@@ -43,7 +43,7 @@ class TestAddFamilyRoute(unittest.TestCase):
     def test_get_add_family_form_with_lang(self, mock_render):
         """Test GET request with language parameter."""
         mock_render.return_value = '<html>ok</html>'
-        response = self.client.get('/gwd/testbase/ADD_FAM/fr')
+        response = self.client.get('/gwd/testbase/ADD_FAM?lang=fr')
         self.assertEqual(response.status_code, 200)
         # Verify language was passed correctly
         args, kwargs = mock_render.call_args
@@ -91,7 +91,7 @@ class TestAddFamilyWithDatabase(unittest.TestCase):
         # So we need to put it in the ACTUAL src directory, not tests/src
         project_root = os.path.dirname(
             os.path.dirname(os.path.dirname(__file__)))
-        bases_dir = os.path.join(project_root, 'src', 'wserver', 'bases')
+        bases_dir = os.path.join(project_root, 'bases')
         os.makedirs(bases_dir, exist_ok=True)
         self.base_name = 'testdb'
         self.test_db_path = os.path.join(bases_dir, f'{self.base_name}.db')

@@ -1499,6 +1499,165 @@ msgstr ""
 msgid "Please check the checkbox to insert titles"
 msgstr ""
 
+msgid "GeneWeb"
+msgstr "GeneWeb"
+
+msgid "Genealogical database"
+msgstr "Base généalogique"
+
+msgid "persons"
+msgstr "personnes"
+
+msgid "Display a random individual"
+msgstr "Afficher un individu au hasard"
+
+msgid "Surnames, sort alphabetically"
+msgstr "Noms, tri alphabétique"
+
+msgid "Surnames frequency, sort by number of individuals"
+msgstr "Fréquence des noms, tri par nombre d'individus"
+
+msgid "Surname, public name, alias"
+msgstr "Nom, nom public, alias"
+
+msgid "Search surname, public name, alias"
+msgstr "Rechercher nom, nom public, alias"
+
+msgid "First name(s)"
+msgstr "Prénom(s)"
+
+msgid "Search first name(s)"
+msgstr "Rechercher prénom(s)"
+
+msgid "First names, sort alphabetically"
+msgstr "Prénoms, tri alphabétique"
+
+msgid "First names frequency, sort by number of individuals"
+msgstr "Fréquence des prénoms, tri par nombre d'individus"
+
+msgid "Search"
+msgstr "Rechercher"
+
+msgid "person"
+msgstr "personne"
+
+msgid "All titles"
+msgstr "Tous les titres"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "All the fiefs"
+msgstr "Tous les domaines"
+
+msgid "Estate"
+msgstr "Domaine"
+
+msgid "Search title/estate"
+msgstr "Rechercher titre/domaine"
+
+msgid "Tools"
+msgstr "Outils"
+
+msgid "Notes"
+msgstr "Notes"
+
+msgid "Statistics"
+msgstr "Statistiques"
+
+msgid "Anniversaries"
+msgstr "Anniversaires"
+
+msgid "Add family (wizard)"
+msgstr "Ajouter une famille (assistant)"
+
+msgid "Places/surname"
+msgstr "Lieux/patronyme"
+
+msgid "Calendars"
+msgstr "Calendriers"
+
+msgid "Configuration"
+msgstr "Configuration"
+
+msgid "Dictionaries"
+msgstr "Dictionnaires"
+
+msgid "Edit first names dictionary (wizard)"
+msgstr "Modifier le dictionnaire des prénoms (assistant)"
+
+msgid "First names"
+msgstr "Prénoms"
+
+msgid "Edit surnames dictionary (wizard)"
+msgstr "Modifier le dictionnaire des noms (assistant)"
+
+msgid "Surnames"
+msgstr "Noms"
+
+msgid "Edit places dictionary (wizard)"
+msgstr "Modifier le dictionnaire des lieux (assistant)"
+
+msgid "Places"
+msgstr "Lieux"
+
+msgid "Edit professions dictionary (wizard)"
+msgstr "Modifier le dictionnaire des professions (assistant)"
+
+msgid "Professions"
+msgstr "Professions"
+
+msgid "Edit sources dictionary (wizard)"
+msgstr "Modifier le dictionnaire des sources (assistant)"
+
+msgid "Sources"
+msgstr "Sources"
+
+msgid "Home"
+msgstr "Accueil"
+
+msgid "Back"
+msgstr "Retour"
+
+msgid "Search individual"
+msgstr "Rechercher un individu"
+
+msgid "Search public name"
+msgstr "Rechercher un nom public"
+
+msgid "Search first name"
+msgstr "Rechercher un prénom"
+
+msgid "Display by"
+msgstr "Afficher par"
+
+msgid "line"
+msgstr "branche"
+
+msgid "alphabetical order"
+msgstr "ordre alphabétique"
+
+msgid "surnames"
+msgstr "noms"
+
+msgid "first names"
+msgstr "prénoms"
+
+msgid "Clear field"
+msgstr "Effacer le champ"
+
+msgid "Insert witness(es)"
+msgstr "Insérer témoin(s)"
+
+msgid "Insert event(s)"
+msgstr "Insérer événement(s)"
+
+msgid "Family sources"
+msgstr "Sources famille"
+
+msgid "Edit person"
+msgstr "Modifier personne"
+
 #~ msgid "Same-sex relationship (no sex verification)"
 #~ msgstr "Relation homosexuelle (pas de vérification des sexes)"
 

@@ -1,0 +1,23 @@
+{% extends "gwd/base.html" %}
+
+{% block title %}{{ firstname|default('?') }}{% endblock %}
+
+{% block content %}
+<h1>
+    <a href="{{ request.path }}?lang={{ lang|default('en') }}">
+        {{ firstname|default('?') }}
+    </a>
+</h1>
+
+<ul>
+    {% for person in persons %}
+    <li>
+        <a href="{{ request.path }}?lang={{ lang|default('en') }}#i{{ person.id }}" id="i{{ person.id }}">
+            {{ person.surname|default('?') }}
+        </a>
+        <bdo dir="ltr">{{ person.public_name|default('') }}</bdo>
+        <bdo dir="ltr">{{ person.qualifiers[0]|default('') }}</bdo>
+    </li>
+    {% endfor %}
+</ul>
+{% endblock %}
