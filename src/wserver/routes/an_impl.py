@@ -20,7 +20,8 @@ def implem_route_AN(base):
     sections = [
         {'label': _('today', False), 'date': today, 'items': []},
         {'label': _('tomorrow', False), 'date': tomorrow, 'items': []},
-        {'label': _('the day after tomorrow', False), 'date': day_after, 'items': []},
+        {'label': _('the day after tomorrow', False),
+         'date': day_after, 'items': []},
     ]
 
     months = [(i + 1, _('(month)').split('/')[i]) for i in range(12)]
