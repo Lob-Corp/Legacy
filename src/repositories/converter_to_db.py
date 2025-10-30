@@ -116,11 +116,21 @@ def convert_date_to_db(
         if to_convert.dmy.year == 0:
             return None
         db_date = database.date.Date()
-        db_date.iso_date = date(
-            to_convert.dmy.year,
-            to_convert.dmy.month,
-            to_convert.dmy.day
-        ).isoformat()
+        year_str = f"{to_convert.dmy.year:04d}"
+        month_str = f"{to_convert.dmy.month:02d}"
+        date_str: str = ""
+        if to_convert.dmy.month == 0:
+            date_str = f"{year_str}"
+        elif to_convert.dmy.day == 0:
+            date_str = f"{year_str}-{month_str}"
+        else:
+            date_str = date(
+                to_convert.dmy.year,
+                to_convert.dmy.month,
+                to_convert.dmy.day
+            ).isoformat()
+
+        db_date.iso_date = date_str
         db_date.calendar = to_convert.cal
         db_date.delta = to_convert.dmy.delta
 
@@ -342,7 +352,7 @@ def convert_death_status_to_db(
 
 
 def convert_burial_status_to_db(
-    to_convert: libraries.death_info.BurialInfoBase
+    to_convert: libraries.burial_info.BurialInfoBase
 ) -> Tuple[database.person.BurialStatus, Optional[database.date.Date]]:
     """Convert burial status from library type to database model.
 
@@ -350,14 +360,14 @@ def convert_burial_status_to_db(
         Tuple of (BurialStatus enum, optional burial Date)
     """
     match to_convert:
-        case libraries.death_info.UnknownBurial():
+        case libraries.burial_info.UnknownBurial():
             return (database.person.BurialStatus.UNKNOWN_BURIAL, None)
-        case libraries.death_info.Burial(burial_date=burial_date):
+        case libraries.burial_info.Burial(burial_date=burial_date):
             return (
                 database.person.BurialStatus.BURIAL,
                 convert_date_to_db(burial_date)
             )
-        case libraries.death_info.Cremated(cremation_date=cremation_date):
+        case libraries.burial_info.Cremated(cremation_date=cremation_date):
             return (
                 database.person.BurialStatus.CREMATED,
                 convert_date_to_db(cremation_date)
