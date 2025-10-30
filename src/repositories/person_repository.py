@@ -101,6 +101,93 @@ class PersonRepository:
         finally:
             session.close()
 
+    def get_person_by_name(
+            self,
+            first_name: str,
+            surname: str
+    ) -> app_person.Person[int, int, str, int]:
+        """Get a person by first name and surname from the database."""
+        session = self.db_service.get_session()
+        if session is None:
+            raise RuntimeError("Database session is not available")
+
+        try:
+            person = self.db_service.get(
+                session,
+                db_person.Person,
+                {"first_name": first_name, "surname": surname}
+            )
+            if person is None:
+                raise ValueError(
+                    f"Person with name {first_name} {surname} not found"
+                )
+
+            person_title_links = self.db_service.get_all(
+                session=session,
+                model=db_person_titles.PersonTitles,
+                query={"person_id": person.id}
+            )
+            titles = []
+            for link in person_title_links:
+                title = self.db_service.get(
+                    session, db_titles.Titles, {"id": link.title_id}
+                )
+                if title:
+                    titles.append(title)
+
+            non_native_links = self.db_service.get_all(
+                session=session,
+                model=(db_person_non_native_relations.
+                       PersonNonNativeRelations),
+                query={"person_id": person.id}
+            )
+            non_native_relations = []
+            for link in non_native_links:
+                relation = self.db_service.get(
+                    session, db_relation.Relation, {"id": link.relation_id}
+                )
+                if relation:
+                    non_native_relations.append(relation)
+
+            related_persons = self.db_service.get_all(
+                session=session,
+                model=db_person_relations.PersonRelations,
+                query={"person_id": person.id}
+            )
+
+            events = self.db_service.get_all(
+                session=session,
+                model=db_personal_event.PersonalEvent,
+                query={"person_id": person.id}
+            )
+            events_with_witnesses = []
+            for event in events:
+                witnesses = self.db_service.get_all(
+                    session=session,
+                    model=db_person_event_witness.PersonEventWitness,
+                    query={"event_id": event.id}
+                )
+                events_with_witnesses.append((event, witnesses))
+
+            family_ids = []
+            if person.families_id:
+                union_families = self.db_service.get_all(
+                    session, db_union_families.UnionFamilies,
+                    query={"union_id": person.families_id}
+                )
+                family_ids = [uf.family_id for uf in union_families]
+
+            return convert_person_from_db(
+                person,
+                titles,
+                non_native_relations,
+                related_persons,
+                events_with_witnesses,
+                family_ids
+            )
+        finally:
+            session.close()
+
     def get_all_persons(self) -> List[app_person.Person[int, int, str, int]]:
         """Get all persons from the database."""
         session = self.db_service.get_session()

@@ -1,3 +1,4 @@
+from .details import implem_gwd_details
 from .add_family import implem_route_ADD_FAM
 from flask import Blueprint
 
@@ -38,6 +39,11 @@ def gwd_base_only(base, lang='en'):
 def route_A(base, lang='en'):
     raise NotImplementedError("Route A not implemented yet")
 
+
+@gwd_bp.route('<base>/details/', methods=['GET', 'POST'])
+@gwd_bp.route('<base>/details?<lang>', methods=['GET', 'POST'])
+def route_details(base, lang='en'):
+    return implem_gwd_details(base, lang)
 
 @gwd_bp.route('<base>/ADD_FAM/', methods=['GET', 'POST'])
 @gwd_bp.route('<base>/ADD_FAM/<lang>', methods=['GET', 'POST'])

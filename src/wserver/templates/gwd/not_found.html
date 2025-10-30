@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="{{ lang }}">
+
+<head>
+  <title>Not found: "{{ display_name }}"</title>
+  <meta name="robots" content="none">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon_gwd.png') }}">
+  <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/favicon_gwd.png') }}">
+  <!-- $Id: css.txt v7.1 04/11/2023 04:28:54 $ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}?version=4.6.2">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}?version=6.5.1">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/css.css') }}">
+</head>
+
+<body>
+  <meta name="format-detection" content="telephone=no" />
+  <!-- $Id: home.txt v7.1 07/09/2023 00:49:55 $ -->
+  <div class="d-flex flex-column fix_top fix_left">
+    <a tabindex="1" role="button" class="btn btn-sm btn-link p-0 border-0" href="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}"
+      title="Home">
+      <i class="fa fa-house fa-fw fa-sm" aria-hidden="true"></i><i class="sr-only">Home</i></a>
+    <a tabindex="3" role="button" class="btn btn-sm btn-link p-0 border-0" data-toggle="modal"
+      data-target="#searchmodal" accesskey="S" title="Search"><i class="fa fa-magnifying-glass fa-fw fa-xs"
+        aria-hidden="true"></i><span class="sr-only">Search</span></a>
+    <a role="button" class="btn btn-sm btn-link p-0 border-0" href="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}?i=&#32;%random_index?"
+      title="Display a random individual"><i class="fa fa-dice-%apply;dice? fa-fw fa-xs" aria-hidden="true"></i><span
+        class="sr-only">Display a random individual</span></a>
+    <div class="btn btn-sm p-0 border-0" id="q_time"><i class="fa fa-hourglass-half fa-fw fa-xs p-0"></i></div>
+    <div class="btn btn-sm p-0 border-0 d-none" id="nb_errors"><i class="fa fa-bug fa-fw fa-xs p-0"></i></div>
+  </div>
+  <div class="modal" id="searchmodal" role="dialog" aria-labelledby="searchpopup" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-body" id="ModalSearch">
+          <form id="collapse_search" method="get" action="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}">
+            <input type="hidden" name="m" value="S">
+            <div class="d-flex justify-content-center">
+              <h5 class="rounded modal-title my-2 text-center w-50 align-self-center" id="searchpopup">Search individual
+              </h5>
+              <div class="col-8">
+                <label class="sr-only" for="n">Search public name</label>
+                <input type="search" id="n" class="form-control form-control-lg" name="n"
+                  placeholder="Surname, public name, alias" autofocus>
+                <label class="sr-only" for="p">Search firstname</label>
+                <input type="search" id="p" class="form-control form-control-lg mt-2" name="p" placeholder="First name">
+              </div>
+              <button class="btn btn-outline-primary" type="submit" title="Search"><i
+                  class="fa fa-magnifying-glass fa-lg mx-2"></i> Search</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="container">
+    <h1 class="error">Not found: "{{ first_name|title }} {{ surname|title }}"</h1>
+    <div class="d-flex flex-column fix_top fix_left">
+      <a href="{{ url_for('gwd.gwd_base_only', base=base, lang=lang) }}" title="Home"><i class="fa fa-house fa-fw fa-sm"></i></a>
+    </div><!-- $Id: copyr.txt 7.1-beta 18/12/2023 22:03:44 $ -->
+    <div class="d-flex ml-auto justify-content-end m-2" id="copyr">
+      <div class="btn-group dropup align-self-center">
+        <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false" title=""><span class="sr-only">lang</span><span
+            class="text-uppercase" title="View in: English">en</span><span class="sr-only">, view in</span></button>
+        <div class="dropdown-menu scrollable-lang short" aria-labelledby="dropdownMenu1">
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='af', p=first_name, n=surname) }}">af</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='ar', p=first_name, n=surname) }}">ar</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='bg', p=first_name, n=surname) }}">bg</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='br', p=first_name, n=surname) }}">br</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='ca', p=first_name, n=surname) }}">ca</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='co', p=first_name, n=surname) }}">co</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='cs', p=first_name, n=surname) }}">cs</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='da', p=first_name, n=surname) }}">da</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='de', p=first_name, n=surname) }}">de</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='en', p=first_name, n=surname) }}">en</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='eo', p=first_name, n=surname) }}">eo</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='es', p=first_name, n=surname) }}">es</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='et', p=first_name, n=surname) }}">et</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='fi', p=first_name, n=surname) }}">fi</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='fr', p=first_name, n=surname) }}">fr</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='he', p=first_name, n=surname) }}">he</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='is', p=first_name, n=surname) }}">is</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='it', p=first_name, n=surname) }}">it</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='lt', p=first_name, n=surname) }}">lt</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='lv', p=first_name, n=surname) }}">lv</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='nl', p=first_name, n=surname) }}">nl</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='no', p=first_name, n=surname) }}">no</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='oc', p=first_name, n=surname) }}">oc</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='pl', p=first_name, n=surname) }}">pl</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='pt', p=first_name, n=surname) }}">pt</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='pt-br', p=first_name, n=surname) }}">pt-br</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='ro', p=first_name, n=surname) }}">ro</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='ru', p=first_name, n=surname) }}">ru</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='sk', p=first_name, n=surname) }}">sk</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='sl', p=first_name, n=surname) }}">sl</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='sv', p=first_name, n=surname) }}">sv</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='tr', p=first_name, n=surname) }}">tr</a>
+          <a class="dropdown-item" href="{{ url_for('gwd.gwd_base_only', base=base, lang='zh', p=first_name, n=surname) }}">zh</a>
+        </div>
+      </div>
+      <div class="d-inline-flex flex-column justify-content-end align-self-center ml-3">
+        <div class="ml-auto">
+          <a role="button" class="mr-1" href="{{ url_for('gwd.gwd_base_only', base=base, lang=lang, p=first_name, n=surname) }}?templ=templm"
+            title="templm"><i class="fab fa-markdown" aria-hidden="true"></i><span class="sr-only">switch to
+              templm</span></a>
+          <a href="https://github.com//tree/2ab85d8"
+            title="Line HEAD compiled on 2024-04-18 from commit 2ab85d8 (2024-04-18)">GeneWeb v. 7.1-beta</a>
+        </div>
+        <div class="btn-group">
+          <span>&copy; <a href="https://www.inria.fr" target="_blank"
+              rel="noreferrer, noopener">INRIA</a> 1998-2007</span>
+          <a href="https://geneweb.tuxfamily.org/wiki/GeneWeb" class="ml-1" target="_blank" rel="noreferrer, noopener"
+            title="Documentation GeneWeb"><i class="fab fa-wikipedia-w"></i></a><a
+            href="https://github.com/geneweb/geneweb" class="ml-1" target="_blank" rel="noreferrer, noopener"
+            title="GeneWeb on Github"><i class="fab fa-github"></i></a>
+        </div>
+      </div>
+    </div>
+    <!-- $Id: js.txt v7.1 02/12/2023 12:35:50 $ -->
+    <script src="{{ url_for('static', filename='js/jquery.min.js') }}?version=3.7.1"></script>
+    <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}?version=4.6.1"></script>
+    <script>
+      $('#load_once_p_mod').one('click', function () {
+        $.getScript('{{ url_for("static", filename="js/p_mod.js") }}');
+      });
+      $('#load_once_copylink').one('click', function () {
+        $.getScript('{{ url_for("static", filename="js/copylink.js") }}');
+      });
+    </script>
+    <script><!-- focus on found autofocus input in opening BS modal -->
+      $('.modal').on('shown.bs.modal', function () {
+        $(this).find('[autofocus]').focus();
+      });
+    </script>
+    <script>
+      var q_time = 0.008;
+      var nb_errors = 5;
+      var errors_list = "\u{000A}Unbound variable(s): %random_index?. ";
+      var home_time = document.getElementById('q_time');
+      var home_errors = document.getElementById('nb_errors');
+      if (home_time != null) {
+        home_time.title = "Query treated in " + q_time + " s";
+        if (q_time < 3) {
+          home_time.classList.add("text-success");
+        } else if (q_time < 8) {
+          home_time.classList.add("text-warning");
+        } else {
+          home_time.classList.add("text-danger");
+        }
+      }
+      if (home_errors != null) {
+        if (nb_errors > 0) {
+          home_errors.title = nb_errors + " error(s)!";
+          home_errors.classList.remove("d-none");
+        }
+        if (errors_list != "") {
+          home_errors.title = home_errors.title + errors_list + ".";
+        }
+      }
+    </script>
+</body>
+
+</html>

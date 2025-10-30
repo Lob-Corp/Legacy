@@ -1,0 +1,730 @@
+from flask import render_template, request
+from repositories.person_repository import PersonRepository
+from repositories.family_repository import FamilyRepository
+from wserver.routes.db_utils import get_db_service
+from libraries.date import CalendarDate, Calendar
+from libraries.death_info import Dead, DeadYoung, DeadDontKnowWhen
+from libraries.family import Divorced, Separated
+from libraries.events import FamMarriage, FamDivorce, FamSeparated
+from typing import Dict, Any, List
+import time
+
+
+def get_person_basic_info(person) -> Dict[str, Any]:
+    """Extract basic person information."""
+    return {
+        'person_id': person.index,
+        'first_name': person.first_name,
+        'surname': person.surname,
+        'occupation': person.occupation if person.occupation else None,
+    }
+
+
+def get_person_vital_events(person) -> Dict[str, Any]:
+    """Extract birth, death, and related vital events."""
+    birth_year = None
+    birth_date = None
+    birth_place = None
+
+    if person.birth_date:
+        if isinstance(
+            person.birth_date, tuple
+        ) and len(person.birth_date) == 2:
+            birth_year = person.birth_date[1]
+        elif isinstance(person.birth_date, CalendarDate):
+            birth_year = person.birth_date.dmy.year
+            birth_date = format_date(person.birth_date)
+        birth_place = person.birth_place if person.birth_place else None
+
+    death_year = None
+    death_date = None
+    death_place = None
+    age_at_death = None
+
+    death_types = (Dead, DeadYoung, DeadDontKnowWhen)
+    if isinstance(person.death_status, death_types):
+        if (
+            hasattr(person.death_status, 'death_date')
+            and person.death_status.death_date
+        ):
+            death_info = person.death_status.death_date
+            if isinstance(death_info, tuple) and len(death_info) == 2:
+                death_year = death_info[1]
+            elif isinstance(death_info, CalendarDate):
+                death_year = death_info.dmy.year
+                death_date = format_date(death_info)
+        death_place = person.death_place if person.death_place else None
+
+        if birth_year and death_year:
+            age_at_death = death_year - birth_year
+
+    return {
+        'birth_year': birth_year,
+        'birth_date': birth_date,
+        'birth_place': birth_place,
+        'death_year': death_year,
+        'death_date': death_date,
+        'death_place': death_place,
+        'age_at_death': age_at_death,
+    }
+
+
+def get_family_info(
+    person,
+    family_repo: FamilyRepository,
+    person_repo: PersonRepository
+) -> Dict[str, Any]:
+    """Extract spouse and family information."""
+    if not person.families or len(person.families) == 0:
+        return {
+            'family_id': None,
+            'spouse_id': None,
+            'spouse_first_name': None,
+            'spouse_surname': None,
+            'spouse_birth_year': None,
+            'spouse_death_year': None,
+            'marriage_date': None,
+            'marriage_place': None,
+            'divorce_date': None,
+            'divorce_note': None,
+        }
+
+    family_id = person.families[0]
+    family = family_repo.get_family_by_id(family_id)
+
+    # Get spouse (the other parent in the family)
+    spouse_id = None
+    spouse = None
+    if family.parents.is_couple():
+        father_id, mother_id = family.parents.couple()
+        spouse_id = mother_id if father_id == person.index else father_id
+        spouse = person_repo.get_person_by_id(spouse_id)
+
+    spouse_first_name = spouse.first_name if spouse else None
+    spouse_surname = spouse.surname if spouse else None
+    spouse_birth_year = None
+    spouse_death_year = None
+
+    if spouse:
+        if spouse.birth_date:
+            if (
+                isinstance(spouse.birth_date, tuple)
+                and len(spouse.birth_date) == 2
+            ):
+                spouse_birth_year = spouse.birth_date[1]
+            elif isinstance(spouse.birth_date, CalendarDate):
+                spouse_birth_year = spouse.birth_date.dmy.year
+
+        death_types = (Dead, DeadYoung, DeadDontKnowWhen)
+        if isinstance(spouse.death_status, death_types):
+            if (
+                hasattr(spouse.death_status, 'death_date')
+                and spouse.death_status.death_date
+            ):
+                death_info = spouse.death_status.death_date
+                if isinstance(death_info, tuple) and len(death_info) == 2:
+                    spouse_death_year = death_info[1]
+                elif isinstance(death_info, CalendarDate):
+                    spouse_death_year = death_info.dmy.year
+
+    marriage_date = None
+    if family.marriage_date:
+        if isinstance(family.marriage_date, CalendarDate):
+            marriage_date = format_date(family.marriage_date)
+
+    marriage_place = family.marriage_place if family.marriage_place else None
+
+    divorce_date = None
+    divorce_note = None
+    if isinstance(family.divorce_status, (Divorced, Separated)):
+        if hasattr(family.divorce_status, 'divorce_date'):
+            div_date = family.divorce_status.divorce_date
+            if isinstance(div_date, CalendarDate):
+                divorce_date = format_date(div_date)
+
+    return {
+        'family_id': family_id,
+        'spouse_id': spouse_id,
+        'spouse_first_name': spouse_first_name,
+        'spouse_surname': spouse_surname,
+        'spouse_birth_year': spouse_birth_year,
+        'spouse_death_year': spouse_death_year,
+        'marriage_date': marriage_date,
+        'marriage_place': marriage_place,
+        'divorce_date': divorce_date,
+        'divorce_note': divorce_note,
+    }
+
+
+def get_children_info(
+    person,
+    family_repo: FamilyRepository,
+    person_repo: PersonRepository
+) -> List[Dict[str, Any]]:
+    """Extract children information from all families."""
+    children: List[Dict[str, Any]] = []
+
+    if not person.families:
+        return children
+
+    for family_id in person.families:
+        family = family_repo.get_family_by_id(family_id)
+
+        for child_id in family.children:
+            child = person_repo.get_person_by_id(child_id)
+
+            birth_year = None
+            if child.birth_date:
+                if (
+                    isinstance(child.birth_date, tuple)
+                    and len(child.birth_date) == 2
+                ):
+                    birth_year = child.birth_date[1]
+                elif isinstance(child.birth_date, CalendarDate):
+                    birth_year = child.birth_date.dmy.year
+
+            death_year = None
+            death_types = (Dead, DeadYoung, DeadDontKnowWhen)
+            if isinstance(child.death_status, death_types):
+                if (
+                    hasattr(child.death_status, 'death_date')
+                    and child.death_status.death_date
+                ):
+                    death_info = child.death_status.death_date
+                    if isinstance(death_info, tuple) and len(death_info) == 2:
+                        death_year = death_info[1]
+                    elif isinstance(death_info, CalendarDate):
+                        death_year = death_info.dmy.year
+
+            age_years = None
+            if birth_year and death_year:
+                age_years = death_year - birth_year
+
+            children.append({
+                'id': child.index,
+                'first_name': child.first_name,
+                'surname': child.surname,
+                'birth_year': birth_year,
+                'death_year': death_year,
+                'age_years': age_years,
+            })
+
+    return children
+
+
+def get_witness_info(
+    witness_id: int,
+    person_repo: PersonRepository
+) -> Dict[str, Any]:
+    """Extract witness information."""
+    try:
+        witness = person_repo.get_person_by_id(witness_id)
+
+        # Get witness birth and death years for date range
+        witness_birth_year = None
+        witness_death_year = None
+
+        if witness.birth_date:
+            if isinstance(witness.birth_date, tuple):
+                witness_birth_year = witness.birth_date[1]
+            elif isinstance(witness.birth_date, CalendarDate):
+                witness_birth_year = witness.birth_date.dmy.year
+
+        death_types = (Dead, DeadYoung, DeadDontKnowWhen)
+        if isinstance(witness.death_status, death_types):
+            if (
+                hasattr(witness.death_status, 'death_date')
+                and witness.death_status.death_date
+            ):
+                death_info = witness.death_status.death_date
+                if isinstance(death_info, tuple):
+                    witness_death_year = death_info[1]
+                elif isinstance(death_info, CalendarDate):
+                    witness_death_year = death_info.dmy.year
+
+        # Format date range
+        date_range = ''
+        if witness_birth_year:
+            date_range = f"{witness_birth_year}-"
+            if witness_death_year:
+                date_range = f"{witness_birth_year}-{witness_death_year}"
+
+        return {
+            'id': witness.index,
+            'first_name': witness.first_name,
+            'surname': witness.surname,
+            'date_range': date_range,
+            'age': '',
+        }
+    except Exception:
+        # If witness not found, return empty dict
+        return {}
+
+
+def get_sort_key(event: Dict[str, Any]) -> tuple:
+    """Generate a sort key for timeline events based on their date."""
+    date_obj = event.get('_sort_date')
+    if not date_obj or not isinstance(date_obj, CalendarDate):
+        # Events without valid dates go to the end
+        return (9999, 12, 31)
+
+    year = date_obj.dmy.year if date_obj.dmy.year > 0 else 9999
+    month = date_obj.dmy.month if date_obj.dmy.month > 0 else 12
+    day = date_obj.dmy.day if date_obj.dmy.day > 0 else 31
+
+    return (year, month, day)
+
+
+def get_timeline_events(
+    person,
+    family_repo: FamilyRepository,
+    person_repo: PersonRepository
+) -> List[Dict[str, Any]]:
+    """Extract timeline events."""
+    events: List[Dict[str, Any]] = []
+
+    # Birth event
+    if person.birth_date:
+        birth_display = ''
+        if isinstance(person.birth_date, CalendarDate):
+            birth_display = format_date(person.birth_date)
+        events.append({
+            'type': 'birth',
+            'date_display': birth_display,
+            'place': person.birth_place if person.birth_place else None,
+            '_sort_date': person.birth_date,
+        })
+
+    # Marriage events
+    if person.families:
+        for family_id in person.families:
+            family = family_repo.get_family_by_id(family_id)
+
+            # Get spouse
+            spouse_id = None
+            spouse = None
+            if family.parents.is_couple():
+                father_id, mother_id = family.parents.couple()
+                spouse_id = (
+                    mother_id if father_id == person.index else father_id
+                )
+                spouse = person_repo.get_person_by_id(spouse_id)
+
+            if family.marriage_date:
+                marriage_display = ''
+                if isinstance(family.marriage_date, CalendarDate):
+                    marriage_display = format_date(family.marriage_date)
+
+                # Get witnesses and note for marriage event
+                witnesses = []
+                marriage_note = ''
+                for fam_event in family.family_events:
+                    if isinstance(fam_event.name, FamMarriage):
+                        for witness_tuple in fam_event.witnesses:
+                            witness_id = witness_tuple[0]
+                            witness_info = get_witness_info(
+                                witness_id,
+                                person_repo
+                            )
+                            if witness_info:
+                                witnesses.append(witness_info)
+                        if fam_event.note:
+                            marriage_note = fam_event.note
+                        break
+
+                marriage_event: Dict[str, Any] = {
+                    'type': 'marriage',
+                    'date_display': marriage_display,
+                    'place': (
+                        family.marriage_place
+                        if family.marriage_place else None
+                    ),
+                    'spouse_id': spouse_id,
+                    'spouse_first_name': (
+                        spouse.first_name if spouse else None
+                    ),
+                    'spouse_surname': spouse.surname if spouse else None,
+                    'date_range': '',
+                    'duration': '',
+                    'witnesses': witnesses,
+                    'note': marriage_note,
+                    '_sort_date': family.marriage_date,
+                }
+                events.append(marriage_event)
+
+            # Children births
+            for child_id in family.children:
+                child = person_repo.get_person_by_id(child_id)
+                if child.birth_date:
+                    child_display = ''
+                    if isinstance(child.birth_date, CalendarDate):
+                        child_display = format_date(child.birth_date)
+
+                    # Get child's birth and death years for date range
+                    child_birth_year = None
+                    child_death_year = None
+
+                    if isinstance(child.birth_date, tuple):
+                        child_birth_year = child.birth_date[1]
+                    elif isinstance(child.birth_date, CalendarDate):
+                        child_birth_year = child.birth_date.dmy.year
+
+                    death_types = (Dead, DeadYoung, DeadDontKnowWhen)
+                    if isinstance(child.death_status, death_types):
+                        if (
+                            hasattr(child.death_status, 'death_date')
+                            and child.death_status.death_date
+                        ):
+                            death_info = child.death_status.death_date
+                            if isinstance(death_info, tuple):
+                                child_death_year = death_info[1]
+                            elif isinstance(death_info, CalendarDate):
+                                child_death_year = death_info.dmy.year
+
+                    # Format date range like "2015-2023" or "2015-"
+                    child_date_range = ''
+                    if child_birth_year:
+                        child_date_range = f"{child_birth_year}-"
+                        if child_death_year:
+                            child_date_range = (
+                                f"{child_birth_year}-{child_death_year}"
+                            )
+
+                    events.append({
+                        'type': 'child_birth',
+                        'date_display': child_display,
+                        'id': child.index,
+                        'child_first_name': child.first_name,
+                        'child_surname': child.surname,
+                        'child_date_range': child_date_range,
+                        'child_age': '',
+                        '_sort_date': child.birth_date,
+                    })
+
+            # Divorce event
+            if isinstance(family.divorce_status, (Divorced, Separated)):
+                if (
+                    hasattr(family.divorce_status, 'divorce_date')
+                    and family.divorce_status.divorce_date
+                ):
+                    divorce_display = ''
+                    div_date = family.divorce_status.divorce_date
+                    if isinstance(div_date, CalendarDate):
+                        divorce_display = format_date(div_date)
+
+                    # Get witnesses and note for divorce event
+                    witnesses = []
+                    divorce_note = ''
+                    for fam_event in family.family_events:
+                        if isinstance(
+                            fam_event.name,
+                            (FamDivorce, FamSeparated)
+                        ):
+                            for witness_tuple in fam_event.witnesses:
+                                witness_id = witness_tuple[0]
+                                witness_info = get_witness_info(
+                                    witness_id,
+                                    person_repo
+                                )
+                                if witness_info:
+                                    witnesses.append(witness_info)
+                            if fam_event.note:
+                                divorce_note = fam_event.note
+                            break
+
+                    events.append({
+                        'type': 'divorce',
+                        'date_display': divorce_display,
+                        'spouse_id': spouse_id,
+                        'spouse_first_name': (
+                            spouse.first_name if spouse else None
+                        ),
+                        'spouse_surname': spouse.surname if spouse else None,
+                        'date_range': '',
+                        'duration': '',
+                        'witnesses': witnesses,
+                        'note': divorce_note,
+                        '_sort_date': div_date,
+                    })
+
+    # Death event
+    death_types = (Dead, DeadYoung, DeadDontKnowWhen)
+    if isinstance(person.death_status, death_types):
+        if (
+            hasattr(person.death_status, 'death_date')
+            and person.death_status.death_date
+        ):
+            death_display = ''
+            if isinstance(person.death_status.death_date, CalendarDate):
+                death_display = format_date(person.death_status.death_date)
+            events.append({
+                'type': 'death',
+                'date_display': death_display,
+                'place': person.death_place if person.death_place else None,
+                '_sort_date': person.death_status.death_date,
+            })
+
+    # Sort events chronologically by date
+    events.sort(key=get_sort_key)
+
+    # Remove the internal _sort_date field from final output
+    for event in events:
+        event.pop('_sort_date', None)
+
+    return events
+
+
+def get_notes(
+    person,
+    family_repo: FamilyRepository,
+    person_repo: PersonRepository
+) -> Dict[str, Any]:
+    """Extract individual and marriage notes."""
+    individual_notes: List[str] = []
+
+    marriage_notes: List[Dict[str, str]] = []
+    if person.families:
+        for family_id in person.families:
+            family = family_repo.get_family_by_id(family_id)
+
+            # Get spouse name
+            spouse_name = ''
+            if family.parents.is_couple():
+                father_id, mother_id = family.parents.couple()
+                spouse_id = (
+                    mother_id if father_id == person.index else father_id
+                )
+                spouse = person_repo.get_person_by_id(spouse_id)
+                spouse_name = f"{spouse.first_name} {spouse.surname}"
+
+            # Collect all marriage-related notes
+            note_content = ''
+
+            if family.marriage_note:
+                note_content = family.marriage_note
+
+            if family.comment:
+                if note_content:
+                    note_content += f"\n{family.comment}"
+                else:
+                    note_content = family.comment
+
+            # Only add if there's actual content
+            if note_content:
+                marriage_notes.append({
+                    'spouse_name': spouse_name,
+                    'content': note_content,
+                })
+
+    return {
+        'individual_notes': individual_notes,
+        'marriage_notes': marriage_notes,
+    }
+
+
+def get_event_name(event_name) -> str:
+    """Get the event name as a capitalized string."""
+    import re
+    event_type = type(event_name).__name__
+    # Convert from CamelCase to readable format
+    # e.g., FamMarriage -> Marriage, FamDivorce -> Divorce
+    if event_type.startswith('Fam'):
+        event_type = event_type[3:]  # Remove 'Fam' prefix
+    elif event_type.startswith('Pers'):
+        event_type = event_type[4:]  # Remove 'Pers' prefix
+
+    # Add spaces before capital letters
+    readable = re.sub(r'([A-Z])', r' \1', event_type).strip()
+    return readable.capitalize()
+
+
+def get_sources(
+    person,
+    family_repo: FamilyRepository
+) -> List[Dict[str, Any]]:
+    """Extract sources from person and families."""
+    sources = []
+
+    if person.src:
+        sources.append({
+            'type': 'individual',
+            'content': person.src,
+        })
+
+    if person.birth_src:
+        sources.append({
+            'type': 'birth',
+            'content': person.birth_src,
+        })
+
+    if person.death_src:
+        sources.append({
+            'type': 'death',
+            'content': person.death_src,
+        })
+
+    if person.families:
+        for family_id in person.families:
+            family = family_repo.get_family_by_id(family_id)
+
+            # Get family source
+            if family.src:
+                sources.append({
+                    'type': 'family',
+                    'content': family.src,
+                })
+
+            # Get sources from all family events
+            for fam_event in family.family_events:
+                if fam_event.src:
+                    event_type = get_event_name(fam_event.name)
+                    sources.append({
+                        'type': event_type,
+                        'content': fam_event.src,
+                    })
+
+    return sources
+
+
+# Month names for different calendar types
+GREGORIAN_MONTHS = {
+    1: 'January', 2: 'February', 3: 'March', 4: 'April',
+    5: 'May', 6: 'June', 7: 'July', 8: 'August',
+    9: 'September', 10: 'October', 11: 'November', 12: 'December'
+}
+
+JULIAN_MONTHS = GREGORIAN_MONTHS  # Same as Gregorian
+
+FRENCH_MONTHS = {
+    1: 'Vendémiaire', 2: 'Brumaire', 3: 'Frimaire', 4: 'Nivôse',
+    5: 'Pluviôse', 6: 'Ventôse', 7: 'Germinal', 8: 'Floréal',
+    9: 'Prairial', 10: 'Messidor', 11: 'Thermidor', 12: 'Fructidor',
+    13: 'Sansculottides'
+}
+
+HEBREW_MONTHS = {
+    1: 'Tishrei', 2: 'Heshvan', 3: 'Kislev', 4: 'Tevet',
+    5: 'Shevat', 6: 'Adar', 7: 'Nisan', 8: 'Iyar',
+    9: 'Sivan', 10: 'Tammuz', 11: 'Av', 12: 'Elul',
+    13: 'Adar I', 14: 'Adar II'  # For leap years
+}
+
+
+def format_date(date) -> str:
+    """Format a date for display as 'day month year'."""
+    if not isinstance(date, CalendarDate):
+        return ''
+
+    day = date.dmy.day if date.dmy.day > 0 else None
+    month = date.dmy.month if date.dmy.month > 0 else None
+    year = date.dmy.year if date.dmy.year > 0 else None
+
+    # Select appropriate month names based on calendar type
+    if date.cal == Calendar.GREGORIAN:
+        month_names = GREGORIAN_MONTHS
+    elif date.cal == Calendar.JULIAN:
+        month_names = JULIAN_MONTHS
+    elif date.cal == Calendar.FRENCH:
+        month_names = FRENCH_MONTHS
+    elif date.cal == Calendar.HEBREW:
+        month_names = HEBREW_MONTHS
+    else:
+        month_names = GREGORIAN_MONTHS  # Default
+
+    # Format the date based on available components
+    parts = []
+    if day:
+        parts.append(str(day))
+    if month and month in month_names:
+        parts.append(month_names[month])
+    if year:
+        parts.append(str(year))
+
+    return ' '.join(parts) if parts else ''
+
+
+def implem_gwd_details(base, lang="en"):
+    """Main route handler for person details page."""
+    start_time = time.time()
+
+    # Get query parameters
+    person_id = request.args.get('i', type=int)
+    person_first_name = request.args.get('p', type=str)
+    person_surname = request.args.get('n', type=str)
+
+    # Validate query parameters
+    if not person_id:
+        # If no ID, both first name and surname are required
+        if not person_first_name or not person_surname:
+            return render_template(
+                "gwd/bad_request.html",
+                base=base,
+                lang=lang
+            )
+
+    # Initialize repositories
+    try:
+        db_service = get_db_service(base)
+        person_repo = PersonRepository(db_service)
+        family_repo = FamilyRepository(db_service)
+    except FileNotFoundError:
+        return render_template("gwd/not_found.html", base=base, lang=lang)
+
+    # Get person data by ID or by name (ID has priority)
+    person = None
+    try:
+        if person_id:
+            person = person_repo.get_person_by_id(person_id)
+        elif person_first_name and person_surname:
+            # Try to find person by name
+            all_persons = person_repo.get_all_persons()
+            for p in all_persons:
+                if (
+                    p.first_name == person_first_name and
+                    p.surname == person_surname
+                ):
+                    person = p
+                    break
+    except (ValueError, Exception):
+        # Person not found or error occurred
+        person = None
+
+    # If person not found, return not_found template
+    if not person:
+        return render_template(
+            "gwd/not_found.html",
+            base=base,
+            lang=lang,
+            first_name=person_first_name,
+            surname=person_surname
+        )
+
+    # Gather all data using separate functions
+    basic_info = get_person_basic_info(person)
+    vital_events = get_person_vital_events(person)
+    family_info = get_family_info(person, family_repo, person_repo)
+    children = get_children_info(person, family_repo, person_repo)
+    timeline_events = get_timeline_events(person, family_repo, person_repo)
+    notes = get_notes(person, family_repo, person_repo)
+    sources = get_sources(person, family_repo)
+
+    # Calculate query time
+    q_time = round(time.time() - start_time, 2)
+
+    # Merge all data for template
+    template_data = {
+        'base': base,
+        'lang': lang,
+        **basic_info,
+        **vital_events,
+        **family_info,
+        'children': children,
+        'timeline_events': timeline_events,
+        **notes,
+        'sources': sources,
+        'q_time': q_time,
+        'nb_errors': 0,
+        'errors_list': '',
+    }
+
+    return render_template("gwd/details.html", **template_data)
