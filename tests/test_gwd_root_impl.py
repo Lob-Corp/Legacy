@@ -7,7 +7,8 @@ from wserver.routes.gwd_root_impl import implem_route_gwd_root
 
 
 def _make_app():
-	app = Flask(__name__)
+	templates_dir = Path(__file__).resolve().parent.parent / 'src' / 'wserver' / 'templates'
+	app = Flask(__name__, template_folder=str(templates_dir))
 	return app
 
 

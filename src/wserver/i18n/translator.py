@@ -44,15 +44,29 @@ class Translator:
                     self._data.setdefault(key, {})
                     continue
 
-    def gettext(self, key, lang='en'):
+    def gettext(self, key, lang='en', capitalize_first=False):
+        """Return the translated string for `key` in `lang`.
+
+        If `capitalize_first` is True, the returned string will have its
+        first character upper-cased (Unicode-aware). If the key is not
+        found, the key itself is returned (same behaviour as before).
+        """
         if key in self._data:
             entry = self._data[key]
             if lang in entry:
-                return entry[lang]
-            if 'en' in entry:
-                return entry['en']
-            return next(iter(entry.values()))
-        return key
+                text = entry[lang]
+            elif 'en' in entry:
+                text = entry['en']
+            else:
+                text = next(iter(entry.values()))
+        else:
+            text = key
+
+        if capitalize_first and text:
+            # upper-case the first character correctly for Unicode
+            first = text[0].upper()
+            return first + text[1:]
+        return text
 
 
 _module_translator = None
