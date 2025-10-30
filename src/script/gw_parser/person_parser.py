@@ -15,10 +15,9 @@ from libraries.title import (
 )
 from libraries.family import Ascendants
 from libraries.consanguinity_rate import ConsanguinityRate
+from libraries.burial_info import (
+    BurialInfoBase, UnknownBurial, Burial, Cremated)
 from libraries.death_info import (
-    BurialInfoBase,
-    Burial,
-    Cremated,
     DeathStatusBase,
     DontKnowIfDead,
     DeadYoung,
@@ -26,7 +25,6 @@ from libraries.death_info import (
     DeadDontKnowWhen,
     Dead,
     DeathReason,
-    UnknownBurial,
 )
 
 from .data_types import Key, Somebody, SomebodyDefined, SomebodyUndefined

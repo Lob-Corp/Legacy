@@ -1,8 +1,8 @@
 from libraries.date import Calendar
+from libraries.burial_info import (
+    Burial, BurialInfoBase, Cremated, UnknownBurial
+)
 from libraries.death_info import (
-    Burial,
-    BurialInfoBase,
-    Cremated,
     Dead,
     DeadDontKnowWhen,
     DeadYoung,
@@ -11,7 +11,6 @@ from libraries.death_info import (
     DontKnowIfDead,
     NotDead,
     OfCourseDead,
-    UnknownBurial
 )
 import pytest
 
@@ -61,6 +60,7 @@ def test_ofcoursedead_instantiation():
 
 
 # BurialInfoBase hierarchy
+
 
 def test_burialinfobase_cannot_instantiate():
     with pytest.raises(NotImplementedError):
