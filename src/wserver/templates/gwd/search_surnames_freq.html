@@ -13,7 +13,7 @@
         <ul>
             {% for person in group.persons %}
             <li>
-                <a href="{{ request.path }}?m=N&v={{ person.v|urlencode }}&tri=F&lang={{ lang }}">{{
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ person.id }}">{{
                     person.surname|default('?') }}</a>
             </li>
             {% endfor %}
