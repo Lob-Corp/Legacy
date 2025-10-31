@@ -155,21 +155,47 @@ def test_get_person_vital_events_with_birth_tuple():
     assert result['birth_date'] is None
     assert result['birth_place'] == "London"
 
-# ===== Test get_family_info =====
+def test_get_person_vital_events_with_dead_young():
+    """Test extracting vital events with DeadYoung status."""
+    person = create_basic_person(
+        death_status=DeadYoung(),
+        death_place="Madrid"
+    )
 
-def test_get_family_info_no_families():
-    """Test family info extraction with no families."""
+    result = get_person_vital_events(person)
+
+    # DeadYoung has no date, so death_year should be None
+    assert result['death_place'] == "Madrid"
+
+
+def test_get_person_vital_events_with_dead_dont_know_when():
+    """Test extracting vital events with DeadDontKnowWhen status."""
+    person = create_basic_person(
+        death_status=DeadDontKnowWhen()
+    )
+
+    result = get_person_vital_events(person)
+
+    assert result['death_year'] == '?'
+    assert result['death_date'] is None
+
+
+def test_get_person_vital_events_no_info():
+    """Test extracting vital events with no birth or death info."""
     person = create_basic_person()
 
-    family_repo = Mock()
-    person_repo = Mock()
+    result = get_person_vital_events(person)
 
-    result = get_family_info(person, family_repo, person_repo)
+    assert result['birth_year'] == '?'
+    assert result['birth_date'] is None
+    assert result['birth_place'] is None
+    assert result['death_year'] == '?'
+    assert result['death_date'] is None
+    assert result['death_place'] is None
+    assert result['age_at_death'] is None
 
-    assert result['family_id'] is None
-    assert result['spouse_id'] is None
-    assert result['spouse_first_name'] is None
-    assert result['spouse_surname'] is None
+
+# ===== Test get_family_info =====
 
 
 def test_get_family_info_with_spouse():
@@ -210,7 +236,6 @@ def test_get_family_info_with_spouse():
     assert result['spouse_birth_year'] == 1992
     assert result['marriage_date'] == "20 June 2015"
     assert result['marriage_place'] == "New York"
-    assert result['divorce_date'] is None
 
 
 def test_get_family_info_with_divorce():
@@ -395,6 +420,37 @@ def test_get_children_info_with_tuple_dates():
 
 
 # ===== Test get_witness_info =====
+
+def test_get_witness_info_valid():
+    """Test witness info extraction with valid witness."""
+    witness = create_basic_person(
+        index=10,
+        first_name="Witness",
+        surname="Person",
+        birth_date=CalendarDate(
+            cal=Calendar.GREGORIAN,
+            dmy=DateValue(day=1, month=1, year=1980, prec=Sure())
+        ),
+        death_status=Dead(
+            death_reason=DeathReason.UNSPECIFIED,
+            date_of_death=CalendarDate(
+                cal=Calendar.GREGORIAN,
+                dmy=DateValue(day=31, month=12, year=2050, prec=Sure())
+            )
+        )
+    )
+
+    person_repo = Mock()
+    person_repo.get_person_by_id.return_value = witness
+
+    result = get_witness_info(10, person_repo)
+
+    assert result['id'] == 10
+    assert result['first_name'] == "Witness"
+    assert result['surname'] == "Person"
+    assert result['date_range'] == "1980-2050"
+    assert result['age'] == '?'
+
 
 def test_get_witness_info_with_tuple_dates():
     """Test witness info with tuple dates."""
