@@ -3,7 +3,7 @@
 GenewebPy is a reimplementation of Geneweb - originally written in OCaml - in Python.
 
 ## Requirement
-The app has made with Python 3.12.11. Any version compatibility erro are on the user's responsability.
+The app has been made with Python 3.12 and tested up to 3.13.
 
 ## 🐳 Docker Quick Start
 
@@ -61,6 +61,7 @@ make deploy-prod
 
 ### 📚 Additional Documentation
 - **[Documentation Index](docs/README.md)** - Complete documentation navigation guide
+- **[Technologies & Architecture](docs/TECHNOLOGIES.md)** - Technologies used and rationale for each choice
 - **[Migration Guide](docs/MIGRATION_GUIDE.md)** - User-friendly guide for migrating your family tree from OCaml Geneweb
 - **[Database Architecture](docs/DATABASE.md)** - Complete database documentation (SQLAlchemy models, relationships, and usage)
 - **[Testing Policy](docs/TESTING_POLICY.md)** - Comprehensive testing guidelines, requirements, and best practices

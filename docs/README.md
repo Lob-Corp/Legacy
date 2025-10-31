@@ -98,7 +98,20 @@ Quality assurance processes and standards for the project.
 - Merging rules and PR requirements
 - Protected branches and status checks
 - Code review process
+- Issue organization on GitHub Project
 - Testing policy summary (see TESTING_POLICY.md for details)
+
+### ⚙️ [TECHNOLOGIES.md](./TECHNOLOGIES.md)
+**Comprehensive guide to technologies used in GenewebPy and rationale for each choice.**
+
+**Topics**:
+- Core technologies (Python, Flask, SQLite, SQLAlchemy)
+- Development tools (MyPy, Pytest)
+- Infrastructure & deployment (Docker, Ansible, Systemd)
+- Testing framework and organization
+- Architecture decisions (Repository pattern, Dataclasses, Parser design)
+- Alternatives considered for each technology
+- Future considerations and potential improvements
 
 ---
 
@@ -153,6 +166,15 @@ Quality assurance processes and standards for the project.
 
 **...understand the development workflow**
 → Read [QUALITY_INSURANCE.md](./QUALITY_INSURANCE.md)
+
+**...understand why specific technologies were chosen**
+→ Read [TECHNOLOGIES.md](./TECHNOLOGIES.md)
+
+**...know what tools and frameworks are used**
+→ Read [TECHNOLOGIES.md § Core Technologies](./TECHNOLOGIES.md#core-technologies)
+
+**...understand architecture decisions**
+→ Read [TECHNOLOGIES.md § Architecture Decisions](./TECHNOLOGIES.md#architecture-decisions)
 
 ## Contributing to Documentation
 
