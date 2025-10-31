@@ -19,8 +19,11 @@ RUN pip install --no-cache-dir -r requirements.txt
 COPY src/ ./src/
 COPY pyproject.toml .
 
+# Compile translations
+WORKDIR /app/src/wserver
+RUN make -f Makefile.i18n compile
 
-
+WORKDIR /app
 RUN pip install -e .
 
 RUN mkdir -p /app/data /app/logs
