@@ -1537,9 +1537,9 @@ def handle_mod_individual_post(
     ):
         return jsonify({"ok": True, "person_id": person_id})
 
-    # Redirect to person view (or back to form)
+    # Redirect to person details page
     return redirect(
-        url_for("gwd.route_MOD_IND", base=base, id=person_id, lang=lang)
+        url_for("gwd.route_details", base=base, i=person_id, lang=lang)
     )
 
 
