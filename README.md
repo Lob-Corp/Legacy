@@ -151,6 +151,63 @@ for person in all_persons:
 
 **See**: [Database Architecture](docs/DATABASE.md) for complete database documentation.
 
+## 🌍 Translation and Internationalization
+
+GenewebPy supports multiple languages through gettext-based internationalization.
+
+### Managing Translations
+
+Translation files are managed using Babel in the `src/wserver/` directory:
+
+```bash
+# Navigate to wserver directory
+cd src/wserver
+
+# Extract translatable strings from templates and Python files
+make -f Makefile.i18n extract
+
+# Initialize a new locale (e.g., French)
+make -f Makefile.i18n init-locale LOCALE=fr
+
+# Compile .po files to .mo files (required for translations to work)
+make -f Makefile.i18n compile
+
+# Update existing translations with new strings
+make -f Makefile.i18n update
+```
+
+### Translation Files Location
+
+- **Templates**: `.pot` files in `src/wserver/`
+- **Translations**: `.po` files in `src/wserver/translations/<locale>/LC_MESSAGES/`
+- **Compiled**: `.mo` files (generated from `.po` files)
+
+### Adding Translations
+
+1. Mark strings for translation in templates:
+   ```html
+   {{ _('Hello, World!') }}
+   ```
+
+2. Mark strings in Python code:
+   ```python
+   from flask_babel import gettext as _
+   message = _('Welcome to GenewebPy')
+   ```
+
+3. Extract and compile:
+   ```bash
+   cd src/wserver
+   make -f Makefile.i18n extract
+   make -f Makefile.i18n update
+   # Edit translations/<locale>/LC_MESSAGES/messages.po
+   make -f Makefile.i18n compile
+   ```
+
+### Supported Languages
+
+Currently supported languages can be found in `src/wserver/translations/`. To add a new language, use the `init-locale` command.
+
 ## Quality Insurance
 
 To see the documentation of branches organisation and tests, [see Quality Insurance](docs/QUALITY_INSURANCE.md)
