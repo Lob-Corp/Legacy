@@ -17,7 +17,7 @@ import libraries.burial_info as burial_info
 import libraries.title as app_title
 import libraries.events as app_events
 import libraries.family as app_family
-from database.person import Person as DBPerson
+from database.person import Person
 
 
 def find_person_by_name(
@@ -266,7 +266,10 @@ def parse_witness_from_form(
             personal_events=[],
             notes="",
             src="",
-            ascend=app_family.Ascendants(parents=None, consanguinity_rate=None),
+            ascend=app_family.Ascendants(
+                parents=None,
+                consanguinity_rate=None
+            ),
             families=[],
         )
 
@@ -777,13 +780,26 @@ def handle_mod_individual_post(
     titles = []
     for i in range(0, 50):
         title_name_str = get_first_value(
-            form_data, [f"title_{i}_name", f"title{i}_name", f"t_name{i}", f"_t_name{i}"]
+            form_data,
+            [f"title_{i}_name", f"title{i}_name", f"t_name{i}", f"_t_name{i}"]
         )
         ident = get_first_value(
-            form_data, [f"title_{i}_ident", f"title{i}_ident", f"t_ident{i}", f"_t_ident{i}"]
+            form_data,
+            [
+                f"title_{i}_ident",
+                f"title{i}_ident",
+                f"t_ident{i}",
+                f"_t_ident{i}"
+            ]
         )
         place = get_first_value(
-            form_data, [f"title_{i}_place", f"title{i}_place", f"t_place{i}", f"_t_place{i}"]
+            form_data,
+            [
+                f"title_{i}_place",
+                f"title{i}_place",
+                f"t_place{i}",
+                f"_t_place{i}"
+            ]
         )
         date_start = parse_date_with_fallback(
             form_data,
@@ -793,10 +809,15 @@ def handle_mod_individual_post(
             f"_t_date_start{i}",
         )
         date_end = parse_date_with_fallback(
-            form_data, f"title_{i}_end", f"title{i}_end", f"t_date_end{i}", f"_t_date_end{i}"
+            form_data,
+            f"title_{i}_end",
+            f"title{i}_end",
+            f"t_date_end{i}",
+            f"_t_date_end{i}"
         )
         nth_str = get_first_value(
-            form_data, [f"title_{i}_nth", f"title{i}_nth", f"t_nth{i}", f"_t_nth{i}"]
+            form_data,
+            [f"title_{i}_nth", f"title{i}_nth", f"t_nth{i}", f"_t_nth{i}"]
         )
 
         has_any_title_data = any(
@@ -1034,7 +1055,8 @@ def handle_mod_individual_post(
                 prefix = f"{event_pattern}_witn{witness_num}"
             witness_fn = form_data.get(f"{prefix}_fn", "").strip()
             id_present = False
-            for k in (f"{prefix}_index", f"{prefix}_id", f"{prefix}_person_id"):
+            for k in (f"{prefix}_index", f"{prefix}_id",
+                      f"{prefix}_person_id"):
                 if form_data.get(k, "").strip():
                     id_present = True
                     break
@@ -1073,7 +1095,8 @@ def handle_mod_individual_post(
                 prefix = f"{event_pattern}_witn{witness_num}"
             witness_fn = form_data.get(f"{prefix}_fn", "").strip()
             id_present = False
-            for k in (f"{prefix}_index", f"{prefix}_id", f"{prefix}_person_id"):
+            for k in (f"{prefix}_index", f"{prefix}_id",
+                      f"{prefix}_person_id"):
                 if form_data.get(k, "").strip():
                     id_present = True
                     break
@@ -1109,7 +1132,8 @@ def handle_mod_individual_post(
                 prefix = f"{event_pattern}_witn{witness_num}"
             witness_fn = form_data.get(f"{prefix}_fn", "").strip()
             id_present = False
-            for k in (f"{prefix}_index", f"{prefix}_id", f"{prefix}_person_id"):
+            for k in (f"{prefix}_index", f"{prefix}_id",
+                      f"{prefix}_person_id"):
                 if form_data.get(k, "").strip():
                     id_present = True
                     break
@@ -1176,7 +1200,8 @@ def handle_mod_individual_post(
                 prefix = f"{event_pattern}_witn{witness_num}"
             witness_fn = form_data.get(f"{prefix}_fn", "").strip()
             id_present = False
-            for k in (f"{prefix}_index", f"{prefix}_id", f"{prefix}_person_id"):
+            for k in (f"{prefix}_index", f"{prefix}_id",
+                      f"{prefix}_person_id"):
                 if form_data.get(k, "").strip():
                     id_present = True
                     break
@@ -1379,7 +1404,8 @@ def handle_mod_individual_post(
                 witnesses=burial_witnesses,
             )
             personal_events.append(burial_event)
-        elif isinstance(burial, burial_info.Cremated) and burial.cremation_date:
+        elif isinstance(burial, burial_info.Cremated) \
+            and burial.cremation_date:
             cremation_event = app_events.PersonalEvent(
                 name=app_events.PersCremation(),
                 date=burial.cremation_date,
