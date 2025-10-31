@@ -36,7 +36,7 @@
             <ul>
                 {% for person in persons %}
                 <li>
-                    o <strong><a href="{{ request.path }}?lang={{ lang|default('en') }}#i{{ person.id }}"
+                    o <strong><a href="{{ url_for('gwd.route_details', base=base, lang=lang, i=person.id) }}"
                             id="i{{ person.id }}">
                             {{ person.first_name|default('?') }} {{ person.surname|default('?') }}
                         </a></strong> <bdo dir="ltr">{{ person.dates|default('') }}</bdo>
