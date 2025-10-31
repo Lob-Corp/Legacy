@@ -75,8 +75,8 @@ class TestModIndividualWithDatabase(unittest.TestCase):
         self.app.register_blueprint(gwd_bp)
         self.client = self.app.test_client()
 
-        # Create temporary database
-        bases_dir = os.path.join(project_root, 'src', 'wserver', 'bases')
+        # Create temporary database in repo root bases/ directory
+        bases_dir = os.path.join(project_root, 'bases')
         os.makedirs(bases_dir, exist_ok=True)
 
         # Use a unique temporary name to avoid conflicts with real databases

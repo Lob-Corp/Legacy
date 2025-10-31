@@ -13,6 +13,7 @@ from repositories.person_repository import PersonRepository
 import libraries.person as app_person
 import libraries.date as app_date
 import libraries.death_info as death_info
+import libraries.burial_info as burial_info
 import libraries.title as app_title
 import libraries.events as app_events
 import libraries.family as app_family
@@ -151,16 +152,32 @@ def parse_witness_from_form(
         # For life events like 'birth', 'baptism', etc.
         prefix = f"{event_identifier}_witn{witness_num}"
 
-    # Check if witness exists in form
+    # Check if witness exists in form. Support linking by id directly
+    # (e.g., ..._index or ..._id) without requiring a first name.
     first_name = form_data.get(f"{prefix}_fn", "").strip()
-    if not first_name:
+    id_keys = [f"{prefix}_index", f"{prefix}_id", f"{prefix}_person_id"]
+    id_str = ""
+    for k in id_keys:
+        if k in form_data:
+            id_str = form_data.get(k, "").strip()
+            if id_str:
+                break
+    # If neither id nor first_name are present, there's no witness here
+    if not first_name and not id_str:
         return None
 
     surname = form_data.get(f"{prefix}_sn", "").strip()
     occ_str = form_data.get(f"{prefix}_occ", "0").strip()
-    occ = int(occ_str) if occ_str else 0
+    occ = int(occ_str) if occ_str.isdigit() else 0
 
-    action = form_data.get(f"{prefix}_p", "create").strip()
+    action_raw = form_data.get(f"{prefix}_p", "create").strip().lower()
+    # Normalize action values from various UIs
+    if action_raw in {"link", "l", "existing", "exist", "use", "id"}:
+        action = "link"
+    elif action_raw in {"create", "c", "new", "add"}:
+        action = "create"
+    else:
+        action = "create"
     kind_str = form_data.get(f"{prefix}_kind", "WITNESS").strip()
     # Map kind string from either enum name or UI short codes
     # to enum; default to WITNESS
@@ -188,6 +205,10 @@ def parse_witness_from_form(
                 witness_kind = app_events.EventWitnessKind.WITNESS
 
     person_id = None
+
+    # If id is provided, use it directly
+    if id_str and id_str.isdigit() and int(id_str) > 0:
+        return (int(id_str), witness_kind)
 
     if action == "link":
         # Try to find existing person
@@ -238,7 +259,7 @@ def parse_witness_from_form(
             death_place="",
             death_note="",
             death_src="",
-            burial=death_info.UnknownBurial(),
+            burial=burial_info.UnknownBurial(),
             burial_place="",
             burial_note="",
             burial_src="",
@@ -250,8 +271,14 @@ def parse_witness_from_form(
         )
 
         created = person_repo.add_person(new_person)
-        # Get the newly created person ID
-        person_id = find_person_by_name(person_repo, first_name, surname, occ)
+        # Prefer id from returned object when available
+        if hasattr(created, "index") and created.index:
+            person_id = created.index
+        else:
+            # Fallback: search by name/occ
+            person_id = find_person_by_name(
+                person_repo, first_name, surname, occ
+            )
 
     if person_id is not None:
         return (person_id, witness_kind)
@@ -359,10 +386,10 @@ def convert_person_to_template_context(
     # Determine burial type
     burial_type = "burial"
     burial_date = None
-    if isinstance(person_obj.burial, death_info.Burial):
+    if isinstance(person_obj.burial, burial_info.Burial):
         burial_type = "burial"
         burial_date = person_obj.burial.burial_date
-    elif isinstance(person_obj.burial, death_info.Cremated):
+    elif isinstance(person_obj.burial, burial_info.Cremated):
         burial_type = "cremated"
         burial_date = person_obj.burial.cremation_date
 
@@ -428,16 +455,7 @@ def convert_person_to_template_context(
     burial_witnesses = []
     custom_events = []
 
-    print(
-        "\nDEBUG convert_person_to_template_context: person has "
-        f"{len(person_obj.personal_events)} "
-        "personal events"
-    )
     for event in person_obj.personal_events:
-        print(
-            "DEBUG: Processing event: "
-            f"{type(event.name).__name__} - {event.name}"
-        )
         if isinstance(event.name, app_events.PersBirth):
             birth_witnesses = [
                 build_witness_ctx(w[0], w[1]) for w in event.witnesses
@@ -475,15 +493,6 @@ def convert_person_to_template_context(
                     ],
                 }
             )
-            print(
-                "DEBUG: Added custom event "
-                f"{len(custom_events)}: type={event_type_code}, "
-                f"place={event.place}"
-            )
-
-    print(
-        f"DEBUG: Total custom events to pass to template: {len(custom_events)}"
-    )
 
     # Helper to build relation parent dict expected by template
     def build_relation_parent(parent_id: Optional[int]) -> Dict[str, Any]:
@@ -768,25 +777,26 @@ def handle_mod_individual_post(
     titles = []
     for i in range(0, 50):
         title_name_str = get_first_value(
-            form_data, [f"title_{i}_name", f"title{i}_name", f"_t_name{i}"]
+            form_data, [f"title_{i}_name", f"title{i}_name", f"t_name{i}", f"_t_name{i}"]
         )
         ident = get_first_value(
-            form_data, [f"title_{i}_ident", f"title{i}_ident", f"_t_ident{i}"]
+            form_data, [f"title_{i}_ident", f"title{i}_ident", f"t_ident{i}", f"_t_ident{i}"]
         )
         place = get_first_value(
-            form_data, [f"title_{i}_place", f"title{i}_place", f"_t_place{i}"]
+            form_data, [f"title_{i}_place", f"title{i}_place", f"t_place{i}", f"_t_place{i}"]
         )
         date_start = parse_date_with_fallback(
             form_data,
             f"title_{i}_start",
             f"title{i}_start",
+            f"t_date_start{i}",
             f"_t_date_start{i}",
         )
         date_end = parse_date_with_fallback(
-            form_data, f"title_{i}_end", f"title{i}_end", f"_t_date_end{i}"
+            form_data, f"title_{i}_end", f"title{i}_end", f"t_date_end{i}", f"_t_date_end{i}"
         )
         nth_str = get_first_value(
-            form_data, [f"title_{i}_nth", f"title{i}_nth", f"_t_nth{i}"]
+            form_data, [f"title_{i}_nth", f"title{i}_nth", f"t_nth{i}", f"_t_nth{i}"]
         )
 
         has_any_title_data = any(
@@ -806,6 +816,21 @@ def handle_mod_individual_post(
             nth = int(nth_str) if nth_str else 0
         except ValueError:
             nth = 0
+
+        # Ensure date_start is not None for database constraints
+        # If date_start is None, create an empty/minimal date (year 1)
+        # Note: year 0 is treated as None by convert_date_to_db
+        if date_start is None:
+            from libraries.precision import Sure
+            from libraries.calendar_date import Calendar
+
+            date_start = app_date.CalendarDate(
+                dmy=app_date.DateValue(
+                    day=0, month=0, year=1, prec=Sure(), delta=0
+                ),
+                cal=Calendar.GREGORIAN,
+            )
+        # date_end can remain None if not specified (title still current)
 
         title = app_title.Title(
             title_name=title_name,
@@ -899,7 +924,7 @@ def handle_mod_individual_post(
             death_place="",
             death_note="",
             death_src="",
-            burial=death_info.UnknownBurial(),
+            burial=burial_info.UnknownBurial(),
             burial_place="",
             burial_note="",
             burial_src="",
@@ -997,20 +1022,30 @@ def handle_mod_individual_post(
     ).strip()
     birth_src = form_data.get("e_src0", form_data.get("birth_src", "")).strip()
 
-    # Parse birth witnesses
+    # Parse birth witnesses (support direct id-only linking)
+    # Try both birth_witn* and e0_witn* patterns
     birth_witnesses = []
-    witness_num = 0
-    while True:
-        prefix = f"birth_witn{witness_num}"
-        witness_fn = form_data.get(f"{prefix}_fn", "").strip()
-        if not witness_fn:
-            break
-        witness = parse_witness_from_form(
-            form_data, "birth", witness_num, person_repo
-        )
-        if witness:
-            birth_witnesses.append(witness)
-        witness_num += 1
+    for event_pattern in ["birth", 0]:
+        witness_num = 0
+        while True:
+            if isinstance(event_pattern, int):
+                prefix = f"e{event_pattern}_witn{witness_num}"
+            else:
+                prefix = f"{event_pattern}_witn{witness_num}"
+            witness_fn = form_data.get(f"{prefix}_fn", "").strip()
+            id_present = False
+            for k in (f"{prefix}_index", f"{prefix}_id", f"{prefix}_person_id"):
+                if form_data.get(k, "").strip():
+                    id_present = True
+                    break
+            if not witness_fn and not id_present:
+                break
+            witness = parse_witness_from_form(
+                form_data, event_pattern, witness_num, person_repo
+            )
+            if witness:
+                birth_witnesses.append(witness)
+            witness_num += 1
 
     # Support multiple field naming conventions: baptism_dd/e_date1_dd/e1_dd
     baptism_date = parse_date_with_fallback(
@@ -1026,20 +1061,30 @@ def handle_mod_individual_post(
         "e_src1", form_data.get("baptism_src", "")
     ).strip()
 
-    # Parse baptism witnesses
+    # Parse baptism witnesses (support direct id-only linking)
+    # Try both baptism_witn* and e1_witn* patterns
     baptism_witnesses = []
-    witness_num = 0
-    while True:
-        prefix = f"baptism_witn{witness_num}"
-        witness_fn = form_data.get(f"{prefix}_fn", "").strip()
-        if not witness_fn:
-            break
-        witness = parse_witness_from_form(
-            form_data, "baptism", witness_num, person_repo
-        )
-        if witness:
-            baptism_witnesses.append(witness)
-        witness_num += 1
+    for event_pattern in ["baptism", 1]:
+        witness_num = 0
+        while True:
+            if isinstance(event_pattern, int):
+                prefix = f"e{event_pattern}_witn{witness_num}"
+            else:
+                prefix = f"{event_pattern}_witn{witness_num}"
+            witness_fn = form_data.get(f"{prefix}_fn", "").strip()
+            id_present = False
+            for k in (f"{prefix}_index", f"{prefix}_id", f"{prefix}_person_id"):
+                if form_data.get(k, "").strip():
+                    id_present = True
+                    break
+            if not witness_fn and not id_present:
+                break
+            witness = parse_witness_from_form(
+                form_data, event_pattern, witness_num, person_repo
+            )
+            if witness:
+                baptism_witnesses.append(witness)
+            witness_num += 1
 
     # Parse death status
     death_status_str = form_data.get("death_status", "alive")
@@ -1052,20 +1097,30 @@ def handle_mod_individual_post(
     ).strip()
     death_src = form_data.get("e_src2", form_data.get("death_src", "")).strip()
 
-    # Parse death witnesses
+    # Parse death witnesses (support direct id-only linking)
+    # Try both death_witn* and e2_witn* patterns
     death_witnesses = []
-    witness_num = 0
-    while True:
-        prefix = f"death_witn{witness_num}"
-        witness_fn = form_data.get(f"{prefix}_fn", "").strip()
-        if not witness_fn:
-            break
-        witness = parse_witness_from_form(
-            form_data, "death", witness_num, person_repo
-        )
-        if witness:
-            death_witnesses.append(witness)
-        witness_num += 1
+    for event_pattern in ["death", 2]:
+        witness_num = 0
+        while True:
+            if isinstance(event_pattern, int):
+                prefix = f"e{event_pattern}_witn{witness_num}"
+            else:
+                prefix = f"{event_pattern}_witn{witness_num}"
+            witness_fn = form_data.get(f"{prefix}_fn", "").strip()
+            id_present = False
+            for k in (f"{prefix}_index", f"{prefix}_id", f"{prefix}_person_id"):
+                if form_data.get(k, "").strip():
+                    id_present = True
+                    break
+            if not witness_fn and not id_present:
+                break
+            witness = parse_witness_from_form(
+                form_data, event_pattern, witness_num, person_repo
+            )
+            if witness:
+                death_witnesses.append(witness)
+            witness_num += 1
 
     if death_status_str == "alive":
         death_status = death_info.NotDead()
@@ -1109,28 +1164,38 @@ def handle_mod_individual_post(
         "e_src3", form_data.get("burial_src", "")
     ).strip()
 
-    # Parse burial witnesses
+    # Parse burial witnesses (support direct id-only linking)
+    # Try both burial_witn* and e3_witn* patterns
     burial_witnesses = []
-    witness_num = 0
-    while True:
-        prefix = f"burial_witn{witness_num}"
-        witness_fn = form_data.get(f"{prefix}_fn", "").strip()
-        if not witness_fn:
-            break
-        witness = parse_witness_from_form(
-            form_data, "burial", witness_num, person_repo
-        )
-        if witness:
-            burial_witnesses.append(witness)
-        witness_num += 1
+    for event_pattern in ["burial", 3]:
+        witness_num = 0
+        while True:
+            if isinstance(event_pattern, int):
+                prefix = f"e{event_pattern}_witn{witness_num}"
+            else:
+                prefix = f"{event_pattern}_witn{witness_num}"
+            witness_fn = form_data.get(f"{prefix}_fn", "").strip()
+            id_present = False
+            for k in (f"{prefix}_index", f"{prefix}_id", f"{prefix}_person_id"):
+                if form_data.get(k, "").strip():
+                    id_present = True
+                    break
+            if not witness_fn and not id_present:
+                break
+            witness = parse_witness_from_form(
+                form_data, event_pattern, witness_num, person_repo
+            )
+            if witness:
+                burial_witnesses.append(witness)
+            witness_num += 1
 
-    burial: death_info.BurialInfoBase
+    burial: burial_info.BurialInfoBase
     if burial_type == "cremated" and burial_date:
-        burial = death_info.Cremated(cremation_date=burial_date)
+        burial = burial_info.Cremated(cremation_date=burial_date)
     elif burial_date:
-        burial = death_info.Burial(burial_date=burial_date)
+        burial = burial_info.Burial(burial_date=burial_date)
     else:
-        burial = death_info.UnknownBurial()
+        burial = burial_info.UnknownBurial()
 
     # Parse personal events; we'll populate after integrating any
     # witnesses from custom life-event markers
@@ -1149,32 +1214,9 @@ def handle_mod_individual_post(
             except ValueError:
                 continue
 
-    print(f"\nDEBUG: Found e_name keys: {e_name_keys}")
-    print(f"DEBUG: Found event indices: {sorted(set(event_indices))}")
-    print(
-        "DEBUG: Duplicate indices: "
-        f"{[idx for idx in event_indices if event_indices.count(idx) > 1]}"
-    )
-
     for event_num in sorted(set(event_indices)):
         event_name = form_data.get(f"e_name{event_num}", "").strip()
         event_name_norm = event_name.lower()
-
-    # Special handling for event index 2: if it's empty but we have
-    # death data, treat it as death
-        if (
-            event_num == 2
-            and not event_name
-            and death_status_str != "alive"
-            and death_status_str != "dont_know"
-        ):
-            event_name_norm = "#deat"
-            print(
-                "\nDEBUG: Event 2 detected as death event "
-                f"(death_status={death_status_str})"
-            )
-
-        print(f"\nDEBUG: Processing event {event_num}: name='{event_name}'")
 
     # Support multiple field naming conventions:
     # e_date{num}_dd/e{num}_dd
@@ -1234,6 +1276,10 @@ def handle_mod_individual_post(
                 burial_witnesses = witnesses
             continue
 
+        # For indices 0..3 with blank names, skip creating custom events
+        if event_num in [0, 1, 2, 3] and not event_name:
+            continue
+
         # Determine if there's meaningful data for a custom event
         has_any_data = bool(
             event_date or event_place or event_note or event_src or witnesses
@@ -1255,12 +1301,6 @@ def handle_mod_individual_post(
     # Only create custom event if there's actual data
     # (not just an index with no content)
         if has_any_data:
-            print(
-                "DEBUG: Creating event "
-                f"{event_num}: name='{event_name}', date={event_date}, "
-                f"place='{event_place}', witnesses={len(witnesses)}"
-            )
-
             # Map event type code to event class; default to residence
             # when missing/unknown
             if (
@@ -1284,8 +1324,6 @@ def handle_mod_individual_post(
                 witnesses=witnesses,
             )
             personal_events.append(personal_event)
-        else:
-            print(f"DEBUG: Skipping event {event_num} - no meaningful data")
 
     # After merging life-event witnesses from custom markers, add personal
     # events for life events if they have witnesses
@@ -1330,7 +1368,7 @@ def handle_mod_individual_post(
         personal_events.append(death_event)
 
     if burial_witnesses:
-        if isinstance(burial, death_info.Burial) and burial.burial_date:
+        if isinstance(burial, burial_info.Burial) and burial.burial_date:
             burial_event = app_events.PersonalEvent(
                 name=app_events.PersBurial(),
                 date=burial.burial_date,
@@ -1341,7 +1379,7 @@ def handle_mod_individual_post(
                 witnesses=burial_witnesses,
             )
             personal_events.append(burial_event)
-        elif isinstance(burial, death_info.Cremated) and burial.cremation_date:
+        elif isinstance(burial, burial_info.Cremated) and burial.cremation_date:
             cremation_event = app_events.PersonalEvent(
                 name=app_events.PersCremation(),
                 date=burial.cremation_date,
@@ -1352,38 +1390,6 @@ def handle_mod_individual_post(
                 witnesses=burial_witnesses,
             )
             personal_events.append(cremation_event)
-
-    # Debug: print parsed events
-    print("\n" + "=" * 80)
-    print("PARSED EVENTS:")
-    print("=" * 80)
-    print(
-        "Birth date: "
-        f"{birth_date}, place: {birth_place}, "
-        f"witnesses: {len(birth_witnesses)}"
-    )
-    print(
-        "Baptism date: "
-        f"{baptism_date}, place: {baptism_place}, "
-        f"witnesses: {len(baptism_witnesses)}"
-    )
-    print(
-        "Death status: "
-        f"{death_status_str}, witnesses: {len(death_witnesses)}"
-    )
-    print(
-        "Burial date: "
-        f"{burial_date}, place: {burial_place}, "
-        f"witnesses: {len(burial_witnesses)}"
-    )
-    print(f"Total personal events created: {len(personal_events)}")
-    for i, event in enumerate(personal_events):
-        print(
-            f"  Event {i}: {type(event.name).__name__}, "
-            f"date: {event.date}, place: {event.place}, "
-            f"witnesses: {len(event.witnesses)}"
-        )
-    print("=" * 80 + "\n")
 
     # Create updated person object
     updated_person = app_person.Person(
@@ -1472,7 +1478,7 @@ def handle_mod_individual_post(
             death_place=updated_person.death_place,
             death_note=updated_person.death_note,
             death_src=updated_person.death_src,
-            burial=death_info.UnknownBurial(),
+            burial=burial_info.UnknownBurial(),
             burial_place=updated_person.burial_place,
             burial_note=updated_person.burial_note,
             burial_src=updated_person.burial_src,

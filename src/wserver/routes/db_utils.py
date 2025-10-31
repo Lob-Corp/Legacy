@@ -51,7 +51,11 @@ def get_db_service(base: str) -> SQLiteDatabaseService:
     Note: This function imports all database models to ensure SQLAlchemy
     can properly initialize all mappers and resolve relationships.
     """
-    db_path = os.path.join('bases', f'{base}.db')
+    # Get the project root (3 levels up from this file)
+    current_file = os.path.abspath(__file__)
+    project_root = os.path.dirname(os.path.dirname(
+        os.path.dirname(os.path.dirname(current_file))))
+    db_path = os.path.join(project_root, 'bases', f'{base}.db')
     if not os.path.exists(db_path):
         raise FileNotFoundError(
             f"Database for base '{base}' not found. Expected at: {db_path}")

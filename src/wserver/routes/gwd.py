@@ -344,7 +344,6 @@ def route_MOD_FAM(base, lang='en'):
 
 @gwd_bp.route('<base>/modify_individual', methods=['GET', 'POST'])
 def route_MOD_IND(base):
-    from flask import request
     id = request.args.get('id', type=int)
     lang = request.args.get('lang', 'en')
     if id is None:
