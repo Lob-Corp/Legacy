@@ -66,8 +66,9 @@ make deploy-prod
 - **[Migration Guide](docs/MIGRATION_GUIDE.md)** - User-friendly guide for migrating your family tree from OCaml Geneweb
 - **[Database Architecture](docs/DATABASE.md)** - Complete database documentation (SQLAlchemy models, relationships, and usage)
 - **[Testing Policy](docs/TESTING_POLICY.md)** - Comprehensive testing guidelines, requirements, and best practices
+- **[Test Inventory](docs/tests/)** - Complete inventory of all tests: [Unit](docs/tests/UNIT.md) (400+), [Integration](docs/tests/INTEGRATION.md) (300+), [E2E](docs/tests/E2E.md) (50)
 - **[Quality Insurance](docs/QUALITY_INSURANCE.md)** - Branch organization, merging rules, and development workflow
-- **[Golden Master Testing](docs/GOLDEN_MASTER.md)** - Testing approach and scenarios
+- **[Golden Master Testing](docs/tests/GOLDEN_MASTER.md)** - Testing approach and scenarios
 - **[OCaml to Python Translation](docs/OCAML_TO_PYTHON.md)** - Reference for OCaml-to-Python differences
 
 ## Quick Start

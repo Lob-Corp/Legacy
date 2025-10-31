@@ -214,7 +214,7 @@ class TestFieldCompleteness:
 - Detect unintended behavioral changes
 - HTML snapshot comparison for web interface
 
-**Test Scenarios** (See [GOLDEN_MASTER.md](GOLDEN_MASTER.md) for details):
+**Test Scenarios** (See [tests/GOLDEN_MASTER.md](tests/GOLDEN_MASTER.md) for details):
 - Add family workflows
 - Edit person/family operations
 - Search and navigation
@@ -950,7 +950,7 @@ pytest --cov=src --cov-report=term-missing
 ### Related Documentation
 
 - [Quality Insurance](QUALITY_INSURANCE.md) - Branch management and merge flow
-- [Golden Master Testing](GOLDEN_MASTER.md) - Golden master test scenarios
+- [Golden Master Testing](tests/GOLDEN_MASTER.md) - Golden master test scenarios
 - [GWC Implementation Guide](GWC_IMPLEMENTATION.md) - GWC compiler testing
 - [Database Architecture](DATABASE.md) - Database testing patterns
 

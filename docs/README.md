@@ -81,7 +81,22 @@ Complete reference for OCaml-to-Python translation differences across the entire
 - Test review process
 - Troubleshooting and maintenance
 
-### 🧪 [GOLDEN_MASTER.md](./GOLDEN_MASTER.md)
+### 📝 [Test Documentation](./tests/)
+**Detailed inventory of all tests in the project, organized by category.**
+
+**Files**:
+- **[Unit Tests](./tests/UNIT.md)** - tests for individual components
+- **[Integration Tests](./tests/INTEGRATION.md)** - tests for component interactions
+- **[E2E Tests](./tests/E2E.md)** - tests for complete workflows
+- **[Test README](./tests/README.md)** - Overview, statistics, and quick reference
+
+**Coverage**:
+- Complete test inventory by file and function
+- Test organization and naming conventions
+- Running instructions for each category
+- Guidelines for adding new tests
+
+### 🧪 [tests/GOLDEN_MASTER.md](./tests/GOLDEN_MASTER.md)
 Testing approach and scenarios for ensuring behavioral compatibility with the legacy application.
 
 **Topics**:
@@ -160,6 +175,15 @@ Quality assurance processes and standards for the project.
 **...understand coverage requirements**
 → Read [TESTING_POLICY.md § Coverage Requirements](./TESTING_POLICY.md#coverage-requirements)
 
+**...see a complete list of all tests**
+→ Read [Test Documentation](./tests/) - [Unit](./tests/UNIT.md), [Integration](./tests/INTEGRATION.md), [E2E](./tests/E2E.md)
+
+**...find specific tests for a component**
+→ Search in [Unit Tests](./tests/UNIT.md), [Integration Tests](./tests/INTEGRATION.md), or [E2E Tests](./tests/E2E.md)
+
+**...understand test organization**
+→ Read [Test README](./tests/README.md)
+
 **...migrate my family tree from OCaml Geneweb to GenewebPy**
 → Read [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)
 
@@ -173,7 +197,7 @@ Quality assurance processes and standards for the project.
 → Read [OCAML_TO_PYTHON.md](./OCAML_TO_PYTHON.md)
 
 **...run tests**
-→ Read [GOLDEN_MASTER.md](./GOLDEN_MASTER.md)
+→ Read [tests/GOLDEN_MASTER.md](./tests/GOLDEN_MASTER.md)
 
 **...understand the development workflow**
 → Read [QUALITY_INSURANCE.md](./QUALITY_INSURANCE.md)

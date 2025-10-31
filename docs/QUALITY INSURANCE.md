@@ -167,7 +167,7 @@ GenewebPy follows a comprehensive testing policy to ensure code quality, reliabi
 **Golden Master Testing**:
 - Behavioral compatibility with OCaml Geneweb
 - HTML snapshot comparison
-- For more information see [Golden Master](GOLDEN_MASTER.md)
+- For more information see [Golden Master](tests/GOLDEN_MASTER.md)
 
 ### Running Tests
 
