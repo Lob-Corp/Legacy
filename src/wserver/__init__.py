@@ -10,16 +10,16 @@ def get_locale():
     # Check if locale was set in the view (from URL path parameter)
     if hasattr(g, 'locale') and g.locale:
         return g.locale
+    # Check for 'lang' in URL query parameter (most common)
+    lang = request.args.get('lang')
+    if lang:
+        return lang
     # Check for locale in cookie
     locale = request.cookies.get('locale')
     if locale:
         return locale
-    # Check for locale in URL query parameter
-    locale = request.args.get('locale')
-    if locale:
-        return locale
     # Fall back to Accept-Language header
-    return request.accept_languages.best_match(['en', 'fr'])
+    return request.accept_languages.best_match(['en', 'fr']) or 'en'
 
 
 def create_app():

@@ -17,8 +17,9 @@ def compile_translations():
     # This test file is in tests/tests_wserver/, so go up two levels to get project root
     test_file_dir = os.path.dirname(os.path.abspath(__file__))
     project_root = os.path.dirname(os.path.dirname(test_file_dir))
-    translations_dir = os.path.join(project_root, 'src', 'wserver', 'translations')
-    
+    translations_dir = os.path.join(
+        project_root, 'src', 'wserver', 'translations')
+
     # Only compile if translations directory exists
     if os.path.exists(translations_dir):
         try:
@@ -30,7 +31,7 @@ def compile_translations():
                 text=True,
                 timeout=30
             )
-            
+
             if result.returncode == 0:
                 print(f"\n✓ Babel translations compiled successfully")
             else:
@@ -43,7 +44,7 @@ def compile_translations():
             print("\n⚠ Warning: Babel compilation timed out")
         except Exception as e:
             print(f"\n⚠ Warning: Babel compilation failed: {e}")
-    
+
     yield
 
 

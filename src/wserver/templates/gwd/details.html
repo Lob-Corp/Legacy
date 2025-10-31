@@ -1,0 +1,976 @@
+<!DOCTYPE html>
+<html lang="{{ lang|default('en') }}" id="perso">
+
+<head>
+  <!-- $Id: perso.txt 7.1-beta 08/12/2023 23:04:39 $ -->
+  <!-- Copyright (c) 1998-2007 INRIA -->
+  <title>{{ first_name|title }} {{ surname|title }}</title>
+  <meta name="robots" content="none">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <link rel="shortcut icon" href="{{ url_for('static', filename='images/favicon_gwd.png') }}" />
+  <!-- $Id: css.txt v7.1 04/11/2023 04:28:54 $ -->
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/all.min.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/css.css') }}">
+</head>
+
+<body>
+  <meta name="format-detection" content="telephone=no" />
+  <a href="{{ url_for('gwd.gwd_root', base=base, lang=lang) }}&p={{ first_name }}&n={{ surname }}#content"
+    class="sr-only sr-only-focusable">{{ _('Skip to main content') }}</a>
+  <div class="container">
+    <!-- $Id: perso_utils v7.1 13/08/2023 16:55:48 $ -->
+    <!-- $Id: menubar.txt v7.1 17/04/2024 19:21:12 $ -->
+    <nav class="navbar sticky-top navbar-light bg-white justify-content-center navbar-expand-md pt-0">
+      <div class="btn-toolbar bg-white" role="toolbar">
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+          aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="nav nav-tabs">
+            <li class="nav-item dropdown">
+              <a id="load_once_p_mod" class="nav-link dropdown-toggle text-secondary dropdown-toggle-split"
+                data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false"
+                title="{{ _('Modules') }}"><span class="fas fa-address-card fa-fw mr-1" aria-hidden="true"></span><span
+                  class="sr-only">{{ _('Modules') }}</span></a>
+              <div class="dropdown-menu dropdown-menu-transl-pmod">
+                <div class="d-inline-flex justify-content-around mx-1">
+                  <form class="form-group mx-1" name="upd_url" method="get"
+                    action="{{ url_for('gwd.gwd_root', base=base, lang=lang) }}">
+                    <div class="d-flex justify-content-between mx-2 mt-2 img-prfx" data-prfx="images/modules">
+                      <div class="d-inline-flex">
+                        <div class="input-group">
+                          <input type="text" pattern="^((?:([a-z][0-9]){1,15})|zz)" name="p_mod" id="p_mod"
+                            class="form-control" value="" placeholder="{{ _('Select personalized modules') }}"
+                            maxlength="40">
+                          <div class="input-group-append">
+                            <button type="submit" class="btn btn-outline-success" title="{{ _('Submit') }}"><i
+                                class="fa fa-check fa-lg"></i></button>
+                            <button type="button" class="btn btn-outline-danger" id="p_mod_clear"
+                              title="{{ _('Delete') }}"><i class="fa fa-xmark fa-lg mx-1"></i></button>
+                          </div>
+                        </div>
+                        <input type="hidden" name="p" value="{{ first_name }}">
+                        <input type="hidden" name="n" value="{{ surname }}">
+                        <button type="button" class="btn btn-outline-danger ml-2" id="p_mod_rm"
+                          title="{{ _('Remove the last added module') }}" value=""><i
+                            class="fa fa-backward"></i></button>
+                        <button type="submit" class="btn btn-outline-secondary ml-2 mr-1" id='zz'
+                          title="{{ _('Default template') }}" data-toggle="popover" data-trigger="hover"
+                          data-html="true" data-content="<img class='w-100' src='images/modules/zz_1.jpg'>"><i
+                            class="fa fa-arrow-rotate-left"></i></button>
+                      </div>
+                      <a role="button" class="btn btn-outline-primary"
+                        href="{{ url_for('gwd.gwd_root', base=base, lang=lang) }}&p={{ first_name }}&n={{ surname }}&wide=on"
+                        title="{{ _('Full width display') }}"><i class="fa fa-desktop fa-fw"
+                          aria-hidden="true"></i><span class="sr-only">{{ _('Full width display') }}</span></a>
+                    </div>
+                    <div class="mx-2 mt-2">{{ _('Select each module by clicking on the corresponding button (max 15).')
+                      }}</div>
+                    <div class="alert alert-warning alert-dismissible fade show mt-1 mb-2 d-none" role="alert">
+                      <div class="d-none alert-opt">{{ _('Invalid option') }} <strong id="alert-option"></strong> {{
+                        _('for module') }}
+                        <strong id="alert-module"></strong>. {{ _('Please enter a valid option number.') }}
+                      </div>
+                      <div class="d-none alert-mod">{{ _('Invalid module') }} <strong id="alert-module-2"></strong>. {{
+                        _('Please enter a valid module initial.') }}</div>
+                    </div>
+                    <div id="p_mod_table"></div>
+                  </form>
+                  <div class="form-group d-none d-md-block mx-1">
+                    <img src="{{ url_for('static', filename='images/modules/menubar_1.jpg') }}"
+                      alt="menubar for p_mod_builder" aria-hidden="true">
+                    <div id="p_mod_builder"></div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " id="add_par"
+                href="{{ url_for('gwd.route_ADD_PAR', base=base, lang=lang) }}&ip={{ person_id }}"
+                title="{{ _('Add parents of') }} {{ first_name|title }} {{ surname|title }} (L)" accesskey="L">
+                <sup><span class="fa fa-user male" aria-hidden="true"></span></sup><sub><span class="fa fa-plus male"
+                    aria-hidden="true"></span></sub><sup><span class="fa fa-user female"
+                    aria-hidden="true"></span></sup><span class="sr-only">{{ _('Add parents of') }} {{ first_name|title
+                  }} {{
+                  surname|title }} (L)</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link active" id="self"
+                href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&p={{ first_name }}&n={{ surname }}"
+                title="{{ first_name|title }} {{ surname|title }}">
+                <span class="fa fa-user-large fa-fw male" aria-hidden="true"></span>
+                <span class="sr-only">{{ first_name|title }} {{ surname|title }}</span>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " id="mod_ind" href="?m=MOD_IND&amp;&i{{ person_id }}"
+                title="{{ _('Update individual') }} {{ first_name|title }} {{ surname|title }} (P)" accesskey="P"><span
+                  class="fa fa-user-pen fa-fw male" aria-hidden="true"></span><span class="sr-only">{{ _('Update
+                  individual') }}
+                  (P)</span></a>
+            </li>
+            <li class="nav-item dropdown">
+              <a id="load_once_copylink" class="nav-link dropdown-toggle text-secondary " data-toggle="dropdown"
+                href="#" role="button" aria-haspopup="true" aria-expanded="true"
+                title="{{ _('Tools individual') }}"><span class="fa fa-user-gear" aria-hidden="true"></span><span
+                  class="sr-only">{{ _('Tools individual') }}</span></a>
+              <div class="dropdown-menu dropdown-menu-transl">
+                <a class="dropdown-item"
+                  href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&iz={{ person_id }}&amp;&p={{ first_name }}&amp;n={{ surname }}"
+                  title="{{ _('Browse using') }} {{ first_name|title }} {{ surname|title }} {{ _('as Sosa reference') }}"
+                  accesskey="S"><i class="far fa-circle-dot fa-fw male mr-1"></i> {{ _('Update Sosa 1:') }} {{
+                  first_name|title }} {{
+                  surname|title }}</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item"
+                  href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&p={{ first_name }}&amp;n={{ surname }}&amp;cgl=on"
+                  target="_blank"><i class="fa fa-link-slash fa-fw mr-2" title="{{ _('Without GeneWeb links') }}"></i>{{
+                  _('Without GeneWeb links') }}</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="?m=CHG_EVT_IND_ORD&amp;&i{{ person_id }}"
+                  title="{{ _('Change order of individual events') }}"><span class="fa fa-sort fa-fw mr-2"></span>{{
+                  _('Reverse events') }}</a>
+                <a class="dropdown-item" href="?m=SND_IMAGE&amp;&i{{ person_id }}">
+                  <i class="far fa-file-image fa-fw mr-2"></i>{{ _('Add picture') }}</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="?m=MRG&amp;&i{{ person_id }}"
+                  title="{{ _('Merge') }} {{ first_name|title }}.0 {{ surname|title }} {{ _('with…') }}"><span
+                    class="fa fa-compress fa-fw text-danger mr-2"></span>{{ _('Merge individuals') }}</a>
+                <a class="dropdown-item"
+                  href="&p={{ first_name }}&amp;n={{ surname }}&amp;m=DEL_IND&amp;&i{{ person_id }}"
+                  title="{{ _('Delete') }} {{ first_name|title }} {{ surname|title }}"><span
+                    class="fa fa-trash-can fa-fw text-danger mr-2"></span>{{ _('Delete individual') }}</a>
+                <a class="dropdown-item" href="?m=MRG_DUP&amp;ip={{ person_id }}">{{ _('Merge possible duplications')
+                  }}</a>
+                <div class="dropdown-divider"></div>
+                <div class="btn-group pr-4" role="group">
+                  <button class="dropdown-item permalink-copy mr-1 pr-0" type="button"
+                    title="{{ _('Copy the link exterior to the clipboard') }}" data-bname="{{ base }}"
+                    data-query="p={{ first_name }}&n={{ surname }}"><i class="fas fa-link fa-fw mr-2"></i>{{ _('Copy the
+                    permalink exterior') }}</button>
+                  <button class="disabled dropdown-item mx-0 px-0">/</button>
+                  <button class="mx-1 px-0 dropdown-item permalink-friend-copy" type="button"
+                    title="{{ _('Copy the link friend to the clipboard') }}">{{ _('friend') }}</button>
+                  <button class="disabled dropdown-item mx-0 px-0">/</button>
+                  <button class="ml-1 px-0 dropdown-item permalink-wizard-copy" type="button"
+                    title="{{ _('Copy the link wizard to the clipboard') }}">{{ _('wizard') }}</button>
+                </div>
+                <div class="dropdown-divider"></div>
+                <button class="dropdown-item simple-copy" type="button"
+                  title="{{ _('Copy the link wiki to the clipboard') }}"
+                  data-wikilink="[[{{ first_name|title }}/{{ surname|title }}]]"><i
+                    class="far fa-clipboard fa-fw mr-2"></i>[[{{ first_name|title }}/{{ surname|title }}]]</button>
+                <button class="dropdown-item full-copy" type="button"
+                  title="{{ _('Copy the link wikitext to the clipboard') }}"
+                  data-wikilink="[[{{ first_name|title }}/{{ surname|title }}/0/{{ first_name|title }} {{ surname|title }}]]"><i
+                    class="far fa-clipboard fa-fw mr-2"></i>[[{{ first_name|title }}/{{ surname|title }}/0/{{
+                  first_name|title }} {{ surname|title }}]]</button>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" role="button"
+                  title="{{ _('Search') }} {{ first_name|title }} {{ surname|title }} {{ _('on Geneanet') }}"
+                  href="https://www.geneanet.org/fonds/individus/?sourcename=&size=50&sexe=&nom={{ surname }}&ignore_each_patronyme=&with_variantes_nom=1&prenom={{ first_name }}&prenom_operateur=or&ignore_each_prenom=&profession=&ignore_each_profession=&nom_conjoint=&ignore_each_patronyme_conjoint=&prenom_conjoint=&prenom_conjoint_operateur=or&ignore_each_prenom_conjoint=&place__0__="
+                  target="_blank" rel="noreferrer, noopener"><i class="fa fa-magnifying-glass fa-fw mr-2"></i>{{
+                  _('Search') }} {{
+                  first_name|title }} {{ surname|title }} {{ _('on Geneanet') }}
+                </a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link " id="mod_fam_1" href="?m=MOD_FAM&amp;&i{{ family_id }}&amp;ip={{ person_id }}"
+                title="{{ _('Update family with') }} {{ spouse_first_name|title }} {{ spouse_surname|title }} (F)"
+                accesskey="F"><span class="fa fa-user-pen male" aria-hidden="true"></span><span
+                  class="fa fa-user female" aria-hidden="true"></span><span class="sr-only"> {{ _('Update family with')
+                  }} {{
+                  spouse_first_name|title }} {{ spouse_surname|title }} (F)</span>
+              </a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-secondary" data-toggle="dropdown" role="button" href="#"
+                aria-haspopup="true" aria-expanded="false" title="{{ _('Tools family') }}"><span class="fa fa-user-plus"
+                  aria-hidden="true"></span><span class="fa fa-user-gear" aria-hidden="true"></span><span
+                  class="sr-only">{{ _('Tools family') }}</span></a>
+              <div class="dropdown-menu dropdown-menu-transl">
+                <a class="dropdown-item" id="add_fam"
+                  href="{{ url_for('gwd.route_ADD_FAM', base=base, lang=lang) }}&ip={{ person_id }}"
+                  title="{{ _('Add family') }} (A)" accesskey="A"><span class="fa fa-plus fa-fw mr-2"></span>{{ _('Add
+                  family') }}</a>
+                <div class="dropdown-divider"></div>
+                <span class="dropdown-header">{{ _('Marriage with') }} {{ spouse_first_name|title }} {{
+                  spouse_surname|title
+                  }}</span>
+                <a class="dropdown-item" href="?m=CHG_EVT_FAM_ORD&amp;&i{{ family_id }}&amp;ip={{ person_id }}"
+                  title="{{ _('Change order of family events') }}"><span class="fa fa-sort fa-fw mr-2"></span>{{
+                  _('Reverse events') }}</a>
+                <a class="dropdown-item" href="?m=DEL_FAM&amp;&i{{ family_id }}&amp;ip={{ person_id }}"><span
+                    class="fa fa-trash fa-fw text-danger mr-2"></span>{{ _('Delete family') }}</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="?m=CHG_CHN&amp;ip={{ person_id }}"><span
+                    class="fa fa-child fa-fw mr-1"></span> {{ _('Update surname of children') }}</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-secondary" data-toggle="dropdown" role="button" href="#"
+                aria-haspopup="true" aria-expanded="false"><span class="fa fa-sitemap fa-fw"
+                  title="{{ _('Descendants') }}"></span></a>
+              <div class="dropdown-menu dropdown-menu-transl">
+                <a class="dropdown-item" href="&p={{ first_name }}&amp;n={{ surname }}&amp;m=D"><span
+                    class="fa fa-gear fa-fw mr-2"></span>{{ _('Descendants') }}</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="&p={{ first_name }}&amp;n={{ surname }}&amp;m=D&amp;t=V&amp;v=3"
+                  title="{{ _('Tree') }} (Y)" accesskey="Y"><span class="fa fa-sitemap fa-fw mr-2"></span>{{
+                  _('Descendants tree') }}</a>
+                <a class="dropdown-item" href="&p={{ first_name }}&amp;n={{ surname }}&amp;m=D&amp;t=TV&amp;v=3"
+                  title="{{ _('Tree') }} (Y)" accesskey="Y"><span class="fa fa-sitemap fa-fw mr-2"></span>{{ _('Compact
+                  descendants tree') }}</a>
+                <a class="dropdown-item" href="&p={{ first_name }}&amp;n={{ surname }}&amp;m=D&amp;t=D&amp;v=3"><span
+                    class="fa fa-code-branch fa-rotate-90 fa-fw mr-2"></span>{{ _('Descendant tree view') }}</a>
+                <a class="dropdown-item"
+                  href="&p={{ first_name }}&amp;n={{ surname }}&amp;m=D&amp;t=I&amp;v=1&amp;num=on&amp;birth=on&amp;birth_place=on&amp;marr=on&amp;marr_date=on&amp;marr_place=on&amp;child=on&amp;death=on&amp;death_place=on&amp;age=on&amp;occu=on&amp;gen=1&amp;ns=1&amp;hl=1"><span
+                    class="fa fa-table fa-fw mr-2"></span>{{ _('Table descendants') }}</a>
+                <a class="dropdown-item"
+                  href="&p={{ first_name }}&amp;n={{ surname }}&amp;m=D&amp;t=L&amp;v=3&amp;maxv=1&amp;siblings=on&amp;alias=on&amp;parents=on&amp;rel=on&amp;witn=on&amp;notes=on&amp;src=on&amp;hide=on"><span
+                    class="fa fa-newspaper fa-fw mr-2"></span>{{ _('Full display') }}</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item"
+                  href="&p={{ first_name }}&amp;n={{ surname }}&amp;m=D&amp;t=A&amp;num=on&amp;v=1"><span
+                    class="fa fa-code-branch fa-flip-vertical fa-fw mr-2"></span>{{ _("D'Aboville") }}</a>
+              </div>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle text-secondary" data-toggle="dropdown" role="button" href="#"
+                aria-haspopup="true" aria-expanded="false" title="{{ _('Relationship') }}"><span
+                  class="fa fa-user-group"></span></a>
+              <div class="dropdown-menu dropdown-menu-transl">
+                <a class="dropdown-item" href="&p={{ first_name }}&amp;n={{ surname }}&amp;m=R"
+                  title="{{ _('Relationship computing') }} (R)" accesskey="R"><span
+                    class="fa fa-gear fa-fw mr-2"></span>{{ _('Relationship computing') }}</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="?m=C&amp;&p={{ first_name }}&amp;n={{ surname }}&amp;v=3"
+                  title="{{ _('Relationship with a parent') }}"><span class="fa fa-elevator fa-fw mr-2"></span>{{
+                  _('Relationship') }}</a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="?m=F&amp;&p={{ first_name }}&amp;n={{ surname }}"
+                  title="{{ _('Family') }}">
+                  <span class="fa fa-users fa-fw mr-2"></span>{{ _('Family') }}
+                </a>
+                <div class="dropdown-divider"></div>
+                <a class="dropdown-item" href="&p={{ first_name }}&amp;n={{ surname }}&amp;m=C&amp;t=AN"><span
+                    class="fa fa-cake-candles fa-fw mr-2"></span>{{ _('Family birthday') }}</a>
+              </div>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link text-secondary" href="?m=SND_IMAGE_C&amp;&i{{ person_id }}"
+                title="{{ _('Add/delete pictures') }} (I)" accesskey="I">
+                <span class="fa fa-image fa-fw" aria-hidden="true"></span><span class="sr-only">{{ _('Add/delete
+                  pictures') }}</span></a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- $Id: home.txt v7.1 07/09/2023 00:49:55 $ -->
+    <div class="d-flex flex-column fix_top fix_left">
+      <a tabindex="1" role="button" class="btn btn-sm btn-link p-0 border-0"
+        href="{{ url_for('gwd.gwd_root', base=base, lang=lang) }}" title="{{ _('Home') }}">
+        <i class="fa fa-house fa-fw fa-sm" aria-hidden="true"></i><i class="sr-only">{{ _('Home') }}</i></a>
+      <a tabindex="3" role="button" class="btn btn-sm btn-link p-0 border-0" data-toggle="modal"
+        data-target="#searchmodal" accesskey="S" title="{{ _('Search') }}"><i class="fa fa-magnifying-glass fa-fw fa-xs"
+          aria-hidden="true"></i><span class="sr-only">{{ _('Search') }}</span></a>
+      <a role="button" class="btn btn-sm btn-link p-0 border-0" href="&i={{ person_id|default(8) }}"
+        title="{{ _('Display a random individual') }}"><i class="fa fa-dice-two fa-fw fa-xs"
+          aria-hidden="true"></i><span class="sr-only">{{ _('Display a random individual') }}</span></a>
+      <div class="btn btn-sm p-0 border-0" id="q_time"><i class="fa fa-hourglass-half fa-fw fa-xs p-0"></i></div>
+      <div class="btn btn-sm p-0 border-0 d-none" id="nb_errors"><i class="fa fa-bug fa-fw fa-xs p-0"></i></div>
+    </div>
+    <div class="modal" id="searchmodal" role="dialog" aria-labelledby="searchpopup" aria-hidden="true">
+      <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+          <div class="modal-body" id="ModalSearch">
+            <form id="collapse_search" method="get" action="{{ url_for('gwd.gwd_root', base=base, lang=lang) }}">
+              <input type="hidden" name="m" value="S">
+              <div class="d-flex justify-content-center">
+                <h5 class="rounded modal-title my-2 text-center w-50 align-self-center" id="searchpopup">{{ _('Search
+                  individual') }}</h5>
+                <div class="col-8">
+                  <label class="sr-only" for="n">{{ _('Search public name') }}</label>
+                  <input type="search" id="n" class="form-control form-control-lg" name="n"
+                    placeholder="{{ _('Surname, public name, alias') }}" autofocus>
+                  <label class="sr-only" for="p">{{ _('Search firstname') }}</label>
+                  <input type="search" id="p" class="form-control form-control-lg mt-2" name="p"
+                    placeholder="{{ _('First name') }}">
+                </div>
+                <button class="btn btn-outline-primary" type="submit" title="{{ _('Search') }}"><i
+                    class="fa fa-magnifying-glass fa-lg mx-2"></i> {{ _('Search') }}</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="content" tabindex="-1">
+      <div class="row">
+        <!-- $Id: modules/individu.txt v7.1 27/03/2024 07:42:02 $ -->
+        <div class="col-12">
+          <h1 class="text-xs-center text-md-left">
+            <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&p={{ first_name }}&amp;n={{ surname }}">{{
+              first_name|title }}</a>
+            <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&p={{ first_name }}&amp;n={{ surname }}">{{
+              surname|title }}</a>
+            <span class="font-weight-light small"> <bdo dir=ltr>{{ birth_year|default('?') }}-{{ death_year|default('?')
+                }}</bdo></span>
+          </h1>
+        </div>
+        <div class="col-lg-8">
+          <div class="d-flex">
+            <div>
+              <div class="text-center mb-2 mx-2">
+              </div>
+              <ul class="fa-ul">
+                {% if birth_date %}
+                <li title="{{ _('Birth') }}">
+                  <span class="fa-li"><i class="fas fa-baby"></i></span>
+                  {{ _('Born') }} <span class="date">{{ _('on') }}&nbsp;{{ birth_date }}</span>{% if
+                  birth_place %} {{ _('in') }} {{ birth_place }}{% endif %}
+                </li>
+                {% endif %}
+                {% if death_date %}
+                <li class="mt-1" title="{{ _('Death') }}">
+                  <span class="fa-li"><i class="fas fa-skull-crossbones"></i></span>
+                  {{ _('Died') }} <span class="date">{{ _('on') }}&nbsp;{{ death_date }}</span>{% if
+                  death_place %} {{ _('in') }} {{ death_place }}{% endif %}
+                </li>
+                {% endif %}
+                {% if age_at_death %}
+                <li class="mt-1" title="{{ _('Age at death') }} = {{ age_at_death }} {{ _('old') }}">
+                  <span class="fa-li"><i class="far fa-id-card"></i></span>
+                  {{ age_at_death }} {{ _('old') }}
+                </li>
+                {% endif %}
+                {% if occupation %}
+                <li class="mt-1" title="{{ _('Occupation') }}"><span class="fa-li"><i
+                      class="fas fa-user-tie"></i></span>
+                  {{ occupation }}</li>
+                {% endif %}
+              </ul>
+            </div>
+          </div>
+          <!-- $Id: modules/unions.txt v7.1 17/11/2023 10:30:00 $ -->
+          {% if spouse_first_name or children %}
+          <h2 class="mt-2 w-100">
+            {% if spouse_first_name and children %}{{ _('Marriage and children') }}{% elif spouse_first_name %}{{
+            _('Marriage') }}{% else
+            %}{{ _('Children') }}{% endif %}<span class="ml-2"><a
+                href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&p={{ first_name }}&amp;n={{ surname }}&amp;m=D&amp;t=T&amp;v=1"><img
+                  class="mx-1 mb-1" src="{{ url_for('static', filename='images/gui_create.png') }}" height="18"
+                  alt="{{ _('tree desc.') }}" title="{{ _('Descendants tree up to the children (with spouse)') }}"></a>
+            </span>
+          </h2>
+          {% endif %}
+          {% if has_marriage %}
+          <ul class="pl-4 py-0">
+            <li style="vertical-align: middle;list-style-type: circle">
+              <a href="?m=MOD_FAM&amp;&i{{ family_id }}&amp;ip={{ person_id }}"><i class="fa fa-wrench fa-xs male"
+                  title="{{ _('Update family with') }} {{ spouse_first_name|title }} {{ spouse_surname|title }}"></i></a> {{ _('Married') }}
+              <span class="date">{{ _('on') }}&nbsp;{{ marriage_date }}</span>{% if
+              marriage_place %} {{ _('in') }} {{ marriage_place }}{% endif %} {{ _('to') }} <a
+                href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ spouse_id }}&p={{ spouse_first_name }}&n={{ spouse_surname }}"
+                class="female-underline">{{ spouse_first_name|title }} {{ spouse_surname|title }}</a><span
+                title="{{ _('one day') }}" class="text-nowrap"> <bdo dir=ltr>{{ spouse_birth_year|default('?') }}-{{
+                  spouse_death_year|default('?') }}</bdo></span> <a href="#note-wed-1" id="wed-callnote-1"
+                title="{{ _('see note') }} 1"><sup>1</sup></a>{% if children %}, {{ _('with') }} {{ children|length }} {{ _('children') }}{% endif %}{%
+              if children %}:{% else %}.{% endif %}
+              {% else %}
+              {% if spouse_first_name %}<a
+                href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ spouse_id }}&p={{ spouse_first_name }}&n={{ spouse_surname }}"
+                class="female-underline">{{ spouse_first_name|title }} {{ spouse_surname|title }}</a><span
+                title="{{ _('one day') }}" class="text-nowrap"> <bdo dir=ltr>{{ spouse_birth_year|default('?') }}-{{
+                  spouse_death_year|default('?') }}</bdo></span>{% endif %}{% if children %}, with {{ children|length }}
+              children:{% endif %}
+              {% endif %}
+              {% for child in children %}
+              <ul>
+                <li style="vertical-align: middle;list-style-type: circle;"><a href="?m=MOD_IND&amp;&i{{ child.id }}"
+                    title="{{ _('Update') }} {{ child.first_name|title }} {{ child.surname|title }}">
+                    <i class="fa fa-neuter neuter fa-xs mr-1"></i></a><a
+                    href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&p={{ child.first_name }}&amp;n={{ child.surname }}"
+                    title="{{ _('Display') }} {{ child.first_name|title }} {{ child.surname|title }}">{{ child.first_name|title }}
+                    {{ child.surname|title }}</a><a href="?m=MOD_IND&amp;&i{{ child.id }}"><span
+                      class="text-nowrap font-italic"
+                      title="{{ _('Update') }} {{ child.first_name|title }} {{ child.surname|title }} ({{ child.age_years|default('?') }} {{ _('years') }})">
+                      <bdo dir=ltr>{{ child.birth_year|default('?') }}-{{ child.death_year|default('?')
+                        }}</bdo></span></a></li>
+              </ul>
+              {% endfor %}
+              {% if divorce_date %}
+              <div class="mb-1 text-muted">
+                {{ _('Divorced') }} <em>{{ divorce_date }}</em>{% if divorce_note %}: {{ divorce_note }}{% endif %}.</div>
+              {% endif %}
+            </li>
+          </ul>
+          <!-- $Id: modules/chronologie.txt v7.1 04/03/2023 09:51:04 $ -->
+          <div class="d-flex justify-content-between">
+            <h2 class="my-1" id="c">{{ _('Timeline') }}<a href="?spouse=on;m=RLM;image=" class="ml-2" title="{{ _('Tree of relations') }}">
+                <img src="{{ url_for('static', filename='images/gui_create.png') }}" class="ml-1 mb-1" height="18"
+                  alt="{{ _('Tree') }}">
+              </a></h2>
+            <div class="form-inline">
+              <div class="mx-2">
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&n={{ surname }}&amp;&p={{ first_name }}&amp;mar_sp_ch=on"
+                  class="btn btn-outline-secondary btn-sm border-0 px-0" title="{{ _('Display marriages (spouses/children)') }}"><i
+                    class="fa fa-shuffle fa-fw"></i>
+                  <i class="fa fa-toggle-off text-muted"></i>
+                </a>
+              </div>
+              <div class="mx-2 ml-2">
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&n={{ surname }}&amp;&p={{ first_name }}&amp;evt_pr_sib=on"
+                  class="btn btn-outline-secondary btn-sm border-0 px-0" title="{{ _('Display events (parents/siblings)') }}"><i
+                    class="fa fa-graduation-cap fa-fw"></i>
+                  <i class="fa fa-toggle-off text-muted"></i>
+                </a>
+              </div>
+              <div class="mx-2 ml-2">
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&n={{ surname }}&amp;&p={{ first_name }}&amp;simple=on"
+                  class="btn btn-outline-secondary btn-sm border-0 px-0" title="{{ _('Display simple chronology') }}"><i
+                    class="fa fa-align-justify fa-fw"></i>
+                  <i class="fa fa-toggle-off text-muted"></i>
+                </a>
+              </div>
+            </div>
+          </div>
+          <table class="table-sm  w-100">
+            <tbody>
+              {% for event in timeline_events %}
+              {% if event.type == 'divorce' %}
+              <tr class="align-top">
+                <td class="text-right w-25 text-nowrap">{{ event.date_display }}</td>
+                <td class="px-1">&ndash;</td>
+                <td>{{ _('Divorce with') }} <span class="text-nowrap"><a
+                      href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ event.spouse_id }}&p={{ event.spouse_first_name }}&amp;n={{ event.spouse_surname }}"
+                      class="male-underline">{{ event.spouse_first_name|title }} {{ event.spouse_surname|title
+                      }}</a><span title="{{ event.duration|default('?') }}" class="text-nowrap"> <bdo dir=ltr>{{
+                        event.date_range|default('?') }}</bdo></span></span><a class="" href="?spouse=on;m=RLM;image="
+                    title="{{ _('Tree of witnesses (witnesses to my events and godparents)') }}"><img
+                      src="{{ url_for('static', filename='images/gui_create.png') }}" class="ml-2 mb-1" height="16"
+                      alt="{{ _('Tree') }}"></a>{% if event.place %}<br><span class="text-muted">{{ event.place }}</span>{% endif
+                  %}{% if event.witnesses %}<br>{% if event.witnesses|length > 1 %}{{ _('Witnesses') }}{% else %}{{ _('Witness') }}{% endif %}: {% for witness
+                  in event.witnesses %}<span class="text-nowrap"><a
+                      href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ witness.id }}&p={{ witness.first_name }}&amp;n={{ witness.surname }}"
+                      class="neuter-underline">{{ witness.first_name|title }} {{ witness.surname|title }}</a><span
+                      title="{{ witness.age|default('?') }}" class="text-nowrap"> <bdo dir=ltr>{{
+                        witness.date_range|default('?') }}</bdo></span></span>{% if not loop.last %}{% if loop.index ==
+                  event.witnesses|length - 1 %} {{ _('and') }} {% else %}, {% endif %}{% else %}.{% endif %}{% endfor %}{% if
+                  event.note %} {{ event.note }}{% endif %}{% endif %}</td>
+              </tr>
+              {% elif event.type == 'child_birth' %}
+              <tr class="align-top">
+                <td class="text-right w-25 text-nowrap">{{ event.date_display }}</td>
+                <td class="px-1"></td>
+                <td class="text-nowrap">{{ _('Birth of a child') }} <a
+                    href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ event.id }}&p={{ event.child_first_name }}&amp;n={{ event.child_surname }}"
+                    class="neuter-underline">{{ event.child_first_name|title }} {{ event.child_surname|title }}</a><span
+                    title="{{ event.child_age|default('?') }}" class="text-nowrap"> <bdo dir=ltr>{{
+                      event.child_date_range|default('?') }}</bdo></span></td>
+              </tr>
+              {% elif event.type == 'birth' %}
+              <tr class="align-top">
+                <td class="text-right w-25 text-nowrap" rowspan="1">{{ event.date_display }}</td>
+                <td class="px-1" rowspan="1">&ndash;</td>
+                <td>{{ _('Birth') }}{% if event.place %}<br><span class="text-muted">{{ event.place }}</span>{% endif %}</td>
+              </tr>
+              <tr class="align-top">
+                <td></td>
+              </tr>
+              {% elif event.type == 'marriage' %}
+              <tr class="align-top">
+                <td class="text-right w-25 text-nowrap">{{ event.date_display }}</td>
+                <td class="px-1">&ndash;</td>
+                <td>{{ _('Marriage with') }} <span class="text-nowrap"><a
+                      href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ event.spouse_id }}&p={{ event.spouse_first_name }}&amp;n={{ event.spouse_surname }}"
+                      class="male-underline">{{ event.spouse_first_name|title }} {{ event.spouse_surname|title
+                      }}</a><span title="{{ event.duration|default('?') }}" class="text-nowrap"> <bdo dir=ltr>{{
+                        event.date_range|default('?') }}</bdo></span></span><a class="" href="?spouse=on;m=RLM;image="
+                    title="{{ _('Tree of witnesses (witnesses to my events and godparents)') }}"><img
+                      src="{{ url_for('static', filename='images/gui_create.png') }}" class="ml-2 mb-1" height="16"
+                      alt="{{ _('Tree') }}"></a>{% if event.place %}<br><span class="text-muted">{{ event.place }}</span>{% endif
+                  %}{% if event.witnesses %}<br>{% if event.witnesses|length > 1 %}{{ _('Witnesses') }}{% else %}{{ _('Witness') }}{% endif %}: {% for witness
+                  in event.witnesses %}<span class="text-nowrap"><a
+                      href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ witness.id }}&p={{ witness.first_name }}&amp;n={{ witness.surname }}"
+                      class="neuter-underline">{{ witness.first_name|title }} {{ witness.surname|title }}</a><span
+                      title="{{ witness.age|default('?') }}" class="text-nowrap"> <bdo dir=ltr>{{
+                        witness.date_range|default('?') }}</bdo></span></span>{% if not loop.last %}{% if loop.index ==
+                  event.witnesses|length - 1 %} {{ _('and') }} {% else %}, {% endif %}{% else %}.{% endif %}{% endfor %}{% if
+                  event.note %} {{ event.note }}{% endif %}{% endif %}</td>
+              </tr>
+              {% elif event.type == 'spouse_death' %}
+              <tr class="align-top">
+                <td class="text-right w-25 text-nowrap">{{ event.date_display }}</td>
+                <td class="px-1">&ndash;</td>
+                <td>{{ _('Death of the spouse') }} <a
+                    href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ event.id }}&p={{ event.spouse_first_name }}&amp;n={{ event.spouse_surname }}"
+                    class="male-underline">{{ event.spouse_first_name|title }} {{ event.spouse_surname|title }}</a><span
+                    title="{{ event.duration|default('?') }}" class="text-nowrap"> <bdo dir=ltr>{{
+                      event.date_range|default('?') }}</bdo></span> ({{ event.duration|default('?') }})</td>
+              </tr>
+              <tr class="align-top">
+                <td></td>
+              </tr>
+              {% elif event.type == 'death' %}
+              <tr class="align-top">
+                <td class="text-right w-25" rowspan="1">{{ event.date_display }}</td>
+                <td class="px-1" rowspan="1">&ndash;</td>
+                <td>{{ _('Death') }}{% if event.place %}<br><span class="text-muted">{{ event.place }}</span>{% endif %}</td>
+              </tr>
+              <tr class="align-top">
+                <td></td>
+              </tr>
+              {% endif %}
+              {% endfor %}
+            </tbody>
+          </table>
+          <!-- $Id: modules/notes.txt v7.1 15/12/2022 23:41:44 $ -->
+          {% if individual_notes %}
+          <div class="d-flex justify-content-start">
+            <h2 class="mt-2">{{ _('Individual note') }}</h2>
+          </div>
+          <div class="ml-3">
+            {% for note in individual_notes %}
+            <p>{{ note }}</p>
+            {% endfor %}
+          </div>
+          {% else %}
+          <div class="ml-3">
+          </div>
+          {% endif %}
+          {% if marriage_notes %}
+          <h2 class="w-100">{{ _('Marriage notes') }}</h2>
+          <dl>
+            {% for note in marriage_notes %}
+            <dt>
+              <a href="#wed-callnote-{{ loop.index }}" id="note-wed-{{ loop.index }}" style="text-decoration:none"
+                title="{{ _('see marriage') }}">^
+              </a>
+              {{ _('Marriage with') }} {{ note.spouse_name|title }}:
+            </dt>
+            <dd>{{ note.content }}</dd>
+            {% endfor %}
+          </dl>
+          {% endif %}
+          <!-- $Id: modules/sources.txt v7.0 28/10/2018 23:10:24 $ -->
+          <h2>{{ _('Sources') }}</h2>
+          {% if sources %}
+          <ul>
+            {% for source in sources %}
+            <li>{{ source.type|title }}: {{ source.content }}</li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+        </div>
+        <div class="col-4 pl-0 ml-0">
+          <!-- $Id: modules/arbre_3gen_photo.txt v7.1 19/08/2023 15:07:38 $ -->
+          {% if ancestors.father or ancestors.mother %}
+          <table class="mx-auto text-center small" style="line-height:0.9rem">
+            <tr>
+              <td colspan="9" rowspan="4"></td>
+              <td></td>
+              <td colspan="9" rowspan="4"></td>
+            </tr>
+            <tr>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+            </tr>
+            <tr>
+              <td></td>
+            </tr>
+            {# Grandparents Row #}
+            <tr>
+              <td colspan="2"></td>
+              {# Paternal Grandfather #}
+              <td colspan="5" class="align-bottom">
+                {% if ancestors.father and 'father' in ancestors.father and ancestors.father.father %}
+                <a
+                  href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ ancestors.father.father.id }}&p={{ ancestors.father.father.first_name }}&amp;n={{ ancestors.father.father.surname }}">
+                  <span>{{ ancestors.father.father.first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ ancestors.father.father.surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;&i{{ ancestors.father.father.id }}"
+                  title="Update {{ ancestors.father.father.first_name|title }} {{ ancestors.father.father.surname|title }}">
+                  <div class="text-nowrap font-italic"
+                    title="Update {{ ancestors.father.father.first_name|title }} {{ ancestors.father.father.surname|title }}">
+                    <bdo dir=ltr>{{ ancestors.father.father.birth_year|default('?') }}-{{
+                      ancestors.father.father.death_year|default('?') }}</bdo>
+                  </div>
+                </a>
+                {% endif %}
+              </td>
+              <td colspan="2"></td>
+              <td></td>
+              <td colspan="2"></td>
+              {# Maternal Grandfather #}
+              <td colspan="5" class="align-bottom">
+                {% if ancestors.mother and 'father' in ancestors.mother and ancestors.mother.father %}
+                <a
+                  href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ ancestors.mother.father.id }}&p={{ ancestors.mother.father.first_name }}&amp;n={{ ancestors.mother.father.surname }}">
+                  <span>{{ ancestors.mother.father.first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ ancestors.mother.father.surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;&i{{ ancestors.mother.father.id }}"
+                  title="Update {{ ancestors.mother.father.first_name|title }} {{ ancestors.mother.father.surname|title }}">
+                  <div class="text-nowrap font-italic"
+                    title="Update {{ ancestors.mother.father.first_name|title }} {{ ancestors.mother.father.surname|title }}">
+                    <bdo dir=ltr>{{ ancestors.mother.father.birth_year|default('?') }}-{{
+                      ancestors.mother.father.death_year|default('?') }}</bdo>
+                  </div>
+                </a>
+                {% endif %}
+              </td>
+              <td colspan="2"></td>
+            </tr>
+            {# Grandmothers Row #}
+            <tr>
+              <td colspan="2"></td>
+              {# Paternal Grandmother #}
+              <td colspan="5" class="align-bottom">
+                {% if ancestors.father and 'mother' in ancestors.father and ancestors.father.mother %}
+                <a
+                  href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ ancestors.father.mother.id }}&p={{ ancestors.father.mother.first_name }}&amp;n={{ ancestors.father.mother.surname }}">
+                  <span>{{ ancestors.father.mother.first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ ancestors.father.mother.surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;&i{{ ancestors.father.mother.id }}"
+                  title="Update {{ ancestors.father.mother.first_name|title }} {{ ancestors.father.mother.surname|title }}">
+                  <div class="text-nowrap font-italic"
+                    title="Update {{ ancestors.father.mother.first_name|title }} {{ ancestors.father.mother.surname|title }}">
+                    <bdo dir=ltr>{{ ancestors.father.mother.birth_year|default('?') }}-{{
+                      ancestors.father.mother.death_year|default('?') }}</bdo>
+                  </div>
+                </a>
+                {% endif %}
+              </td>
+              <td colspan="2"></td>
+              <td></td>
+              <td colspan="2"></td>
+              {# Maternal Grandmother #}
+              <td colspan="5" class="align-bottom">
+                {% if ancestors.mother and 'mother' in ancestors.mother and ancestors.mother.mother %}
+                <a
+                  href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ ancestors.mother.mother.id }}&p={{ ancestors.mother.mother.first_name }}&amp;n={{ ancestors.mother.mother.surname }}">
+                  <span>{{ ancestors.mother.mother.first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ ancestors.mother.mother.surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;&i{{ ancestors.mother.mother.id }}"
+                  title="Update {{ ancestors.mother.mother.first_name|title }} {{ ancestors.mother.mother.surname|title }}">
+                  <div class="text-nowrap font-italic"
+                    title="Update {{ ancestors.mother.mother.first_name|title }} {{ ancestors.mother.mother.surname|title }}">
+                    <bdo dir=ltr>{{ ancestors.mother.mother.birth_year|default('?') }}-{{
+                      ancestors.mother.mother.death_year|default('?') }}</bdo>
+                  </div>
+                </a>
+                {% endif %}
+              </td>
+              <td colspan="2"></td>
+            </tr>
+            {% if (ancestors.father and 'father' in ancestors.father) or (ancestors.mother and 'father' in
+            ancestors.mother) %}
+            <tr>
+              <td colspan="3"></td>
+              <td colspan="3">│</td>
+              <td colspan="1"></td>
+              <td colspan="5" class="small align-text-center text-center font-italic col-1 px-0">&nbsp;</td>
+              <td colspan="1"></td>
+              <td colspan="3">│</td>
+              <td colspan="3"></td>
+            </tr>
+            <tr>
+              <td colspan="3"></td>
+              <td colspan="3" class="p-0" align="right">
+                <hr dir="ltr" width="50%" align="right">
+              </td>
+              <td colspan="7" class="p-0">
+                <hr width="100%">
+              </td>
+              <td colspan="3" class="p-0" align="left">
+                <hr dir="ltr" width="50%" align="left">
+              </td>
+              <td colspan="3"></td>
+            </tr>
+            {% endif %}
+            <tr>
+              <td colspan="2"></td>
+              <td colspan="2">│</td>
+              <td colspan="3"></td>
+              <td colspan="5" class="small align-text-center text-center font-italic col-1 px-0">&nbsp;</td>
+              <td colspan="3"></td>
+              <td colspan="2">│</td>
+              <td colspan="2"></td>
+            </tr>
+            <tr>
+              <td colspan="1"></td>
+              <td colspan="4" class="align-bottom">
+                {% if ancestors.father %}
+                <a
+                  href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ ancestors.father.id }}&p={{ ancestors.father.first_name }}&amp;n={{ ancestors.father.surname }}">
+                  <span>{{ ancestors.father.first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ ancestors.father.surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;&i{{ ancestors.father.id }}"
+                  title="{{ _('Update') }} {{ ancestors.father.first_name|title }} {{ ancestors.father.surname|title }}">
+                  <div class="text-nowrap font-italic"
+                    title="{{ _('Update') }} {{ ancestors.father.first_name|title }} {{ ancestors.father.surname|title }}">
+                    <bdo dir=ltr>{{ ancestors.father.birth_year|default('?') }}-{{
+                      ancestors.father.death_year|default('?') }}</bdo>
+                  </div>
+                </a>
+                {% else %}
+                <a href="&i=0"><span>?</span><br><span class="text-nowrap">?</span></a>
+                {% endif %}
+              </td>
+              <td colspan="4"></td>
+              <td colspan="1"></td>
+              <td colspan="4"></td>
+              <td colspan="4" class="align-bottom">
+                {% if ancestors.mother %}
+                <a
+                  href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&i={{ ancestors.mother.id }}&p={{ ancestors.mother.first_name }}&amp;n={{ ancestors.mother.surname }}">
+                  <span>{{ ancestors.mother.first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ ancestors.mother.surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;&i{{ ancestors.mother.id }}"
+                  title="{{ _('Update') }} {{ ancestors.mother.first_name|title }} {{ ancestors.mother.surname|title }}">
+                  <div class="text-nowrap font-italic"
+                    title="{{ _('Update') }} {{ ancestors.mother.first_name|title }} {{ ancestors.mother.surname|title }}">
+                    <bdo dir=ltr>{{ ancestors.mother.birth_year|default('?') }}-{{
+                      ancestors.mother.death_year|default('?') }}</bdo>
+                  </div>
+                </a>
+                {% else %}
+                <a href="&i=0"><span>?</span><br><span class="text-nowrap">?</span></a>
+                {% endif %}
+              </td>
+              <td colspan="1"></td>
+            </tr>
+            {% if ancestors.father or ancestors.mother %}
+            <tr>
+              <td colspan="5"></td>
+              <td colspan="4">│</td>
+              <td colspan="1"></td>
+              <td colspan="4">│</td>
+              <td colspan="5"></td>
+            </tr>
+            <tr>
+              <td colspan="4"></td>
+              <td colspan="5" class="p-0" align="right">
+                <hr dir="ltr" width="50%" align="right">
+              </td>
+              <td colspan="1" class="p-0">
+                <hr width="100%">
+              </td>
+              <td colspan="5" class="p-0" align="left">
+                <hr dir="ltr" width="50%" align="left">
+              </td>
+              <td colspan="4"></td>
+            </tr>
+            <tr>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td>│</td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+              <td></td>
+            </tr>
+            {% endif %}
+            <tr>
+              <td colspan="5"></td>
+              <td colspan="9">
+                <a
+                  href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&p={{ first_name }}&amp;n={{ surname }}">
+                  <span>{{ first_name|upper }}</span><br>
+                  <span class="text-nowrap">{{ surname|upper }}</span>
+                </a><br>
+                <a href="?m=MOD_IND&amp;&i{{ person_id }}" title="{{ _('Update') }} {{ first_name|title }} {{ surname|title }}">
+                  <div class="text-nowrap font-italic"
+                    title="{{ _('Update') }} {{ first_name|title }} {{ surname|title }} ({{ age_at_death|default('?') }} {{ _('old') }})">
+                    <bdo dir=ltr>{{ birth_year|default('?') }}-{{ death_year|default('?') }}</bdo>
+                  </div>
+                </a>
+              </td>
+              <td colspan="5"></td>
+            </tr>
+          </table>
+          {% endif %}
+          <!-- $Id: modules/fratrie.txt v7.1 13/08/2023 16:47:40 $ -->
+          {% if siblings %}
+            <h2 class="mt-2 mt-lg-0 w-100">
+            {{ _('Siblings') }}
+            {% set current_index = -1 %}
+            {% for sibling in siblings %}
+            {% if sibling.id == person_id %}
+            {% set current_index = loop.index0 %}
+            {% endif %}
+            {% endfor %}
+            {% if current_index > 0 %}
+            <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&p={{ siblings[current_index - 1].first_name }}&amp;n={{ siblings[current_index - 1].surname }}"
+              title="{{ _('Previous sibling') }}" id="prev-sibling-link">
+              <i class="fa fa-caret-left fa-sm text-success"></i>
+            </a>
+            {% else %}
+            <span class="fa fa-caret-left invisible"></span>
+            {% endif %}
+            <a
+              href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&p={{ first_name }}&amp;n={{ surname }}&amp;m=D&amp;t=T&amp;v=1">
+              <img class="mb-1" src="{{ url_for('static', filename='images/gui_create.png') }}" height="20" alt="{{ _('Tree') }}"
+                title="{{ _('Tree siblings (with spouses)') }}">
+            </a>
+            {% if current_index >= 0 and current_index < siblings|length - 1 %} <a
+              href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&p={{ siblings[current_index + 1].first_name }}&amp;n={{ siblings[current_index + 1].surname }}"
+              title="{{ _('Next sibling') }}" id="next-sibling-link">
+              <i class="fa fa-caret-right fa-sm text-success"></i>
+              </a>
+              {% endif %}
+          </h2>
+          <ul>
+            {% for sibling in siblings %}
+            <li style="vertical-align: middle;list-style-type: circle;">
+              <a href="?m=MOD_IND&amp;&i{{ sibling.id }}"
+                title="{{ _('Update') }} {{ sibling.first_name|title }} {{ sibling.surname|title }}">
+                <i class="fa fa-neuter neuter fa-xs mr-1"></i>
+              </a>
+              {% if sibling.id == person_id %}
+              <b>{{ sibling.first_name|title }} {{ sibling.surname|title }}</b>
+              {% else %}
+              <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&p={{ sibling.first_name }}&amp;n={{ sibling.surname }}"
+                title="{{ _('Display') }} {{ sibling.first_name|title }} {{ sibling.surname|title }}">
+                {{ sibling.first_name|title }} {{ sibling.surname|title }}
+              </a>
+              {% endif %}
+              <a href="?m=MOD_IND&amp;&i{{ sibling.id }}">
+                <span class="text-nowrap font-italic"
+                  title="{{ _('Update') }} {{ sibling.first_name|title }} {{ sibling.surname|title }} ({{ sibling.age_years|default('?') }} {{ _('years') }})">
+                  <bdo dir=ltr>{{ sibling.birth_year|default('?') }}-{{ sibling.death_year|default('?') }}</bdo>
+                </span>
+              </a>
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          <!-- $Id: modules/relations.txt v7.1 17/11/2023 10:30:00 $ -->
+        </div>
+      </div>
+      <script>
+        var q_time = {{ q_time|default (0) }};
+        var nb_errors = {{ nb_errors|default (0) }};
+        var errors_list = "{{ errors_list|default('') }}";
+        var home_time = document.getElementById('q_time');
+        var home_errors = document.getElementById('nb_errors');
+        if (home_time != null) {
+          home_time.title = "Query treated in " + q_time + " s";
+          if (q_time < 3) {
+            home_time.classList.add("text-success");
+          } else if (q_time < 8) {
+            home_time.classList.add("text-warning");
+          } else {
+            home_time.classList.add("text-danger");
+          }
+        }
+        if (home_errors != null) {
+          if (nb_errors > 0) {
+            home_errors.title = nb_errors + " error(s)!";
+            home_errors.classList.remove("d-none");
+          }
+          if (errors_list != "") {
+            home_errors.title = home_errors.title + errors_list + ".";
+          }
+        }
+      </script><!-- $Id: copyr.txt 7.1-beta 18/12/2023 22:03:44 $ -->
+      <div class="d-flex ml-auto justify-content-end m-2" id="copyr">
+        <div class="btn-group dropup align-self-center">
+          <button class="btn btn-link dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown"
+            aria-haspopup="true" aria-expanded="false" title=""><span class="sr-only">lang</span><span
+              class="text-uppercase" title="View in: {{ lang|default('English') }}">{{ lang|default('en') }}</span><span
+              class="sr-only">, view in</span></button>
+          <div class="dropdown-menu scrollable-lang" aria-labelledby="dropdownMenu1">
+            <a class="dropdown-item" id="lang_en"
+              href="{{ url_for('gwd.route_details', base=base, lang='en', p=first_name, n=surname) }}"
+              title="lang en"><code>en&nbsp;&nbsp;&nbsp; </code>{{ _('English') }}</a>
+            <a class="dropdown-item" id="lang_fr"
+              href="{{ url_for('gwd.route_details', base=base, lang='fr', p=first_name, n=surname) }}"
+              title="lang fr"><code>fr&nbsp;&nbsp;&nbsp; </code>{{ _('French') }}</a>
+          </div>
+        </div>
+        <div class="d-inline-flex flex-column justify-content-end align-self-center ml-3">
+          <div class="ml-auto">
+            <a role="button" class="mr-1"
+              href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?templ=templm&amp;&p={{ first_name }}&amp;n={{ surname }}"
+              title="templm"><i class="fab fa-markdown" aria-hidden="true"></i><span class="sr-only">switch to
+                templm</span></a>
+            <a href="https://github.com//tree/2ab85d8"
+              title="Line HEAD compiled on 2024-04-18 from commit 2ab85d8 (2024-04-18)">GeneWeb v. 7.1-beta</a>
+          </div>
+          <div class="btn-group">
+            <span>&copy; <a href="https://www.inria.fr" target="_blank"
+                rel="noreferrer, noopener">INRIA</a> 1998-2007</span>
+            <a href="https://geneweb.tuxfamily.org/wiki/GeneWeb" class="ml-1" target="_blank" rel="noreferrer, noopener"
+              title="Documentation GeneWeb"><i class="fab fa-wikipedia-w"></i></a><a
+              href="https://github.com/geneweb/geneweb" class="ml-1" target="_blank" rel="noreferrer, noopener"
+              title="GeneWeb on Github"><i class="fab fa-github"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- $Id: js.txt v7.1 02/12/2023 12:35:50 $ -->
+  <script src="{{ url_for('static', filename='js/jquery.min.js') }}?version=3.7.1"></script>
+  <script src="{{ url_for('static', filename='js/bootstrap.bundle.min.js') }}?version=4.6.1"></script>
+  <script>
+    $('#load_once_p_mod').one('click', function () {
+      $.getScript('{{ url_for("static", filename="js/p_mod.js") }}');
+    });
+    $('#load_once_copylink').one('click', function () {
+      $.getScript('{{ url_for("static", filename="js/copylink.js") }}');
+    });
+  </script>
+  <script><!-- Arrow key navigation for siblings -->
+    document.addEventListener('keydown', function (event) {
+      // Only handle arrow keys if not typing in an input/textarea
+      if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+        return;
+      }
+
+      var prevLink = document.getElementById('prev-sibling-link');
+      var nextLink = document.getElementById('next-sibling-link');
+
+      if (event.key === 'ArrowLeft' && prevLink) {
+        event.preventDefault();
+        window.location.href = prevLink.href;
+      } else if (event.key === 'ArrowRight' && nextLink) {
+        event.preventDefault();
+        window.location.href = nextLink.href;
+      }
+    });
+  </script>
+  <script><!-- focus on found autofocus input in opening BS modal -->
+    $('.modal').on('shown.bs.modal', function () {
+      $(this).find('[autofocus]').focus();
+    });
+  </script>
+</body>
+
+</html>
