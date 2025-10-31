@@ -19,7 +19,7 @@ _('persons') }}){% endblock %}
         <ul>
             {% for person in letter.persons %}
             <li>
-                <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ person.id }}">{{
+                <a href="{{ url_for('gwd.route_details', base=base, lang=lang, i=person.id) }}">{{
                     person.first_name|default('?') }}</a>
             </li>
             {% endfor %}
