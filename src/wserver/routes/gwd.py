@@ -1,7 +1,14 @@
+from .details import implem_gwd_details
+from wserver.routes.fiefs import route_fiefs
+from .homepage import route_homepage
+from .search import route_search
 from .add_family import implem_route_ADD_FAM
-from flask import Blueprint, request
+from .mod_individual import implem_route_MOD_IND
 from ..routes.gwd_root_impl import implem_route_gwd_root
 from .anm_impl import implem_route_ANM
+from .an_impl import implem_route_AN
+from .titles import route_titles
+from flask import Blueprint, request, g
 
 gwd_bp = Blueprint('gwd', __name__, url_prefix='/gwd')
 
@@ -11,21 +18,56 @@ Handlers are explicit functions and currently raise NotImplementedError..
 """
 
 
+@gwd_bp.route("<base>", methods=['GET', 'POST'])
+def gwd_homepage(base: str):
+    lang = request.args.get("lang", "en")
+    previous_url = request.args.get("previous_url", None)
+    return route_homepage(base, lang, previous_url)
+
+
+@gwd_bp.route("<base>/search", methods=['GET', 'POST'])
+def gwd_search(base: str):
+    lang = request.args.get("lang", "en")
+    sort = request.args.get("sort", None)
+    on = request.args.get("on", None)
+    surname = request.args.get("surname", None)
+    firstname = request.args.get("firstname", None)
+    previous_url = request.args.get("previous_url", None)
+    return route_search(base, lang, sort, on, surname, firstname, previous_url)
+
+
+@gwd_bp.route("<base>/titles", methods=['GET', 'POST'])
+def gwd_titles(base: str):
+    lang = request.args.get("lang", "en")
+    title = request.args.get("title", None)
+    fief = request.args.get("fief", None)
+    previous_url = request.args.get("previous_url", None)
+    return route_titles(base, lang, title, fief, previous_url)
+
+
+@gwd_bp.route("<base>/fiefs", methods=['GET', 'POST'])
+def gwd_fiefs(base: str):
+    lang = request.args.get("lang", "en")
+    previous_url = request.args.get("previous_url", None)
+    return route_fiefs(base, lang, previous_url)
+
+
 @gwd_bp.route('', methods=['GET', 'POST'], strict_slashes=False)
 def gwd_root():
     return implem_route_gwd_root()
 
 
-@gwd_bp.route('<base>',
-              methods=['GET', 'POST'], strict_slashes=False)
-def gwd_homepage(base):
-    raise NotImplementedError(
-        f"Route base={base}, no action yet")
-
-
 @gwd_bp.route('<base>/A/', methods=['GET', 'POST'])
 def route_A(base):
     raise NotImplementedError("Route A not implemented yet")
+
+
+@gwd_bp.route('<base>/details', methods=['GET', 'POST'], strict_slashes=False)
+def route_details(base):
+    lang = request.args.get('lang')
+    # Set g.locale for Flask-Babel to use
+    g.locale = lang
+    return implem_gwd_details(base, lang)
 
 
 @gwd_bp.route('<base>/ADD_FAM/', methods=['GET', 'POST'], strict_slashes=False)
@@ -66,7 +108,7 @@ def route_ANM(base):
 
 @gwd_bp.route('<base>/AN/', methods=['GET', 'POST'])
 def route_AN(base):
-    raise NotImplementedError("Route AN not implemented yet")
+    return implem_route_AN(base)
 
 
 @gwd_bp.route('<base>/AD/', methods=['GET', 'POST'])
@@ -302,6 +344,21 @@ def route_LM(base):
 @gwd_bp.route('<base>/MRG/', methods=['GET', 'POST'])
 def route_MRG(base):
     raise NotImplementedError("Route MRG not implemented yet")
+
+
+@gwd_bp.route('<base>/MOD_FAM/', methods=['GET', 'POST'])
+@gwd_bp.route('<base>/MOD_FAM/<lang>', methods=['GET', 'POST'])
+def route_MOD_FAM(base, lang='en'):
+    raise NotImplementedError("Route MOD_FAM not implemented yet")
+
+
+@gwd_bp.route('<base>/modify_individual', methods=['GET', 'POST'])
+def route_MOD_IND(base):
+    id = request.args.get('id', type=int)
+    lang = request.args.get('lang', 'en')
+    if id is None:
+        return "Missing 'id' parameter", 400
+    return implem_route_MOD_IND(base, id, lang)
 
 
 @gwd_bp.route('<base>/MRG_DUP/', methods=['GET', 'POST'])

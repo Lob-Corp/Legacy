@@ -1,0 +1,58 @@
+{% extends 'gwd/base.html' %}
+
+{% block title %}{{ _('birthdays', True) }} - {{ title|default('GeneWeb') }}{% endblock %}
+
+{% block content %}
+  <div class="container">
+    <h1> {{ _('birthdays', True) }} </h1>
+    {% for sec in sections %}
+      {% if sec['items'] %}
+  <p> {{ sec.label|capitalize }},
+          <span style="color: #2f6400">
+            <b> {{ _("on (weekday day month year)", False) }} {{ _("(week day)").split('/')[ sec.date.weekday() ] }} {{sec.date.day}} {{_("(month)").split('/')[sec.date.month - 1]}} {{sec.date.year}}</b>
+          </span>
+          {% if sec.label|lower == _('today')|lower %}
+            {{ _("%s, it is %s of") % ('', _('the birthday')) }}...
+          {% else %}
+            {{ _("%s, it will be %s of") % ('', _('the birthday')) }}...
+          {% endif %}
+        </p>
+        <ul>
+          {% for p in sec['items'] %}
+            <li>
+              <a href="{{ prefix }}details?lang={{ lang }}&n={{ p.surname|urlencode }}&p={{ p.given|urlencode }}&i={{ p.occ }}">{{ p.name }}</a>
+            </li>
+          {% endfor %}
+        </ul>
+      {% else %}
+        <p>{{ _('no birthday') }} {{ sec.label }}. </p>
+      {% endif %}
+    {% endfor %}
+      <table border="0" width="100%">
+        <tbody>
+          <tr>
+        <td align="center">
+          <span>{{ _('select a month to see all the anniversaries') }}</span>
+          <table border="0">
+            <tbody>
+              <tr>
+                <td>
+                  <form method="get" class="form-inline" action="{{ prefix }}">
+                    <input type="hidden" name="m" value="AN">
+                    <select name="v" class="form-control mr-2">
+                      {% for (num, name) in months %}
+                        <option value="{{ num }}" {% if num == current_month %}selected{% endif %}>{{ name }}</option>
+                      {% endfor %}
+                    </select>
+                    <button class="btn btn-primary" type="submit">{{ _('validate/delete').split('/')[0] }}</button>
+                  </form>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </td>
+        </tr>
+      </tbody>
+      </table>
+  </div>
+{% endblock %}
