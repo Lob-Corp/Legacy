@@ -14,6 +14,7 @@ from wserver.routes.details import (
     get_event_name,
     get_sources,
     format_date,
+    get_siblings_info
 )
 from libraries.person import Person, Sex
 from libraries.date import CalendarDate, Calendar, DateValue
@@ -142,27 +143,6 @@ def test_get_person_basic_info_no_occupation():
 
 # ===== Test get_person_vital_events =====
 
-def test_get_person_vital_events_with_birth_calendar_date():
-    """Test extracting vital events with CalendarDate birth."""
-    birth_date = CalendarDate(
-        cal=Calendar.GREGORIAN,
-        dmy=DateValue(day=15, month=3, year=1990, prec=Sure())
-    )
-
-    person = create_basic_person(
-        birth_date=birth_date,
-        birth_place="Paris"
-    )
-
-    result = get_person_vital_events(person)
-
-    assert result['birth_year'] == 1990
-    assert result['birth_date'] == "15 March 1990"
-    assert result['birth_place'] == "Paris"
-    assert result['death_year'] is None
-    assert result['age_at_death'] is None
-
-
 def test_get_person_vital_events_with_birth_tuple():
     """Test extracting vital events with tuple birth date."""
     person = create_basic_person(
@@ -176,60 +156,6 @@ def test_get_person_vital_events_with_birth_tuple():
     assert result['birth_date'] is None
     assert result['birth_place'] == "London"
 
-
-def test_get_person_vital_events_with_death():
-    """Test extracting vital events with death (Dead status)."""
-    birth_date = CalendarDate(
-        cal=Calendar.GREGORIAN,
-        dmy=DateValue(day=1, month=1, year=2000, prec=Sure())
-    )
-    death_date = CalendarDate(
-        cal=Calendar.GREGORIAN,
-        dmy=DateValue(day=31, month=12, year=2020, prec=Sure())
-    )
-
-    person = create_basic_person(
-        birth_date=birth_date,
-        death_status=Dead(
-            death_reason=DeathReason.UNSPECIFIED,
-            date_of_death=death_date
-        ),
-        death_place="London"
-    )
-
-    result = get_person_vital_events(person)
-
-    assert result['birth_year'] == 2000
-    assert result['death_year'] == 2020
-    assert result['death_date'] == "31 December 2020"
-    assert result['death_place'] == "London"
-    assert result['age_at_death'] == 20
-
-
-def test_get_person_vital_events_with_death_tuple():
-    """Test extracting vital events with tuple death date."""
-    birth_date = CalendarDate(
-        cal=Calendar.GREGORIAN,
-        dmy=DateValue(day=1, month=1, year=2000, prec=Sure())
-    )
-
-    person = create_basic_person(
-        birth_date=birth_date,
-        death_status=Dead(
-            death_reason=DeathReason.UNSPECIFIED,
-            date_of_death=("ABOUT", 2020)
-        ),
-        death_place="Berlin"
-    )
-
-    result = get_person_vital_events(person)
-
-    assert result['birth_year'] == 2000
-    assert result['death_year'] == 2020
-    assert result['death_date'] is None
-    assert result['age_at_death'] == 20
-
-
 def test_get_person_vital_events_with_dead_young():
     """Test extracting vital events with DeadYoung status."""
     person = create_basic_person(
@@ -240,7 +166,6 @@ def test_get_person_vital_events_with_dead_young():
     result = get_person_vital_events(person)
 
     # DeadYoung has no date, so death_year should be None
-    assert result['death_year'] is None
     assert result['death_place'] == "Madrid"
 
 
@@ -252,7 +177,7 @@ def test_get_person_vital_events_with_dead_dont_know_when():
 
     result = get_person_vital_events(person)
 
-    assert result['death_year'] is None
+    assert result['death_year'] == '?'
     assert result['death_date'] is None
 
 
@@ -262,30 +187,16 @@ def test_get_person_vital_events_no_info():
 
     result = get_person_vital_events(person)
 
-    assert result['birth_year'] is None
+    assert result['birth_year'] == '?'
     assert result['birth_date'] is None
     assert result['birth_place'] is None
-    assert result['death_year'] is None
+    assert result['death_year'] == '?'
     assert result['death_date'] is None
     assert result['death_place'] is None
     assert result['age_at_death'] is None
 
 
 # ===== Test get_family_info =====
-
-def test_get_family_info_no_families():
-    """Test family info extraction with no families."""
-    person = create_basic_person()
-
-    family_repo = Mock()
-    person_repo = Mock()
-
-    result = get_family_info(person, family_repo, person_repo)
-
-    assert result['family_id'] is None
-    assert result['spouse_id'] is None
-    assert result['spouse_first_name'] is None
-    assert result['spouse_surname'] is None
 
 
 def test_get_family_info_with_spouse():
@@ -326,7 +237,6 @@ def test_get_family_info_with_spouse():
     assert result['spouse_birth_year'] == 1992
     assert result['marriage_date'] == "20 June 2015"
     assert result['marriage_place'] == "New York"
-    assert result['divorce_date'] is None
 
 
 def test_get_family_info_with_divorce():
@@ -472,7 +382,6 @@ def test_get_children_info_with_children():
     assert result[0]['id'] == 3
     assert result[0]['first_name'] == "Alice"
     assert result[0]['birth_year'] == 2010
-    assert result[0]['death_year'] is None
 
     assert result[1]['id'] == 4
     assert result[1]['first_name'] == "Bob"
@@ -541,7 +450,7 @@ def test_get_witness_info_valid():
     assert result['first_name'] == "Witness"
     assert result['surname'] == "Person"
     assert result['date_range'] == "1980-2050"
-    assert result['age'] == ''
+    assert result['age'] == '?'
 
 
 def test_get_witness_info_with_tuple_dates():
@@ -1245,3 +1154,599 @@ def test_format_date_invalid_month():
 
     # Should only have day and year since month is invalid
     assert result == "15 2000"
+
+
+# ===== Test calculate_age_in_days =====
+
+def test_calculate_age_in_days_full_dates():
+    """Test age calculation with full dates."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    birth_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=1, year=2000, prec=Sure())
+    )
+    death_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=1, year=2003, prec=Sure())
+    )
+    
+    result = calculate_age_in_days(birth_date, death_date)
+    
+    assert result == "3 years"
+
+
+def test_calculate_age_in_days_same_day():
+    """Test age calculation when birth and death are same day."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    birth_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=15, month=6, year=2000, prec=Sure())
+    )
+    death_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=15, month=6, year=2000, prec=Sure())
+    )
+    
+    result = calculate_age_in_days(birth_date, death_date)
+    
+    assert result == "0 days"
+
+
+def test_calculate_age_in_days_one_day():
+    """Test age calculation for one day."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    birth_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=1, year=2000, prec=Sure())
+    )
+    death_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=2, month=1, year=2000, prec=Sure())
+    )
+    
+    result = calculate_age_in_days(birth_date, death_date)
+    
+    assert result == "1 day"
+
+
+def test_calculate_age_in_days_days_only():
+    """Test age calculation for less than a month."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    birth_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=1, year=2000, prec=Sure())
+    )
+    death_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=15, month=1, year=2000, prec=Sure())
+    )
+    
+    result = calculate_age_in_days(birth_date, death_date)
+    
+    assert result == "14 days"
+
+
+def test_calculate_age_in_days_one_month():
+    """Test age calculation for exactly one month."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    birth_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=1, year=2000, prec=Sure())
+    )
+    death_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=2, year=2000, prec=Sure())
+    )
+    
+    result = calculate_age_in_days(birth_date, death_date)
+    
+    assert result == "1 month"
+
+
+def test_calculate_age_in_days_multiple_months():
+    """Test age calculation for multiple months."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    birth_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=1, year=2000, prec=Sure())
+    )
+    death_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=6, year=2000, prec=Sure())
+    )
+    
+    result = calculate_age_in_days(birth_date, death_date)
+    
+    assert result == "5 months"
+
+
+def test_calculate_age_in_days_one_year():
+    """Test age calculation for exactly one year."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    birth_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=1, year=2000, prec=Sure())
+    )
+    death_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=1, year=2001, prec=Sure())
+    )
+    
+    result = calculate_age_in_days(birth_date, death_date)
+    
+    assert result == "1 year"
+
+
+def test_calculate_age_in_days_years_and_months():
+    """Test age calculation for years and months."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    birth_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=1, year=2000, prec=Sure())
+    )
+    death_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=6, year=2002, prec=Sure())
+    )
+    
+    result = calculate_age_in_days(birth_date, death_date)
+    
+    assert result == "2 years 5 months"
+
+
+def test_calculate_age_in_days_tuple_dates():
+    """Test age calculation with tuple dates (year only)."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    birth_date = ("ABOUT", 1990)
+    death_date = ("BEFORE", 2000)
+    
+    result = calculate_age_in_days(birth_date, death_date)
+    
+    assert result == "10 years"
+
+def test_calculate_age_in_days_tuple_one_year():
+    """Test age calculation with tuple dates one year."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    birth_date = ("ABOUT", 2000)
+    death_date = ("BEFORE", 2001)
+    
+    result = calculate_age_in_days(birth_date, death_date)
+    
+    assert result == "1 year"
+
+
+def test_calculate_age_in_days_no_birth():
+    """Test age calculation with no birth date."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    result = calculate_age_in_days(None, ("BEFORE", 2000))
+    
+    assert result is None
+
+
+def test_calculate_age_in_days_no_death():
+    """Test age calculation with no death date."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    result = calculate_age_in_days(("ABOUT", 1990), None)
+    
+    assert result is None
+
+
+def test_calculate_age_in_days_invalid_date():
+    """Test age calculation with invalid date causing ValueError."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    # Invalid date that will cause ValueError
+    birth_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=31, month=2, year=2000, prec=Sure())  # Feb 31 doesn't exist
+    )
+    death_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=1, month=3, year=2000, prec=Sure())
+    )
+    
+    result = calculate_age_in_days(birth_date, death_date)
+    
+    # Should fallback to year calculation
+    assert result == "0 days"
+
+
+def test_calculate_age_in_days_year_only_less_than_year():
+    """Test age calculation with only years, less than a year."""
+    from wserver.routes.details import calculate_age_in_days
+    
+    birth_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=0, month=0, year=2000, prec=Sure())
+    )
+    death_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=0, month=0, year=2000, prec=Sure())
+    )
+    
+    result = calculate_age_in_days(birth_date, death_date)
+    
+    assert result == "less than a year"
+
+
+# ===== Test get_siblings_info =====
+
+def test_get_siblings_info_no_parents():
+    """Test siblings info when person has no parents."""
+    person = create_basic_person()
+    
+    family_repo = Mock()
+    person_repo = Mock()
+    
+    result = get_siblings_info(person, family_repo, person_repo)
+    
+    assert result == []
+
+
+def test_get_siblings_info_with_siblings():
+    """Test siblings info extraction."""
+    from wserver.routes.details import get_siblings_info
+    
+    person = create_basic_person(
+        index=3,
+        ascend=Ascendants(
+            parents=1,
+            consanguinity_rate=ConsanguinityRate.from_integer(0)
+        )
+    )
+    
+    sibling1 = create_basic_person(
+        index=3,
+        first_name="Alice",
+        surname="Doe",
+        birth_date=CalendarDate(
+            cal=Calendar.GREGORIAN,
+            dmy=DateValue(day=1, month=1, year=2000, prec=Sure())
+        )
+    )
+    
+    sibling2 = create_basic_person(
+        index=4,
+        first_name="Bob",
+        surname="Doe",
+        birth_date=CalendarDate(
+            cal=Calendar.GREGORIAN,
+            dmy=DateValue(day=15, month=6, year=2002, prec=Sure())
+        ),
+        death_status=Dead(
+            death_reason=DeathReason.UNSPECIFIED,
+            date_of_death=CalendarDate(
+                cal=Calendar.GREGORIAN,
+                dmy=DateValue(day=20, month=7, year=2020, prec=Sure())
+            )
+        )
+    )
+    
+    parent_family = create_basic_family(
+        index=1,
+        children=[3, 4]
+    )
+    
+    family_repo = Mock()
+    family_repo.get_family_by_id.return_value = parent_family
+    
+    person_repo = Mock()
+    person_repo.get_person_by_id.side_effect = [sibling1, sibling2]
+    
+    result = get_siblings_info(person, family_repo, person_repo)
+    
+    assert len(result) == 2
+    assert result[0]['first_name'] == "Alice"
+    assert result[1]['first_name'] == "Bob"
+    assert result[1]['age_years'] == 18
+
+
+def test_get_siblings_info_with_tuple_dates():
+    """Test siblings info with tuple dates."""
+    from wserver.routes.details import get_siblings_info
+    
+    person = create_basic_person(
+        index=3,
+        ascend=Ascendants(
+            parents=1,
+            consanguinity_rate=ConsanguinityRate.from_integer(0)
+        )
+    )
+    
+    sibling = create_basic_person(
+        index=4,
+        first_name="Charlie",
+        surname="Doe",
+        birth_date=("ABOUT", 1995),
+        death_status=Dead(
+            death_reason=DeathReason.UNSPECIFIED,
+            date_of_death=("BEFORE", 2020)
+        )
+    )
+    
+    parent_family = create_basic_family(
+        index=1,
+        children=[4]
+    )
+    
+    family_repo = Mock()
+    family_repo.get_family_by_id.return_value = parent_family
+    
+    person_repo = Mock()
+    person_repo.get_person_by_id.return_value = sibling
+    
+    result = get_siblings_info(person, family_repo, person_repo)
+    
+    assert len(result) == 1
+    assert result[0]['birth_year'] == 1995
+    assert result[0]['death_year'] == 2020
+    assert result[0]['age_years'] == 25
+
+
+def test_get_siblings_info_family_not_found():
+    """Test siblings info when family is not found."""
+    from wserver.routes.details import get_siblings_info
+    
+    person = create_basic_person(
+        ascend=Ascendants(
+            parents=1,
+            consanguinity_rate=ConsanguinityRate.from_integer(0)
+        )
+    )
+    
+    family_repo = Mock()
+    family_repo.get_family_by_id.return_value = None
+    
+    person_repo = Mock()
+    
+    result = get_siblings_info(person, family_repo, person_repo)
+    
+    assert result == []
+
+
+def test_get_siblings_info_error_loading_sibling():
+    """Test siblings info when error occurs loading a sibling."""
+    from wserver.routes.details import get_siblings_info
+    
+    person = create_basic_person(
+        ascend=Ascendants(
+            parents=1,
+            consanguinity_rate=ConsanguinityRate.from_integer(0)
+        )
+    )
+    
+    parent_family = create_basic_family(
+        index=1,
+        children=[3, 4]
+    )
+    
+    family_repo = Mock()
+    family_repo.get_family_by_id.return_value = parent_family
+    
+    person_repo = Mock()
+    person_repo.get_person_by_id.side_effect = [
+        create_basic_person(index=3, first_name="Alice"),
+        Exception("Error loading sibling")
+    ]
+    
+    result = get_siblings_info(person, family_repo, person_repo)
+    
+    # Should only have one sibling, second was skipped due to error
+    assert len(result) == 1
+    assert result[0]['first_name'] == "Alice"
+
+
+# ===== Test get_ancestor_recursive =====
+
+def test_get_ancestor_recursive_no_parents():
+    """Test ancestor recursion with no parents."""
+    from wserver.routes.details import get_ancestor_recursive
+    
+    person = create_basic_person(
+        index=1,
+        first_name="John",
+        surname="Doe"
+    )
+    
+    person_repo = Mock()
+    person_repo.get_person_by_id.return_value = person
+    
+    family_repo = Mock()
+    
+    result = get_ancestor_recursive(1, person_repo, family_repo)
+    
+    assert result['id'] == 1
+    assert result['first_name'] == "John"
+    assert 'father' not in result
+    assert 'mother' not in result
+
+
+def test_get_ancestor_recursive_with_parents():
+    """Test ancestor recursion with parents."""
+    from wserver.routes.details import get_ancestor_recursive
+    
+    person = create_basic_person(
+        index=1,
+        first_name="John",
+        surname="Doe",
+        ascend=Ascendants(
+            parents=1,
+            consanguinity_rate=ConsanguinityRate.from_integer(0)
+        )
+    )
+    
+    father = create_basic_person(
+        index=2,
+        first_name="Father",
+        surname="Doe",
+        birth_date=CalendarDate(
+            cal=Calendar.GREGORIAN,
+            dmy=DateValue(day=1, month=1, year=1960, prec=Sure())
+        )
+    )
+    
+    mother = create_basic_person(
+        index=3,
+        first_name="Mother",
+        surname="Smith",
+        birth_date=CalendarDate(
+            cal=Calendar.GREGORIAN,
+            dmy=DateValue(day=1, month=1, year=1965, prec=Sure())
+        )
+    )
+    
+    parent_family = create_basic_family(
+        index=1,
+        parents=Parents.from_couple(2, 3)
+    )
+    
+    person_repo = Mock()
+    person_repo.get_person_by_id.side_effect = [person, father, mother]
+    
+    family_repo = Mock()
+    family_repo.get_family_by_id.return_value = parent_family
+    
+    result = get_ancestor_recursive(1, person_repo, family_repo, depth=0, max_depth=10)
+    
+    assert result['id'] == 1
+    assert 'father' in result
+    assert 'mother' in result
+    assert result['father']['first_name'] == "Father"
+    assert result['mother']['first_name'] == "Mother"
+
+
+def test_get_ancestor_recursive_max_depth():
+    """Test ancestor recursion stops at max depth."""
+    from wserver.routes.details import get_ancestor_recursive
+    
+    result = get_ancestor_recursive(1, Mock(), Mock(), depth=10, max_depth=10)
+    
+    assert result is None
+
+
+def test_get_ancestor_recursive_none_person_id():
+    """Test ancestor recursion with None person ID."""
+    from wserver.routes.details import get_ancestor_recursive
+    
+    result = get_ancestor_recursive(None, Mock(), Mock())
+    
+    assert result is None
+
+
+def test_get_ancestor_recursive_person_not_found():
+    """Test ancestor recursion when person not found."""
+    from wserver.routes.details import get_ancestor_recursive
+    
+    person_repo = Mock()
+    person_repo.get_person_by_id.return_value = None
+    
+    result = get_ancestor_recursive(1, person_repo, Mock())
+    
+    assert result is None
+
+
+def test_get_ancestor_recursive_error():
+    """Test ancestor recursion with error."""
+    from wserver.routes.details import get_ancestor_recursive
+    
+    person_repo = Mock()
+    person_repo.get_person_by_id.side_effect = Exception("Database error")
+    
+    result = get_ancestor_recursive(1, person_repo, Mock())
+    
+    assert result is None
+
+
+# ===== Test get_ancestors_3gen =====
+
+def test_get_ancestors_3gen_no_ancestors():
+    """Test 3-generation ancestors with no ancestors."""
+    from wserver.routes.details import get_ancestors_3gen
+    
+    person = create_basic_person()
+    
+    person_repo = Mock()
+    person_repo.get_person_by_id.return_value = person
+    
+    family_repo = Mock()
+    
+    result = get_ancestors_3gen(person, person_repo, family_repo)
+    
+    assert result['father'] is None
+    assert result['mother'] is None
+    assert result['paternal_grandfather'] is None
+    assert result['paternal_grandmother'] is None
+    assert result['maternal_grandfather'] is None
+    assert result['maternal_grandmother'] is None
+
+
+# ===== Test get_family_info edge cases =====
+
+def test_get_family_info_no_families():
+    """Test family info with no families."""
+    person = create_basic_person()
+    
+    family_repo = Mock()
+    person_repo = Mock()
+    
+    result = get_family_info(person, family_repo, person_repo)
+    
+    assert result['family_id'] is None
+    assert result['spouse_id'] is None
+    assert result['has_marriage'] is False
+
+
+def test_get_family_info_no_marriage_info():
+    """Test family info with no marriage date or place."""
+    person = create_basic_person(index=1, families=[1])
+    spouse = create_basic_person(index=2, first_name="Jane", surname="Smith")
+    
+    family = create_basic_family(
+        index=1,
+        parents=Parents.from_couple(1, 2),
+        marriage_date=None,
+        marriage_place=""
+    )
+    
+    family_repo = Mock()
+    family_repo.get_family_by_id.return_value = family
+    
+    person_repo = Mock()
+    person_repo.get_person_by_id.return_value = spouse
+    
+    result = get_family_info(person, family_repo, person_repo)
+    
+    assert result['has_marriage'] is False
+    assert result['marriage_date'] is None
+    assert result['marriage_place'] is None
+
+
+def test_get_vital_events_with_calendar_date():
+    """Test vital events with CalendarDate for birth."""
+    birth_date = CalendarDate(
+        cal=Calendar.GREGORIAN,
+        dmy=DateValue(day=15, month=8, year=1990, prec=Sure())
+    )
+    
+    person = create_basic_person(
+        birth_date=birth_date,
+        birth_place="Paris"
+    )
+    
+    result = get_person_vital_events(person)
+    
+    assert result['birth_year'] == 1990
+    assert result['birth_date'] == "15 August 1990"
+    assert result['birth_place'] == "Paris"

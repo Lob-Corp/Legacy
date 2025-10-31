@@ -37,6 +37,8 @@ class PersonRepository:
             person = self.db_service.get(
                 session, db_person.Person, {"id": person_id}
             )
+            print("PERSON")
+            print(person)
             if person is None:
                 raise ValueError(f"Person with id {person_id} not found")
 

@@ -8,7 +8,7 @@ from ..routes.gwd_root_impl import implem_route_gwd_root
 from .anm_impl import implem_route_ANM
 from .an_impl import implem_route_AN
 from .titles import route_titles
-from flask import Blueprint, request
+from flask import Blueprint, request, g
 
 gwd_bp = Blueprint('gwd', __name__, url_prefix='/gwd')
 
@@ -63,8 +63,10 @@ def route_A(base):
 
 
 @gwd_bp.route('<base>/details', methods=['GET', 'POST'], strict_slashes=False)
-@gwd_bp.route('<base>/details?<lang>', methods=['GET', 'POST'])
-def route_details(base, lang='en'):
+def route_details(base):
+    lang = request.args.get('lang')
+    # Set g.locale for Flask-Babel to use
+    g.locale = lang
     return implem_gwd_details(base, lang)
 
 
