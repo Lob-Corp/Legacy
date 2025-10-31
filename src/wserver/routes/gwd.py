@@ -1,3 +1,4 @@
+from .details import implem_gwd_details
 from wserver.routes.fiefs import route_fiefs
 from .homepage import route_homepage
 from .search import route_search
@@ -58,6 +59,12 @@ def gwd_root():
 @gwd_bp.route('<base>/A/', methods=['GET', 'POST'])
 def route_A(base):
     raise NotImplementedError("Route A not implemented yet")
+
+
+@gwd_bp.route('<base>/details', methods=['GET', 'POST'], strict_slashes=False)
+@gwd_bp.route('<base>/details?<lang>', methods=['GET', 'POST'])
+def route_details(base, lang='en'):
+    return implem_gwd_details(base, lang)
 
 
 @gwd_bp.route('<base>/ADD_FAM/', methods=['GET', 'POST'], strict_slashes=False)
