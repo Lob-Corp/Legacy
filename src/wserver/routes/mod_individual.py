@@ -1404,7 +1404,7 @@ def handle_mod_individual_post(
             )
             personal_events.append(burial_event)
         elif isinstance(burial, burial_info.Cremated) \
-                and burial.cremation_date:
+            and burial.cremation_date:
             cremation_event = app_events.PersonalEvent(
                 name=app_events.PersCremation(),
                 date=burial.cremation_date,
