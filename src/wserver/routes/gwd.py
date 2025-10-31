@@ -2,6 +2,7 @@ from wserver.routes.fiefs import route_fiefs
 from .homepage import route_homepage
 from .search import route_search
 from .add_family import implem_route_ADD_FAM
+from .mod_individual import implem_route_MOD_IND
 from ..routes.gwd_root_impl import implem_route_gwd_root
 from .anm_impl import implem_route_ANM
 from .an_impl import implem_route_AN
@@ -334,6 +335,21 @@ def route_LM(base):
 @gwd_bp.route('<base>/MRG/', methods=['GET', 'POST'])
 def route_MRG(base):
     raise NotImplementedError("Route MRG not implemented yet")
+
+
+@gwd_bp.route('<base>/MOD_FAM/', methods=['GET', 'POST'])
+@gwd_bp.route('<base>/MOD_FAM/<lang>', methods=['GET', 'POST'])
+def route_MOD_FAM(base, lang='en'):
+    raise NotImplementedError("Route MOD_FAM not implemented yet")
+
+
+@gwd_bp.route('<base>/modify_individual', methods=['GET', 'POST'])
+def route_MOD_IND(base):
+    id = request.args.get('id', type=int)
+    lang = request.args.get('lang', 'en')
+    if id is None:
+        return "Missing 'id' parameter", 400
+    return implem_route_MOD_IND(base, id, lang)
 
 
 @gwd_bp.route('<base>/MRG_DUP/', methods=['GET', 'POST'])
