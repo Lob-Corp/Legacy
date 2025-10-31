@@ -479,6 +479,16 @@ def convert_person_from_db(
         ascend_family = None
         consanguinity_rate = libraries.consanguinity_rate.ConsanguinityRate(0)
 
+    print("BIRTH DATE OBJECT")
+    print(to_convert.birth_date)
+    print(to_convert.first_name)
+    print(to_convert.surname)
+    print(to_convert.birth_date_obj)
+    print((
+        convert_date_from_db(to_convert.birth_date_obj)
+        if to_convert.birth_date_obj else None
+    ))
+
     return libraries.person.Person(
         index=to_convert.id,
         first_name=to_convert.first_name,
