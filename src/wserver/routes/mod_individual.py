@@ -3,6 +3,7 @@ Implementation of the MOD_IND route - Individual modification page.
 """
 
 from flask import render_template, request, g, redirect, url_for, jsonify
+from typing import Union
 from datetime import date
 from typing import Optional, Dict, Any, List, Tuple
 import hashlib
@@ -128,7 +129,7 @@ def parse_date_with_fallback(
 
 def parse_witness_from_form(
     form_data: Dict,
-    event_identifier: str,
+    event_identifier: Union[str, int],
     witness_num: int,
     person_repo: PersonRepository,
 ) -> Optional[Tuple[int, app_events.EventWitnessKind]]:
