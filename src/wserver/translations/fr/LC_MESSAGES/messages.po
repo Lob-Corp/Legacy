@@ -3769,7 +3769,7 @@ msgstr "ans"
 #: templates/gwd/details.html:199
 msgid "Add family"
 msgstr "Ajouter une famille"
-
+w
 #: templates/gwd/details.html:93
 msgid "Add parents of"
 msgstr "Ajouter parents de"
