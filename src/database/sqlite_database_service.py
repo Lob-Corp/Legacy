@@ -3,6 +3,56 @@ from sqlalchemy.orm import sessionmaker, Session
 from typing import TypeVar, Type, List, Optional
 from database import Base
 
+from .ascends import Ascends
+from .couple import Couple
+from .date import Date
+from .descend_children import DescendChildren
+from .descends import Descends
+from .family import Family
+from .family_event import FamilyEvent
+from .family_event_witness import FamilyEventWitness
+from .family_events import FamilyEvents
+from .family_witness import FamilyWitness
+from .person import Person
+from .person_event_witness import PersonEventWitness
+from .person_events import PersonEvents
+from .person_non_native_relations import (
+    PersonNonNativeRelations,
+)
+from .person_relations import PersonRelations
+from .person_titles import PersonTitles
+from .personal_event import PersonalEvent
+from .place import Place
+from .relation import Relation
+from .titles import Titles
+from .union_families import UnionFamilies
+from .unions import Unions
+
+_models = (
+    Ascends,
+    Couple,
+    Date,
+    DescendChildren,
+    Descends,
+    Family,
+    FamilyEvent,
+    FamilyEventWitness,
+    FamilyEvents,
+    FamilyWitness,
+    Person,
+    PersonEventWitness,
+    PersonEvents,
+    PersonNonNativeRelations,
+    PersonRelations,
+    PersonTitles,
+    PersonalEvent,
+    Place,
+    Relation,
+    Titles,
+    UnionFamilies,
+    Unions,
+)
+del _models
 
 ModelType = TypeVar("ModelType", bound=Base)
 
