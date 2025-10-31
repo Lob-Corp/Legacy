@@ -20,7 +20,7 @@
         <ul>
           {% for p in sec['items'] %}
             <li>
-              <a href="{{ prefix }}details?lang={{ lang }}&n={{ p.surname|urlencode }}&p={{ p.given|urlencode }}&i={{ p.occ }}">{{ p.name }}</a>
+              <a href="{{ prefix }}details?lang={{ lang }}&n={{ p.surname|urlencode }}&p={{ p.given|urlencode }}&i={{ p.id }}">{{ p.name }}</a>
             </li>
           {% endfor %}
         </ul>
