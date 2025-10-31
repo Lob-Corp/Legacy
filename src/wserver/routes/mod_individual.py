@@ -17,7 +17,6 @@ import libraries.burial_info as burial_info
 import libraries.title as app_title
 import libraries.events as app_events
 import libraries.family as app_family
-from database.person import Person
 
 
 def find_person_by_name(
@@ -367,8 +366,8 @@ def convert_person_to_template_context(
             getattr(death_info.DeathReason, "KILLED", None): "killed",
             getattr(death_info.DeathReason, "MURDERED", None): "murdered",
             getattr(death_info.DeathReason, "EXECUTED", None): "executed",
-            getattr(death_info.DeathReason, "DISAPPEARED", None): \
-                                                            "disappeared",
+            getattr(death_info.DeathReason, "DISAPPEARED", None):
+            "disappeared",
             getattr(death_info.DeathReason, "UNSPECIFIED", None): "dead",
         }
         death_status = reason_map.get(reason, "dead")
@@ -548,8 +547,8 @@ def convert_person_to_template_context(
         "alias": person_obj.aliases,
         "alt_first_names": person_obj.first_names_aliases,
         "surnames": person_obj.surname_aliases,
-        "occupations": \
-            [person_obj.occupation] if person_obj.occupation else [],
+        "occupations":
+        [person_obj.occupation] if person_obj.occupation else [],
         "source": person_obj.src,
         "death_status": death_status,
         "birth": {
@@ -996,8 +995,8 @@ def handle_mod_individual_post(
             "recognized_parents": app_family.RelationToParentType.RECOGNITION,
             "candidate": app_family.RelationToParentType.CANDIDATEPARENT,
             "candidateparent": app_family.RelationToParentType.CANDIDATEPARENT,
-            "possible_parents": \
-                app_family.RelationToParentType.CANDIDATEPARENT,
+            "possible_parents":
+            app_family.RelationToParentType.CANDIDATEPARENT,
             "godparent": app_family.RelationToParentType.GODPARENT,
             "godparents": app_family.RelationToParentType.GODPARENT,
             "foster": app_family.RelationToParentType.FOSTERPARENT,
@@ -1015,14 +1014,14 @@ def handle_mod_individual_post(
         # Determine father/mother IDs
         father_id = None
         if father_id_str and father_id_str.isdigit() \
-                        and int(father_id_str) > 0:
+                and int(father_id_str) > 0:
             father_id = int(father_id_str)
         else:
             father_id = parse_relation_parent(i, "fath")
 
         mother_id = None
         if mother_id_str and mother_id_str.isdigit() \
-                        and int(mother_id_str) > 0:
+                and int(mother_id_str) > 0:
             mother_id = int(mother_id_str)
         else:
             mother_id = parse_relation_parent(i, "moth")
@@ -1405,7 +1404,7 @@ def handle_mod_individual_post(
             )
             personal_events.append(burial_event)
         elif isinstance(burial, burial_info.Cremated) \
-            and burial.cremation_date:
+                and burial.cremation_date:
             cremation_event = app_events.PersonalEvent(
                 name=app_events.PersCremation(),
                 date=burial.cremation_date,

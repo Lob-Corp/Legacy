@@ -157,8 +157,8 @@ class PersonRepository:
             # Death
             death_status, death_reason, death_date = \
                 convert_death_status_to_db(
-                person.death_status
-            )
+                    person.death_status
+                )
             existing_person.death_status = death_status
             existing_person.death_reason = death_reason
             if death_date is None:
