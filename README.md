@@ -71,6 +71,15 @@ make deploy-prod
 - **[Golden Master Testing](docs/tests/GOLDEN_MASTER.md)** - Testing approach and scenarios
 - **[OCaml to Python Translation](docs/OCAML_TO_PYTHON.md)** - Reference for OCaml-to-Python differences
 
+### Generate Sphinx documentation
+Sphinx is a code documentation generator, to create run:
+```bash
+cd sphinx-docs
+make html
+```
+
+Then, run the `sphinx-docs/build/html/index.html` file with your webrowser.
+
 ## Quick Start
 
 ### Creating a Database from .gw Files

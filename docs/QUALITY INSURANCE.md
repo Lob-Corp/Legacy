@@ -186,3 +186,135 @@ pytest tests/gwc_database_roundtrip/
 ```
 
 See [Testing Policy](TESTING_POLICY.md) for detailed guidelines, standards, and best practices.
+
+---
+
+## Code Quality Principles
+
+To maintain high code quality and ensure maintainability, all contributors should follow these core software engineering principles:
+
+### DRY (Don't Repeat Yourself)
+
+**Principle**: Avoid code duplication by extracting common logic into reusable functions, classes, or modules.
+
+**Benefits**:
+- Easier maintenance (fix bugs once, not multiple times)
+- Reduced risk of inconsistencies
+- Smaller codebase
+
+**Example**:
+```python
+# ❌ Bad: Duplicated logic
+def save_person_to_db(person):
+    if not person.name:
+        raise ValueError("Name required")
+    db.save(person)
+
+def save_family_to_db(family):
+    if not family.id:
+        raise ValueError("ID required")
+    db.save(family)
+
+# ✅ Good: Extracted common logic
+def validate_and_save(entity, required_field):
+    if not getattr(entity, required_field):
+        raise ValueError(f"{required_field} required")
+    db.save(entity)
+```
+
+---
+
+### SOLID Principles
+
+#### S - Single Responsibility Principle
+Each class or function should have one, and only one, reason to change.
+
+#### O - Open/Closed Principle
+Software entities should be open for extension but closed for modification.
+
+#### L - Liskov Substitution Principle
+Subtypes must be substitutable for their base types.
+
+#### I - Interface Segregation Principle
+Clients should not be forced to depend on interfaces they don't use.
+
+#### D - Dependency Inversion Principle
+Depend on abstractions, not concretions. Use dependency injection.
+
+---
+
+### DAMP (Descriptive And Meaningful Phrases)
+
+**Principle**: In tests, prioritize readability over strict DRY. Tests should be clear and self-documenting.
+
+**Guidelines**:
+- Use descriptive test names that explain what is being tested
+- Prefer explicit setup over shared fixtures when it improves clarity
+- Duplicate setup code in tests if it makes them easier to understand
+- Follow AAA pattern (Arrange, Act, Assert)
+
+**Example**:
+```python
+# ✅ Good: Clear, self-documenting test
+def test_person_with_birth_date_calculates_age_correctly():
+    # Arrange
+    birth_date = Date(year=1990, month=1, day=1)
+    person = Person(name="John", birth_date=birth_date)
+    
+    # Act
+    age = person.calculate_age(reference_date=Date(2025, 1, 1))
+    
+    # Assert
+    assert age == 35
+```
+
+---
+
+### TDD (Test-Driven Development)
+
+**Principle**: Write tests before implementing functionality.
+
+**TDD Cycle (Red-Green-Refactor)**:
+1. **Red**: Write a failing test for the desired functionality
+2. **Green**: Write the minimum code to make the test pass
+3. **Refactor**: Improve the code while keeping tests passing
+
+**Benefits**:
+- Better test coverage by design
+- Clearer requirements and interface design
+- Reduced debugging time
+- More modular, testable code
+
+**When to use TDD**:
+- ✅ New features with clear requirements
+- ✅ Bug fixes (write test that reproduces bug, then fix)
+- ✅ Refactoring (tests ensure behavior preserved)
+- ⚠️ Exploratory/prototype code (can add tests after direction is clear)
+
+**Example workflow**:
+```bash
+# 1. Write failing test
+def test_parse_date_with_about_precision():
+    result = parse_date("~1950")
+    assert result.precision == About()  # ❌ FAILS
+
+# 2. Implement minimal code
+def parse_date(date_str: str):
+    if date_str.startswith("~"):
+        return Date(year=int(date_str[1:]), precision=About())
+    # ... ✅ PASSES
+
+# 3. Refactor and add more cases
+# Add edge cases, improve implementation
+```
+
+---
+
+### Applying These Principles in GenewebPy
+
+- **Parser modules**: Each parser (date, person, family) has a single responsibility (SRP)
+- **Repository pattern**: Database operations abstracted behind interfaces (DIP)
+- **Converter modules**: Separate concerns of parsing vs. database operations (SRP)
+- **Test organization**: Unit, integration, and E2E tests follow DAMP with descriptive names
+- **Type hints**: Enforced via MyPy for better maintainability and catching errors early
+
