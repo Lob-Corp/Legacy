@@ -107,7 +107,7 @@
               </a>
             </li>
             <li class="nav-item">
-              <a class="nav-link " id="mod_ind" href="?m=MOD_IND&amp;&i{{ person_id }}"
+              <a class="nav-link " id="MOD_IND" href="{{ url_for('gwd.route_MOD_IND', base=base, lang=lang) }}&id={{ person_id }}"
                 title="{{ _('Update individual') }} {{ first_name|title }} {{ surname|title }} (P)" accesskey="P"><span
                   class="fa fa-user-pen fa-fw male" aria-hidden="true"></span><span class="sr-only">{{ _('Update
                   individual') }}
@@ -131,17 +131,17 @@
                   target="_blank"><i class="fa fa-link-slash fa-fw mr-2" title="{{ _('Without GeneWeb links') }}"></i>{{
                   _('Without GeneWeb links') }}</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="?m=CHG_EVT_IND_ORD&amp;&i{{ person_id }}"
+                <a class="dropdown-item" href="?m=CHG_EVT_IND_ORD&amp;&i={{ person_id }}"
                   title="{{ _('Change order of individual events') }}"><span class="fa fa-sort fa-fw mr-2"></span>{{
                   _('Reverse events') }}</a>
-                <a class="dropdown-item" href="?m=SND_IMAGE&amp;&i{{ person_id }}">
+                <a class="dropdown-item" href="?m=SND_IMAGE&amp;&i={{ person_id }}">
                   <i class="far fa-file-image fa-fw mr-2"></i>{{ _('Add picture') }}</a>
                 <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="?m=MRG&amp;&i{{ person_id }}"
+                <a class="dropdown-item" href="?m=MRG&amp;&i={{ person_id }}"
                   title="{{ _('Merge') }} {{ first_name|title }}.0 {{ surname|title }} {{ _('with…') }}"><span
                     class="fa fa-compress fa-fw text-danger mr-2"></span>{{ _('Merge individuals') }}</a>
                 <a class="dropdown-item"
-                  href="&p={{ first_name }}&amp;n={{ surname }}&amp;m=DEL_IND&amp;&i{{ person_id }}"
+                  href="&p={{ first_name }}&amp;n={{ surname }}&amp;m=DEL_IND&amp;&i={{ person_id }}"
                   title="{{ _('Delete') }} {{ first_name|title }} {{ surname|title }}"><span
                     class="fa fa-trash-can fa-fw text-danger mr-2"></span>{{ _('Delete individual') }}</a>
                 <a class="dropdown-item" href="?m=MRG_DUP&amp;ip={{ person_id }}">{{ _('Merge possible duplications')
@@ -180,7 +180,7 @@
               </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link " id="mod_fam_1" href="?m=MOD_FAM&amp;&i{{ family_id }}&amp;ip={{ person_id }}"
+              <a class="nav-link " id="mod_fam_1" href="?m=MOD_FAM&amp;&i={{ family_id }}&amp;ip={{ person_id }}"
                 title="{{ _('Update family with') }} {{ spouse_first_name|title }} {{ spouse_surname|title }} (F)"
                 accesskey="F"><span class="fa fa-user-pen male" aria-hidden="true"></span><span
                   class="fa fa-user female" aria-hidden="true"></span><span class="sr-only"> {{ _('Update family with')
@@ -202,10 +202,10 @@
                 <span class="dropdown-header">{{ _('Marriage with') }} {{ spouse_first_name|title }} {{
                   spouse_surname|title
                   }}</span>
-                <a class="dropdown-item" href="?m=CHG_EVT_FAM_ORD&amp;&i{{ family_id }}&amp;ip={{ person_id }}"
+                <a class="dropdown-item" href="?m=CHG_EVT_FAM_ORD&amp;&i={{ family_id }}&amp;ip={{ person_id }}"
                   title="{{ _('Change order of family events') }}"><span class="fa fa-sort fa-fw mr-2"></span>{{
                   _('Reverse events') }}</a>
-                <a class="dropdown-item" href="?m=DEL_FAM&amp;&i{{ family_id }}&amp;ip={{ person_id }}"><span
+                <a class="dropdown-item" href="?m=DEL_FAM&amp;&i={{ family_id }}&amp;ip={{ person_id }}"><span
                     class="fa fa-trash fa-fw text-danger mr-2"></span>{{ _('Delete family') }}</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="?m=CHG_CHN&amp;ip={{ person_id }}"><span
@@ -263,7 +263,7 @@
               </div>
             </li>
             <li class="nav-item">
-              <a class="nav-link text-secondary" href="?m=SND_IMAGE_C&amp;&i{{ person_id }}"
+              <a class="nav-link text-secondary" href="?m=SND_IMAGE_C&amp;&i={{ person_id }}"
                 title="{{ _('Add/delete pictures') }} (I)" accesskey="I">
                 <span class="fa fa-image fa-fw" aria-hidden="true"></span><span class="sr-only">{{ _('Add/delete
                   pictures') }}</span></a>
@@ -373,7 +373,7 @@
           {% if has_marriage %}
           <ul class="pl-4 py-0">
             <li style="vertical-align: middle;list-style-type: circle">
-              <a href="?m=MOD_FAM&amp;&i{{ family_id }}&amp;ip={{ person_id }}"><i class="fa fa-wrench fa-xs male"
+              <a href="?m=MOD_FAM&amp;&i={{ family_id }}&amp;ip={{ person_id }}"><i class="fa fa-wrench fa-xs male"
                   title="{{ _('Update family with') }} {{ spouse_first_name|title }} {{ spouse_surname|title }}"></i></a> {{ _('Married') }}
               <span class="date">{{ _('on') }}&nbsp;{{ marriage_date }}</span>{% if
               marriage_place %} {{ _('in') }} {{ marriage_place }}{% endif %} {{ _('to') }} <a
@@ -393,12 +393,12 @@
               {% endif %}
               {% for child in children %}
               <ul>
-                <li style="vertical-align: middle;list-style-type: circle;"><a href="?m=MOD_IND&amp;&i{{ child.id }}"
+                <li style="vertical-align: middle;list-style-type: circle;"><a href="{{ url_for('gwd.route_MOD_IND', base=base, lang=lang) }}&id={{ child.id }}"
                     title="{{ _('Update') }} {{ child.first_name|title }} {{ child.surname|title }}">
                     <i class="fa fa-neuter neuter fa-xs mr-1"></i></a><a
                     href="{{ url_for('gwd.route_details', base=base, lang=lang) }}&p={{ child.first_name }}&amp;n={{ child.surname }}"
                     title="{{ _('Display') }} {{ child.first_name|title }} {{ child.surname|title }}">{{ child.first_name|title }}
-                    {{ child.surname|title }}</a><a href="?m=MOD_IND&amp;&i{{ child.id }}"><span
+                    {{ child.surname|title }}</a><a href="{{ url_for('gwd.route_MOD_IND', base=base, lang=lang) }}&id={{ child.id }}"><span
                       class="text-nowrap font-italic"
                       title="{{ _('Update') }} {{ child.first_name|title }} {{ child.surname|title }} ({{ child.age_years|default('?') }} {{ _('years') }})">
                       <bdo dir=ltr>{{ child.birth_year|default('?') }}-{{ child.death_year|default('?')
@@ -598,7 +598,7 @@
                   <span>{{ ancestors.father.father.first_name|upper }}</span><br>
                   <span class="text-nowrap">{{ ancestors.father.father.surname|upper }}</span>
                 </a><br>
-                <a href="?m=MOD_IND&amp;&i{{ ancestors.father.father.id }}"
+                <a href="{{ url_for('gwd.route_MOD_IND', base=base, lang=lang) }}&id={{ ancestors.father.father.id }}"
                   title="Update {{ ancestors.father.father.first_name|title }} {{ ancestors.father.father.surname|title }}">
                   <div class="text-nowrap font-italic"
                     title="Update {{ ancestors.father.father.first_name|title }} {{ ancestors.father.father.surname|title }}">
@@ -619,7 +619,7 @@
                   <span>{{ ancestors.mother.father.first_name|upper }}</span><br>
                   <span class="text-nowrap">{{ ancestors.mother.father.surname|upper }}</span>
                 </a><br>
-                <a href="?m=MOD_IND&amp;&i{{ ancestors.mother.father.id }}"
+                <a href="{{ url_for('gwd.route_MOD_IND', base=base, lang=lang) }}&id={{ ancestors.mother.father.id }}"
                   title="Update {{ ancestors.mother.father.first_name|title }} {{ ancestors.mother.father.surname|title }}">
                   <div class="text-nowrap font-italic"
                     title="Update {{ ancestors.mother.father.first_name|title }} {{ ancestors.mother.father.surname|title }}">
@@ -642,7 +642,7 @@
                   <span>{{ ancestors.father.mother.first_name|upper }}</span><br>
                   <span class="text-nowrap">{{ ancestors.father.mother.surname|upper }}</span>
                 </a><br>
-                <a href="?m=MOD_IND&amp;&i{{ ancestors.father.mother.id }}"
+                <a href="{{ url_for('gwd.route_MOD_IND', base=base, lang=lang) }}&id={{ ancestors.father.mother.id }}"
                   title="Update {{ ancestors.father.mother.first_name|title }} {{ ancestors.father.mother.surname|title }}">
                   <div class="text-nowrap font-italic"
                     title="Update {{ ancestors.father.mother.first_name|title }} {{ ancestors.father.mother.surname|title }}">
@@ -663,7 +663,7 @@
                   <span>{{ ancestors.mother.mother.first_name|upper }}</span><br>
                   <span class="text-nowrap">{{ ancestors.mother.mother.surname|upper }}</span>
                 </a><br>
-                <a href="?m=MOD_IND&amp;&i{{ ancestors.mother.mother.id }}"
+                <a href="{{ url_for('gwd.route_MOD_IND', base=base, lang=lang) }}&id={{ ancestors.mother.mother.id }}"
                   title="Update {{ ancestors.mother.mother.first_name|title }} {{ ancestors.mother.mother.surname|title }}">
                   <div class="text-nowrap font-italic"
                     title="Update {{ ancestors.mother.mother.first_name|title }} {{ ancestors.mother.mother.surname|title }}">
@@ -718,7 +718,7 @@
                   <span>{{ ancestors.father.first_name|upper }}</span><br>
                   <span class="text-nowrap">{{ ancestors.father.surname|upper }}</span>
                 </a><br>
-                <a href="?m=MOD_IND&amp;&i{{ ancestors.father.id }}"
+                <a href="{{ url_for('gwd.route_MOD_IND', base=base, lang=lang) }}&id={{ ancestors.father.id }}"
                   title="{{ _('Update') }} {{ ancestors.father.first_name|title }} {{ ancestors.father.surname|title }}">
                   <div class="text-nowrap font-italic"
                     title="{{ _('Update') }} {{ ancestors.father.first_name|title }} {{ ancestors.father.surname|title }}">
@@ -740,7 +740,7 @@
                   <span>{{ ancestors.mother.first_name|upper }}</span><br>
                   <span class="text-nowrap">{{ ancestors.mother.surname|upper }}</span>
                 </a><br>
-                <a href="?m=MOD_IND&amp;&i{{ ancestors.mother.id }}"
+                <a href="{{ url_for('gwd.route_MOD_IND', base=base, lang=lang) }}&id={{ ancestors.mother.id }}"
                   title="{{ _('Update') }} {{ ancestors.mother.first_name|title }} {{ ancestors.mother.surname|title }}">
                   <div class="text-nowrap font-italic"
                     title="{{ _('Update') }} {{ ancestors.mother.first_name|title }} {{ ancestors.mother.surname|title }}">
@@ -805,7 +805,7 @@
                   <span>{{ first_name|upper }}</span><br>
                   <span class="text-nowrap">{{ surname|upper }}</span>
                 </a><br>
-                <a href="?m=MOD_IND&amp;&i{{ person_id }}" title="{{ _('Update') }} {{ first_name|title }} {{ surname|title }}">
+                <a href="{{ url_for('gwd.route_MOD_IND', base=base, lang=lang) }}&id={{ person_id }}" title="{{ _('Update') }} {{ first_name|title }} {{ surname|title }}">
                   <div class="text-nowrap font-italic"
                     title="{{ _('Update') }} {{ first_name|title }} {{ surname|title }} ({{ age_at_death|default('?') }} {{ _('old') }})">
                     <bdo dir=ltr>{{ birth_year|default('?') }}-{{ death_year|default('?') }}</bdo>
@@ -849,7 +849,7 @@
           <ul>
             {% for sibling in siblings %}
             <li style="vertical-align: middle;list-style-type: circle;">
-              <a href="?m=MOD_IND&amp;&i{{ sibling.id }}"
+              <a href="{{ url_for('gwd.route_MOD_IND', base=base, lang=lang) }}&id={{ sibling.id }}"
                 title="{{ _('Update') }} {{ sibling.first_name|title }} {{ sibling.surname|title }}">
                 <i class="fa fa-neuter neuter fa-xs mr-1"></i>
               </a>
@@ -861,7 +861,7 @@
                 {{ sibling.first_name|title }} {{ sibling.surname|title }}
               </a>
               {% endif %}
-              <a href="?m=MOD_IND&amp;&i{{ sibling.id }}">
+              <a href="{{ url_for('gwd.route_MOD_IND', base=base, lang=lang) }}&id={{ sibling.id }}">
                 <span class="text-nowrap font-italic"
                   title="{{ _('Update') }} {{ sibling.first_name|title }} {{ sibling.surname|title }} ({{ sibling.age_years|default('?') }} {{ _('years') }})">
                   <bdo dir=ltr>{{ sibling.birth_year|default('?') }}-{{ sibling.death_year|default('?') }}</bdo>
