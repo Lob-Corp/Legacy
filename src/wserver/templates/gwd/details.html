@@ -764,12 +764,24 @@
           {% if siblings %}
           <h2 class="mt-2 mt-lg-0 w-100">
             Siblings
+            {% set current_index = -1 %}
+            {% for sibling in siblings %}
+              {% if sibling.id == person_id %}
+                {% set current_index = loop.index0 %}
+              {% endif %}
+            {% endfor %}
+            {% if current_index > 0 %}
+            <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?p={{ siblings[current_index - 1].first_name }}&amp;n={{ siblings[current_index - 1].surname }}" title="Previous sibling" id="prev-sibling-link">
+              <i class="fa fa-caret-left fa-sm text-success"></i>
+            </a>
+            {% else %}
             <span class="fa fa-caret-left invisible"></span>
+            {% endif %}
             <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?p={{ first_name }}&amp;n={{ surname }}&amp;m=D&amp;t=T&amp;v=1">
               <img class="mb-1" src="{{ url_for('static', filename='images/gui_create.png') }}" height="20" alt="Tree" title="Tree siblings (with spouses)">
             </a>
-            {% if siblings|length > 1 %}
-            <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?p={{ siblings[1].first_name }}&amp;n={{ siblings[1].surname }}" title="Next sibling">
+            {% if current_index >= 0 and current_index < siblings|length - 1 %}
+            <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?p={{ siblings[current_index + 1].first_name }}&amp;n={{ siblings[current_index + 1].surname }}" title="Next sibling" id="next-sibling-link">
               <i class="fa fa-caret-right fa-sm text-success"></i>
             </a>
             {% endif %}
@@ -780,7 +792,7 @@
               <a href="?m=MOD_IND&amp;i={{ sibling.id }}" title="Update {{ sibling.first_name|title }} {{ sibling.surname|title }}">
                 <i class="fa fa-neuter neuter fa-xs mr-1"></i>
               </a>
-              {% if loop.index == 1 %}
+              {% if sibling.id == person_id %}
                 <b>{{ sibling.first_name|title }} {{ sibling.surname|title }}</b>
               {% else %}
                 <a href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?p={{ sibling.first_name }}&amp;n={{ sibling.surname }}" title="Display {{ sibling.first_name|title }} {{ sibling.surname|title }}">
@@ -960,6 +972,25 @@
     });
     $('#load_once_copylink').one('click', function () {
       $.getScript('{{ url_for("static", filename="js/copylink.js") }}');
+    });
+  </script>
+  <script><!-- Arrow key navigation for siblings -->
+    document.addEventListener('keydown', function(event) {
+      // Only handle arrow keys if not typing in an input/textarea
+      if (event.target.tagName === 'INPUT' || event.target.tagName === 'TEXTAREA') {
+        return;
+      }
+      
+      var prevLink = document.getElementById('prev-sibling-link');
+      var nextLink = document.getElementById('next-sibling-link');
+      
+      if (event.key === 'ArrowLeft' && prevLink) {
+        event.preventDefault();
+        window.location.href = prevLink.href;
+      } else if (event.key === 'ArrowRight' && nextLink) {
+        event.preventDefault();
+        window.location.href = nextLink.href;
+      }
     });
   </script>
   <script><!-- focus on found autofocus input in opening BS modal -->

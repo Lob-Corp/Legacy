@@ -1,0 +1,25 @@
+{% extends "gwd/base.html" %}
+
+{% block title %}{{ total_firstnames|default('?') }} {{ _('first names') }} ({{ total_persons|default(0) }} {{
+_('persons') }}){% endblock %}
+
+{% block content %}
+<h1>{{ total_firstnames|default('?') }} {{ _('first names') }} ({{ total_persons|default(0) }} {{ _('persons') }})</h1>
+
+<ul>
+    {% for group in persons_grouped %}
+    <li>
+        {{ group.count }}
+        <ul>
+            {% for person in group.persons %}
+            <li>
+                <a href="{{ request.path }}?m=P&v={{ person.v|urlencode }}&tri=F&lang={{ lang }}">{{
+                    person.first_name|default('?') }}</a>
+            </li>
+            {% endfor %}
+        </ul>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}

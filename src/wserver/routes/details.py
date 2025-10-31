@@ -222,10 +222,10 @@ def get_family_info(
         death_types = (Dead, DeadYoung, DeadDontKnowWhen)
         if isinstance(spouse.death_status, death_types):
             if (
-                hasattr(spouse.death_status, 'death_date')
-                and spouse.death_status.death_date
+                hasattr(spouse.death_status, 'date_of_death')
+                and spouse.death_status.date_of_death
             ):
-                death_info = spouse.death_status.death_date
+                death_info = spouse.death_status.date_of_death
                 if isinstance(death_info, tuple) and len(death_info) == 2:
                     spouse_death_year = death_info[1]
                 elif isinstance(death_info, CalendarDate):
@@ -298,10 +298,10 @@ def get_children_info(
             death_types = (Dead, DeadYoung, DeadDontKnowWhen)
             if isinstance(child.death_status, death_types):
                 if (
-                    hasattr(child.death_status, 'death_date')
-                    and child.death_status.death_date
+                    hasattr(child.death_status, 'date_of_death')
+                    and child.death_status.date_of_death
                 ):
-                    death_info = child.death_status.death_date
+                    death_info = child.death_status.date_of_death
                     if isinstance(death_info, tuple) and len(death_info) == 2:
                         death_year = death_info[1]
                     elif isinstance(death_info, CalendarDate):
@@ -344,10 +344,10 @@ def get_witness_info(
         death_types = (Dead, DeadYoung, DeadDontKnowWhen)
         if isinstance(witness.death_status, death_types):
             if (
-                hasattr(witness.death_status, 'death_date')
-                and witness.death_status.death_date
+                hasattr(witness.death_status, 'date_of_death')
+                and witness.death_status.date_of_death
             ):
-                death_info = witness.death_status.death_date
+                death_info = witness.death_status.date_of_death
                 if isinstance(death_info, tuple):
                     witness_death_year = death_info[1]
                 elif isinstance(death_info, CalendarDate):
@@ -716,10 +716,10 @@ def get_timeline_events(
                     death_types = (Dead, DeadYoung, DeadDontKnowWhen)
                     if isinstance(child.death_status, death_types):
                         if (
-                            hasattr(child.death_status, 'death_date')
-                            and child.death_status.death_date
+                            hasattr(child.death_status, 'date_of_death')
+                            and child.death_status.date_of_death
                         ):
-                            death_info = child.death_status.death_date
+                            death_info = child.death_status.date_of_death
                             if isinstance(death_info, tuple):
                                 child_death_year = death_info[1]
                             elif isinstance(death_info, CalendarDate):
@@ -795,16 +795,17 @@ def get_timeline_events(
     death_types = (Dead, DeadYoung, DeadDontKnowWhen)
     if isinstance(person.death_status, death_types):
         if (
-            hasattr(person.death_status, 'death_date')
-            and person.death_status.death_date
+            hasattr(person.death_status, 'date_of_death')
+            and person.death_status.date_of_death
         ):
-            if isinstance(person.death_status.death_date, CalendarDate):
-                death_display = format_date(person.death_status.death_date)
+            death_display = ''
+            if isinstance(person.death_status.date_of_death, CalendarDate):
+                death_display = format_date(person.death_status.date_of_death)
             events.append({
                 'type': 'death',
                 'date_display': death_display,
                 'place': person.death_place if person.death_place else None,
-                '_sort_date': person.death_status.death_date,
+                '_sort_date': person.death_status.date_of_death,
             })
 
     # Sort events chronologically by date

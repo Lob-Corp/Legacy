@@ -14,7 +14,12 @@ import database.ascends as db_ascends
 import database.unions as db_unions
 import database.union_families as db_union_families
 from repositories.converter_from_db import convert_person_from_db
-from repositories.converter_to_db import convert_person_to_db
+from repositories.converter_to_db import (
+    convert_person_to_db,
+    convert_date_to_db,
+    convert_death_status_to_db,
+    convert_burial_status_to_db,
+)
 
 
 class PersonRepository:
@@ -103,90 +108,91 @@ class PersonRepository:
         finally:
             session.close()
 
-    def get_person_by_name(
-            self,
-            first_name: str,
-            surname: str
-    ) -> app_person.Person[int, int, str, int]:
-        """Get a person by first name and surname from the database."""
+    def update_person_vitals(
+        self,
+        person: app_person.Person[int, int, str, int]
+    ) -> bool:
+        """Update vital fields (birth/baptism/death/burial dates and related
+        place/note/src and statuses) for an existing person.
+
+        This creates Date rows via converters and assigns them to the existing
+        DB person to avoid single-parent conflicts, without modifying other
+        aspects (titles, relations, events).
+        """
         session = self.db_service.get_session()
         if session is None:
             raise RuntimeError("Database session is not available")
 
         try:
-            person = self.db_service.get(
-                session,
-                db_person.Person,
-                {"first_name": first_name, "surname": surname}
+            existing_person = self.db_service.get(
+                session, db_person.Person, {"id": person.index}
             )
-            if person is None:
-                raise ValueError(
-                    f"Person with name {first_name} {surname} not found"
+            if existing_person is None:
+                raise ValueError(f"Person with id {person.index} not found")
+
+            # Birth
+            if person.birth_date is None:
+                existing_person.birth_date_obj = None
+            else:
+                new_birth = convert_date_to_db(person.birth_date)
+                if new_birth is not None:
+                    self.db_service.add(session, new_birth)
+                    session.flush()
+                existing_person.birth_date_obj = new_birth
+            existing_person.birth_place = person.birth_place
+            existing_person.birth_note = person.birth_note
+            existing_person.birth_src = person.birth_src
+
+            # Baptism
+            if person.baptism_date is None:
+                existing_person.baptism_date_obj = None
+            else:
+                new_baptism = convert_date_to_db(person.baptism_date)
+                if new_baptism is not None:
+                    self.db_service.add(session, new_baptism)
+                    session.flush()
+                existing_person.baptism_date_obj = new_baptism
+            existing_person.baptism_place = person.baptism_place
+            existing_person.baptism_note = person.baptism_note
+            existing_person.baptism_src = person.baptism_src
+
+            # Death
+            death_status, death_reason, death_date = \
+                convert_death_status_to_db(
+                    person.death_status
                 )
+            existing_person.death_status = death_status
+            existing_person.death_reason = death_reason
+            if death_date is None:
+                existing_person.death_date_obj = None
+            else:
+                self.db_service.add(session, death_date)
+                session.flush()
+                existing_person.death_date_obj = death_date
+            existing_person.death_place = person.death_place
+            existing_person.death_note = person.death_note
+            existing_person.death_src = person.death_src
 
-            person_title_links = self.db_service.get_all(
-                session=session,
-                model=db_person_titles.PersonTitles,
-                query={"person_id": person.id}
+            # Burial / Cremation
+            burial_status, burial_date = convert_burial_status_to_db(
+                person.burial
             )
-            titles = []
-            for link in person_title_links:
-                title = self.db_service.get(
-                    session, db_titles.Titles, {"id": link.title_id}
-                )
-                if title:
-                    titles.append(title)
+            existing_person.burial_status = burial_status
+            if burial_date is None:
+                existing_person.burial_date_obj = None
+            else:
+                self.db_service.add(session, burial_date)
+                session.flush()
+                existing_person.burial_date_obj = burial_date
+            existing_person.burial_place = person.burial_place
+            existing_person.burial_note = person.burial_note
+            existing_person.burial_src = person.burial_src
 
-            non_native_links = self.db_service.get_all(
-                session=session,
-                model=(db_person_non_native_relations.
-                       PersonNonNativeRelations),
-                query={"person_id": person.id}
-            )
-            non_native_relations = []
-            for link in non_native_links:
-                relation = self.db_service.get(
-                    session, db_relation.Relation, {"id": link.relation_id}
-                )
-                if relation:
-                    non_native_relations.append(relation)
-
-            related_persons = self.db_service.get_all(
-                session=session,
-                model=db_person_relations.PersonRelations,
-                query={"person_id": person.id}
-            )
-
-            events = self.db_service.get_all(
-                session=session,
-                model=db_personal_event.PersonalEvent,
-                query={"person_id": person.id}
-            )
-            events_with_witnesses = []
-            for event in events:
-                witnesses = self.db_service.get_all(
-                    session=session,
-                    model=db_person_event_witness.PersonEventWitness,
-                    query={"event_id": event.id}
-                )
-                events_with_witnesses.append((event, witnesses))
-
-            family_ids = []
-            if person.families_id:
-                union_families = self.db_service.get_all(
-                    session, db_union_families.UnionFamilies,
-                    query={"union_id": person.families_id}
-                )
-                family_ids = [uf.family_id for uf in union_families]
-
-            return convert_person_from_db(
-                person,
-                titles,
-                non_native_relations,
-                related_persons,
-                events_with_witnesses,
-                family_ids
-            )
+            session.commit()
+            return True
+        except Exception as e:
+            session.rollback()
+            raise e
         finally:
             session.close()
 

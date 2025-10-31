@@ -1,0 +1,50 @@
+{% extends "gwd/base.html" %}
+
+{% block title %}{{ surname|default('?') }}{% endblock %}
+
+{% block content %}
+<h1>
+    <a href="{{ request.path }}?lang={{ lang|default('en') }}">
+        {{ surname|default('?') }}
+    </a>
+</h1>
+
+<table class="display_search">
+    <tr>
+        <td><b>{{ _('Display by') }}</b></td>
+        <td><img src="{{ url_for('static', filename='images/picto_branch.png') }}" alt="" title=""></td>
+        <td>{{ _('line') }} ({{ total_persons|default(0) }})</td>
+        <td><img src="{{ url_for('static', filename='images/picto_alphabetic_order.png') }}" alt="" title=""></td>
+        <td>
+            <a href="{{ request.path }}?lang={{ lang|default('en') }}&amp;order=alpha" rel="nofollow">
+                {{ _('alphabetical order') }}
+            </a>
+        </td>
+    </tr>
+</table>
+<br>
+
+<div id="surname_by_branch">
+    <dl>
+        {% for person in persons %}
+        <dt>
+            <a href="" rel="nofollow">
+                {{ loop.index }}.
+            </a>
+        </dt>
+        <dd>
+            <ul>
+                {% for person in persons %}
+                <li>
+                    o <strong><a href="{{ request.path }}?lang={{ lang|default('en') }}#i{{ person.id }}"
+                            id="i{{ person.id }}">
+                            {{ person.first_name|default('?') }} {{ person.surname|default('?') }}
+                        </a></strong> <bdo dir="ltr">{{ person.dates|default('') }}</bdo>
+                </li>
+                {% endfor %}
+            </ul>
+        </dd>
+        {% endfor %}
+    </dl>
+</div>
+{% endblock %}

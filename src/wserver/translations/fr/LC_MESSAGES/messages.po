@@ -7,7 +7,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2025-10-28 23:45+0100\n"
+"POT-Creation-Date: 2025-10-30 23:02+0100\n"
 "PO-Revision-Date: 2025-10-28 15:55+0100\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: fr\n"
@@ -18,896 +18,1645 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Generated-By: Babel 2.17.0\n"
 
+#: templates/gwd/add_family.html:13 templates/gwd/add_family.html:86
 msgid "Add family"
 msgstr "Ajouter une famille"
 
+#: templates/gwd/add_family.html:100 templates/gwd/add_family.html:103
+#: templates/gwd/add_family.html:137 templates/gwd/add_family.html:139
 msgid "Parents"
 msgstr "Parents"
 
+#: templates/gwd/add_family.html:106 templates/gwd/add_family.html:108
+#: templates/gwd/add_family.html:593 templates/gwd/add_family.html:595
+#: templates/gwd/mod_individual.html:195 templates/gwd/mod_individual.html:197
+#: templates/gwd/mod_individual.html:803
+#, fuzzy
 msgid "Events"
-msgstr "Evénements"
+msgstr "Événement"
 
+#: templates/gwd/add_family.html:111 templates/gwd/add_family.html:113
+#: templates/gwd/add_family.html:948 templates/gwd/add_family.html:950
 msgid "Children"
 msgstr "Enfants"
 
+#: templates/gwd/add_family.html:116 templates/gwd/add_family.html:118
+#: templates/gwd/add_family.html:1213
 msgid "Sources"
 msgstr "Sources"
 
+#: templates/gwd/add_family.html:121 templates/gwd/add_family.html:123
+#: templates/gwd/add_family.html:1257
 msgid "Comment"
 msgstr "Commentaire"
 
+#: templates/gwd/add_family.html:146 templates/gwd/add_family.html:158
+#: templates/gwd/add_family.html:354 templates/gwd/add_family.html:366
+#: templates/gwd/add_family.html:965 templates/gwd/add_family.html:973
+#: templates/gwd/add_family.html:3881 templates/gwd/add_family.html:3883
+#: templates/gwd/add_family.html:4157 templates/gwd/add_family.html:4159
+#: templates/gwd/mod_individual.html:92 templates/gwd/mod_individual.html:96
+#: templates/gwd/mod_individual.html:267 templates/gwd/mod_individual.html:270
+#: templates/gwd/mod_individual.html:1010
+#: templates/gwd/mod_individual.html:1014
+#: templates/gwd/mod_individual.html:1082
+#: templates/gwd/mod_individual.html:1086
+#: templates/gwd/mod_individual.html:1187
+#: templates/gwd/mod_individual.html:1190
+#: templates/gwd/mod_individual.html:1252
+#: templates/gwd/mod_individual.html:1255
+#: templates/gwd/mod_individual.html:1849
+#: templates/gwd/mod_individual.html:1851
+#: templates/gwd/mod_individual.html:2263
+#: templates/gwd/mod_individual.html:2265
+#: templates/gwd/mod_individual.html:2323
+#: templates/gwd/mod_individual.html:2325
 msgid "First name"
 msgstr "Prénom"
 
+#: templates/gwd/add_family.html:148 templates/gwd/add_family.html:1015
+#: templates/gwd/add_family.html:1033 templates/gwd/add_family.html:3907
+#: templates/gwd/add_family.html:4176 templates/gwd/mod_individual.html:117
+#: templates/gwd/mod_individual.html:1043
+#: templates/gwd/mod_individual.html:1115
+#: templates/gwd/mod_individual.html:1217
+#: templates/gwd/mod_individual.html:1282
+#: templates/gwd/mod_individual.html:1868
+#: templates/gwd/mod_individual.html:2290
+#: templates/gwd/mod_individual.html:2350
 msgid "M"
 msgstr "M"
 
+#: templates/gwd/add_family.html:165 templates/gwd/add_family.html:373
+#: templates/gwd/add_family.html:979 templates/gwd/add_family.html:3885
+#: templates/gwd/add_family.html:4161 templates/gwd/mod_individual.html:98
+#: templates/gwd/mod_individual.html:272 templates/gwd/mod_individual.html:275
+#: templates/gwd/mod_individual.html:1016
+#: templates/gwd/mod_individual.html:1088
+#: templates/gwd/mod_individual.html:1192
+#: templates/gwd/mod_individual.html:1257
+#: templates/gwd/mod_individual.html:1853
+#: templates/gwd/mod_individual.html:2267
+#: templates/gwd/mod_individual.html:2327
 msgid "Number"
 msgstr "Numéro"
 
+#: templates/gwd/add_family.html:175
 msgid "Number (occurrence)"
 msgstr "Numéro (occurrence)"
 
+#: templates/gwd/add_family.html:181 templates/gwd/add_family.html:190
+#: templates/gwd/add_family.html:389 templates/gwd/add_family.html:398
+#: templates/gwd/add_family.html:994 templates/gwd/add_family.html:3891
+#: templates/gwd/add_family.html:4167 templates/gwd/add_family.html:4169
+#: templates/gwd/mod_individual.html:105 templates/gwd/mod_individual.html:109
+#: templates/gwd/mod_individual.html:281 templates/gwd/mod_individual.html:284
+#: templates/gwd/mod_individual.html:1030
+#: templates/gwd/mod_individual.html:1034
+#: templates/gwd/mod_individual.html:1102
+#: templates/gwd/mod_individual.html:1106
+#: templates/gwd/mod_individual.html:1205
+#: templates/gwd/mod_individual.html:1208
+#: templates/gwd/mod_individual.html:1270
+#: templates/gwd/mod_individual.html:1273
+#: templates/gwd/mod_individual.html:1859
+#: templates/gwd/mod_individual.html:1861
+#: templates/gwd/mod_individual.html:2279
+#: templates/gwd/mod_individual.html:2281
+#: templates/gwd/mod_individual.html:2339
+#: templates/gwd/mod_individual.html:2341
 msgid "Surname"
 msgstr "Nom"
 
+#: templates/gwd/add_family.html:197 templates/gwd/add_family.html:405
+#: templates/gwd/add_family.html:960 templates/gwd/add_family.html:3875
+#: templates/gwd/add_family.html:4134 templates/gwd/mod_individual.html:74
+#: templates/gwd/mod_individual.html:1025
+#: templates/gwd/mod_individual.html:1097
+#: templates/gwd/mod_individual.html:1200
+#: templates/gwd/mod_individual.html:1265
+#: templates/gwd/mod_individual.html:1831
+#: templates/gwd/mod_individual.html:2274
+#: templates/gwd/mod_individual.html:2334
 msgid "Create"
 msgstr "Créer"
 
+#: templates/gwd/add_family.html:198 templates/gwd/add_family.html:406
+#: templates/gwd/add_family.html:959 templates/gwd/add_family.html:3874
+#: templates/gwd/add_family.html:4135 templates/gwd/mod_individual.html:75
+#: templates/gwd/mod_individual.html:1024
+#: templates/gwd/mod_individual.html:1096
+#: templates/gwd/mod_individual.html:1199
+#: templates/gwd/mod_individual.html:1264
+#: templates/gwd/mod_individual.html:1832
+#: templates/gwd/mod_individual.html:2273
+#: templates/gwd/mod_individual.html:2333
 msgid "Link"
 msgstr "Lien"
 
+#: templates/gwd/add_family.html:204 templates/gwd/add_family.html:412
 msgid "Modify person"
 msgstr "précision"
 
+#: templates/gwd/add_family.html:210 templates/gwd/add_family.html:418
+#: templates/gwd/add_family.html:1063 templates/gwd/add_family.html:3926
+#: templates/gwd/mod_individual.html:179 templates/gwd/mod_individual.html:181
+#: templates/gwd/mod_individual.html:432
 msgid "Birth"
 msgstr "Naissance"
 
+#: templates/gwd/add_family.html:213 templates/gwd/add_family.html:275
+#: templates/gwd/add_family.html:421 templates/gwd/add_family.html:483
+#: templates/gwd/add_family.html:675 templates/gwd/add_family.html:677
+#: templates/gwd/add_family.html:756 templates/gwd/add_family.html:1066
+#: templates/gwd/add_family.html:1128 templates/gwd/add_family.html:3928
+#: templates/gwd/add_family.html:3943 templates/gwd/add_family.html:4034
+#: templates/gwd/add_family.html:4071
 msgid "day"
 msgstr "jour"
 
+#: templates/gwd/add_family.html:221 templates/gwd/add_family.html:283
+#: templates/gwd/add_family.html:429 templates/gwd/add_family.html:491
+#: templates/gwd/add_family.html:1074 templates/gwd/add_family.html:1136
+#: templates/gwd/add_family.html:3929 templates/gwd/add_family.html:3944
 msgid "dd"
 msgstr "dd"
 
+#: templates/gwd/add_family.html:227 templates/gwd/add_family.html:289
+#: templates/gwd/add_family.html:435 templates/gwd/add_family.html:497
+#: templates/gwd/add_family.html:692 templates/gwd/add_family.html:771
+#: templates/gwd/add_family.html:1080 templates/gwd/add_family.html:1142
+#: templates/gwd/add_family.html:3930 templates/gwd/add_family.html:3945
+#: templates/gwd/add_family.html:4040 templates/gwd/add_family.html:4077
 msgid "month"
 msgstr "mois"
 
+#: templates/gwd/add_family.html:235 templates/gwd/add_family.html:297
+#: templates/gwd/add_family.html:443 templates/gwd/add_family.html:505
+#: templates/gwd/add_family.html:1088 templates/gwd/add_family.html:1150
+#: templates/gwd/add_family.html:3931 templates/gwd/add_family.html:3946
 msgid "mm"
 msgstr "mm"
 
+#: templates/gwd/add_family.html:241 templates/gwd/add_family.html:303
+#: templates/gwd/add_family.html:449 templates/gwd/add_family.html:511
+#: templates/gwd/add_family.html:705 templates/gwd/add_family.html:784
+#: templates/gwd/add_family.html:1094 templates/gwd/add_family.html:1156
+#: templates/gwd/add_family.html:3932 templates/gwd/add_family.html:3947
+#: templates/gwd/add_family.html:4044 templates/gwd/add_family.html:4081
 msgid "year"
 msgstr "année"
 
+#: templates/gwd/add_family.html:249 templates/gwd/add_family.html:311
+#: templates/gwd/add_family.html:457 templates/gwd/add_family.html:519
+#: templates/gwd/add_family.html:1102 templates/gwd/add_family.html:1164
+#: templates/gwd/add_family.html:3933 templates/gwd/add_family.html:3948
 msgid "yyyy"
 msgstr "yyyy"
 
+#: templates/gwd/add_family.html:256 templates/gwd/add_family.html:267
+#: templates/gwd/add_family.html:318 templates/gwd/add_family.html:329
+#: templates/gwd/add_family.html:464 templates/gwd/add_family.html:475
+#: templates/gwd/add_family.html:526 templates/gwd/add_family.html:537
+#: templates/gwd/add_family.html:658 templates/gwd/add_family.html:1109
+#: templates/gwd/add_family.html:1120 templates/gwd/add_family.html:1171
+#: templates/gwd/add_family.html:1182 templates/gwd/add_family.html:3935
+#: templates/gwd/add_family.html:3937 templates/gwd/add_family.html:3950
+#: templates/gwd/add_family.html:3952 templates/gwd/add_family.html:4026
 msgid "place"
 msgstr "lieu"
 
+#: templates/gwd/add_family.html:265 templates/gwd/add_family.html:327
+#: templates/gwd/add_family.html:473 templates/gwd/add_family.html:535
+#: templates/gwd/add_family.html:648 templates/gwd/add_family.html:656
+#: templates/gwd/add_family.html:1118 templates/gwd/add_family.html:1180
+#: templates/gwd/add_family.html:3937 templates/gwd/add_family.html:3952
+#: templates/gwd/add_family.html:4024 templates/gwd/add_family.html:4026
+#: templates/gwd/mod_individual.html:470 templates/gwd/mod_individual.html:473
+#: templates/gwd/mod_individual.html:556 templates/gwd/mod_individual.html:559
+#: templates/gwd/mod_individual.html:657 templates/gwd/mod_individual.html:660
+#: templates/gwd/mod_individual.html:755 templates/gwd/mod_individual.html:758
+#: templates/gwd/mod_individual.html:902 templates/gwd/mod_individual.html:905
+#: templates/gwd/mod_individual.html:2095
+#: templates/gwd/mod_individual.html:2097
 msgid "Place"
-msgstr ""
+msgstr "Lieu"
 
+#: templates/gwd/add_family.html:272 templates/gwd/add_family.html:480
+#: templates/gwd/add_family.html:1125 templates/gwd/add_family.html:3941
+#: templates/gwd/mod_individual.html:187 templates/gwd/mod_individual.html:189
+#: templates/gwd/mod_individual.html:604
 msgid "Death"
 msgstr "Décès"
 
+#: templates/gwd/add_family.html:335 templates/gwd/add_family.html:342
+#: templates/gwd/add_family.html:543 templates/gwd/add_family.html:550
+#: templates/gwd/add_family.html:1188 templates/gwd/add_family.html:1197
+#: templates/gwd/add_family.html:3956 templates/gwd/add_family.html:3958
+#: templates/gwd/add_family.html:4193 templates/gwd/add_family.html:4195
+#: templates/gwd/mod_individual.html:133 templates/gwd/mod_individual.html:137
+#: templates/gwd/mod_individual.html:412 templates/gwd/mod_individual.html:416
+#: templates/gwd/mod_individual.html:848 templates/gwd/mod_individual.html:1057
+#: templates/gwd/mod_individual.html:1062
+#: templates/gwd/mod_individual.html:1129
+#: templates/gwd/mod_individual.html:1134
+#: templates/gwd/mod_individual.html:1231
+#: templates/gwd/mod_individual.html:1234
+#: templates/gwd/mod_individual.html:1296
+#: templates/gwd/mod_individual.html:1299
+#: templates/gwd/mod_individual.html:1882
+#: templates/gwd/mod_individual.html:1884
+#: templates/gwd/mod_individual.html:2054
+#: templates/gwd/mod_individual.html:2304
+#: templates/gwd/mod_individual.html:2306
+#: templates/gwd/mod_individual.html:2364
+#: templates/gwd/mod_individual.html:2366
 msgid "Occupation"
 msgstr "Profession"
 
+#: templates/gwd/add_family.html:568
 msgid "Same-sex relationship (no sex validation)"
 msgstr "Relation homosexuelle (pas de vérification des sexes)"
 
+#: templates/gwd/add_family.html:574 templates/gwd/add_family.html:575
+#: templates/gwd/add_family.html:578 templates/gwd/add_family.html:1694
+#: templates/gwd/add_family.html:1695 templates/gwd/add_family.html:1697
+#: templates/gwd/mod_individual.html:1537
 msgid "Validate"
 msgstr "VALIDER"
 
+#: templates/gwd/add_family.html:600
 msgid "Event 1"
 msgstr "Événement 1"
 
+#: templates/gwd/add_family.html:609 templates/gwd/add_family.html:3997
 msgid "Choose an event"
 msgstr "Choisir un événement"
 
+#: templates/gwd/add_family.html:612 templates/gwd/add_family.html:3999
 msgid "Marriage"
 msgstr "Mariage"
 
+#: templates/gwd/add_family.html:613 templates/gwd/add_family.html:4000
 msgid "Not married"
 msgstr "Non mariés"
 
+#: templates/gwd/add_family.html:614 templates/gwd/add_family.html:4001
 msgid "Engaged"
 msgstr "Fiançailles"
 
+#: templates/gwd/add_family.html:615 templates/gwd/add_family.html:4002
 msgid "No mention"
 msgstr "Pas de mention"
 
+#: templates/gwd/add_family.html:616 templates/gwd/add_family.html:4003
 msgid "Marriage banns"
 msgstr "Bans de mariage"
 
+#: templates/gwd/add_family.html:617 templates/gwd/add_family.html:4004
 msgid "Marriage contract"
 msgstr "Contrat de mariage"
 
+#: templates/gwd/add_family.html:618 templates/gwd/add_family.html:4005
 msgid "Marriage license"
 msgstr "Licence de mariage"
 
+#: templates/gwd/add_family.html:619 templates/gwd/add_family.html:4006
 msgid "Civil union"
 msgstr ""
 
+#: templates/gwd/add_family.html:620 templates/gwd/add_family.html:4007
 msgid "Divorce"
 msgstr ""
 
+#: templates/gwd/add_family.html:621 templates/gwd/add_family.html:4008
 msgid "Separation"
 msgstr "Séparation"
 
+#: templates/gwd/add_family.html:622 templates/gwd/add_family.html:4009
 msgid "Annulment"
 msgstr "Annulation"
 
+#: templates/gwd/add_family.html:623 templates/gwd/add_family.html:4010
+#: templates/gwd/mod_individual.html:852 templates/gwd/mod_individual.html:2058
 msgid "Residence"
 msgstr "Résidence"
 
+#: templates/gwd/add_family.html:625 templates/gwd/add_family.html:4012
+#: templates/gwd/mod_individual.html:815 templates/gwd/mod_individual.html:2021
 msgid "Custom event"
 msgstr "Événement personnalisé"
 
+#: templates/gwd/add_family.html:627 templates/gwd/add_family.html:4014
 msgid "Delete event"
 msgstr "Supprimer l'événement"
 
+#: templates/gwd/add_family.html:642 templates/gwd/add_family.html:3993
+#: templates/gwd/add_family.html:4019
 msgid "Event"
 msgstr "Événement"
 
+#: templates/gwd/add_family.html:663 templates/gwd/add_family.html:4030
+#: templates/gwd/mod_individual.html:437 templates/gwd/mod_individual.html:523
+#: templates/gwd/mod_individual.html:624 templates/gwd/mod_individual.html:722
+#: templates/gwd/mod_individual.html:869 templates/gwd/mod_individual.html:2074
 msgid "Date"
 msgstr "Date"
 
+#: templates/gwd/add_family.html:710
 msgid "precision"
 msgstr "précision"
 
+#: templates/gwd/add_family.html:726
 msgid "calendar"
 msgstr "calendrier"
 
+#: templates/gwd/add_family.html:737 templates/gwd/add_family.html:4061
 msgid "French Republican"
 msgstr "Républicain"
 
+#: templates/gwd/add_family.html:738 templates/gwd/add_family.html:4062
 msgid "Hebrew"
 msgstr "Hébreu"
 
+#: templates/gwd/add_family.html:799 templates/gwd/add_family.html:4086
+#: templates/gwd/mod_individual.html:1435
+#: templates/gwd/mod_individual.html:1484
+#: templates/gwd/mod_individual.html:2203
+#: templates/gwd/mod_individual.html:2232
 msgid "…or text"
 msgstr "…ou texte"
+
+#: templates/gwd/add_family.html:804 templates/gwd/add_family.html:811
+#: templates/gwd/add_family.html:4090 templates/gwd/add_family.html:4092
+#: templates/gwd/mod_individual.html:207 templates/gwd/mod_individual.html:209
+#: templates/gwd/mod_individual.html:1529
+msgid "Notes"
+msgstr "Notes"
+
+#: templates/gwd/add_family.html:816 templates/gwd/add_family.html:824
+#: templates/gwd/add_family.html:4096 templates/gwd/add_family.html:4098
+#: templates/gwd/mod_individual.html:422 templates/gwd/mod_individual.html:424
+#: templates/gwd/mod_individual.html:486 templates/gwd/mod_individual.html:489
+#: templates/gwd/mod_individual.html:572 templates/gwd/mod_individual.html:575
+#: templates/gwd/mod_individual.html:673 templates/gwd/mod_individual.html:676
+#: templates/gwd/mod_individual.html:771 templates/gwd/mod_individual.html:774
+#: templates/gwd/mod_individual.html:918 templates/gwd/mod_individual.html:921
+#: templates/gwd/mod_individual.html:2107
+#: templates/gwd/mod_individual.html:2109
+msgid "Source"
+msgstr "Source"
+
+#: templates/gwd/add_family.html:835 templates/gwd/add_family.html:891
+#: templates/gwd/add_family.html:3973 templates/gwd/add_family.html:3980
+#: templates/gwd/add_family.html:4104 templates/gwd/mod_individual.html:500
+#: templates/gwd/mod_individual.html:586 templates/gwd/mod_individual.html:687
+#: templates/gwd/mod_individual.html:785 templates/gwd/mod_individual.html:932
+#: templates/gwd/mod_individual.html:955 templates/gwd/mod_individual.html:977
+#: templates/gwd/mod_individual.html:1154
+#: templates/gwd/mod_individual.html:1316
+#: templates/gwd/mod_individual.html:1337
+#: templates/gwd/mod_individual.html:1494
+#: templates/gwd/mod_individual.html:1510
+#: templates/gwd/mod_individual.html:1807
+#: templates/gwd/mod_individual.html:2113
+#: templates/gwd/mod_individual.html:2383
+msgid "Insert"
+msgstr "Insérer"
+
+#: templates/gwd/add_family.html:867 templates/gwd/add_family.html:4113
+msgid "witness(es)"
+msgstr "témoin(s)"
+
+#: templates/gwd/add_family.html:923
+msgid "event(s)"
+msgstr "événement(s)"
+
+#: templates/gwd/add_family.html:956
+msgid "1st Child"
+msgstr "1er Enfant"
+
+#: templates/gwd/add_family.html:1019
+msgid "Edit 1st child"
+msgstr "Modifier 1er Enfant"
+
+#: templates/gwd/add_family.html:1024 templates/gwd/add_family.html:3903
+#: templates/gwd/add_family.html:4173 templates/gwd/mod_individual.html:113
+#: templates/gwd/mod_individual.html:286 templates/gwd/mod_individual.html:1038
+#: templates/gwd/mod_individual.html:1110
+#: templates/gwd/mod_individual.html:1212
+#: templates/gwd/mod_individual.html:1277
+#: templates/gwd/mod_individual.html:1865
+#: templates/gwd/mod_individual.html:2285
+#: templates/gwd/mod_individual.html:2345
+msgid "Sex"
+msgstr "Sexe"
+
+#: templates/gwd/add_family.html:1044 templates/gwd/add_family.html:3912
+#: templates/gwd/add_family.html:4181
+msgid "?"
+msgstr "?"
+
+#: templates/gwd/add_family.html:1054 templates/gwd/add_family.html:3917
+#: templates/gwd/add_family.html:4186 templates/gwd/mod_individual.html:127
+#: templates/gwd/mod_individual.html:1051
+#: templates/gwd/mod_individual.html:1123
+#: templates/gwd/mod_individual.html:1225
+#: templates/gwd/mod_individual.html:1290
+#: templates/gwd/mod_individual.html:1876
+#: templates/gwd/mod_individual.html:2298
+#: templates/gwd/mod_individual.html:2358
+msgid "F"
+msgstr "F"
+
+#: templates/gwd/add_family.html:1218
+msgid "Persons"
+msgstr "précision"
+
+#: templates/gwd/add_family.html:1226
+msgid "People sources"
+msgstr "Source personne"
+
+#: templates/gwd/add_family.html:1232
+msgid "Family"
+msgstr "Famille"
+
+#: templates/gwd/add_family.html:1407
+msgid "h1"
+msgstr "h1"
+
+#: templates/gwd/add_family.html:1456
+msgid "Format"
+msgstr ""
+
+#: templates/gwd/add_family.html:1507
+msgid "ul ol dl pre"
+msgstr "ul ol dl pre"
+
+#: templates/gwd/add_family.html:1555
+msgid "Various notes"
+msgstr ""
+
+#: templates/gwd/add_family.html:1614
+msgid "Summary"
+msgstr "Résumé"
+
+#: templates/gwd/add_family.html:1648 templates/gwd/mod_individual.html:175
+#: templates/gwd/mod_individual.html:177
+msgid "Person"
+msgstr "précision"
+
+#: templates/gwd/add_family.html:3274
+msgid "January"
+msgstr "janvier"
+
+#: templates/gwd/add_family.html:3275
+msgid "February"
+msgstr "février"
+
+#: templates/gwd/add_family.html:3276
+msgid "March"
+msgstr "mars"
+
+#: templates/gwd/add_family.html:3277
+msgid "April"
+msgstr "avril"
+
+#: templates/gwd/add_family.html:3278
+msgid "May"
+msgstr "mai"
+
+#: templates/gwd/add_family.html:3279
+msgid "June"
+msgstr "juin"
+
+#: templates/gwd/add_family.html:3280
+msgid "July"
+msgstr "juillet"
+
+#: templates/gwd/add_family.html:3281
+msgid "August"
+msgstr "août"
+
+#: templates/gwd/add_family.html:3282
+msgid "September"
+msgstr "septembre"
+
+#: templates/gwd/add_family.html:3283
+msgid "October"
+msgstr "octobre"
+
+#: templates/gwd/add_family.html:3284
+msgid "November"
+msgstr "novembre"
+
+#: templates/gwd/add_family.html:3285
+msgid "December"
+msgstr "décembre"
+
+#: templates/gwd/add_family.html:3289
+msgid "Vendémiaire"
+msgstr "vendémiaire"
+
+#: templates/gwd/add_family.html:3290
+msgid "Brumaire"
+msgstr "brumaire"
+
+#: templates/gwd/add_family.html:3291
+msgid "Frimaire"
+msgstr "frimaire"
+
+#: templates/gwd/add_family.html:3292
+msgid "Nivôse"
+msgstr "nivôse"
+
+#: templates/gwd/add_family.html:3293
+msgid "Pluviôse"
+msgstr "pluviôse"
+
+#: templates/gwd/add_family.html:3294
+msgid "Ventôse"
+msgstr "ventôse"
+
+#: templates/gwd/add_family.html:3295
+msgid "Germinal"
+msgstr "germinal"
+
+#: templates/gwd/add_family.html:3296
+msgid "Floréal"
+msgstr "floréal"
+
+#: templates/gwd/add_family.html:3297
+msgid "Prairial"
+msgstr "prairial"
+
+#: templates/gwd/add_family.html:3298
+msgid "Messidor"
+msgstr "messidor"
+
+#: templates/gwd/add_family.html:3299
+msgid "Thermidor"
+msgstr "thermidor"
+
+#: templates/gwd/add_family.html:3300
+msgid "Fructidor"
+msgstr "fructidor"
+
+#: templates/gwd/add_family.html:3301
+msgid "Complémentaire"
+msgstr "complémentaire"
+
+#: templates/gwd/add_family.html:3305
+msgid "Tichri"
+msgstr "tichri"
+
+#: templates/gwd/add_family.html:3306
+msgid "Marhechvan"
+msgstr "marhechvan"
+
+#: templates/gwd/add_family.html:3307
+msgid "Kislev"
+msgstr "kislev"
+
+#: templates/gwd/add_family.html:3308
+msgid "Tevet"
+msgstr "tevet"
+
+#: templates/gwd/add_family.html:3309
+msgid "Chevat"
+msgstr "chevat"
+
+#: templates/gwd/add_family.html:3310
+msgid "Adar 1"
+msgstr "adar 1"
+
+#: templates/gwd/add_family.html:3311
+msgid "Adar 2"
+msgstr "adar 2"
+
+#: templates/gwd/add_family.html:3312
+msgid "Nissan"
+msgstr "nissan"
+
+#: templates/gwd/add_family.html:3313
+msgid "Iyar"
+msgstr "iyar"
+
+#: templates/gwd/add_family.html:3314
+msgid "Sivan"
+msgstr "sivan"
+
+#: templates/gwd/add_family.html:3315
+msgid "Tamouz"
+msgstr "tamouz"
+
+#: templates/gwd/add_family.html:3316
+msgid "Av"
+msgstr "av"
+
+#: templates/gwd/add_family.html:3317
+msgid "Eloul"
+msgstr "eloul"
+
+#: templates/gwd/add_family.html:3611 templates/gwd/add_family.html:3853
+msgid "1st"
+msgstr "1er"
+
+#: templates/gwd/add_family.html:3611 templates/gwd/add_family.html:3853
+msgid "2nd"
+msgstr "2e"
+
+#: templates/gwd/add_family.html:3611 templates/gwd/add_family.html:3853
+msgid "3rd"
+msgstr "3e"
+
+#: templates/gwd/add_family.html:3611 templates/gwd/add_family.html:3853
+msgid "4th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3611 templates/gwd/add_family.html:3853
+msgid "5th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3611 templates/gwd/add_family.html:3853
+msgid "6th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3611 templates/gwd/add_family.html:3853
+msgid "7th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3611 templates/gwd/add_family.html:3853
+msgid "8th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3611 templates/gwd/add_family.html:3853
+msgid "9th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3611 templates/gwd/add_family.html:3853
+msgid "10th"
+msgstr ""
+
+#: templates/gwd/add_family.html:3620 templates/gwd/add_family.html:3854
+#: templates/gwd/add_family.html:3871
+msgid "Child"
+msgstr "Enfant"
+
+#: templates/gwd/add_family.html:3860
+msgid "Swap with previous child"
+msgstr "Echanger avec l'enfant précédent"
+
+#: templates/gwd/add_family.html:3898
+msgid "Modify child"
+msgstr "Modifier l'enfant"
+
+#: templates/gwd/add_family.html:3980
+msgid "Insert child(ren)"
+msgstr "Insérer enfant"
+
+#: templates/gwd/add_family.html:4049
+msgid "exact"
+msgstr "exacte"
+
+#: templates/gwd/add_family.html:4050
+msgid "about"
+msgstr "vers"
+
+#: templates/gwd/add_family.html:4051
+msgid "maybe"
+msgstr "peut être"
+
+#: templates/gwd/add_family.html:4052
+msgid "before"
+msgstr "avant"
+
+#: templates/gwd/add_family.html:4053
+msgid "after"
+msgstr "après"
+
+#: templates/gwd/add_family.html:4054
+msgid "…or…"
+msgstr "…ou…"
+
+#: templates/gwd/add_family.html:4055
+msgid "…between…"
+msgstr "…entre…"
+
+#: templates/gwd/add_family.html:4059
+msgid "Gregorian"
+msgstr "Grégorien"
+
+#: templates/gwd/add_family.html:4060
+msgid "Julian"
+msgstr "Julien"
+
+#: templates/gwd/add_family.html:4116
+msgid "Insert witness(es)"
+msgstr "Insérer témoin(s)"
+
+#: templates/gwd/add_family.html:4131 templates/gwd/add_family.html:4146
+#: templates/gwd/mod_individual.html:71 templates/gwd/mod_individual.html:80
+#: templates/gwd/mod_individual.html:1828
+#: templates/gwd/mod_individual.html:1837
+msgid "Witness"
+msgstr "Témoin"
+
+#: templates/gwd/add_family.html:4141 templates/gwd/mod_individual.html:152
+#: templates/gwd/mod_individual.html:157 templates/gwd/mod_individual.html:1897
+msgid "Modify witness"
+msgstr "Modifier Témoin"
+
+#: templates/gwd/add_family.html:4147 templates/gwd/mod_individual.html:82
+#: templates/gwd/mod_individual.html:1839
+msgid "Informant"
+msgstr "Déclarant"
+
+#: templates/gwd/add_family.html:4148 templates/gwd/mod_individual.html:83
+#: templates/gwd/mod_individual.html:1840
+msgid "Present"
+msgstr "précision"
+
+#: templates/gwd/add_family.html:4149 templates/gwd/mod_individual.html:84
+#: templates/gwd/mod_individual.html:1841
+msgid "Mentioned"
+msgstr "Mentionné"
+
+#: templates/gwd/add_family.html:4150 templates/gwd/mod_individual.html:85
+#: templates/gwd/mod_individual.html:1842
+msgid "Civil registrar"
+msgstr "Officier d'état civil"
+
+#: templates/gwd/add_family.html:4151
+msgid "Minister of worship"
+msgstr "Ministre du culte"
+
+#: templates/gwd/add_family.html:4152 templates/gwd/mod_individual.html:87
+#: templates/gwd/mod_individual.html:1844
+msgid "Other"
+msgstr "Autre"
+
+#: templates/gwd/add_family.html:4200
+msgid "Obviously deceased"
+msgstr "Bien entendu décédé"
+
+#: templates/gwd/add_family.html:4204 templates/gwd/mod_individual.html:143
+#: templates/gwd/mod_individual.html:1073
+#: templates/gwd/mod_individual.html:1145
+#: templates/gwd/mod_individual.html:1243
+#: templates/gwd/mod_individual.html:1308
+#: templates/gwd/mod_individual.html:1889
+#: templates/gwd/mod_individual.html:2315
+#: templates/gwd/mod_individual.html:2375
+msgid "Public"
+msgstr "Public"
+
+#: templates/gwd/mod_individual.html:8 templates/gwd/mod_individual.html:242
+#: templates/gwd/mod_individual.html:258
+#, fuzzy
+msgid "Merge"
+msgstr "Fusionner"
+
+#: templates/gwd/mod_individual.html:10 templates/gwd/mod_individual.html:243
+msgid "Modify"
+msgstr "Modifier"
+
+#: templates/gwd/mod_individual.html:12 templates/gwd/mod_individual.html:244
+#, fuzzy
+msgid "Update"
+msgstr "Evénements"
+
+# Removed 'Add' in this context; replaced by 'Update'
+#: templates/gwd/mod_individual.html:14
+#, fuzzy
+msgid "person"
+msgstr "précision"
+
+#: templates/gwd/mod_individual.html:81 templates/gwd/mod_individual.html:1838
+#, fuzzy
+msgid "Godparent"
+msgstr "Parents"
+
+#: templates/gwd/mod_individual.html:86 templates/gwd/mod_individual.html:1843
+#, fuzzy
+msgid "Parish registrar"
+msgstr "Officier d'état civil"
+
+#: templates/gwd/mod_individual.html:183 templates/gwd/mod_individual.html:185
+#: templates/gwd/mod_individual.html:518
+msgid "Baptism"
+msgstr "Baptême"
+
+#: templates/gwd/mod_individual.html:191 templates/gwd/mod_individual.html:193
+#: templates/gwd/mod_individual.html:706 templates/gwd/mod_individual.html:715
+msgid "Burial"
+msgstr "Inhumation"
+
+#: templates/gwd/mod_individual.html:199 templates/gwd/mod_individual.html:201
+#: templates/gwd/mod_individual.html:973
+#, fuzzy
+msgid "Relations"
+msgstr "Séparation"
+
+#: templates/gwd/mod_individual.html:203 templates/gwd/mod_individual.html:205
+#: templates/gwd/mod_individual.html:1331
+#, fuzzy
+msgid "Titles"
+msgstr "Témoin"
+
+#: templates/gwd/mod_individual.html:250
+#, fuzzy
+msgid "Other actions"
+msgstr "Autre action"
+
+#: templates/gwd/mod_individual.html:251
+#, fuzzy
+msgid "Change event order"
+msgstr "Changement de l'ordre des événements individu"
+
+#: templates/gwd/mod_individual.html:252
+#, fuzzy
+msgid "Swap events"
+msgstr "Permuter événements"
+
+#: templates/gwd/mod_individual.html:255
+#, fuzzy
+msgid "Add/modify portrait"
+msgstr "Modifier/supprimer/ajouter portrait"
+
+#: templates/gwd/mod_individual.html:261
+#, fuzzy
+msgid "Delete"
+msgstr "Supprimer"
+
+#: templates/gwd/mod_individual.html:289
+#, fuzzy
+msgid "Male"
+msgstr "peut être"
+
+#: templates/gwd/mod_individual.html:290
+#, fuzzy
+msgid "Female"
+msgstr "Féminin"
+
+#: templates/gwd/mod_individual.html:291
+msgid "Unknown"
+msgstr "Inconnu"
+
+#: templates/gwd/mod_individual.html:298 templates/gwd/mod_individual.html:301
+#, fuzzy
+msgid "Public name"
+msgstr "Nom public"
+
+#: templates/gwd/mod_individual.html:307
+msgid "Picture"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:310
+#, fuzzy
+msgid "Image filename"
+msgstr "Licence de mariage"
+
+#: templates/gwd/mod_individual.html:317
+msgid "Access"
+msgstr "Accès"
+
+#: templates/gwd/mod_individual.html:318
+#, fuzzy
+msgid "Help for visibility"
+msgstr "Aide pour la visibilité des individus"
+
+#: templates/gwd/mod_individual.html:333
+msgid "Sobriquet(s)"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:337 templates/gwd/mod_individual.html:343
+#: templates/gwd/mod_individual.html:2418
+msgid "Sobriquet"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:346
+msgid "Add sobriquet"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:352
+#, fuzzy
+msgid "Aliases"
+msgstr "VALIDER"
+
+#: templates/gwd/mod_individual.html:357 templates/gwd/mod_individual.html:361
+#: templates/gwd/mod_individual.html:2421
+#, fuzzy
+msgid "Alias"
+msgstr "VALIDER"
+
+#: templates/gwd/mod_individual.html:364
+#, fuzzy
+msgid "Add alias"
+msgstr "VALIDER"
+
+#: templates/gwd/mod_individual.html:370
+#, fuzzy
+msgid "Alternate first name(s)"
+msgstr "Prénom"
+
+#: templates/gwd/mod_individual.html:374 templates/gwd/mod_individual.html:380
+#: templates/gwd/mod_individual.html:2424
+#, fuzzy
+msgid "Alternate first name"
+msgstr "Prénom"
+
+#: templates/gwd/mod_individual.html:383
+msgid "Add alternate first name"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:389
+msgid "Alternate surname(s)"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:394 templates/gwd/mod_individual.html:398
+#: templates/gwd/mod_individual.html:2427
+msgid "Alternate surname"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:401
+msgid "Add alternate surname"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:407
+#, fuzzy
+msgid "Occupations"
+msgstr "Profession"
+
+#: templates/gwd/mod_individual.html:442 templates/gwd/mod_individual.html:528
+#: templates/gwd/mod_individual.html:629 templates/gwd/mod_individual.html:727
+#: templates/gwd/mod_individual.html:873 templates/gwd/mod_individual.html:1397
+#: templates/gwd/mod_individual.html:1426
+#: templates/gwd/mod_individual.html:1446
+#: templates/gwd/mod_individual.html:1475
+#: templates/gwd/mod_individual.html:2077
+#: templates/gwd/mod_individual.html:2182
+#: templates/gwd/mod_individual.html:2200
+#: templates/gwd/mod_individual.html:2211
+#: templates/gwd/mod_individual.html:2229
+#, fuzzy
+msgid "Day"
+msgstr "jour"
+
+#: templates/gwd/mod_individual.html:445 templates/gwd/mod_individual.html:531
+#: templates/gwd/mod_individual.html:632 templates/gwd/mod_individual.html:730
+#: templates/gwd/mod_individual.html:876 templates/gwd/mod_individual.html:1400
+#: templates/gwd/mod_individual.html:1429
+#: templates/gwd/mod_individual.html:1449
+#: templates/gwd/mod_individual.html:1478
+#: templates/gwd/mod_individual.html:2078
+#: templates/gwd/mod_individual.html:2183
+#: templates/gwd/mod_individual.html:2201
+#: templates/gwd/mod_individual.html:2212
+#: templates/gwd/mod_individual.html:2230
+#, fuzzy
+msgid "Month"
+msgstr "mois"
+
+#: templates/gwd/mod_individual.html:448 templates/gwd/mod_individual.html:534
+#: templates/gwd/mod_individual.html:635 templates/gwd/mod_individual.html:733
+#: templates/gwd/mod_individual.html:879 templates/gwd/mod_individual.html:1403
+#: templates/gwd/mod_individual.html:1432
+#: templates/gwd/mod_individual.html:1452
+#: templates/gwd/mod_individual.html:1481
+#: templates/gwd/mod_individual.html:2079
+#: templates/gwd/mod_individual.html:2184
+#: templates/gwd/mod_individual.html:2202
+#: templates/gwd/mod_individual.html:2213
+#: templates/gwd/mod_individual.html:2231
+#, fuzzy
+msgid "Year"
+msgstr "année"
+
+#: templates/gwd/mod_individual.html:451 templates/gwd/mod_individual.html:537
+#: templates/gwd/mod_individual.html:638 templates/gwd/mod_individual.html:736
+#: templates/gwd/mod_individual.html:883 templates/gwd/mod_individual.html:1406
+#: templates/gwd/mod_individual.html:1455
+#: templates/gwd/mod_individual.html:2082
+#: templates/gwd/mod_individual.html:2187
+#: templates/gwd/mod_individual.html:2216
+#, fuzzy
+msgid "Exact"
+msgstr "exacte"
+
+#: templates/gwd/mod_individual.html:452 templates/gwd/mod_individual.html:538
+#: templates/gwd/mod_individual.html:639 templates/gwd/mod_individual.html:737
+#: templates/gwd/mod_individual.html:884 templates/gwd/mod_individual.html:1407
+#: templates/gwd/mod_individual.html:1456
+#: templates/gwd/mod_individual.html:2083
+#: templates/gwd/mod_individual.html:2188
+#: templates/gwd/mod_individual.html:2217
+#, fuzzy
+msgid "About"
+msgstr "vers"
+
+#: templates/gwd/mod_individual.html:453 templates/gwd/mod_individual.html:539
+#: templates/gwd/mod_individual.html:640 templates/gwd/mod_individual.html:738
+#: templates/gwd/mod_individual.html:885 templates/gwd/mod_individual.html:1408
+#: templates/gwd/mod_individual.html:1457
+#: templates/gwd/mod_individual.html:2084
+#: templates/gwd/mod_individual.html:2189
+#: templates/gwd/mod_individual.html:2218
+msgid "Possibly"
+msgstr "Peut-être"
+
+#: templates/gwd/mod_individual.html:454 templates/gwd/mod_individual.html:540
+#: templates/gwd/mod_individual.html:641 templates/gwd/mod_individual.html:739
+#: templates/gwd/mod_individual.html:886 templates/gwd/mod_individual.html:1409
+#: templates/gwd/mod_individual.html:1458
+#: templates/gwd/mod_individual.html:2085
+#: templates/gwd/mod_individual.html:2190
+#: templates/gwd/mod_individual.html:2219
+#, fuzzy
+msgid "Before"
+msgstr "avant"
+
+#: templates/gwd/mod_individual.html:455 templates/gwd/mod_individual.html:541
+#: templates/gwd/mod_individual.html:642 templates/gwd/mod_individual.html:740
+#: templates/gwd/mod_individual.html:887 templates/gwd/mod_individual.html:1410
+#: templates/gwd/mod_individual.html:1459
+#: templates/gwd/mod_individual.html:2086
+#: templates/gwd/mod_individual.html:2191
+#: templates/gwd/mod_individual.html:2220
+#, fuzzy
+msgid "After"
+msgstr "après"
+
+#: templates/gwd/mod_individual.html:478 templates/gwd/mod_individual.html:481
+#: templates/gwd/mod_individual.html:564 templates/gwd/mod_individual.html:567
+#: templates/gwd/mod_individual.html:665 templates/gwd/mod_individual.html:668
+#: templates/gwd/mod_individual.html:763 templates/gwd/mod_individual.html:766
+#: templates/gwd/mod_individual.html:910 templates/gwd/mod_individual.html:913
+#: templates/gwd/mod_individual.html:2101
+#: templates/gwd/mod_individual.html:2103
+#, fuzzy
+msgid "Note"
+msgstr "Notes"
+
+#: templates/gwd/mod_individual.html:506 templates/gwd/mod_individual.html:592
+#: templates/gwd/mod_individual.html:693 templates/gwd/mod_individual.html:791
+#: templates/gwd/mod_individual.html:938 templates/gwd/mod_individual.html:2129
+#, fuzzy
+msgid "Witness(es)"
+msgstr "témoin(s)"
+
+#: templates/gwd/mod_individual.html:509 templates/gwd/mod_individual.html:696
+#: templates/gwd/mod_individual.html:794 templates/gwd/mod_individual.html:941
+#: templates/gwd/mod_individual.html:1568
+#: templates/gwd/mod_individual.html:2132
+#, fuzzy
+msgid "Insert witness"
+msgstr "Insérer témoin(s)"
+
+#: templates/gwd/mod_individual.html:509 templates/gwd/mod_individual.html:595
+#: templates/gwd/mod_individual.html:696 templates/gwd/mod_individual.html:794
+#: templates/gwd/mod_individual.html:941 templates/gwd/mod_individual.html:964
+#: templates/gwd/mod_individual.html:982 templates/gwd/mod_individual.html:1159
+#: templates/gwd/mod_individual.html:1321
+#: templates/gwd/mod_individual.html:1346
+#: templates/gwd/mod_individual.html:1503
+#: templates/gwd/mod_individual.html:1519
+#: templates/gwd/mod_individual.html:1816
+#: templates/gwd/mod_individual.html:2132
+#: templates/gwd/mod_individual.html:2388
+msgid "OK"
+msgstr "OK"
+
+#: templates/gwd/mod_individual.html:595
+#, fuzzy
+msgid "Insert witness/godparent"
+msgstr "Insérer témoin(s)"
+
+#: templates/gwd/mod_individual.html:609
+msgid "Status"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:711
+msgid "Type"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:716
+#, fuzzy
+msgid "Cremation"
+msgstr "Créer"
+
+#: templates/gwd/mod_individual.html:811 templates/gwd/mod_individual.html:2017
+#, fuzzy
+msgid "Event type"
+msgstr "Événement 1"
+
+#: templates/gwd/mod_individual.html:818 templates/gwd/mod_individual.html:2024
+#, fuzzy
+msgid "Accomplishment"
+msgstr "Commentaire"
+
+#: templates/gwd/mod_individual.html:819 templates/gwd/mod_individual.html:2025
+#, fuzzy
+msgid "Acquisition"
+msgstr "précision"
+
+#: templates/gwd/mod_individual.html:820 templates/gwd/mod_individual.html:2026
+msgid "Adhesion"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:821 templates/gwd/mod_individual.html:2027
+msgid "Bar mitzvah"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:822 templates/gwd/mod_individual.html:2028
+msgid "Bat mitzvah"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:823 templates/gwd/mod_individual.html:2029
+#, fuzzy
+msgid "Benediction"
+msgstr "Mentionné"
+
+#: templates/gwd/mod_individual.html:824 templates/gwd/mod_individual.html:2030
+msgid "Change name"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:825 templates/gwd/mod_individual.html:2031
+#, fuzzy
+msgid "Circumcision"
+msgstr "précision"
+
+#: templates/gwd/mod_individual.html:826 templates/gwd/mod_individual.html:2032
+msgid "Confirmation"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:827 templates/gwd/mod_individual.html:2033
+#, fuzzy
+msgid "Decoration"
+msgstr "Séparation"
+
+#: templates/gwd/mod_individual.html:828 templates/gwd/mod_individual.html:2034
+msgid "Demobilisation"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:829 templates/gwd/mod_individual.html:2035
+msgid "Diploma"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:830 templates/gwd/mod_individual.html:2036
+msgid "Distinction"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:831 templates/gwd/mod_individual.html:2037
+#, fuzzy
+msgid "Dotation"
+msgstr "Profession"
+
+#: templates/gwd/mod_individual.html:832 templates/gwd/mod_individual.html:2038
+#, fuzzy
+msgid "Education"
+msgstr "Séparation"
+
+#: templates/gwd/mod_individual.html:833 templates/gwd/mod_individual.html:2039
+msgid "Election"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:834 templates/gwd/mod_individual.html:2040
+#, fuzzy
+msgid "Emigration"
+msgstr "Séparation"
+
+#: templates/gwd/mod_individual.html:835 templates/gwd/mod_individual.html:2041
+msgid "Excommunication"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:836 templates/gwd/mod_individual.html:2042
+msgid "First communion"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:837 templates/gwd/mod_individual.html:2043
+msgid "Funeral"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:838 templates/gwd/mod_individual.html:2044
+#, fuzzy
+msgid "Graduate"
+msgstr "Date"
+
+#: templates/gwd/mod_individual.html:839 templates/gwd/mod_individual.html:2045
+#, fuzzy
+msgid "Hospitalisation"
+msgstr "Séparation"
+
+#: templates/gwd/mod_individual.html:840 templates/gwd/mod_individual.html:2046
+#, fuzzy
+msgid "Illness"
+msgstr "Témoin"
+
+#: templates/gwd/mod_individual.html:841 templates/gwd/mod_individual.html:2047
+msgid "Immigration"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:842 templates/gwd/mod_individual.html:2048
+msgid "Passenger list"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:843 templates/gwd/mod_individual.html:2049
+msgid "Military distinction"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:844 templates/gwd/mod_individual.html:2050
+msgid "Military promotion"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:845 templates/gwd/mod_individual.html:2051
+msgid "Military service"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:846 templates/gwd/mod_individual.html:2052
+msgid "Mobilisation"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:847 templates/gwd/mod_individual.html:2053
+msgid "Naturalisation"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:849 templates/gwd/mod_individual.html:2055
+#, fuzzy
+msgid "Ordination"
+msgstr "Séparation"
+
+#: templates/gwd/mod_individual.html:850 templates/gwd/mod_individual.html:2056
+msgid "Property"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:851 templates/gwd/mod_individual.html:2057
+msgid "Census"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:853 templates/gwd/mod_individual.html:2059
+#, fuzzy
+msgid "Retired"
+msgstr "Mentionné"
+
+#: templates/gwd/mod_individual.html:854 templates/gwd/mod_individual.html:2060
+msgid "Property sale"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:855 templates/gwd/mod_individual.html:2061
+msgid "Will"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:857 templates/gwd/mod_individual.html:2063
+msgid "Baptism LDS"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:858 templates/gwd/mod_individual.html:2064
+msgid "Confirmation LDS"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:859 templates/gwd/mod_individual.html:2065
+msgid "Dotation LDS"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:860 templates/gwd/mod_individual.html:2066
+msgid "Family link LDS"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:861 templates/gwd/mod_individual.html:2067
+msgid "Sealing child LDS"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:862 templates/gwd/mod_individual.html:2068
+msgid "Sealing parent LDS"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:863 templates/gwd/mod_individual.html:2069
+msgid "Sealing spouse LDS"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:961
+#, fuzzy
+msgid "Event(s)"
+msgstr "événement(s)"
+
+#: templates/gwd/mod_individual.html:964 templates/gwd/mod_individual.html:1610
+#, fuzzy
+msgid "Insert event"
+msgstr "Insérer"
+
+#: templates/gwd/mod_individual.html:979 templates/gwd/mod_individual.html:993
+#: templates/gwd/mod_individual.html:1156
+#: templates/gwd/mod_individual.html:1170
+#: templates/gwd/mod_individual.html:1318
+#: templates/gwd/mod_individual.html:2247
+#: templates/gwd/mod_individual.html:2385
+#, fuzzy
+msgid "Relation"
+msgstr "Séparation"
+
+#: templates/gwd/mod_individual.html:982 templates/gwd/mod_individual.html:1159
+#: templates/gwd/mod_individual.html:1321
+#: templates/gwd/mod_individual.html:1647
+#: templates/gwd/mod_individual.html:2388
+#, fuzzy
+msgid "Insert relation"
+msgstr "Insérer relation"
+
+#: templates/gwd/mod_individual.html:998 templates/gwd/mod_individual.html:1175
+#: templates/gwd/mod_individual.html:2252
+#, fuzzy
+msgid "Adoptive parents"
+msgstr "Parents adoptifs"
+
+#: templates/gwd/mod_individual.html:999 templates/gwd/mod_individual.html:1176
+#: templates/gwd/mod_individual.html:2253
+#, fuzzy
+msgid "Recognizing parents"
+msgstr "Parents l'ayant reconnu"
+
+#: templates/gwd/mod_individual.html:1000
+#: templates/gwd/mod_individual.html:1177
+#: templates/gwd/mod_individual.html:2254
+msgid "Candidate parents"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:1001
+#: templates/gwd/mod_individual.html:1178
+#: templates/gwd/mod_individual.html:2255
+#, fuzzy
+msgid "Godparents"
+msgstr "Parents"
+
+#: templates/gwd/mod_individual.html:1002
+#: templates/gwd/mod_individual.html:1179
+#: templates/gwd/mod_individual.html:2256
+#, fuzzy
+msgid "Foster parents"
+msgstr "Parents nourriciers"
+
+#: templates/gwd/mod_individual.html:1068
+#: templates/gwd/mod_individual.html:1140
+#: templates/gwd/mod_individual.html:1239
+#: templates/gwd/mod_individual.html:1304
+#: templates/gwd/mod_individual.html:2311
+#: templates/gwd/mod_individual.html:2371
+msgid "Of course dead"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:1343
+#: templates/gwd/mod_individual.html:1500
+#: templates/gwd/mod_individual.html:1516
+#: templates/gwd/mod_individual.html:1813
+#, fuzzy
+msgid "Title(s)"
+msgstr "témoin(s)"
+
+#: templates/gwd/mod_individual.html:1346
+#: templates/gwd/mod_individual.html:1503
+#: templates/gwd/mod_individual.html:1519
+#: templates/gwd/mod_individual.html:1816
+#, fuzzy
+msgid "Insert title"
+msgstr "Insérer enfant"
+
+#: templates/gwd/mod_individual.html:1356
+#: templates/gwd/mod_individual.html:1360
+#: templates/gwd/mod_individual.html:2154
+#: templates/gwd/mod_individual.html:2156
+msgid "Title"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:1362
+#: templates/gwd/mod_individual.html:1366
+#: templates/gwd/mod_individual.html:2158
+#: templates/gwd/mod_individual.html:2160
+msgid "Fief"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:1370
+#: templates/gwd/mod_individual.html:1374
+#: templates/gwd/mod_individual.html:2164
+#: templates/gwd/mod_individual.html:2166
+#, fuzzy
+msgid "Name"
+msgstr "Nom"
+
+#: templates/gwd/mod_individual.html:1376
+#: templates/gwd/mod_individual.html:2168
+msgid "Rank"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:1386
+#: templates/gwd/mod_individual.html:2174
+msgid "Main title"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:1392
+#: templates/gwd/mod_individual.html:2179
+msgid "Begin"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:1411
+#: templates/gwd/mod_individual.html:1460
+#: templates/gwd/mod_individual.html:2192
+#: templates/gwd/mod_individual.html:2221
+#, fuzzy
+msgid "or"
+msgstr "…ou…"
+
+#: templates/gwd/mod_individual.html:1412
+#: templates/gwd/mod_individual.html:1461
+#: templates/gwd/mod_individual.html:2193
+#: templates/gwd/mod_individual.html:2222
+#, fuzzy
+msgid "between"
+msgstr "…entre…"
+
+#: templates/gwd/mod_individual.html:1441
+#: templates/gwd/mod_individual.html:2208
+#, fuzzy
+msgid "End"
+msgstr "2e"
+
+#: templates/gwd/mod_individual.html:1533
+msgid "Notes about this person"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:1576
+msgid "Please check the checkbox to insert witnesses"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:1618
+msgid "Please check the checkbox to insert events"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:1653
+msgid "Please check the checkbox to insert relation"
+msgstr ""
+
+#: templates/gwd/mod_individual.html:1686
+msgid "Please check the checkbox to insert titles"
+msgstr ""
+
+msgid "GeneWeb"
+msgstr "GeneWeb"
+
+msgid "Genealogical database"
+msgstr "Base généalogique"
+
+msgid "persons"
+msgstr "personnes"
+
+msgid "Display a random individual"
+msgstr "Afficher un individu au hasard"
+
+msgid "Surnames, sort alphabetically"
+msgstr "Noms, tri alphabétique"
+
+msgid "Surnames frequency, sort by number of individuals"
+msgstr "Fréquence des noms, tri par nombre d'individus"
+
+msgid "Surname, public name, alias"
+msgstr "Nom, nom public, alias"
+
+msgid "Search surname, public name, alias"
+msgstr "Rechercher nom, nom public, alias"
+
+msgid "First name(s)"
+msgstr "Prénom(s)"
+
+msgid "Search first name(s)"
+msgstr "Rechercher prénom(s)"
+
+msgid "First names, sort alphabetically"
+msgstr "Prénoms, tri alphabétique"
+
+msgid "First names frequency, sort by number of individuals"
+msgstr "Fréquence des prénoms, tri par nombre d'individus"
+
+msgid "Search"
+msgstr "Rechercher"
+
+msgid "person"
+msgstr "personne"
+
+msgid "All titles"
+msgstr "Tous les titres"
+
+msgid "Title"
+msgstr "Titre"
+
+msgid "All the fiefs"
+msgstr "Tous les domaines"
+
+msgid "Estate"
+msgstr "Domaine"
+
+msgid "Search title/estate"
+msgstr "Rechercher titre/domaine"
+
+msgid "Tools"
+msgstr "Outils"
 
 msgid "Notes"
 msgstr "Notes"
 
-msgid "Source"
-msgstr ""
+msgid "Statistics"
+msgstr "Statistiques"
 
-msgid "Insert"
-msgstr "Insérer"
+msgid "Anniversaries"
+msgstr "Anniversaires"
 
-msgid "witness(es)"
-msgstr "témoin(s)"
+msgid "Add family (wizard)"
+msgstr "Ajouter une famille (assistant)"
 
-msgid "event(s)"
-msgstr "événement(s)"
+msgid "Places/surname"
+msgstr "Lieux/patronyme"
 
-msgid "1st Child"
-msgstr "1er Enfant"
+msgid "Calendars"
+msgstr "Calendriers"
 
-msgid "Edit 1st child"
-msgstr "Modifier 1er Enfant"
+msgid "Configuration"
+msgstr "Configuration"
 
-msgid "Sex"
-msgstr "Sexe"
+msgid "Dictionaries"
+msgstr "Dictionnaires"
 
-msgid "?"
-msgstr "?"
+msgid "Edit first names dictionary (wizard)"
+msgstr "Modifier le dictionnaire des prénoms (assistant)"
 
-msgid "F"
-msgstr "F"
+msgid "First names"
+msgstr "Prénoms"
 
-msgid "Persons"
-msgstr "précision"
+msgid "Edit surnames dictionary (wizard)"
+msgstr "Modifier le dictionnaire des noms (assistant)"
 
-msgid "People sources"
-msgstr "Source personne"
+msgid "Surnames"
+msgstr "Noms"
 
-msgid "Family"
-msgstr "Famille"
+msgid "Edit places dictionary (wizard)"
+msgstr "Modifier le dictionnaire des lieux (assistant)"
 
-msgid "h1"
-msgstr "h1"
+msgid "Places"
+msgstr "Lieux"
 
-msgid "Format"
-msgstr ""
+msgid "Edit professions dictionary (wizard)"
+msgstr "Modifier le dictionnaire des professions (assistant)"
 
-msgid "ul ol dl pre"
-msgstr "ul ol dl pre"
+msgid "Professions"
+msgstr "Professions"
 
-msgid "Various notes"
-msgstr ""
+msgid "Edit sources dictionary (wizard)"
+msgstr "Modifier le dictionnaire des sources (assistant)"
 
-msgid "Summary"
-msgstr "Résumé"
+msgid "Sources"
+msgstr "Sources"
 
-msgid "Person"
-msgstr "précision"
+msgid "Home"
+msgstr "Accueil"
 
-msgid "1st"
-msgstr "1er"
+msgid "Back"
+msgstr "Retour"
 
-msgid "2nd"
-msgstr "2e"
+msgid "Search individual"
+msgstr "Rechercher un individu"
 
-msgid "3rd"
-msgstr "3e"
+msgid "Search public name"
+msgstr "Rechercher un nom public"
 
-msgid "4th"
-msgstr ""
+msgid "Search first name"
+msgstr "Rechercher un prénom"
 
-msgid "5th"
-msgstr ""
+msgid "Display by"
+msgstr "Afficher par"
 
-msgid "6th"
-msgstr ""
+msgid "line"
+msgstr "branche"
 
-msgid "7th"
-msgstr ""
+msgid "alphabetical order"
+msgstr "ordre alphabétique"
 
-msgid "8th"
-msgstr ""
+msgid "surnames"
+msgstr "noms"
 
-msgid "9th"
-msgstr ""
+msgid "first names"
+msgstr "prénoms"
 
-msgid "10th"
-msgstr ""
-
-msgid "Child"
-msgstr "Enfant"
-
-msgid "Swap with previous child"
-msgstr "Echanger avec l'enfant précédent"
-
-msgid "Modify child"
-msgstr "Modifier l'enfant"
-
-msgid "Insert child(ren)"
-msgstr "Insérer enfant"
-
-msgid "exact"
-msgstr "exacte"
-
-msgid "about"
-msgstr "vers"
-
-msgid "maybe"
-msgstr "peut être"
-
-msgid "before"
-msgstr "avant"
-
-msgid "after"
-msgstr "après"
-
-msgid "…or…"
-msgstr "…ou…"
-
-msgid "…between…"
-msgstr "…entre…"
-
-msgid "Gregorian"
-msgstr "Grégorien"
-
-msgid "Julian"
-msgstr "Julien"
+msgid "Clear field"
+msgstr "Effacer le champ"
 
 msgid "Insert witness(es)"
 msgstr "Insérer témoin(s)"
 
-msgid "Witness"
-msgstr "Témoin"
+msgid "Insert event(s)"
+msgstr "Insérer événement(s)"
 
-msgid "Modify witness"
-msgstr "Modifier Témoin"
+msgid "Family sources"
+msgstr "Sources famille"
 
-msgid "Informant"
-msgstr "Déclarant"
-
-msgid "Present"
-msgstr "précision"
-
-msgid "Mentioned"
-msgstr "Mentionné"
-
-msgid "Civil registrar"
-msgstr "Officier d'état civil"
-
-msgid "Minister of worship"
-msgstr "Ministre du culte"
-
-msgid "Other"
-msgstr "Autre"
-
-msgid "Obviously deceased"
-msgstr "Bien entendu décédé"
-
-msgid "Public"
-msgstr ""
-
-msgid "anniversaries"
-msgstr "anniversaires"
-
-msgid "anniversaries of birth"
-msgstr ""
-
-msgid "anniversaries of dead people"
-msgstr ""
-
-msgid "anniversaries of marriage"
-msgstr ""
-
-msgid "v7 show others"
-msgstr ""
-
-msgid "v7 hide others"
-msgstr ""
-
-msgid "v7 exact match"
-msgstr ""
-
-msgid "v7 approxim match"
-msgstr ""
-
-msgid "v7 word boundaries"
-msgstr ""
-
-msgid "v7 anywhere"
-msgstr ""
-
-msgid "v7 refresh fnames cache"
-msgstr ""
-
-msgid "shortest path"
-msgstr ""
-
-msgid "visualize/show/hide/summary"
-msgstr ""
-
-msgid "next relationship path"
-msgstr ""
-
-msgid "relationship link/relationship links"
-msgstr ""
-
-msgid "relationship by marriage"
-msgstr ""
-
-msgid "long display"
-msgstr ""
-
-msgid "image/images"
-msgstr ""
-
-msgid "spouse/spouses"
-msgstr ""
-
-msgid "invert"
-msgstr ""
-
-msgid "person/persons"
-msgstr ""
-
-msgid "dag"
-msgstr ""
-
-msgid "cancel GeneWeb links"
-msgstr ""
-
-msgid "add"
-msgstr ""
-
-msgid "delete::image/images"
-msgstr ""
-
-msgid "image received"
-msgstr ""
-
-msgid "with note"
-msgstr ""
-
-msgid "image deleted"
-msgstr ""
-
-msgid "and"
-msgstr ""
-
-msgid "saved"
-msgstr ""
-
-msgid "restored"
-msgstr ""
-
-msgid "note"
-msgstr ""
-
-msgid "update"
-msgstr ""
-
-msgid "portrait"
-msgstr ""
-
-msgid "uploaded"
-msgstr ""
-
-msgid "deleted"
-msgstr ""
-
-msgid "modify portrait"
-msgstr ""
-
-msgid "add portrait"
-msgstr ""
-
-msgid "browse"
-msgstr ""
-
-msgid "select"
-msgstr ""
-
-msgid "send"
-msgstr ""
-
-msgid "previous portrait"
-msgstr ""
-
-msgid "add image"
-msgstr ""
-
-msgid "previous image"
-msgstr ""
-
-msgid "url"
-msgstr ""
-
-msgid "name"
-msgstr ""
-
-msgid "source/sources"
-msgstr ""
-
-msgid "note/notes"
-msgstr ""
-
-msgid "send image with note and source"
-msgstr ""
-
-msgid "see portrait"
-msgstr ""
-
-msgid "delete portrait"
-msgstr ""
-
-msgid "restore portrait saved"
-msgstr ""
-
-msgid "delete portrait saved"
-msgstr ""
-
-msgid "warning refresh"
-msgstr ""
-
-msgid "see"
-msgstr ""
-
-msgid "add source"
-msgstr ""
-
-msgid "modify source"
-msgstr ""
-
-msgid "add note"
-msgstr ""
-
-msgid "modify note"
-msgstr ""
-
-msgid "delete image"
-msgstr ""
-
-msgid "saved images"
-msgstr ""
-
-msgid "restore image saved"
-msgstr ""
-
-msgid "delete image saved"
-msgstr ""
-
-msgid "update image note"
-msgstr ""
-
-msgid "update image source"
-msgstr ""
-
-msgid "delete"
-msgstr ""
-
-msgid "previous"
-msgstr ""
-
-msgid "next"
-msgstr ""
-
-msgid "geneweb parameters"
-msgstr ""
-
-msgid "wizard/wizards/friend/friends/exterior"
-msgstr ""
-
-msgid "build information"
-msgstr ""
-
-msgid "user and language variables"
-msgstr ""
-
-msgid "launch arguments of Gwd server"
-msgstr ""
-
-msgid "configuration parameters"
-msgstr ""
-
-msgid "select lang"
-msgstr ""
-
-msgid "connection/connections"
-msgstr ""
-
-msgid "branch/branches"
-msgstr ""
-
-msgid "compiled on"
-msgstr ""
-
-msgid "from commit"
-msgstr ""
-
-msgid "descendants tree"
-msgstr ""
-
-msgid "home"
-msgstr ""
-
-msgid "back"
-msgstr ""
-
-msgid "search/case sensitive"
-msgstr ""
-
-msgid "random individual"
-msgstr ""
-
-msgid "stay on the current tool"
-msgstr ""
-
-msgid "surname/surnames"
-msgstr ""
-
-msgid "public name"
-msgstr ""
-
-msgid "alias"
-msgstr ""
-
-msgid "first name/first names"
-msgstr ""
-
-msgid "choose a genealogy"
-msgstr ""
-
-msgid "input database"
-msgstr ""
-
-msgid "available genealogies"
-msgstr ""
-
-msgid "modification successful"
-msgstr ""
-
-msgid "no modification"
-msgstr ""
-
-msgid "person modified"
-msgstr ""
-
-msgid "person added"
-msgstr ""
-
-msgid "family modified"
-msgstr ""
-
-msgid "family added"
-msgstr ""
-
-msgid "family deleted"
-msgstr ""
-
-msgid "autofocus"
-msgstr ""
-
-msgid "data-surname"
-msgstr ""
-
-msgid "data-index"
-msgstr ""
-
-msgid "cousins.xx.yy"
-msgstr ""
-
-msgid "cousins.xx.yy tt"
-msgstr ""
-
-msgid "link between"
-msgstr ""
-
-msgid "relationship shortcut"
-msgstr ""
-
-msgid "Sosa"
-msgstr ""
-
-msgid "witness/witnesses"
-msgstr ""
-
-msgid "any individual in the base"
-msgstr ""
-
-msgid "validate/delete"
-msgstr ""
-
-msgid "relationship computing mode"
-msgstr ""
-
-msgid "relationship by ancestors"
-msgstr ""
-
-msgid "relationship display options"
-msgstr ""
-
-msgid "statistics"
-msgstr ""
-
-msgid "modify::tree"
-msgstr ""
-
-msgid "edit tree"
-msgstr ""
-
-msgid "birth"
-msgstr ""
-
-msgid "death"
-msgstr ""
-
-msgid "text"
-msgstr ""
-
-msgid "lists"
-msgstr ""
-
-msgid "add::family/families"
-msgstr ""
-
-msgid "add::parents"
-msgstr ""
-
-msgid "modify::family/families"
-msgstr ""
-
-msgid "merge::family/families"
-msgstr ""
-
-msgid "parents"
-msgstr ""
-
-msgid "event/events"
-msgstr ""
-
-msgid "child/children"
-msgstr ""
-
-msgid "comment"
-msgstr ""
-
-msgid "year/month/day"
-msgstr ""
-
-msgid "calendar/calendars"
-msgstr ""
-
-msgid "gregorian/julian/french/hebrew"
-msgstr ""
-
-msgid "kind"
-msgstr ""
-
-msgid "dd/mm/yyyy"
-msgstr ""
-
-msgid "place/places"
-msgstr ""
-
-msgid "number"
-msgstr ""
-
-msgid "create"
-msgstr ""
-
-msgid "link"
-msgstr ""
-
-msgid "occupation/occupations"
-msgstr ""
-
-msgid "insert"
-msgstr ""
-
-msgid "insert::event/events"
-msgstr ""
-
-msgid "custom event"
-msgstr ""
-
-msgid "marriage event"
-msgstr ""
-
-msgid "no marriage event"
-msgstr ""
-
-msgid "engage event"
-msgstr ""
-
-msgid "no mention"
-msgstr ""
-
-msgid "marriage bann"
-msgstr ""
-
-msgid "marriage contract"
-msgstr ""
-
-msgid "marriage licence"
-msgstr ""
-
-msgid "PACS"
-msgstr ""
-
-msgid "divorce event"
-msgstr ""
-
-msgid "separate event"
-msgstr ""
-
-msgid "annulation"
-msgstr ""
-
-msgid "residence"
-msgstr ""
-
-msgid "witness/witness/witnesses"
-msgstr ""
-
-msgid "insert::witness/witness/witnesses"
-msgstr ""
-
-msgid "informant/informant/informant"
-msgstr ""
-
-msgid "present/present/present"
-msgstr ""
-
-msgid "mentioned/mentioned/mentioned"
-msgstr ""
-
-msgid "civil registrar/civil registrar/civil registrar"
-msgstr ""
-
-msgid "parrish registrar/parrish registrar/parrish registrar"
-msgstr ""
-
-msgid "other/other/other"
-msgstr ""
-
-msgid "modify::person/persons"
-msgstr ""
-
-msgid "modify"
-msgstr ""
-
-msgid "sex"
-msgstr ""
-
-msgid "M/F"
-msgstr ""
-
-msgid "of course dead"
-msgstr ""
-
-msgid "public"
-msgstr ""
-
-msgid "date/dates"
-msgstr ""
-
-msgid "yy"
-msgstr ""
-
-msgid "no sexes check"
-msgstr ""
-
-msgid "insert::child/children"
-msgstr ""
-
-msgid "family/families"
-msgstr ""
-
-msgid "move up/down"
-msgstr ""
-
-msgid "restricted access"
-msgstr ""
-
-msgid "user/password/cancel"
-msgstr ""
-
-msgid "disconnect"
-msgstr ""
-
-msgid "sort by/date begin/alphabetic order/nb individuals/nb events"
-msgstr ""
-
-msgid "display by/branch/alphabetic order"
-msgstr ""
-
-msgid "frequency"
-msgstr ""
-
-msgid "all the titles"
-msgstr ""
-
-msgid "title/titles"
-msgstr ""
-
-msgid "all the estates"
-msgstr ""
-
-msgid "estate"
-msgstr ""
-
-msgid "tools"
-msgstr ""
-
-msgid "add base notes"
-msgstr ""
-
-msgid "base notes"
-msgstr ""
-
-msgid "base index notes"
-msgstr ""
-
-msgid "base wizard notes"
-msgstr ""
-
-msgid "history"
-msgstr ""
-
-msgid "forum"
-msgstr ""
-
-msgid "advanced request"
-msgstr ""
-
-msgid "configuration"
-msgstr ""
-
-msgid "book/books"
-msgstr ""
-
-msgid "plugins"
-msgstr ""
+msgid "Edit person"
+msgstr "Modifier personne"
 
 #~ msgid "Same-sex relationship (no sex verification)"
 #~ msgstr "Relation homosexuelle (pas de vérification des sexes)"
@@ -1682,123 +2431,1204 @@ msgstr ""
 #~ msgid "Occupation"
 #~ msgstr "Profession"
 
-msgid "January"
-msgstr "janvier"
-
-msgid "February"
-msgstr "février"
-
-msgid "March"
-msgstr "mars"
-
-msgid "April"
-msgstr "avril"
-
-msgid "May"
-msgstr "mai"
-
-msgid "June"
-msgstr "juin"
-
-msgid "July"
-msgstr "juillet"
-
-msgid "August"
-msgstr "août"
-
-msgid "September"
-msgstr "septembre"
-
-msgid "October"
-msgstr "octobre"
-
-msgid "November"
-msgstr "novembre"
-
-msgid "December"
-msgstr "décembre"
-
-msgid "Vendémiaire"
-msgstr "vendémiaire"
-
-msgid "Brumaire"
-msgstr "brumaire"
-
-msgid "Frimaire"
-msgstr "frimaire"
-
-msgid "Nivôse"
-msgstr "nivôse"
-
-msgid "Pluviôse"
-msgstr "pluviôse"
-
-msgid "Ventôse"
-msgstr "ventôse"
-
-msgid "Germinal"
-msgstr "germinal"
-
-msgid "Floréal"
-msgstr "floréal"
-
-msgid "Prairial"
-msgstr "prairial"
-
-msgid "Messidor"
-msgstr "messidor"
-
-msgid "Thermidor"
-msgstr "thermidor"
-
-msgid "Fructidor"
-msgstr "fructidor"
-
-msgid "Complémentaire"
-msgstr "complémentaire"
-
-msgid "Tichri"
-msgstr "tichri"
-
-msgid "Marhechvan"
-msgstr "marhechvan"
-
-msgid "Kislev"
-msgstr "kislev"
-
-msgid "Tevet"
-msgstr "tevet"
-
-msgid "Chevat"
-msgstr "chevat"
-
-msgid "Adar 1"
-msgstr "adar 1"
-
-msgid "Adar 2"
-msgstr "adar 2"
-
-msgid "Nissan"
-msgstr "nissan"
-
-msgid "Iyar"
-msgstr "iyar"
-
-msgid "Sivan"
-msgstr "sivan"
-
-msgid "Tamouz"
-msgstr "tamouz"
-
-msgid "Av"
-msgstr "av"
-
-msgid "Eloul"
-msgstr "eloul"
-
 #~ msgid "Same-sex relationship (no sex validation)"
 #~ msgstr ""
 
 #~ msgid "Validate"
+#~ msgstr ""
+
+#~ msgid "anniversaries"
+#~ msgstr "anniversaires"
+
+#~ msgid "anniversaries of birth"
+#~ msgstr ""
+
+#~ msgid "anniversaries of dead people"
+#~ msgstr ""
+
+#~ msgid "anniversaries of marriage"
+#~ msgstr ""
+
+#~ msgid "v7 show others"
+#~ msgstr ""
+
+#~ msgid "v7 hide others"
+#~ msgstr ""
+
+#~ msgid "v7 exact match"
+#~ msgstr ""
+
+#~ msgid "v7 approxim match"
+#~ msgstr ""
+
+#~ msgid "v7 word boundaries"
+#~ msgstr ""
+
+#~ msgid "v7 anywhere"
+#~ msgstr ""
+
+#~ msgid "v7 refresh fnames cache"
+#~ msgstr ""
+
+#~ msgid "shortest path"
+#~ msgstr ""
+
+#~ msgid "visualize/show/hide/summary"
+#~ msgstr ""
+
+#~ msgid "next relationship path"
+#~ msgstr ""
+
+#~ msgid "relationship link/relationship links"
+#~ msgstr ""
+
+#~ msgid "relationship by marriage"
+#~ msgstr ""
+
+#~ msgid "long display"
+#~ msgstr ""
+
+#~ msgid "image/images"
+#~ msgstr ""
+
+#~ msgid "spouse/spouses"
+#~ msgstr ""
+
+#~ msgid "invert"
+#~ msgstr ""
+
+#~ msgid "person/persons"
+#~ msgstr ""
+
+#~ msgid "dag"
+#~ msgstr ""
+
+#~ msgid "cancel GeneWeb links"
+#~ msgstr ""
+
+#~ msgid "add"
+#~ msgstr ""
+
+#~ msgid "delete::image/images"
+#~ msgstr ""
+
+#~ msgid "image received"
+#~ msgstr ""
+
+#~ msgid "with note"
+#~ msgstr ""
+
+#~ msgid "image deleted"
+#~ msgstr ""
+
+#~ msgid "and"
+#~ msgstr ""
+
+#~ msgid "saved"
+#~ msgstr ""
+
+#~ msgid "restored"
+#~ msgstr ""
+
+#~ msgid "note"
+#~ msgstr ""
+
+#~ msgid "update"
+#~ msgstr ""
+
+#~ msgid "portrait"
+#~ msgstr ""
+
+#~ msgid "uploaded"
+#~ msgstr ""
+
+#~ msgid "deleted"
+#~ msgstr ""
+
+#~ msgid "modify portrait"
+#~ msgstr ""
+
+#~ msgid "add portrait"
+#~ msgstr ""
+
+#~ msgid "browse"
+#~ msgstr ""
+
+#~ msgid "select"
+#~ msgstr ""
+
+#~ msgid "send"
+#~ msgstr ""
+
+#~ msgid "previous portrait"
+#~ msgstr ""
+
+#~ msgid "add image"
+#~ msgstr ""
+
+#~ msgid "previous image"
+#~ msgstr ""
+
+#~ msgid "url"
+#~ msgstr ""
+
+#~ msgid "name"
+#~ msgstr ""
+
+#~ msgid "source/sources"
+#~ msgstr ""
+
+#~ msgid "note/notes"
+#~ msgstr ""
+
+#~ msgid "send image with note and source"
+#~ msgstr ""
+
+#~ msgid "see portrait"
+#~ msgstr ""
+
+#~ msgid "delete portrait"
+#~ msgstr ""
+
+#~ msgid "restore portrait saved"
+#~ msgstr ""
+
+#~ msgid "delete portrait saved"
+#~ msgstr ""
+
+#~ msgid "warning refresh"
+#~ msgstr ""
+
+#~ msgid "see"
+#~ msgstr ""
+
+#~ msgid "add source"
+#~ msgstr ""
+
+#~ msgid "modify source"
+#~ msgstr ""
+
+#~ msgid "add note"
+#~ msgstr ""
+
+#~ msgid "modify note"
+#~ msgstr ""
+
+#~ msgid "delete image"
+#~ msgstr ""
+
+#~ msgid "saved images"
+#~ msgstr ""
+
+#~ msgid "restore image saved"
+#~ msgstr ""
+
+#~ msgid "delete image saved"
+#~ msgstr ""
+
+#~ msgid "update image note"
+#~ msgstr ""
+
+#~ msgid "update image source"
+#~ msgstr ""
+
+#~ msgid "delete"
+#~ msgstr ""
+
+#~ msgid "previous"
+#~ msgstr ""
+
+#~ msgid "next"
+#~ msgstr ""
+
+#~ msgid "geneweb parameters"
+#~ msgstr ""
+
+#~ msgid "wizard/wizards/friend/friends/exterior"
+#~ msgstr ""
+
+#~ msgid "build information"
+#~ msgstr ""
+
+#~ msgid "user and language variables"
+#~ msgstr ""
+
+#~ msgid "launch arguments of Gwd server"
+#~ msgstr ""
+
+#~ msgid "configuration parameters"
+#~ msgstr ""
+
+#~ msgid "select lang"
+#~ msgstr ""
+
+#~ msgid "connection/connections"
+#~ msgstr ""
+
+#~ msgid "branch/branches"
+#~ msgstr ""
+
+#~ msgid "compiled on"
+#~ msgstr ""
+
+#~ msgid "from commit"
+#~ msgstr ""
+
+#~ msgid "descendants tree"
+#~ msgstr ""
+
+#~ msgid "home"
+#~ msgstr ""
+
+#~ msgid "back"
+#~ msgstr ""
+
+#~ msgid "search/case sensitive"
+#~ msgstr ""
+
+#~ msgid "random individual"
+#~ msgstr ""
+
+#~ msgid "stay on the current tool"
+#~ msgstr ""
+
+#~ msgid "surname/surnames"
+#~ msgstr ""
+
+#~ msgid "public name"
+#~ msgstr ""
+
+#~ msgid "alias"
+#~ msgstr ""
+
+#~ msgid "first name/first names"
+#~ msgstr ""
+
+#~ msgid "choose a genealogy"
+#~ msgstr ""
+
+#~ msgid "input database"
+#~ msgstr ""
+
+#~ msgid "available genealogies"
+#~ msgstr ""
+
+#~ msgid "modification successful"
+#~ msgstr ""
+
+#~ msgid "no modification"
+#~ msgstr ""
+
+#~ msgid "person modified"
+#~ msgstr ""
+
+#~ msgid "person added"
+#~ msgstr ""
+
+#~ msgid "family modified"
+#~ msgstr ""
+
+#~ msgid "family added"
+#~ msgstr ""
+
+#~ msgid "family deleted"
+#~ msgstr ""
+
+#~ msgid "autofocus"
+#~ msgstr ""
+
+#~ msgid "data-surname"
+#~ msgstr ""
+
+#~ msgid "data-index"
+#~ msgstr ""
+
+#~ msgid "cousins.xx.yy"
+#~ msgstr ""
+
+#~ msgid "cousins.xx.yy tt"
+#~ msgstr ""
+
+#~ msgid "link between"
+#~ msgstr ""
+
+#~ msgid "relationship shortcut"
+#~ msgstr ""
+
+#~ msgid "Sosa"
+#~ msgstr ""
+
+#~ msgid "witness/witnesses"
+#~ msgstr ""
+
+#~ msgid "any individual in the base"
+#~ msgstr ""
+
+#~ msgid "validate/delete"
+#~ msgstr ""
+
+#~ msgid "relationship computing mode"
+#~ msgstr ""
+
+#~ msgid "relationship by ancestors"
+#~ msgstr ""
+
+#~ msgid "relationship display options"
+#~ msgstr ""
+
+#~ msgid "statistics"
+#~ msgstr ""
+
+#~ msgid "modify::tree"
+#~ msgstr ""
+
+#~ msgid "edit tree"
+#~ msgstr ""
+
+#~ msgid "birth"
+#~ msgstr ""
+
+#~ msgid "death"
+#~ msgstr ""
+
+#~ msgid "text"
+#~ msgstr ""
+
+#~ msgid "lists"
+#~ msgstr ""
+
+#~ msgid "add::family/families"
+#~ msgstr ""
+
+#~ msgid "add::parents"
+#~ msgstr ""
+
+#~ msgid "modify::family/families"
+#~ msgstr ""
+
+#~ msgid "merge::family/families"
+#~ msgstr ""
+
+#~ msgid "parents"
+#~ msgstr ""
+
+#~ msgid "event/events"
+#~ msgstr ""
+
+#~ msgid "child/children"
+#~ msgstr ""
+
+#~ msgid "comment"
+#~ msgstr ""
+
+#~ msgid "year/month/day"
+#~ msgstr ""
+
+#~ msgid "calendar/calendars"
+#~ msgstr ""
+
+#~ msgid "gregorian/julian/french/hebrew"
+#~ msgstr ""
+
+#~ msgid "kind"
+#~ msgstr ""
+
+#~ msgid "dd/mm/yyyy"
+#~ msgstr ""
+
+#~ msgid "place/places"
+#~ msgstr ""
+
+#~ msgid "number"
+#~ msgstr ""
+
+#~ msgid "create"
+#~ msgstr ""
+
+#~ msgid "link"
+#~ msgstr ""
+
+#~ msgid "occupation/occupations"
+#~ msgstr ""
+
+#~ msgid "insert"
+#~ msgstr ""
+
+#~ msgid "insert::event/events"
+#~ msgstr ""
+
+#~ msgid "custom event"
+#~ msgstr ""
+
+#~ msgid "marriage event"
+#~ msgstr ""
+
+#~ msgid "no marriage event"
+#~ msgstr ""
+
+#~ msgid "engage event"
+#~ msgstr ""
+
+#~ msgid "no mention"
+#~ msgstr ""
+
+#~ msgid "marriage bann"
+#~ msgstr ""
+
+#~ msgid "marriage contract"
+#~ msgstr ""
+
+#~ msgid "marriage licence"
+#~ msgstr ""
+
+#~ msgid "PACS"
+#~ msgstr ""
+
+#~ msgid "divorce event"
+#~ msgstr ""
+
+#~ msgid "separate event"
+#~ msgstr ""
+
+#~ msgid "annulation"
+#~ msgstr ""
+
+#~ msgid "residence"
+#~ msgstr ""
+
+#~ msgid "witness/witness/witnesses"
+#~ msgstr ""
+
+#~ msgid "insert::witness/witness/witnesses"
+#~ msgstr ""
+
+#~ msgid "informant/informant/informant"
+#~ msgstr ""
+
+#~ msgid "present/present/present"
+#~ msgstr ""
+
+#~ msgid "mentioned/mentioned/mentioned"
+#~ msgstr ""
+
+#~ msgid "civil registrar/civil registrar/civil registrar"
+#~ msgstr ""
+
+#~ msgid "parrish registrar/parrish registrar/parrish registrar"
+#~ msgstr ""
+
+#~ msgid "other/other/other"
+#~ msgstr ""
+
+#~ msgid "modify::person/persons"
+#~ msgstr ""
+
+#~ msgid "modify"
+#~ msgstr ""
+
+#~ msgid "sex"
+#~ msgstr ""
+
+#~ msgid "M/F"
+#~ msgstr ""
+
+#~ msgid "of course dead"
+#~ msgstr ""
+
+#~ msgid "public"
+#~ msgstr ""
+
+#~ msgid "date/dates"
+#~ msgstr ""
+
+#~ msgid "yy"
+#~ msgstr ""
+
+#~ msgid "no sexes check"
+#~ msgstr ""
+
+#~ msgid "insert::child/children"
+#~ msgstr ""
+
+#~ msgid "family/families"
+#~ msgstr ""
+
+#~ msgid "move up/down"
+#~ msgstr ""
+
+#~ msgid "restricted access"
+#~ msgstr ""
+
+#~ msgid "user/password/cancel"
+#~ msgstr ""
+
+#~ msgid "disconnect"
+#~ msgstr ""
+
+#~ msgid "sort by/date begin/alphabetic order/nb individuals/nb events"
+#~ msgstr ""
+
+#~ msgid "display by/branch/alphabetic order"
+#~ msgstr ""
+
+#~ msgid "frequency"
+#~ msgstr ""
+
+#~ msgid "all the titles"
+#~ msgstr ""
+
+#~ msgid "title/titles"
+#~ msgstr ""
+
+#~ msgid "all the estates"
+#~ msgstr ""
+
+#~ msgid "estate"
+#~ msgstr ""
+
+#~ msgid "tools"
+#~ msgstr ""
+
+#~ msgid "add base notes"
+#~ msgstr ""
+
+#~ msgid "base notes"
+#~ msgstr ""
+
+#~ msgid "base index notes"
+#~ msgstr ""
+
+#~ msgid "base wizard notes"
+#~ msgstr ""
+
+#~ msgid "history"
+#~ msgstr ""
+
+#~ msgid "forum"
+#~ msgstr ""
+
+#~ msgid "advanced request"
+#~ msgstr ""
+
+#~ msgid "configuration"
+#~ msgstr ""
+
+#~ msgid "book/books"
+#~ msgstr ""
+
+#~ msgid "plugins"
+#~ msgstr ""
+
+# mod_individual.html translations
+#~ msgid "mod_nav_add_parents"
+#~ msgstr "Ajouter parents"
+
+#~ msgid "mod_nav_modify_person"
+#~ msgstr "Modifier personne"
+
+#~ msgid "mod_nav_person_tools"
+#~ msgstr "Outils personne"
+
+#~ msgid "mod_nav_family_tools"
+#~ msgstr "Outils famille"
+
+#~ msgid "mod_nav_descendants"
+#~ msgstr "Descendants"
+
+#~ msgid "mod_nav_relationship"
+#~ msgstr "Parenté"
+
+#~ msgid "mod_nav_trees"
+#~ msgstr "Arbres"
+
+#~ msgid "mod_section_person"
+#~ msgstr "Personne"
+
+#~ msgid "mod_section_birth"
+#~ msgstr "Naissance"
+
+#~ msgid "mod_section_baptism"
+#~ msgstr "Baptême"
+
+#~ msgid "mod_section_death"
+#~ msgstr "Décès"
+
+#~ msgid "mod_section_burial"
+#~ msgstr "Inhumation"
+
+#~ msgid "mod_section_events"
+#~ msgstr "Événements"
+
+#~ msgid "mod_section_relations"
+#~ msgstr "Relations"
+
+#~ msgid "mod_section_titles"
+#~ msgstr "Titres"
+
+#~ msgid "mod_section_notes"
+#~ msgstr "Notes"
+
+#~ msgid "mod_field_first_name"
+#~ msgstr "Prénom"
+
+#~ msgid "mod_field_surname"
+#~ msgstr "Patronyme"
+
+#~ msgid "mod_field_number"
+#~ msgstr "Numéro"
+
+#~ msgid "mod_field_sex"
+#~ msgstr "Sexe"
+
+#~ msgid "mod_field_image"
+#~ msgstr "Image"
+
+#~ msgid "mod_field_access"
+#~ msgstr "Accès"
+
+#~ msgid "mod_field_alias"
+#~ msgstr "Alias"
+
+#~ msgid "mod_field_surnames"
+#~ msgstr "Surnoms"
+
+#~ msgid "mod_field_occupations"
+#~ msgstr "Professions"
+
+#~ msgid "mod_sex_unspecified"
+#~ msgstr "Non précisé"
+
+#~ msgid "mod_sex_male"
+#~ msgstr "Masculin"
+
+#~ msgid "mod_access_if_titles"
+#~ msgstr "Si titres"
+
+#~ msgid "mod_access_public"
+#~ msgstr "Public"
+
+#~ msgid "mod_access_private"
+#~ msgstr "Privé"
+
+#~ msgid "mod_death_alive"
+#~ msgstr "Vivant(e)"
+
+#~ msgid "mod_death_dead"
+#~ msgstr "Mort(e)"
+
+#~ msgid "mod_death_dont_know"
+#~ msgstr "Ne sais pas"
+
+#~ msgid "mod_death_obviously_dead"
+#~ msgstr "Bien entendu décédé"
+
+#~ msgid "mod_death_killed"
+#~ msgstr "Tué(e)"
+
+#~ msgid "mod_death_murdered"
+#~ msgstr "Assassiné(e)"
+
+#~ msgid "mod_death_executed"
+#~ msgstr "Exécuté(e)"
+
+#~ msgid "mod_death_disappeared"
+#~ msgstr "Disparu(e)"
+
+#~ msgid "mod_calendar_gregorian"
+#~ msgstr "Grégorien"
+
+#~ msgid "mod_calendar_julian"
+#~ msgstr "Julien"
+
+#~ msgid "mod_calendar_french_republican"
+#~ msgstr "Républicain"
+
+#~ msgid "mod_calendar_hebrew"
+#~ msgstr "Hébreu"
+
+#~ msgid "mod_button_validate"
+#~ msgstr "Valider"
+
+#~ msgid "mod_button_insert"
+#~ msgstr "Insérer"
+
+#~ msgid "mod_button_ok"
+#~ msgstr "OK"
+
+#~ msgid "mod_button_search"
+#~ msgstr "Rechercher"
+
+#~ msgid "mod_button_clear_field"
+#~ msgstr "Effacer le champ"
+
+#~ msgid "mod_placeholder_day"
+#~ msgstr "jour"
+
+#~ msgid "mod_placeholder_month"
+#~ msgstr "mois"
+
+#~ msgid "mod_placeholder_year"
+#~ msgstr "année"
+
+#~ msgid "mod_placeholder_place"
+#~ msgstr "lieu"
+
+#~ msgid "mod_help_insert_special_chars"
+#~ msgstr "Insérer des caractères spéciaux"
+
+#~ msgid "mod_help_choose_event"
+#~ msgstr "Choisir un événement"
+
+#~ msgid "mod_help_swap_with_previous"
+#~ msgstr "Échanger avec l'enfant précédent"
+
+#~ msgid "mod_rel_possible_parents"
+#~ msgstr "Parents possibles"
+
+#~ msgid "mod_rel_godparents"
+#~ msgstr "Parrain et marraine"
+
+#~ msgid "mod_footer_select_language"
+#~ msgstr "Sélectionner la langue"
+
+#~ msgid "mod_footer_compiled_on"
+#~ msgstr "Branche master compilée le"
+
+#~ msgid "mod_footer_from_commit"
+#~ msgstr "à partir du commit id"
+
+#~ msgid "mod_footer_wiki_tooltip"
+#~ msgstr "GeneWeb Wiki"
+
+#~ msgid "mod_footer_github_tooltip"
+#~ msgstr "GeneWeb Github"
+
+#~ msgid "mod_footer_switch_template"
+#~ msgstr "basculer vers templm"
+
+#~ msgid "lang_afrikaans"
+#~ msgstr "Afrikaans"
+
+#~ msgid "lang_arabic"
+#~ msgstr "Arabe"
+
+#~ msgid "lang_bulgarian"
+#~ msgstr "Bulgare"
+
+#~ msgid "lang_breton"
+#~ msgstr "Breton"
+
+#~ msgid "lang_catalan"
+#~ msgstr "Catalan"
+
+#~ msgid "lang_corsican"
+#~ msgstr "Corse"
+
+#~ msgid "lang_czech"
+#~ msgstr "Tchèque"
+
+#~ msgid "lang_danish"
+#~ msgstr "Danois"
+
+#~ msgid "lang_german"
+#~ msgstr "Allemand"
+
+#~ msgid "lang_english"
+#~ msgstr "Anglais"
+
+#~ msgid "lang_esperanto"
+#~ msgstr "Espéranto"
+
+#~ msgid "lang_spanish"
+#~ msgstr "Espagnol"
+
+#~ msgid "lang_estonian"
+#~ msgstr "Estonien"
+
+#~ msgid "lang_finnish"
+#~ msgstr "Finnois"
+
+#~ msgid "lang_hebrew"
+#~ msgstr "Hébreu"
+
+#~ msgid "lang_icelandic"
+#~ msgstr "Islandais"
+
+#~ msgid "lang_italian"
+#~ msgstr "Italien"
+
+#~ msgid "lang_lithuanian"
+#~ msgstr "Lituanien"
+
+#~ msgid "lang_latvian"
+#~ msgstr "Letton"
+
+#~ msgid "lang_dutch"
+#~ msgstr "Néerlandais"
+
+#~ msgid "lang_norwegian"
+#~ msgstr "Norvégien"
+
+#~ msgid "lang_occitan"
+#~ msgstr "Occitan"
+
+#~ msgid "lang_polish"
+#~ msgstr "Polonais"
+
+#~ msgid "lang_portuguese"
+#~ msgstr "Portugais"
+
+#~ msgid "lang_brazilian_portuguese"
+#~ msgstr "Portugais brésilien"
+
+#~ msgid "lang_romanian"
+#~ msgstr "Roumain"
+
+#~ msgid "lang_russian"
+#~ msgstr "Russe"
+
+#~ msgid "lang_slovak"
+#~ msgstr "Slovaque"
+
+#~ msgid "lang_slovenian"
+#~ msgstr "Slovène"
+
+#~ msgid "lang_swedish"
+#~ msgstr "Suédois"
+
+#~ msgid "lang_turkish"
+#~ msgstr "Turc"
+
+#~ msgid "lang_chinese"
+#~ msgstr "Chinois"
+
+#~ msgid "mod_title_modify_person"
+#~ msgstr "Modifier personne"
+
+#~ msgid "mod_nav_add_family"
+#~ msgstr "Ajouter famille"
+
+#~ msgid "mod_nav_delete_family"
+#~ msgstr "Supprimer famille"
+
+#~ msgid "mod_nav_invert_parents"
+#~ msgstr "Inverser parents"
+
+#~ msgid "mod_nav_modify_family"
+#~ msgstr "Modifier famille"
+
+#~ msgid "mod_search_person"
+#~ msgstr "Rechercher personne"
+
+#~ msgid "mod_search_placeholder"
+#~ msgstr "Rechercher personne, patronyme, nom public, alias ou clé"
+
+#~ msgid "mod_insert_nickname"
+#~ msgstr "Insérer sobriquet"
+
+#~ msgid "mod_insert_alias"
+#~ msgstr "Insérer alias"
+
+#~ msgid "mod_insert_surname"
+#~ msgstr "Insérer surnom"
+
+#~ msgid "mod_insert_occupation"
+#~ msgstr "Insérer profession"
+
+#~ msgid "mod_sex_title_male"
+#~ msgstr "Homme"
+
+#~ msgid "mod_sex_title_unspecified"
+#~ msgstr "Neutre/inconnu"
+
+#~ msgid "mod_sex_title_female"
+#~ msgstr "Femme"
+
+#~ msgid "mod_death_status"
+#~ msgstr "État du décès"
+
+#~ msgid "mod_calendar_type"
+#~ msgstr "Type de calendrier"
+
+#~ msgid "mod_date_precision"
+#~ msgstr "Précision de la date"
+
+# Additional UI strings - buttons, tooltips, labels
+#~ msgid "mod_button_add_to_graph"
+#~ msgstr "Ajouter au graphe"
+
+#~ msgid "mod_button_clear_graph"
+#~ msgstr "Effacer le graphe"
+
+#~ msgid "mod_button_display_graph"
+#~ msgstr "Afficher le graphe"
+
+#~ msgid "mod_button_edit_graph"
+#~ msgstr "Éditer le graphe"
+
+#~ msgid "mod_button_remove_last_module"
+#~ msgstr "Retirer le dernier module ajouté"
+
+#~ msgid "mod_button_full_width_display"
+#~ msgstr "Affichage pleine largeur"
+
+#~ msgid "mod_tooltip_validate"
+#~ msgstr "Valider"
+
+#~ msgid "mod_tooltip_delete"
+#~ msgstr "Supprimer"
+
+#~ msgid "mod_tooltip_insert_witnesses"
+#~ msgstr "Insérer témoin(s)"
+
+#~ msgid "mod_tooltip_insert_events"
+#~ msgstr "Insérer événement(s)"
+
+#~ msgid "mod_tooltip_insert_titles"
+#~ msgstr "Insérer titre(s)"
+
+#~ msgid "mod_text_select_modules"
+#~ msgstr ""
+#~ "Sélectionnez les modules en cliquant sur"
+#~ " le bouton correspondant (max 15)."
+
+#~ msgid "mod_error_invalid_option"
+#~ msgstr "Option invalide"
+
+#~ msgid "mod_error_for_module"
+#~ msgstr "pour le module"
+
+#~ msgid "mod_error_enter_valid_option"
+#~ msgstr "Veuillez saisir un numéro d'option valide."
+
+#~ msgid "mod_error_invalid_module"
+#~ msgstr "Module invalide"
+
+#~ msgid "mod_error_enter_valid_module"
+#~ msgstr "Veuillez saisir une initiale de module valide."
+
+#~ msgid "mod_text_visibility"
+#~ msgstr "Visibilité (si titres)"
+
+#~ msgid "mod_text_add_portrait"
+#~ msgstr "Ajouter portrait"
+
+#~ msgid "mod_text_merge_persons"
+#~ msgstr "Fusionner personnes"
+
+#~ msgid "mod_text_delete_person"
+#~ msgstr "Supprimer personne"
+
+#~ msgid "mod_text_copy_visitor_permalink"
+#~ msgstr "Copier le permalien visiteur"
+
+#~ msgid "mod_text_copy_wiki_link"
+#~ msgstr "Copier le lien wiki dans le presse-papier"
+
+#~ msgid "mod_text_copy_wikitext_link"
+#~ msgstr "Copier le lien wikitext dans le presse-papier"
+
+#~ msgid "mod_text_friend"
+#~ msgstr "ami"
+
+#~ msgid "mod_text_wizard"
+#~ msgstr "magicien"
+
+#~ msgid "mod_text_search_on_matchid"
+#~ msgstr "Recherche sur matchID"
+
+#~ msgid "mod_text_search_on_geneanet"
+#~ msgstr "Rechercher sur Geneanet"
+
+#~ msgid "mod_text_union_with"
+#~ msgstr "Union avec"
+
+#~ msgid "mod_text_swap_family_events"
+#~ msgstr "Permuter événements"
+
+#~ msgid "mod_text_modify_children_surname"
+#~ msgstr "Modifier le patronyme des enfants"
+
+#~ msgid "mod_text_descendants"
+#~ msgstr "Descendants"
+
+#~ msgid "mod_text_descendant_tree"
+#~ msgstr "Arbre de descendance"
+
+#~ msgid "mod_text_compact_descendant_tree"
+#~ msgstr "Arbre de descendance compact"
+
+#~ msgid "mod_text_descendant_arborescence"
+#~ msgstr "Arborescence descendante"
+
+#~ msgid "mod_text_descendant_table"
+#~ msgstr "Tableau descendants"
+
+#~ msgid "mod_text_full_display"
+#~ msgstr "Affichage complet"
+
+#~ msgid "mod_text_relationship_calc"
+#~ msgstr "Calcul de parenté"
+
+#~ msgid "mod_text_shortest_path_to_me"
+#~ msgstr "Chemin vers moi"
+
+#~ msgid "mod_text_relationship"
+#~ msgstr "Parenté"
+
+#~ msgid "mod_text_family"
+#~ msgstr "Famille"
+
+#~ msgid "mod_text_close_relatives_birthdays"
+#~ msgstr "Anniversaires des proches"
+
+#~ msgid "mod_text_multi_relationship_graph"
+#~ msgstr "Graphe de relations multiples"
+
+#~ msgid "mod_text_description"
+#~ msgstr "Description"
+
+#~ msgid "mod_label_source"
+#~ msgstr "Source"
+
+#~ msgid "mod_placeholder_select_custom_modules"
+#~ msgstr "Selectionner les modules personnalisés"
+
+#~ msgid "mod_sex_label_male"
+#~ msgstr "H"
+
+#~ msgid "mod_sex_label_unspecified"
+#~ msgstr "?"
+
+#~ msgid "mod_sex_label_female"
+#~ msgstr "F"
+
+#~ msgid "mod_text_merge_with"
+#~ msgstr "Fusionner avec"
+
+#~ msgid "mod_text_modules"
+#~ msgstr "Modules"
+
+#~ msgid "mod_text_add_parents_of"
+#~ msgstr "Ajouter parents de"
+
+#~ msgid "mod_text_person_tools"
+#~ msgstr "Outils personne"
+
+#~ msgid "mod_text_modify_sosa_1"
+#~ msgstr "Modifier Sosa 1"
+
+#~ msgid "mod_text_delete"
+#~ msgstr "Supprimer"
+
+#~ msgid "mod_text_copy_visitor_link_clipboard"
+#~ msgstr "Copier le lien visiteur dans le presse-papier"
+
+#~ msgid "mod_text_copy_friend_link_clipboard"
+#~ msgstr "Copier le lien ami dans le presse-papier"
+
+#~ msgid "mod_text_copy_wizard_link_clipboard"
+#~ msgstr "Copier le lien magicien dans le presse-papier"
+
+#~ msgid "mod_text_search_insee_death_files"
+#~ msgstr "Recherche de correspondances dans les fichiers des décès de l'Insee"
+
+#~ msgid "mod_text_family_tools"
+#~ msgstr "Outils famille"
+
+#~ msgid "mod_text_modify_family_with"
+#~ msgstr "Modifier famille avec"
+
+#~ msgid "mod_text_home"
+#~ msgstr "Accueil"
+
+#~ msgid "mod_text_accueil"
+#~ msgstr "Accueil"
+
+#~ msgid "mod_text_back"
+#~ msgstr "Retour"
+
+#~ msgid "mod_text_search"
+#~ msgstr "Rechercher"
+
+#~ msgid "mod_text_default_template"
+#~ msgstr "Modèle par défaut"
+
+#~ msgid "mod_button_delete"
+#~ msgstr "Supprimer"
+
+#~ msgid "mod_text_remove_last_module"
+#~ msgstr "Retirer le dernier module ajouté"
+
+#~ msgid "mod_text_full_width_display"
+#~ msgstr "Affichage pleine largeur"
+
+#~ msgid "mod_text_modify_person"
+#~ msgstr "Modifier personne"
+
+#~ msgid "mod_text_permute_events"
+#~ msgstr "Permuter événements"
+
+#~ msgid "mod_text_copy_wiki_link_clipboard"
+#~ msgstr "Copier le lien wiki dans le presse-papier"
+
+#~ msgid "mod_text_copy_wikitext_link_clipboard"
+#~ msgstr "Copier le lien wikitext dans le presse-papier"
+
+#~ msgid "mod_text_add_family"
+#~ msgstr "Ajouter famille"
+
+#~ msgid "mod_text_family_event_order_change"
+#~ msgstr "Changement de l'ordre des événements familiaux"
+
+#~ msgid "mod_text_tree"
+#~ msgstr "Arbre"
+
+#~ msgid "mod_text_relationship_calculation"
+#~ msgstr "Calcul de parenté"
+
+#~ msgid "mod_text_relationship_with_close_relative"
+#~ msgstr "Lien de parenté avec un parent proche"
+
+#~ msgid "mod_placeholder_description"
+#~ msgstr "Description"
+
+#~ msgid "mod_text_add_to_graph"
+#~ msgstr "Ajouter {name} au graphe"
+
+#~ msgid "mod_text_clear_graph"
+#~ msgstr "Effacer le graphe"
+
+#~ msgid "mod_text_edit_graph"
+#~ msgstr "Éditer le graphe"
+
+#~ msgid "mod_text_add_remove_images"
+#~ msgstr "Ajouter/supprimer images"
+
+#~ msgid "mod_text_display_random_person"
+#~ msgstr "Afficher un individu au hasard (tout en restant sur cet outil)"
+
+#~ msgid "Image"
+#~ msgstr "Mariage"
+
+#~ msgid "Nickname"
+#~ msgstr "Sobriquet"
+
+#~ msgid "Surname aliases"
+#~ msgstr "Nom"
+
+#~ msgid "Surname alias"
+#~ msgstr "Nom"
+
+#~ msgid "Estate"
+#~ msgstr "Créer"
+
+#~ msgid "Nth"
+#~ msgstr "mois"
+
+#~ msgid "Relation insertion functionality to be implemented"
+#~ msgstr ""
+
+#~ msgid "Title insertion functionality to be implemented"
 #~ msgstr ""
 
