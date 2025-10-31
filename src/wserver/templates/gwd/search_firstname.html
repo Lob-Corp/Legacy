@@ -12,7 +12,7 @@
 <ul>
     {% for person in persons %}
     <li>
-        <a href="{{ request.path }}?lang={{ lang|default('en') }}#i{{ person.id }}" id="i{{ person.id }}">
+        <a href="{{ url_for('gwd.route_details', base=base, lang=lang, i=person.id) }}" id="i{{ person.id }}">
             {{ person.surname|default('?') }}
         </a>
         <bdo dir="ltr">{{ person.public_name|default('') }}</bdo>
