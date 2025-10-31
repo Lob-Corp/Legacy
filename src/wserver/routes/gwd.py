@@ -64,7 +64,7 @@ def route_A(base):
 
 @gwd_bp.route('<base>/details', methods=['GET', 'POST'], strict_slashes=False)
 def route_details(base):
-    lang = request.args.get('lang')
+    lang = request.args.get('lang', 'en')
     # Set g.locale for Flask-Babel to use
     g.locale = lang
     return implem_gwd_details(base, lang)
