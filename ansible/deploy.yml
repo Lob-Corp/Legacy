@@ -1,0 +1,149 @@
+---
+- name: Deploy GeneWeb Docker Application
+  hosts: all
+  become: yes
+  vars:
+    app_name: geneweb
+    deploy_user: "{{ ansible_user }}"
+    deploy_dir: "/home/{{ deploy_user }}/{{ app_name }}"
+
+  tasks:
+    - name: Ensure required packages are installed
+      apt:
+        name:
+          - docker.io
+          - docker-compose
+          - python3-pip
+        state: present
+        update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Add Docker CE repository
+      ansible.builtin.command:
+        cmd: dnf config-manager --add-repo https://download.docker.com/linux/fedora/docker-ce.repo
+      args:
+        creates: /etc/yum.repos.d/docker-ce.repo
+
+    - name: Install Docker CE, CLI, containerd, Buildx, and Compose plugins
+      dnf:
+        name:
+          - docker-ce
+          - docker-ce-cli
+          - containerd.io
+          - docker-buildx-plugin
+          - docker-compose-plugin
+        state: present
+        update_cache: yes
+
+    - name: Ensure Docker service is running
+      service:
+        name: docker
+        state: started
+        enabled: yes
+
+    - name: Add deploy user to docker group
+      user:
+        name: "{{ deploy_user }}"
+        groups: docker
+        append: yes
+
+    - name: Create deployment directory
+      file:
+        path: "{{ deploy_dir }}"
+        state: directory
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: '0755'
+
+    - name: Create required subdirectories
+      file:
+        path: "{{ deploy_dir }}/{{ item }}"
+        state: directory
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: '0755'
+      loop:
+        - data
+        - logs
+        - certs
+
+    - name: Copy application files
+      synchronize:
+        src: "{{ playbook_dir }}/../"
+        dest: "{{ deploy_dir }}/"
+        delete: yes
+        rsync_opts:
+          - "--exclude=.git"
+          - "--exclude=.pytest_cache"
+          - "--exclude=__pycache__"
+          - "--exclude=*.pyc"
+          - "--exclude=venv"
+          - "--exclude=.vscode"
+          - "--exclude=.mypy_cache"
+          - "--exclude=htmlcov"
+          - "--exclude=.coverage"
+          - "--exclude=*.log"
+          - "--exclude=*.db"
+          - "--exclude=legacy/"
+          - "--exclude=release/"
+          - "--exclude=ansible/"
+      become_user: "{{ deploy_user }}"
+
+    - name: Ensure .env file exists
+      stat:
+        path: "{{ deploy_dir }}/.env"
+      register: env_file
+
+    - name: Copy .env.example to .env if .env doesn't exist
+      copy:
+        src: "{{ deploy_dir }}/.env.example"
+        dest: "{{ deploy_dir }}/.env"
+        remote_src: yes
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+        mode: '0600'
+      when: not env_file.stat.exists
+
+    - name: Make docker-manage.sh executable
+      file:
+        path: "{{ deploy_dir }}/docker-manage.sh"
+        mode: '0755'
+        owner: "{{ deploy_user }}"
+        group: "{{ deploy_user }}"
+
+    - name: Stop existing containers
+      shell: |
+        cd {{ deploy_dir }}
+        ./docker-manage.sh stop || true
+      become_user: "{{ deploy_user }}"
+      ignore_errors: yes
+
+    - name: Build Docker image
+      shell: |
+        cd {{ deploy_dir }}
+        ./docker-manage.sh build
+      become_user: "{{ deploy_user }}"
+      register: build_result
+
+    - name: Display build output
+      debug:
+        var: build_result.stdout_lines
+
+    - name: Start Docker containers
+      shell: |
+        cd {{ deploy_dir }}
+        ./docker-manage.sh start
+      become_user: "{{ deploy_user }}"
+      register: start_result
+
+    - name: Display start output
+      debug:
+        var: start_result.stdout_lines
+
+    - name: Display deployment status
+      debug:
+        msg: |
+          Deployment completed!
+          Application is running at: https://{{ ansible_host }}:8080
+
+          To perform management tasks, use the docker-manage.sh script located at {{ deploy_dir }}/docker-manage.sh

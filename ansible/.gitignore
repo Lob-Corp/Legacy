@@ -1,0 +1,14 @@
+# Ansible specific
+*.retry
+.ansible/
+ansible.log
+
+# Sensitive files
+vault_pass.txt
+*.pem
+*.key
+
+# Temporary files
+*.tmp
+*.swp
+*~
