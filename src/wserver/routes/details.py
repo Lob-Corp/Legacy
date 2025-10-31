@@ -1,4 +1,4 @@
-from flask import render_template, request
+from flask import render_template, request, g
 from repositories.person_repository import PersonRepository
 from repositories.family_repository import FamilyRepository
 from wserver.routes.db_utils import get_db_service
@@ -162,10 +162,10 @@ def get_person_vital_events(person) -> Dict[str, Any]:
         # These types don't have date_of_death
         death_place = person.death_place if person.death_place else None
     return {
-        'birth_year': birth_year,
+        'birth_year': birth_year if birth_year is not None else '?',
         'birth_date': birth_date,
         'birth_place': birth_place,
-        'death_year': death_year,
+        'death_year': death_year if death_year is not None else '?',
         'death_date': death_date,
         'death_place': death_place,
         'age_at_death': age_at_death,
@@ -257,8 +257,12 @@ def get_family_info(
         'spouse_id': spouse_id,
         'spouse_first_name': spouse_first_name,
         'spouse_surname': spouse_surname,
-        'spouse_birth_year': spouse_birth_year,
-        'spouse_death_year': spouse_death_year,
+        'spouse_birth_year': (
+            spouse_birth_year if spouse_birth_year is not None else '?'
+        ),
+        'spouse_death_year': (
+            spouse_death_year if spouse_death_year is not None else '?'
+        ),
         'marriage_date': marriage_date,
         'marriage_place': marriage_place,
         'has_marriage': has_marriage,
@@ -315,9 +319,9 @@ def get_children_info(
                 'id': child.index,
                 'first_name': child.first_name,
                 'surname': child.surname,
-                'birth_year': birth_year,
-                'death_year': death_year,
-                'age_years': age_years,
+                'birth_year': birth_year if birth_year is not None else '?',
+                'death_year': death_year if death_year is not None else '?',
+                'age_years': age_years if age_years is not None else '?',
             })
 
     return children
@@ -354,10 +358,10 @@ def get_witness_info(
                     witness_death_year = death_info.dmy.year
 
         # Format date range
-        date_range = ''
-        if witness_birth_year:
+        date_range = '?'
+        if witness_birth_year is not None:
             date_range = f"{witness_birth_year}-"
-            if witness_death_year:
+            if witness_death_year is not None:
                 date_range = f"{witness_birth_year}-{witness_death_year}"
 
         return {
@@ -365,7 +369,7 @@ def get_witness_info(
             'first_name': witness.first_name,
             'surname': witness.surname,
             'date_range': date_range,
-            'age': '',
+            'age': '?',
         }
     except Exception:
         # If witness not found, return empty dict
@@ -443,8 +447,8 @@ def get_ancestor_recursive(person_id, person_repo,
             'id': person.index,
             'first_name': person.first_name,
             'surname': person.surname,
-            'birth_year': birth_year,
-            'death_year': death_year,
+            'birth_year': birth_year if birth_year is not None else '?',
+            'death_year': death_year if death_year is not None else '?',
         }
 
         # Recursively get parents if they exist
@@ -546,9 +550,13 @@ def get_siblings_info(
                     'id': sibling.index,
                     'first_name': sibling.first_name,
                     'surname': sibling.surname,
-                    'birth_year': birth_year,
-                    'death_year': death_year,
-                    'age_years': age_years,
+                    'birth_year': (
+                        birth_year if birth_year is not None else '?'
+                    ),
+                    'death_year': (
+                        death_year if death_year is not None else '?'
+                    ),
+                    'age_years': age_years if age_years is not None else '?',
                 })
             except Exception:
                 # Skip sibling if error
@@ -688,8 +696,8 @@ def get_timeline_events(
                         spouse.first_name if spouse else None
                     ),
                     'spouse_surname': spouse.surname if spouse else None,
-                    'date_range': '',
-                    'duration': '',
+                    'date_range': '?',
+                    'duration': '?',
                     'witnesses': witnesses,
                     'note': marriage_note,
                     '_sort_date': family.marriage_date,
@@ -726,10 +734,10 @@ def get_timeline_events(
                                 child_death_year = death_info.dmy.year
 
                     # Format date range like "2015-2023" or "2015-"
-                    child_date_range = ''
-                    if child_birth_year:
+                    child_date_range = '?'
+                    if child_birth_year is not None:
                         child_date_range = f"{child_birth_year}-"
-                        if child_death_year:
+                        if child_death_year is not None:
                             child_date_range = (
                                 f"{child_birth_year}-{child_death_year}"
                             )
@@ -741,7 +749,7 @@ def get_timeline_events(
                         'child_first_name': child.first_name,
                         'child_surname': child.surname,
                         'child_date_range': child_date_range,
-                        'child_age': '',
+                        'child_age': '?',
                         '_sort_date': child.birth_date,
                     })
 
@@ -784,8 +792,8 @@ def get_timeline_events(
                             spouse.first_name if spouse else None
                         ),
                         'spouse_surname': spouse.surname if spouse else None,
-                        'date_range': '',
-                        'duration': '',
+                        'date_range': '?',
+                        'duration': '?',
                         'witnesses': witnesses,
                         'note': divorce_note,
                         '_sort_date': div_date,
@@ -989,6 +997,9 @@ def format_date(date) -> str:
 
 def implem_gwd_details(base, lang="en"):
     """Main route handler for person details page."""
+    # Set g.locale for Flask-Babel to use
+    g.locale = lang
+
     start_time = time.time()
 
     # Get query parameters
@@ -1063,6 +1074,8 @@ def implem_gwd_details(base, lang="en"):
 
     # Calculate query time
     q_time = round(time.time() - start_time, 2)
+
+    print(get_person_vital_events)
 
     # Merge all data for template
     template_data = {

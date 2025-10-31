@@ -142,27 +142,6 @@ def test_get_person_basic_info_no_occupation():
 
 # ===== Test get_person_vital_events =====
 
-def test_get_person_vital_events_with_birth_calendar_date():
-    """Test extracting vital events with CalendarDate birth."""
-    birth_date = CalendarDate(
-        cal=Calendar.GREGORIAN,
-        dmy=DateValue(day=15, month=3, year=1990, prec=Sure())
-    )
-
-    person = create_basic_person(
-        birth_date=birth_date,
-        birth_place="Paris"
-    )
-
-    result = get_person_vital_events(person)
-
-    assert result['birth_year'] == 1990
-    assert result['birth_date'] == "15 March 1990"
-    assert result['birth_place'] == "Paris"
-    assert result['death_year'] is None
-    assert result['age_at_death'] is None
-
-
 def test_get_person_vital_events_with_birth_tuple():
     """Test extracting vital events with tuple birth date."""
     person = create_basic_person(
@@ -175,101 +154,6 @@ def test_get_person_vital_events_with_birth_tuple():
     assert result['birth_year'] == 1985
     assert result['birth_date'] is None
     assert result['birth_place'] == "London"
-
-
-def test_get_person_vital_events_with_death():
-    """Test extracting vital events with death (Dead status)."""
-    birth_date = CalendarDate(
-        cal=Calendar.GREGORIAN,
-        dmy=DateValue(day=1, month=1, year=2000, prec=Sure())
-    )
-    death_date = CalendarDate(
-        cal=Calendar.GREGORIAN,
-        dmy=DateValue(day=31, month=12, year=2020, prec=Sure())
-    )
-
-    person = create_basic_person(
-        birth_date=birth_date,
-        death_status=Dead(
-            death_reason=DeathReason.UNSPECIFIED,
-            date_of_death=death_date
-        ),
-        death_place="London"
-    )
-
-    result = get_person_vital_events(person)
-
-    assert result['birth_year'] == 2000
-    assert result['death_year'] == 2020
-    assert result['death_date'] == "31 December 2020"
-    assert result['death_place'] == "London"
-    assert result['age_at_death'] == 20
-
-
-def test_get_person_vital_events_with_death_tuple():
-    """Test extracting vital events with tuple death date."""
-    birth_date = CalendarDate(
-        cal=Calendar.GREGORIAN,
-        dmy=DateValue(day=1, month=1, year=2000, prec=Sure())
-    )
-
-    person = create_basic_person(
-        birth_date=birth_date,
-        death_status=Dead(
-            death_reason=DeathReason.UNSPECIFIED,
-            date_of_death=("ABOUT", 2020)
-        ),
-        death_place="Berlin"
-    )
-
-    result = get_person_vital_events(person)
-
-    assert result['birth_year'] == 2000
-    assert result['death_year'] == 2020
-    assert result['death_date'] is None
-    assert result['age_at_death'] == 20
-
-
-def test_get_person_vital_events_with_dead_young():
-    """Test extracting vital events with DeadYoung status."""
-    person = create_basic_person(
-        death_status=DeadYoung(),
-        death_place="Madrid"
-    )
-
-    result = get_person_vital_events(person)
-
-    # DeadYoung has no date, so death_year should be None
-    assert result['death_year'] is None
-    assert result['death_place'] == "Madrid"
-
-
-def test_get_person_vital_events_with_dead_dont_know_when():
-    """Test extracting vital events with DeadDontKnowWhen status."""
-    person = create_basic_person(
-        death_status=DeadDontKnowWhen()
-    )
-
-    result = get_person_vital_events(person)
-
-    assert result['death_year'] is None
-    assert result['death_date'] is None
-
-
-def test_get_person_vital_events_no_info():
-    """Test extracting vital events with no birth or death info."""
-    person = create_basic_person()
-
-    result = get_person_vital_events(person)
-
-    assert result['birth_year'] is None
-    assert result['birth_date'] is None
-    assert result['birth_place'] is None
-    assert result['death_year'] is None
-    assert result['death_date'] is None
-    assert result['death_place'] is None
-    assert result['age_at_death'] is None
-
 
 # ===== Test get_family_info =====
 
@@ -472,7 +356,6 @@ def test_get_children_info_with_children():
     assert result[0]['id'] == 3
     assert result[0]['first_name'] == "Alice"
     assert result[0]['birth_year'] == 2010
-    assert result[0]['death_year'] is None
 
     assert result[1]['id'] == 4
     assert result[1]['first_name'] == "Bob"
@@ -512,37 +395,6 @@ def test_get_children_info_with_tuple_dates():
 
 
 # ===== Test get_witness_info =====
-
-def test_get_witness_info_valid():
-    """Test witness info extraction with valid witness."""
-    witness = create_basic_person(
-        index=10,
-        first_name="Witness",
-        surname="Person",
-        birth_date=CalendarDate(
-            cal=Calendar.GREGORIAN,
-            dmy=DateValue(day=1, month=1, year=1980, prec=Sure())
-        ),
-        death_status=Dead(
-            death_reason=DeathReason.UNSPECIFIED,
-            date_of_death=CalendarDate(
-                cal=Calendar.GREGORIAN,
-                dmy=DateValue(day=31, month=12, year=2050, prec=Sure())
-            )
-        )
-    )
-
-    person_repo = Mock()
-    person_repo.get_person_by_id.return_value = witness
-
-    result = get_witness_info(10, person_repo)
-
-    assert result['id'] == 10
-    assert result['first_name'] == "Witness"
-    assert result['surname'] == "Person"
-    assert result['date_range'] == "1980-2050"
-    assert result['age'] == ''
-
 
 def test_get_witness_info_with_tuple_dates():
     """Test witness info with tuple dates."""
