@@ -60,7 +60,6 @@ def implem_route_AN(base):
                     'id': p.index,
                     'name': display_name,
                     'given': p.first_name,
-                    'occ': p.occ,
                     'surname': p.surname,
                     'day': day,
                     'month': month,
