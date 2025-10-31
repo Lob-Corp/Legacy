@@ -1,6 +1,7 @@
 """
 Database utility functions for Geneweb Flask routes.
 """
+
 import os
 from database.sqlite_database_service import SQLiteDatabaseService
 
@@ -58,7 +59,8 @@ def get_db_service(base: str) -> SQLiteDatabaseService:
     db_path = os.path.join(project_root, 'bases', f'{base}.db')
     if not os.path.exists(db_path):
         raise FileNotFoundError(
-            f"Database for base '{base}' not found. Expected at: {db_path}")
+            f"Database for base '{base}' not found. Expected at: {db_path}"
+        )
     db_service = SQLiteDatabaseService(database_path=db_path)
     # Ensure models are registered before connecting/creating metadata
     _import_all_models()
