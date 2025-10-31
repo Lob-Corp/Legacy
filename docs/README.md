@@ -113,6 +113,17 @@ Quality assurance processes and standards for the project.
 - Alternatives considered for each technology
 - Future considerations and potential improvements
 
+### ♿ [ACCESSIBILITY.md](./ACCESSIBILITY.md)
+**Guidelines for making GenewebPy accessible to all users, including those with disabilities.**
+
+**Topics**:
+- Accessibility principles (semantic HTML, keyboard navigation, ARIA)
+- Color contrast and visual requirements
+- Implementation guidelines and templates
+- Testing for accessibility (automated and manual)
+- Common issues and solutions
+- Tools and resources
+
 ---
 
 ## Quick Navigation
@@ -175,6 +186,15 @@ Quality assurance processes and standards for the project.
 
 **...understand architecture decisions**
 → Read [TECHNOLOGIES.md § Architecture Decisions](./TECHNOLOGIES.md#architecture-decisions)
+
+**...make the application accessible to all users**
+→ Read [ACCESSIBILITY.md](./ACCESSIBILITY.md)
+
+**...test accessibility compliance**
+→ Read [ACCESSIBILITY.md § Testing for Accessibility](./ACCESSIBILITY.md#testing-for-accessibility)
+
+**...fix accessibility issues**
+→ Read [ACCESSIBILITY.md § Common Issues and Solutions](./ACCESSIBILITY.md#common-issues-and-solutions)
 
 ## Contributing to Documentation
 

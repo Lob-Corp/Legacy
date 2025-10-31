@@ -62,6 +62,7 @@ make deploy-prod
 ### 📚 Additional Documentation
 - **[Documentation Index](docs/README.md)** - Complete documentation navigation guide
 - **[Technologies & Architecture](docs/TECHNOLOGIES.md)** - Technologies used and rationale for each choice
+- **[Accessibility Guidelines](docs/ACCESSIBILITY.md)** - Making GenewebPy accessible to all users
 - **[Migration Guide](docs/MIGRATION_GUIDE.md)** - User-friendly guide for migrating your family tree from OCaml Geneweb
 - **[Database Architecture](docs/DATABASE.md)** - Complete database documentation (SQLAlchemy models, relationships, and usage)
 - **[Testing Policy](docs/TESTING_POLICY.md)** - Comprehensive testing guidelines, requirements, and best practices
