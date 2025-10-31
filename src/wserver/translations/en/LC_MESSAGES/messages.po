@@ -3648,6 +3648,459 @@ msgstr "Edit person"
 #~ msgid "Surname aliases"
 #~ msgstr "Surname"
 
+# translations for templates/gwd/details.html
+#: templates/gwd/details.html:849 templates/gwd/details.html:894
+msgid "English"
+msgstr "English"
+
+#: templates/gwd/details.html:852 templates/gwd/details.html:897
+msgid "French"
+msgstr "French"
+
+#: templates/gwd/details.html:20
+msgid "Skip to main content"
+msgstr "Skip to main content"
+
+#: templates/gwd/details.html:318
+msgid "Born"
+msgstr "Born"
+
+#: templates/gwd/details.html:325
+msgid "Died"
+msgstr "Died"
+
+#: templates/gwd/details.html:332
+msgid "old"
+msgstr "old"
+
+#: templates/gwd/details.html:336
+msgid "Occupation"
+msgstr "Occupation"
+
+#: templates/gwd/details.html:345
+msgid "Marriage and children"
+msgstr "Marriage and children"
+
+#: templates/gwd/details.html:345
+msgid "Marriage"
+msgstr "Marriage"
+
+#: templates/gwd/details.html:345
+msgid "Children"
+msgstr "Children"
+
+#: templates/gwd/details.html:358
+msgid "Married"
+msgstr "Married"
+
+#: templates/gwd/details.html:360
+msgid "to"
+msgstr "to"
+
+#: templates/gwd/details.html:365
+msgid "with"
+msgstr "with"
+
+#: templates/gwd/details.html:365
+msgid "children"
+msgstr "children"
+
+#: templates/gwd/details.html:388
+msgid "Divorced"
+msgstr "Divorced"
+
+#: templates/gwd/details.html:395
+msgid "Timeline"
+msgstr "Timeline"
+
+#: templates/gwd/details.html:395
+msgid "Tree of relations"
+msgstr "Tree of relations"
+
+#: templates/gwd/details.html:430
+msgid "Divorce with"
+msgstr "Divorce with"
+
+#: templates/gwd/details.html:438
+msgid "Witness"
+msgstr "Witness"
+
+#: templates/gwd/details.html:438
+msgid "Witnesses"
+msgstr "Witnesses"
+
+#: templates/gwd/details.html:443
+msgid "and"
+msgstr "and"
+
+#: templates/gwd/details.html:451
+msgid "Birth of a child"
+msgstr "Birth of a child"
+
+#: templates/gwd/details.html:461
+msgid "Birth"
+msgstr "Birth"
+
+#: templates/gwd/details.html:470
+msgid "Marriage with"
+msgstr "Marriage with"
+
+#: templates/gwd/details.html:491
+msgid "Death of the spouse"
+msgstr "Death of the spouse"
+
+#: templates/gwd/details.html:504
+msgid "Death"
+msgstr "Death"
+
+#: templates/gwd/details.html:516
+msgid "Individual note"
+msgstr "Individual note"
+
+#: templates/gwd/details.html:528
+msgid "Marriage notes"
+msgstr "Marriage notes"
+
+#: templates/gwd/details.html:533
+msgid "see marriage"
+msgstr "see marriage"
+
+#: templates/gwd/details.html:542
+msgid "Sources"
+msgstr "Sources"
+
+#: templates/gwd/details.html:766
+msgid "Siblings"
+msgstr "Siblings"
+
+#: templates/gwd/details.html:774
+msgid "Previous sibling"
+msgstr "Previous sibling"
+
+#: templates/gwd/details.html:784
+msgid "Next sibling"
+msgstr "Next sibling"
+
+#: templates/gwd/details.html:787
+msgid "Tree siblings (with spouses)"
+msgstr "Tree siblings (with spouses)"
+
+#: templates/gwd/details.html:792
+msgid "Update"
+msgstr "Update"
+
+#: templates/gwd/details.html:798
+msgid "Display"
+msgstr "Display"
+
+#: templates/gwd/details.html:803
+msgid "years"
+msgstr "years"
+
+#: templates/gwd/details.html:199
+msgid "Add family"
+msgstr "Add family"
+
+#: templates/gwd/details.html:93
+msgid "Add parents of"
+msgstr "Add parents of"
+
+#: templates/gwd/details.html:138
+msgid "Add picture"
+msgstr "Add picture"
+
+#: templates/gwd/details.html:267
+msgid "Add/delete pictures"
+msgstr "Add/delete pictures"
+
+#: templates/gwd/details.html:348
+msgid "Age at death"
+msgstr "Age at death"
+
+#: templates/gwd/details.html:124
+msgid "Browse using"
+msgstr "Browse using"
+
+#: templates/gwd/details.html:124
+msgid "as Sosa reference"
+msgstr "as Sosa reference"
+
+#: templates/gwd/details.html:206
+msgid "Change order of family events"
+msgstr "Change order of family events"
+
+#: templates/gwd/details.html:135
+msgid "Change order of individual events"
+msgstr "Change order of individual events"
+
+#: templates/gwd/details.html:152
+msgid "Copy the link exterior to the clipboard"
+msgstr "Copy the link exterior to the clipboard"
+
+#: templates/gwd/details.html:153
+msgid "Copy the permalink exterior"
+msgstr "Copy the permalink exterior"
+
+#: templates/gwd/details.html:157
+msgid "Copy the link friend to the clipboard"
+msgstr "Copy the link friend to the clipboard"
+
+#: templates/gwd/details.html:164
+msgid "Copy the link wiki to the clipboard"
+msgstr "Copy the link wiki to the clipboard"
+
+#: templates/gwd/details.html:168
+msgid "Copy the link wikitext to the clipboard"
+msgstr "Copy the link wikitext to the clipboard"
+
+#: templates/gwd/details.html:160
+msgid "Copy the link wizard to the clipboard"
+msgstr "Copy the link wizard to the clipboard"
+
+#: templates/gwd/details.html:61
+msgid "Default template"
+msgstr "Default template"
+
+#: templates/gwd/details.html:52
+msgid "Delete"
+msgstr "Delete"
+
+#: templates/gwd/details.html:209
+msgid "Delete family"
+msgstr "Delete family"
+
+#: templates/gwd/details.html:146
+msgid "Delete individual"
+msgstr "Delete individual"
+
+#: templates/gwd/details.html:230
+msgid "Descendant tree view"
+msgstr "Descendant tree view"
+
+#: templates/gwd/details.html:218
+msgid "Descendants"
+msgstr "Descendants"
+
+#: templates/gwd/details.html:225
+msgid "Descendants tree"
+msgstr "Descendants tree"
+
+#: templates/gwd/details.html:227
+msgid "Compact descendants tree"
+msgstr "Compact descendants tree"
+
+#: templates/gwd/details.html:369
+msgid "Descendants tree up to the children (with spouse)"
+msgstr "Descendants tree up to the children (with spouse)"
+
+#: templates/gwd/details.html:284
+msgid "Display a random individual"
+msgstr "Display a random individual"
+
+#: templates/gwd/details.html:430
+msgid "Display events (parents/siblings)"
+msgstr "Display events (parents/siblings)"
+
+#: templates/gwd/details.html:423
+msgid "Display marriages (spouses/children)"
+msgstr "Display marriages (spouses/children)"
+
+#: templates/gwd/details.html:437
+msgid "Display simple chronology"
+msgstr "Display simple chronology"
+
+#: templates/gwd/details.html:36
+msgid "Modules"
+msgstr "Modules"
+
+#: templates/gwd/details.html:240
+msgid "D'Aboville"
+msgstr "D'Aboville"
+
+#: templates/gwd/details.html:245
+msgid "Relationship"
+msgstr "Relationship"
+
+#: templates/gwd/details.html:249
+msgid "Relationship computing"
+msgstr "Relationship computing"
+
+#: templates/gwd/details.html:253
+msgid "Relationship with a parent"
+msgstr "Relationship with a parent"
+
+#: templates/gwd/details.html:257
+msgid "Family"
+msgstr "Family"
+
+#: templates/gwd/details.html:261
+msgid "Family birthday"
+msgstr "Family birthday"
+
+#: templates/gwd/details.html:304
+msgid "First name"
+msgstr "First name"
+
+#: templates/gwd/details.html:236
+msgid "Full display"
+msgstr "Full display"
+
+#: templates/gwd/details.html:65
+msgid "Full width display"
+msgstr "Full width display"
+
+#: templates/gwd/details.html:278
+msgid "Home"
+msgstr "Home"
+
+#: templates/gwd/details.html:73
+msgid "Invalid module"
+msgstr "Invalid module"
+
+#: templates/gwd/details.html:73
+msgid "Invalid option"
+msgstr "Invalid option"
+
+#: templates/gwd/details.html:74
+msgid "for module"
+msgstr "for module"
+
+#: templates/gwd/details.html:75
+msgid "Please enter a valid option number."
+msgstr "Please enter a valid option number."
+
+#: templates/gwd/details.html:77
+msgid "Please enter a valid module initial."
+msgstr "Please enter a valid module initial."
+
+#: templates/gwd/details.html:141
+msgid "Merge"
+msgstr "Merge"
+
+#: templates/gwd/details.html:141
+msgid "with…"
+msgstr "with…"
+
+#: templates/gwd/details.html:142
+msgid "Merge individuals"
+msgstr "Merge individuals"
+
+#: templates/gwd/details.html:147
+msgid "Merge possible duplications"
+msgstr "Merge possible duplications"
+
+#: templates/gwd/details.html:157
+msgid "friend"
+msgstr "friend"
+
+#: templates/gwd/details.html:160
+msgid "wizard"
+msgstr "wizard"
+
+#: templates/gwd/details.html:58
+msgid "Remove the last added module"
+msgstr "Remove the last added module"
+
+#: templates/gwd/details.html:136
+msgid "Reverse events"
+msgstr "Reverse events"
+
+#: templates/gwd/details.html:281
+msgid "Search"
+msgstr "Search"
+
+#: templates/gwd/details.html:296
+msgid "Search individual"
+msgstr "Search individual"
+
+#: templates/gwd/details.html:299
+msgid "Search public name"
+msgstr "Search public name"
+
+#: templates/gwd/details.html:302
+msgid "Search firstname"
+msgstr "Search firstname"
+
+#: templates/gwd/details.html:174
+msgid "on Geneanet"
+msgstr "on Geneanet"
+
+#: templates/gwd/details.html:70
+msgid "Select each module by clicking on the corresponding button (max 15)."
+msgstr "Select each module by clicking on the corresponding button (max 15)."
+
+#: templates/gwd/details.html:46
+msgid "Select personalized modules"
+msgstr "Select personalized modules"
+
+#: templates/gwd/details.html:49
+msgid "Submit"
+msgstr "Submit"
+
+#: templates/gwd/details.html:301
+msgid "Surname, public name, alias"
+msgstr "Surname, public name, alias"
+
+#: templates/gwd/details.html:233
+msgid "Table descendants"
+msgstr "Table descendants"
+
+#: templates/gwd/details.html:193
+msgid "Tools family"
+msgstr "Tools family"
+
+#: templates/gwd/details.html:119
+msgid "Tools individual"
+msgstr "Tools individual"
+
+#: templates/gwd/details.html:224
+msgid "Tree"
+msgstr "Tree"
+
+#: templates/gwd/details.html:456
+msgid "Tree of witnesses (witnesses to my events and godparents)"
+msgstr "Tree of witnesses (witnesses to my events and godparents)"
+
+#: templates/gwd/details.html:212
+msgid "Update surname of children"
+msgstr "Update surname of children"
+
+#: templates/gwd/details.html:125
+msgid "Update Sosa 1:"
+msgstr "Update Sosa 1:"
+
+#: templates/gwd/details.html:184
+msgid "Update family with"
+msgstr "Update family with"
+
+#: templates/gwd/details.html:111
+msgid "Update individual"
+msgstr "Update individual"
+
+#: templates/gwd/details.html:131
+msgid "Without GeneWeb links"
+msgstr "Without GeneWeb links"
+
+#: templates/gwd/details.html:336
+msgid "on"
+msgstr "on"
+
+#: templates/gwd/details.html:337
+msgid "in"
+msgstr "in"
+
+#: templates/gwd/details.html:382
+msgid "one day"
+msgstr "one day"
+
+#: templates/gwd/details.html:384
+msgid "see note"
+msgstr "see note"
+
+#: templates/gwd/details.html:369
+msgid "tree desc."
+msgstr "tree desc."
+
 #~ msgid "Estate"
 #~ msgstr "Create"
 
