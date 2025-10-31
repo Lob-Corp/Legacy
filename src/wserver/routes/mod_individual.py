@@ -1227,8 +1227,6 @@ def handle_mod_individual_post(
 
     # Parse custom personal events (sparse indices like e_name4 are allowed)
     event_indices = []
-    # Also track which keys have e_name to detect duplicates
-    e_name_keys = [k for k in form_data.keys() if k.startswith("e_name")]
 
     for key in form_data.keys():
         if key.startswith("e_name"):
