@@ -4,6 +4,8 @@ import re
 import libraries.date
 import database.date
 import libraries.family
+import database.couple
+import database.descends
 import database.family
 import database.family_witness
 import database.family_event
