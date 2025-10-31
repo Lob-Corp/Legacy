@@ -350,17 +350,26 @@
             </span>
           </h2>
           {% endif %}
+          {% if has_marriage %}
           <ul class="pl-4 py-0">
-            <li style="vertical-align: middle;list-style-type: circle"><a
+            <li style="vertical-align: middle;list-style-type: circle">
+              <a
                 href="?m=MOD_FAM&amp;i={{ family_id }}&amp;ip={{ person_id }}"><i class="fa fa-wrench fa-xs male"
                   title="Update family with {{ spouse_first_name|title }} {{ spouse_surname|title }}"></i></a> Married
-              <span class="date">on&nbsp;{{ marriage_date|default(birth_date) }}</span>{% if
-              marriage_place|default(birth_place) %} in {{ marriage_place|default(birth_place) }}{% endif %} to <a
+              <span class="date">on&nbsp;{{ marriage_date }}</span>{% if
+              marriage_place %} in {{ marriage_place }}{% endif %} to <a
                 href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ spouse_id }}&p={{ spouse_first_name }}&n={{ spouse_surname }}"
                 class="female-underline">{{ spouse_first_name|title }} {{ spouse_surname|title }}</a><span
                 title="one day" class="text-nowrap"> <bdo dir=ltr>{{ spouse_birth_year|default('') }}-{{
                   spouse_death_year|default('') }}</bdo></span> <a href="#note-wed-1" id="wed-callnote-1"
-                title="see note 1"><sup>1</sup></a>{% if children %}, with {{ children|length }} children{% endif %}:
+                title="see note 1"><sup>1</sup></a>{% if children %}, with {{ children|length }} children{% endif %}{% if children %}:{% else %}.{% endif %}
+              {% else %}
+              {% if spouse_first_name %}<a
+                href="{{ url_for('gwd.route_details', base=base, lang=lang) }}?i={{ spouse_id }}&p={{ spouse_first_name }}&n={{ spouse_surname }}"
+                class="female-underline">{{ spouse_first_name|title }} {{ spouse_surname|title }}</a><span
+                title="one day" class="text-nowrap"> <bdo dir=ltr>{{ spouse_birth_year|default('') }}-{{
+                  spouse_death_year|default('') }}</bdo></span>{% endif %}{% if children %}, with {{ children|length }} children:{% endif %}
+              {% endif %}
               {% for child in children %}
               <ul>
                 <li style="vertical-align: middle;list-style-type: circle;"><a href="?m=MOD_IND&amp;i={{ child.id }}"
@@ -502,10 +511,10 @@
             </tbody>
           </table>
           <!-- $Id: modules/notes.txt v7.1 15/12/2022 23:41:44 $ -->
+          {% if individual_notes %}
           <div class="d-flex justify-content-start">
             <h2 class="mt-2">Individual note</h2>
           </div>
-          {% if individual_notes %}
           <div class="ml-3">
             {% for note in individual_notes %}
             <p>{{ note }}</p>
@@ -515,8 +524,8 @@
           <div class="ml-3">
           </div>
           {% endif %}
-          <h2 class="w-100">Marriage notes</h2>
           {% if marriage_notes %}
+          <h2 class="w-100">Marriage notes</h2>
           <dl>
             {% for note in marriage_notes %}
             <dt>

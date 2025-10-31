@@ -1,4 +1,3 @@
-from os import name
 from flask import render_template, request
 from repositories.person_repository import PersonRepository
 from repositories.family_repository import FamilyRepository
@@ -8,8 +7,6 @@ from libraries.death_info import Dead, DeadYoung, DeadDontKnowWhen
 from libraries.family import Divorced, Separated
 from libraries.events import FamMarriage, FamDivorce, FamSeparated
 from typing import Dict, Any, List
-from database.person import Person as DBPerson
-from database.date import Date as DBDate
 import time
 from datetime import date as python_date
 
@@ -121,13 +118,13 @@ def get_person_basic_info(person) -> Dict[str, Any]:
     }
 
 
-def get_person_vital_events(person, db_service) -> Dict[str, Any]:
+def get_person_vital_events(person) -> Dict[str, Any]:
     """Extract birth, death, and related vital events."""
     birth_year = None
     birth_date = None
     birth_place = None
 
-    if person.birth_date:
+    if person.birth_date is not None:
         if isinstance(
             person.birth_date, tuple
         ) and len(person.birth_date) == 2:
@@ -191,6 +188,7 @@ def get_family_info(
             'spouse_death_year': None,
             'marriage_date': None,
             'marriage_place': None,
+            'has_marriage': False,
             'divorce_date': None,
             'divorce_note': None,
         }
@@ -234,11 +232,17 @@ def get_family_info(
                     spouse_death_year = death_info.dmy.year
 
     marriage_date = None
+    marriage_place = None
+
+    # Only set marriage info if there's actual marriage data
     if family.marriage_date:
         if isinstance(family.marriage_date, CalendarDate):
             marriage_date = format_date(family.marriage_date)
+        if family.marriage_place:
+            marriage_place = family.marriage_place
 
-    marriage_place = family.marriage_place if family.marriage_place else None
+    # Check if marriage exists (has date or place)
+    has_marriage = marriage_date is not None or marriage_place is not None
 
     divorce_date = None
     divorce_note = None
@@ -257,6 +261,7 @@ def get_family_info(
         'spouse_death_year': spouse_death_year,
         'marriage_date': marriage_date,
         'marriage_place': marriage_place,
+        'has_marriage': has_marriage,
         'divorce_date': divorce_date,
         'divorce_note': divorce_note,
     }
@@ -452,19 +457,22 @@ def get_ancestor_recursive(person_id, person_repo,
                     person.ascend.parents
                 )
 
-                if parent_family is not None and parent_family.parents.is_couple():
+                if (parent_family is not None and
+                        parent_family.parents.is_couple()):
                     father_id, mother_id = parent_family.parents.couple()
 
                     # Recursively get father and all his ancestors
                     if father_id is not None:
                         father_ancestor = get_ancestor_recursive(
-                            father_id, person_repo, family_repo, depth + 1, max_depth
+                            father_id, person_repo, family_repo,
+                            depth + 1, max_depth
                         )
 
                     # Recursively get mother and all her ancestors
                     if mother_id is not None:
                         mother_ancestor = get_ancestor_recursive(
-                            mother_id, person_repo, family_repo, depth + 1, max_depth
+                            mother_id, person_repo, family_repo,
+                            depth + 1, max_depth
                         )
             except Exception:
                 pass
@@ -492,7 +500,7 @@ def get_siblings_info(
     Returns:
         List of siblings with their information
     """
-    siblings = []
+    siblings: List[Dict[str, Any]] = []
 
     # Get person's parent family
     if person.ascend.parents is None:
@@ -504,12 +512,8 @@ def get_siblings_info(
         if not parent_family:
             return siblings
 
-        # Get all children from parent family (excluding the person themselves)
+        # Get all children from parent family (including the person themselves)
         for child_id in parent_family.children:
-            if child_id == person.index:
-                # Skip the person themselves
-                continue
-
             try:
                 sibling = person_repo.get_person_by_id(child_id)
 
@@ -1038,7 +1042,7 @@ def implem_gwd_details(base, lang="en"):
         )
     # Gather all data using separate functions
     basic_info = get_person_basic_info(person)
-    vital_events = get_person_vital_events(person, db_service)
+    vital_events = get_person_vital_events(person)
     family_info = get_family_info(person, family_repo, person_repo)
     children = get_children_info(person, family_repo, person_repo)
     siblings = get_siblings_info(person, family_repo, person_repo)
@@ -1049,27 +1053,7 @@ def implem_gwd_details(base, lang="en"):
     ancestor_tree = get_ancestor_recursive(
         person.index, person_repo, family_repo, depth=0, max_depth=2
     )
-    
-    # Debug prints
-    print("\n========== ANCESTOR TREE ==========")
-    print(f"Person: {person.first_name} {person.surname}")
-    print(f"Has parent family ID: {person.ascend.parents}")
-    
-    if ancestor_tree:
-        print(f"\nFather: {ancestor_tree.get('father')}")
-        print(f"Mother: {ancestor_tree.get('mother')}")
-        
-        if ancestor_tree.get('father'):
-            print(f"\nPaternal Grandfather: {ancestor_tree['father'].get('father')}")
-            print(f"Paternal Grandmother: {ancestor_tree['father'].get('mother')}")
-        
-        if ancestor_tree.get('mother'):
-            print(f"\nMaternal Grandfather: {ancestor_tree['mother'].get('father')}")
-            print(f"Maternal Grandmother: {ancestor_tree['mother'].get('mother')}")
-    else:
-        print("No ancestor tree found!")
-    print("===================================\n")
-    
+
     # Pass nested structure directly to template
     ancestors = {
         'father': ancestor_tree.get('father') if ancestor_tree else None,
