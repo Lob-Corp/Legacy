@@ -879,9 +879,9 @@ def handle_mod_individual_post(
             else [f"relation_{idx}_mother", f"relation_{idx}_father"]
         )
         for key in id_key_variants:
-            pid = form_data.get(key, "").strip()
-            if pid and pid.isdigit() and int(pid) > 0:
-                return int(pid)
+            pid_str = form_data.get(key, "").strip()
+            if pid_str and pid_str.isdigit() and int(pid_str) > 0:
+                return int(pid_str)
 
         # Create/Link via r{idx}_{role}_*
         action = form_data.get(f"r{idx}_{role}_p", "").strip() or "create"
@@ -894,9 +894,9 @@ def handle_mod_individual_post(
             return None
 
         if action == "link":
-            pid = find_person_by_name(person_repo, fn, sn, occ)
-            if pid is not None:
-                return pid
+            found_pid = find_person_by_name(person_repo, fn, sn, occ)
+            if found_pid is not None:
+                return found_pid
             # fallback to create
 
         # Create new minimal person
@@ -1046,7 +1046,8 @@ def handle_mod_individual_post(
     # Parse birth witnesses (support direct id-only linking)
     # Try both birth_witn* and e0_witn* patterns
     birth_witnesses = []
-    for event_pattern in ["birth", 0]:
+    birth_patterns: List[Union[str, int]] = ["birth", 0]
+    for event_pattern in birth_patterns:
         witness_num = 0
         while True:
             if isinstance(event_pattern, int):
@@ -1086,7 +1087,8 @@ def handle_mod_individual_post(
     # Parse baptism witnesses (support direct id-only linking)
     # Try both baptism_witn* and e1_witn* patterns
     baptism_witnesses = []
-    for event_pattern in ["baptism", 1]:
+    baptism_patterns: List[Union[str, int]] = ["baptism", 1]
+    for event_pattern in baptism_patterns:
         witness_num = 0
         while True:
             if isinstance(event_pattern, int):
@@ -1123,7 +1125,8 @@ def handle_mod_individual_post(
     # Parse death witnesses (support direct id-only linking)
     # Try both death_witn* and e2_witn* patterns
     death_witnesses = []
-    for event_pattern in ["death", 2]:
+    death_patterns: List[Union[str, int]] = ["death", 2]
+    for event_pattern in death_patterns:
         witness_num = 0
         while True:
             if isinstance(event_pattern, int):
@@ -1191,7 +1194,8 @@ def handle_mod_individual_post(
     # Parse burial witnesses (support direct id-only linking)
     # Try both burial_witn* and e3_witn* patterns
     burial_witnesses = []
-    for event_pattern in ["burial", 3]:
+    burial_patterns: List[Union[str, int]] = ["burial", 3]
+    for event_pattern in burial_patterns:
         witness_num = 0
         while True:
             if isinstance(event_pattern, int):
