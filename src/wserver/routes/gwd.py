@@ -6,6 +6,7 @@ from .add_family import implem_route_ADD_FAM
 from .mod_individual import implem_route_MOD_IND
 from ..routes.gwd_root_impl import implem_route_gwd_root
 from .anm_impl import implem_route_ANM
+from .an_impl import implem_route_AN
 from .titles import route_titles
 from flask import Blueprint, request
 
@@ -105,7 +106,7 @@ def route_ANM(base):
 
 @gwd_bp.route('<base>/AN/', methods=['GET', 'POST'])
 def route_AN(base):
-    raise NotImplementedError("Route AN not implemented yet")
+    return implem_route_AN(base)
 
 
 @gwd_bp.route('<base>/AD/', methods=['GET', 'POST'])
