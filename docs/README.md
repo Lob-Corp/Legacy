@@ -42,7 +42,19 @@ Complete database architecture documentation covering models, relationships, and
 - Complete SQL schema reference
 - Troubleshooting and common issues
 
-### 🔄 [OCAML_TO_PYTHON.md](./OCAML_TO_PYTHON.md)
+### 🚀 [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)
+**User-friendly guide for migrating your family tree from OCaml Geneweb to GenewebPy.**
+
+**Topics**:
+- Understanding what GenewebPy is and why migrate
+- Before you start (checking your data, making backups)
+- Step-by-step migration (Docker and manual options)
+- Verifying your data migrated correctly
+- What's different in GenewebPy
+- Common issues and troubleshooting
+- FAQ for genealogy users
+
+### �🔄 [OCAML_TO_PYTHON.md](./OCAML_TO_PYTHON.md)
 Complete reference for OCaml-to-Python translation differences across the entire codebase.
 
 **Topics**:
@@ -123,6 +135,15 @@ Quality assurance processes and standards for the project.
 
 **...understand coverage requirements**
 → Read [TESTING_POLICY.md § Coverage Requirements](./TESTING_POLICY.md#coverage-requirements)
+
+**...migrate my family tree from OCaml Geneweb to GenewebPy**
+→ Read [MIGRATION_GUIDE.md](./MIGRATION_GUIDE.md)
+
+**...export my Geneweb database**
+→ Read [MIGRATION_GUIDE.md § Step-by-Step Migration](./MIGRATION_GUIDE.md#step-by-step-migration)
+
+**...verify my data migrated correctly**
+→ Read [MIGRATION_GUIDE.md § Verifying Your Data](./MIGRATION_GUIDE.md#verifying-your-data)
 
 **...understand OCaml-to-Python differences**
 → Read [OCAML_TO_PYTHON.md](./OCAML_TO_PYTHON.md)
